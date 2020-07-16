@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <title>Roulette Wheel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+  <link rel="stylesheet" href="css/index.css"/>
+
+  <script type='module'>
+    import RouletteWheel from './js/roulette-wheel.js'
+    import settings from './js/roulette-example-settings.js'
+
+    window.onload = () => {
+
+      // Initalise wheel:
+      // Save object to window for easy debugging.
+      window.wheel = new RouletteWheel(document.querySelector('.wheel-container'));
+
+      const select = document.querySelector('select');
+
+      // Initalise options:
+      for (var i = 0; i < settings.length; i++) {
+        const opt = document.createElement('option');
+        opt.dataset.id = i;
+        opt.textContent = settings[i].label;
+        select.appendChild(opt);
+      }
+
+      // Handle select onchange event:
+      select.onchange = () => {
+        const id = parseInt(select.options[select.selectedIndex].dataset.id);
+        window.wheel.init({
+          ...settings[id],
+          callback_spin: (e) => { console.log(e) }, // log when the wheel is spun.
+          callback_rest: (e) => { console.log(e) }, // log when the wheel comes to a rest.
+        });
+      }
+
+      // Select default item:
+      select.options[1].selected = 'selected';
+      select.onchange();
+
+    }
+
+  </script>
+
+</head>
+
+<body>
+
+  <div class="wheel-container"></div>
+
+  <div>
+    <label>Examples:</label>
+    <select ></select>
+  </div>
+
+</body>
+</html>
