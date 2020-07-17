@@ -14,7 +14,7 @@ export default [
     itemLabelSize: 22,
     itemLineWidth: 1,
     itemLineColor: '#000',
-    overlayImageUrl: '../img/default-overlay-0.svg',
+    overlayImageUrl: './img/default-overlay-0.svg',
     items: [
       {
         label: '$ 50',
@@ -99,7 +99,7 @@ export default [
     itemLabelFont: 'Rubik',
     itemLabelSize: 17,
     itemLineWidth: 0,
-    overlayImageUrl: '../img/default-overlay-1.svg',
+    overlayImageUrl: './img/default-overlay-1.svg',
     itemColorSet: ['#fbf8c4', '#e4f1aa', '#c0d26e', '#ff7d7d'],
     items: [
       {
@@ -181,7 +181,7 @@ export default [
     itemLabelSize: 21,
     itemLineWidth: 2,
     itemLineColor: '#fff',
-    overlayImageUrl: '../img/default-overlay-2.svg',
+    overlayImageUrl: './img/default-overlay-2.svg',
     itemColorSet: ['#c7160c', '#fff'],
     itemLabelColorSet: ['#fff', '#000'],
     items: [
