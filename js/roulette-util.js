@@ -35,31 +35,6 @@ export function shuffleArray(array) {
 }
 
 /**
- * Produce an array of hsl colors using.
- */
- export function getColorWheelColors(settings) {
-
-    // Settings:
-    const qty = setDefault( settings.qty, 10 ); // number of colors to return.
-    const hueRange = setDefault( settings.hueRange, .2 ); // Percent of the color wheel to traverse.
-    const startHue = setDefault( settings.startHue, getRandomInt(0, 360) ) % 360; // Degree.
-    const saturation = setDefault( settings.saturation, 70 ); // Percent (1-100).
-    const lightness = setDefault( settings.lightness, 70 ); // Percent (1-100).
-
-    const rotateStep = (360 / qty) * hueRange;
-    const colors = [];
-
-    for (let i = 0; i < qty; i++) {
-      let hue = startHue + (i * rotateStep);
-      hue %= 360;
-      colors.push(`hsl(${hue},${saturation}%,${lightness}%)`);
-    }
-
-    return colors;
-
-  }
-
-/**
  * Return `value` if it is defined, otherwise return `defaultValue`.
  */
 export function setDefault(value, defaultValue) {

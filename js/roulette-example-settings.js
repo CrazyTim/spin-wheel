@@ -15,7 +15,6 @@ export default [
     itemLineWidth: 1,
     itemLineColor: '#000',
     overlayImageUrl: '../img/default-overlay-0.svg',
-    itemColorSet: ['#fff'],
     items: [
       {
         label: '$ 50',

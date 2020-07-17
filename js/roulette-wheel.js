@@ -90,33 +90,22 @@ export default class RouletteWheel {
 
       let items = this.items;
 
-      // Process colors:
-      if (this.itemColorSet.length) {
 
-        // Apply repeating colors:
+      if (this.itemColorSet.length) {
+        // Fill any empty colors with a repeating color set:
         for (let i = 0; i < items.length; i++) {
           const c = this.itemColorSet[i % this.itemColorSet.length];
           if (!items[i].color) {
             items[i].color = c;
           }
         }
-
       } else {
-
-        // Apply random hues:
-        let colors = util.getColorWheelColors({
-          qty: items.length,
-          hueRange: .3,
-        });
-
-        colors = util.shuffleArray(colors); // Shuffled colors look nicer IMO :)
-
+        // Fill any empty colors with white:
         for (let i = 0; i < items.length; i++) {
           if (!items[i].color) {
-            items[i].color = colors[i];
+            items[i].color = '#fff';
           }
         }
-
       }
 
       // Set a default weight for items that don't have it:
