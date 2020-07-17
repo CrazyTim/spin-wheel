@@ -1,3 +1,8 @@
+<div>
+  <img alt="thumbnail" src="https://crazytim.github.io/roulette-wheel/repo-thumbnail.jpg" width=350px />
+  <br>
+</div>
+
 # Roulette Wheel
 
 ## Rational
