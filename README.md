@@ -7,11 +7,14 @@
 
 ## Rational
 
-- Nice code (modular, simple API, no dependencies, vanilla JS, and easy to see how it works).
+- A bit of fun learning HTML5 canvas.
+- Easy to see how it works.
 - Easy to implement and change the appearance.
+- Vanilla JS, modular, simple API, no dependencies.
 - Extra features, like an animated pointer, flick gestures, etc.
 
 ## Features
+
 - [x] No dependencies. 
 - [x] Simple, easy to read API.
 - [x] Realistic wheel rotation (no easing, just momentum and drag).
