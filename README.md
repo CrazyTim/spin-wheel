@@ -9,7 +9,7 @@
 
 - A bit of fun learning HTML5 canvas.
 - Easy to see how it works.
-- Easy to implement and change the appearance.
+- Easy to implement and change the appearance ([see examples](https://crazytim.github.io/roulette-wheel/)).
 - Vanilla JS, modular, simple API, no dependencies.
 - Extra features, like an animated pointer, flick gestures, etc.
 
