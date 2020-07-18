@@ -53,7 +53,7 @@ export default class RouletteWheel {
     ({
       items:               this.items = [],
       itemLabelRadius:     this.itemLabelRadius = .85, // Where to place the label along the radius (percent).
-      itemLabelRotation:   this.itemLabelRotation = 180,
+      itemLabelRotation:   this.itemLabelRotation = 180, // Nessecary to flip the label upside down when changing `itemLabelAlign`.
       itemLabelAlign:      this.itemLabelAlign = util.AlignTextEnum.left,
       itemLabelLineHeight: this.itemLabelLineHeight = 0, // Adjust the line height of the font.
       itemLabelColor:      this.itemLabelColor = '#000',
@@ -291,7 +291,7 @@ export default class RouletteWheel {
           this.canvasCenterY + Math.sin(util.degRad(angle + util.arcAdjust)) * (this.wheelRadius * this.itemLabelRadius)
         );
 
-        ctx.rotate(util.degRad(angle + this.itemLabelRotation));
+        ctx.rotate(util.degRad(angle + util.arcAdjust + this.itemLabelRotation));
 
         if (this.items[i].label !== undefined) {
           ctx.fillText(this.items[i].label, 0, 0);
