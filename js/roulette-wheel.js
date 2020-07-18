@@ -8,7 +8,6 @@ export default class RouletteWheel {
   constructor(container) {
 
     this.canvasContainer = container;
-    this.overlayImageLoaded = false;
 
     this.createCanvas();
     this.registerEvents();
@@ -16,6 +15,10 @@ export default class RouletteWheel {
     // Define callbacks:
     this.callback_rest = () => {};
     this.callback_spin = () => {};
+
+    this.init(); // This needs to be called again once the object has been created, passing the real settings.
+
+    this.drawFrame(); // Start animation loop.
 
   }
 
@@ -36,7 +39,6 @@ export default class RouletteWheel {
 
     this.context = this.canvas.getContext('2d');
     this.defaultCanvasWidth = 500; // So we can scale fonts.
-    this.drawFrame(); // Start animation loop.
 
   }
 
@@ -132,15 +134,10 @@ export default class RouletteWheel {
     this.pointerAngle = this.rotation;
     this.rotationDirection = this.getRotationDirection(this.rotationSpeed);
 
-    // Initalise overlay image:
-    // Once the image has loaded, `drawFrame will render.
+    // Load overlay image:
     if (this.overlayImageUrl) {
-      this.overlayImageLoaded = false;
       this.overlayImage = new Image();
-      this.overlayImage.onload = () => this.overlayImageLoaded = true;
       this.overlayImage.src = this.overlayImageUrl;
-    } else {
-      this.overlayImageLoaded = true;
     }
 
   }
@@ -198,10 +195,6 @@ export default class RouletteWheel {
 
   }
 
-  isReady() {
-    return this.overlayImageLoaded;
-  }
-
   /**
    * Main animation loop.
    */
@@ -211,10 +204,8 @@ export default class RouletteWheel {
 
     ctx.clearRect(0 ,0, this.canvas.width, this.canvas.height); // Clear canvas.
 
-    if (this.isReady()) {
-
-      // Calculate delta since last frame:
-      const now = Date.now();
+    // Calculate delta since last frame:
+    const now = Date.now();
       if (this.lastFrame === undefined) {
         this.lastFrame = now;
       }
@@ -331,8 +322,6 @@ export default class RouletteWheel {
             item: currentItem,
           });
         }
-
-      }
 
     }
 
