@@ -10,13 +10,18 @@ export const AlignTextEnum = Object.freeze({
   center: 'center',
 });
 
+/**
+ * Get a random integer between `min` (inclusive) and `max` (exclusive).
+ */
 export function getRandomInt(min, max) {
-  // Min is inclusive and max is exclusive.
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
+/**
+ * Convert degrees to radians.
+ */
 export function degRad(deg) {
   return deg * Math.PI / 180;
 }
@@ -42,9 +47,9 @@ export function sum(items, key) {
 }
 
 /**
- * Return true if `angle` is between `arcStart` and `arcEnd`.
- * `arcStart` is inclusive and `arcEnd` is exclusive.
- * Example: `(0, 349, 11) == true`
+ * Return true if `angle` is between `arcStart` (inclusive) and `arcEnd` (exclusive).
+ * Example: `(0, 359, 1) == true`
+ * Example: `(0, 1, 2) == false`
  */
 export function isAngleBetween(angle, arcStart, arcEnd) {
   if (arcStart < arcEnd)

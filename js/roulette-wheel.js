@@ -92,7 +92,6 @@ export default class RouletteWheel {
 
       let items = this.items;
 
-
       if (this.itemColorSet.length) {
         // Fill any empty colors with a repeating color set:
         for (let i = 0; i < items.length; i++) {
@@ -131,9 +130,10 @@ export default class RouletteWheel {
 
     this.weightedItemAngle = 360 / util.sum(this.items, 'weight');
     this.pointerAngle = this.rotation;
-    this.rotationDirection = 1; // 1 == clockwise, -1 == antiClockwise.
+    this.rotationDirection = this.getRotationDirection(this.rotationSpeed);
 
     // Initalise overlay image:
+    // Once the image has loaded, `drawFrame will render.
     if (this.overlayImageUrl) {
       this.overlayImageLoaded = false;
       this.overlayImage = new Image();
@@ -154,7 +154,7 @@ export default class RouletteWheel {
     let newRotationSpeed = this.rotationSpeed + util.getRandomInt(speed * 0.7, speed);
     newRotationSpeed = Math.min(this.maxRotationSpeed, newRotationSpeed);
 
-    this.rotationDirection = (newRotationSpeed > 0) ? 1 : -1;
+    this.rotationDirection = this.getRotationDirection(newRotationSpeed);
     this.rotationSpeed = newRotationSpeed;
 
     this.callback_spin({
@@ -163,6 +163,10 @@ export default class RouletteWheel {
       speed: this.rotationSpeed,
     });
 
+  }
+
+  getRotationDirection(speed) {
+     return (speed > 0) ? 1 : -1; // 1 == clockwise, -1 == antiClockwise.
   }
 
   /**
