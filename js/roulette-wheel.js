@@ -47,29 +47,31 @@ export default class RouletteWheel {
   /**
    * Initalise variables, allowing the wheel to be drawn.
    */
-  init(settings) {
+  init(settings = {}) {
 
-    // Settings:
-    this.items =               util.setDefault( settings.items, [] );
-    this.itemLabelRadius =     util.setDefault( settings.itemLabelRadius, .85 ); // Where to place the label along the radius (percent).
-    this.itemLabelRotation =   util.setDefault( settings.itemLabelRotation, 180 );
-    this.itemLabelAlign =      util.setDefault( settings.itemLabelAlign, util.AlignTextEnum.left );
-    this.itemLabelLineHeight = util.setDefault( settings.itemLabelLineHeight, 0); // Adjust the line height of the font.
-    this.itemLabelColor =      util.setDefault( settings.itemLabelColor, '#000' );
-    this.itemLabelFont =       util.setDefault (settings.itemLabelFont, 'sans-serif' );
-    this.itemLabelSize =       util.setDefault( settings.itemLabelSize, 20 );
-    this.itemLineWidth =       util.setDefault( settings.itemLineWidth, 1 );
-    this.itemLineColor =       util.setDefault( settings.itemLineColor, '#000' );
-    this.itemColorSet =          util.setDefault( settings.itemColorSet, [] );
-    this.itemLabelColorSet =   util.setDefault( settings.itemLabelColorSet, [] );
-    this.radius =              util.setDefault( settings.radius, .95 ); // Radius of wheel relative to canvas dimensions (percent)
-    this.rotationResistance =  util.setDefault( settings.rotationResistance, -35 ); // How fast the wheel slows down while spinning.
-    this.maxRotationSpeed =    util.setDefault( settings.maxRotationSpeed, 250 ); // The max momentum of the wheel.
-    this.rotation =            util.setDefault( settings.rotation, 90 ); // The rotation of the wheel.
-    this.rotationSpeed =       util.setDefault( settings.rotationSpeed, 0 ); // The current momentum of the wheel.
-    this.overlayImageUrl =     util.setDefault( settings.overlayImageUrl, null ); // Image to be overlayed.
-    this.spinSpeed =           util.setDefault( settings.spinSpeed, 190 ); // The max momentum that can be created by a single spin.
-    this.clickToSpin =         util.setDefault( settings.clickToSpin, true ); // Allow clicking on the wheel to spin it (otherwise you need to implement `spin()`).
+    // Destructure settings, define defaults:
+    ({
+      items:               this.items = [],
+      itemLabelRadius:     this.itemLabelRadius = .85, // Where to place the label along the radius (percent).
+      itemLabelRotation:   this.itemLabelRotation = 180,
+      itemLabelAlign:      this.itemLabelAlign = util.AlignTextEnum.left,
+      itemLabelLineHeight: this.itemLabelLineHeight = 0, // Adjust the line height of the font.
+      itemLabelColor:      this.itemLabelColor = '#000',
+      itemLabelFont:       this.itemLabelFont = 'sans-serif',
+      itemLabelSize:       this.itemLabelSize = 20,
+      itemLineWidth:       this.itemLineWidth = 1,
+      itemLineColor:       this.itemLineColor = '#000',
+      itemColorSet:        this.itemColorSet = [],
+      itemLabelColorSet:   this.itemLabelColorSet = [],
+      radius:              this.radius = .95, // Radius of wheel relative to canvas dimensions (percent).
+      rotationResistance:  this.rotationResistance = -35, // How fast the wheel slows down while spinning.
+      maxRotationSpeed:    this.maxRotationSpeed = 250, // The max momentum of the wheel (Each spin will add to the momentum).
+      rotation:            this.rotation = 0, // The initial wheel rotation.
+      rotationSpeed:       this.rotationSpeed = 0, // The current momentum of the wheel.
+      overlayImageUrl:     this.overlayImageUrl = null, // Image to be overlayed.
+      spinSpeed:           this.spinSpeed = 190, // The max momentum that can be created by a single spin.
+      clickToSpin:         this.clickToSpin = true, // Allow clicking on the wheel to spin it (otherwise you need to implement `spin()`).
+    } = settings);
 
     if (typeof settings.callback_rest === 'function') {
       this.callback_rest = settings.callback_rest;

@@ -35,13 +35,6 @@ export function shuffleArray(array) {
 }
 
 /**
- * Return `value` if it is defined, otherwise return `defaultValue`.
- */
-export function setDefault(value, defaultValue) {
-  return value !== undefined ? value : defaultValue;
-}
-
-/**
  * Sum the value of the given key for each item.
  */
 export function sum(items, key) {
