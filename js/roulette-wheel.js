@@ -51,7 +51,7 @@ export default class RouletteWheel {
 
     // Destructure settings, define defaults:
     ({
-      items:               this.items = [],
+      items:               this.items = [], // Array of item objects to show on the wheel.
       itemLabelRadius:     this.itemLabelRadius = .85, // Where to place the label along the radius (percent).
       itemLabelRotation:   this.itemLabelRotation = 180, // Nessecary to flip the label upside down when changing `itemLabelAlign`.
       itemLabelAlign:      this.itemLabelAlign = util.AlignTextEnum.left,
@@ -59,18 +59,18 @@ export default class RouletteWheel {
       itemLabelColor:      this.itemLabelColor = '#000',
       itemLabelFont:       this.itemLabelFont = 'sans-serif',
       itemLabelSize:       this.itemLabelSize = 20,
-      itemLineWidth:       this.itemLineWidth = 1,
-      itemLineColor:       this.itemLineColor = '#000',
-      itemColorSet:        this.itemColorSet = [],
-      itemLabelColorSet:   this.itemLabelColorSet = [],
+      itemLineWidth:       this.itemLineWidth = 1, // Width of the line that separates each item.
+      itemLineColor:       this.itemLineColor = '#000', // Color of the line that separates each item.
+      itemColorSet:        this.itemColorSet = [], // Pattern of colors that will be applied to items repeatedly.
+      itemLabelColorSet:   this.itemLabelColorSet = [], // Pattern of colors that will be applied to items repeatedly.
       radius:              this.radius = .95, // Radius of wheel relative to canvas dimensions (percent).
+      rotation:            this.rotation = 0, // The current rotation of the wheel.
+      rotationSpeed:       this.rotationSpeed = 0, // The current speed of the wheel.
+      maxRotationSpeed:    this.maxRotationSpeed = 250, // The max speed the wheel can reach (every spin will add to the speed).
       rotationResistance:  this.rotationResistance = -35, // How fast the wheel slows down while spinning.
-      maxRotationSpeed:    this.maxRotationSpeed = 250, // The max momentum of the wheel (Each spin will add to the momentum).
-      rotation:            this.rotation = 0, // The initial wheel rotation.
-      rotationSpeed:       this.rotationSpeed = 0, // The current momentum of the wheel.
+      spinSpeed:           this.spinSpeed = 190, // The max speed that can be created by a single spin (speed is randomised, as low as 70% of this value).
       overlayImageUrl:     this.overlayImageUrl = null, // Image to be overlayed.
-      spinSpeed:           this.spinSpeed = 190, // The max momentum that can be created by a single spin.
-      clickToSpin:         this.clickToSpin = true, // Allow clicking on the wheel to spin it (otherwise you need to implement `spin()`).
+      clickToSpin:         this.clickToSpin = true, // Enable events so the user can click on the wheel to spin it (otherwise you need to manually implement `spin()`).
     } = settings);
 
     if (typeof settings.callback_rest === 'function') {
