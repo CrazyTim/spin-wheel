@@ -14,6 +14,11 @@
     import settings from './js/roulette-example-settings.js'
 
     window.onload = () => {
+      // Wait until all fonts are loaded:
+      document.fonts.ready.then(() => init());
+    }
+
+    function init() {
 
       // Initalise wheel:
       // Save object to window for easy debugging.
@@ -39,8 +44,7 @@
         });
       }
 
-      // Select default item:
-      select.options[1].selected = 'selected';
+      select.options[1].selected = 'selected'; // Select default item.
       select.onchange();
 
     }
