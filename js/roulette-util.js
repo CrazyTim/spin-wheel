@@ -56,3 +56,15 @@ export function isAngleBetween(angle, arcStart, arcEnd) {
    return arcStart <= angle && angle < arcEnd;
    return arcStart <= angle || angle < arcEnd;
 }
+
+/**
+ * Calculate the largest font size that `text` can have without exceeding `maxWidth`.
+ * Won't work unless `fontFamily` has been loaded.
+ */
+export function getFontSizeToFit(text, fontFamily, maxWidth, canvasContext) {
+  canvasContext.save();
+  canvasContext.font = `1px ${fontFamily}`;
+  const w = canvasContext.measureText(text).width;
+  canvasContext.restore();
+  return maxWidth / w;
+}

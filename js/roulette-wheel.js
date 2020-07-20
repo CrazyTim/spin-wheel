@@ -54,13 +54,14 @@ export default class RouletteWheel {
     // Destructure settings, define defaults:
     ({
       items:               this.items = [], // Array of item objects to show on the wheel.
-      itemLabelRadius:     this.itemLabelRadius = .85, // Where to place the label along the radius (percent).
+      itemLabelRadius:     this.itemLabelRadius = .85, // Where to place the label along the radius (percent), starting from the inside of the circle.
+      itemLabelMaxRadius:  this.itemLabelMaxRadius = 0, // Labels will be automatically resized to fit inside this radius (percent), starting from the inside of the circle.
       itemLabelRotation:   this.itemLabelRotation = 180, // Nessecary to flip the label upside down when changing `itemLabelAlign`.
       itemLabelAlign:      this.itemLabelAlign = util.AlignTextEnum.left,
       itemLabelLineHeight: this.itemLabelLineHeight = 0, // Adjust the line height of the font.
       itemLabelColor:      this.itemLabelColor = '#000',
       itemLabelFont:       this.itemLabelFont = 'sans-serif',
-      itemLabelSize:       this.itemLabelSize = 20,
+      itemLabelFontMaxSize:this.itemLabelFontMaxSize = 20, // Maximum font size, but font size may be resized further to fit `itemLabelMaxRadius`.
       itemLineWidth:       this.itemLineWidth = 1, // Width of the line that separates each item.
       itemLineColor:       this.itemLineColor = '#000', // Color of the line that separates each item.
       itemColorSet:        this.itemColorSet = [], // Pattern of colors that will be applied to items repeatedly.
@@ -171,7 +172,7 @@ export default class RouletteWheel {
    */
   handleResize_window() {
 
-    // Get the smallest dimension of canvasContainer:
+    // Get the smallest dimension of `canvasContainer`:
     let size = Math.min(this.canvasContainer.clientWidth, this.canvasContainer.clientHeight);
 
     // Resize canvas:
@@ -180,18 +181,24 @@ export default class RouletteWheel {
     this.canvas.width = size;
     this.canvas.height = size;
 
-    // Resize clickRegion:
+    // Resize `clickRegion`:
     if (this.clickRegion) {
       this.clickRegion.style.width = size + 'px';
       this.clickRegion.style.height = size + 'px';
       this.clickRegion.style.clipPath = `circle(${this.radius * 50}% at 50% 50%)`;
     }
 
-    // Calc some things for use later on:
+    // Calc some things for later on:
     this.canvasCenterX = size / 2;
     this.canvasCenterY = size / 2;
     this.wheelRadius = this.canvasCenterX * this.radius;
-    this.itemLabelFontSize = this.itemLabelSize * (size / this.defaultCanvasWidth);
+
+    // Adjust the font size of labels so they all fit inside `wheelRadius`:
+    this.itemLabelFontSize = this.itemLabelFontMaxSize * (size / this.defaultCanvasWidth);
+    const maxLabelWidth = this.wheelRadius * (this.itemLabelRadius - this.itemLabelMaxRadius)
+    this.items.forEach((i) => {
+      this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(i.label, this.itemLabelFont, maxLabelWidth, this.context));
+    });
 
   }
 
