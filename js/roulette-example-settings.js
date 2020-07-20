@@ -177,7 +177,7 @@ export default [
     itemLabelRotation: 0,
     itemLabelAlign: util.AlignTextEnum.right,
     itemLabelColor: '#000',
-    itemLabelFont: 'Monaco',
+    itemLabelFont: 'Arial',
     itemLabelSize: 21,
     itemLineWidth: 2,
     itemLineColor: '#fff',
