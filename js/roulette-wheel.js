@@ -41,11 +41,11 @@ export default class RouletteWheel {
 
     window.onresize = () => this.handleWindowResize();
 
-    this.canvas.onmousedown = (e) => this.handleMouseDown(e);
-    this.canvas.onmouseup = (e) => this.handleMouseUp(e);
-    this.canvas.onmousemove = (e) => this.handleMouseMove(e);
-    this.canvas.onmouseenter = (e) => this.handleMouseEnter(e);
-    this.canvas.onmouseout = (e) => this.handleMouseOut(e);
+    this.canvas.onmousedown = (e) => this.handleCanvasMouseDown(e);
+    this.canvas.onmouseup = (e) => this.handleCanvasMouseUp(e);
+    this.canvas.onmousemove = (e) => this.handleCanvasMouseMove(e);
+    this.canvas.onmouseenter = (e) => this.handleCanvasMouseEnter(e);
+    this.canvas.onmouseout = (e) => this.handleCanvasMouseOut(e);
 
   }
 
@@ -339,12 +339,12 @@ export default class RouletteWheel {
     return util.isPointInCircle(pos.x, pos.y, this.canvasCenterX, this.canvasCenterY, this.wheelRadius);
   }
 
-  handleMouseMove(e) {
+  handleCanvasMouseMove(e) {
     this.isMouse_over = this.wheelHitTest(e);
     this.setCursor();
   }
 
-  handleMouseEnter(e) {
+  handleCanvasMouseEnter(e) {
     if (!util.getMouseButtonsPressed(e).includes(1)) {
       this.isMouse_down = false;
     };
@@ -352,18 +352,18 @@ export default class RouletteWheel {
     this.setCursor();
   }
 
-  handleMouseOut(e) {
+  handleCanvasMouseOut(e) {
     this.isMouse_over = false;
     this.setCursor();
   }
 
-  handleMouseDown(e) {
+  handleCanvasMouseDown(e) {
     if (!this.wheelHitTest(e)) return;
     this.isMouse_down = true;
     this.setCursor();
   }
 
-  handleMouseUp(e) {
+  handleCanvasMouseUp(e) {
     this.isMouse_down = false;
     this.setCursor();
   }
