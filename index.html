@@ -22,7 +22,7 @@
 
       // Initalise wheel:
       // Save object to window for easy debugging.
-      window.wheel = new RouletteWheel(document.querySelector('.wheel-container'));
+      window.wheel = new RouletteWheel(document.querySelector('.wheel-wrapper'));
 
       const select = document.querySelector('select');
 
@@ -55,9 +55,9 @@
 
 <body>
 
-  <div class="wheel-container"></div>
+  <div class="wheel-wrapper"></div>
 
-  <div>
+  <div class="gui-wrapper">
     <label>Examples:</label>
     <select ></select>
   </div>

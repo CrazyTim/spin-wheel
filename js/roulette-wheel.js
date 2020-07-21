@@ -169,18 +169,20 @@ export default class RouletteWheel {
   handleWindowResize() {
 
     // Get the smallest dimension of `canvasContainer`:
-    let size = Math.min(this.canvasContainer.clientWidth, this.canvasContainer.clientHeight);
+    const [w, h] = [this.canvasContainer.clientWidth, this.canvasContainer.clientHeight];
+    const size = Math.min(w, h);
 
     // Resize canvas:
-    this.canvas.style.width = size + 'px';
-    this.canvas.style.height = size + 'px';
-    this.canvas.width = size;
-    this.canvas.height = size;
+    this.canvasSize = size;
+    this.canvas.style.width = w + 'px';
+    this.canvas.style.height = h + 'px';
+    this.canvas.width = w;
+    this.canvas.height = h;
 
     // Calc some things for later on:
-    this.canvasCenterX = size / 2;
-    this.canvasCenterY = size / 2;
-    this.wheelRadius = this.canvasCenterX * this.radius;
+    this.canvasCenterX = w / 2;
+    this.canvasCenterY = h / 2;
+    this.wheelRadius = (size / 2) * this.radius;
 
     // Adjust the font size of labels so they all fit inside `wheelRadius`:
     this.itemLabelFontSize = this.itemLabelFontMaxSize * (size / this.defaultCanvasWidth);
@@ -297,7 +299,11 @@ export default class RouletteWheel {
       // Draw overlayImage:
       // Stretch image to fill canvas.
       if (this.overlayImageUrl) {
-        ctx.drawImage(this.overlayImage, 0, 0, this.canvas.width, this.canvas.height);
+        let pos = {
+          x: (this.canvas.width / 2) - (this.canvasSize / 2),
+          y: (this.canvas.height / 2) - (this.canvasSize / 2),
+        }
+        ctx.drawImage(this.overlayImage, pos.x, pos.y, this.canvasSize, this.canvasSize);
       }
 
       if (this.rotationSpeed !== 0) {
