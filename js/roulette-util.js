@@ -84,3 +84,7 @@ export function getXYFromCanvasEvent(canvas, event) {
     y: event.clientY - rect.top,
   };
 }
+
+export function getMouseButtonsPressed(event) {
+  return [1,2,4,8,16].filter(i => event.buttons & i);
+}

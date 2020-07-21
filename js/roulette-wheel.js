@@ -42,7 +42,9 @@ export default class RouletteWheel {
     window.onresize = () => this.handleWindowResize();
 
     this.canvas.onmousedown = (e) => this.handleMouseDown(e);
+    this.canvas.onmouseup = (e) => this.handleMouseUp(e);
     this.canvas.onmousemove = (e) => this.handleMouseMove(e);
+    this.canvas.onmouseenter = (e) => this.handleMouseEnter(e);
     this.canvas.onmouseout = (e) => this.handleMouseOut(e);
 
   }
@@ -342,6 +344,14 @@ export default class RouletteWheel {
     this.setCursor();
   }
 
+  handleMouseEnter(e) {
+    if (!util.getMouseButtonsPressed(e).includes(1)) {
+      this.isMouse_down = false;
+    };
+    this.canvas.style.cursor = 'default';
+    this.setCursor();
+  }
+
   handleMouseOut(e) {
     this.isMouse_over = false;
     this.setCursor();
@@ -349,14 +359,24 @@ export default class RouletteWheel {
 
   handleMouseDown(e) {
     if (!this.wheelHitTest(e)) return;
-    this.spin(this.spinSpeed);
+    this.isMouse_down = true;
+    this.setCursor();
+  }
+
+  handleMouseUp(e) {
+    this.isMouse_down = false;
+    this.setCursor();
   }
 
   setCursor() {
-    if (this.isMouse_over) {
-      this.canvas.style.cursor = 'pointer';
+    if (this.isMouse_down) {
+      this.canvas.style.cursor = 'grabbing';
     } else {
-      this.canvas.style.cursor = 'default';
+      if (this.isMouse_over) {
+        this.canvas.style.cursor = 'grab';
+      } else {
+      this.canvas.style.cursor = null;
+      }
     }
   }
 
