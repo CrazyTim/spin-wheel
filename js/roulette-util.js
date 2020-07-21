@@ -68,3 +68,19 @@ export function getFontSizeToFit(text, fontFamily, maxWidth, canvasContext) {
   canvasContext.restore();
   return maxWidth / w;
 }
+
+// x, y is the point to test
+// cx, cy is circle center
+// radius is circle radius
+export function isPointInCircle(x, y, cx, cy, radius) {
+  var distancesquared = (x - cx) * (x - cx) + (y - cy) * (y - cy);
+  return distancesquared <= radius * radius;
+}
+
+export function getXYFromCanvasEvent(canvas, event) {
+  let rect = canvas.getBoundingClientRect();
+  return {
+    x: event.clientX - rect.left,
+    y: event.clientY - rect.top,
+  };
+}

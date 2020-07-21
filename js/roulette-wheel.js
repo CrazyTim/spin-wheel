@@ -32,18 +32,19 @@ export default class RouletteWheel {
     this.canvas = document.createElement('canvas');
     this.canvasContainer.appendChild(this.canvas);
 
-    // Create div overlay to capture pointer events (allow clicking on the wheel part only).
-    this.clickRegion = document.createElement('div');
-    this.clickRegion.style.position = 'absolute';
-    this.canvasContainer.appendChild(this.clickRegion);
-
     this.context = this.canvas.getContext('2d');
     this.defaultCanvasWidth = 500; // So we can scale fonts.
 
   }
 
   registerEvents() {
+
     window.onresize = () => this.handleResize_window();
+
+    this.canvas.onmousedown = (e) => this.handleMouseDown(e);
+    this.canvas.onmousemove = (e) => this.handleMouseMove(e);
+    this.canvas.onmouseout = (e) => this.handleMouseOut(e);
+
   }
 
   /**
@@ -82,11 +83,6 @@ export default class RouletteWheel {
 
     if (typeof settings.callback_spin === 'function') {
       this.callback_spin = settings.callback_spin;
-    }
-
-    if (this.clickToSpin) {
-      this.clickRegion.style.cursor = 'pointer';
-      this.clickRegion.onclick = () => this.spin(this.spinSpeed);
     }
 
     this.handleResize_window(); // Initalise canvas width/height.
@@ -168,7 +164,7 @@ export default class RouletteWheel {
   }
 
   /**
-   * Resize `canvas` and `clickRegion` to fit (contain) inside `canvasContainer`.
+   * Resize `canvas` to fit (contain) inside `canvasContainer`.
    */
   handleResize_window() {
 
@@ -180,13 +176,6 @@ export default class RouletteWheel {
     this.canvas.style.height = size + 'px';
     this.canvas.width = size;
     this.canvas.height = size;
-
-    // Resize `clickRegion`:
-    if (this.clickRegion) {
-      this.clickRegion.style.width = size + 'px';
-      this.clickRegion.style.height = size + 'px';
-      this.clickRegion.style.clipPath = `circle(${this.radius * 50}% at 50% 50%)`;
-    }
 
     // Calc some things for later on:
     this.canvasCenterX = size / 2;
@@ -335,6 +324,34 @@ export default class RouletteWheel {
     // Wait until next frame.
     window.requestAnimationFrame(this.drawFrame.bind(this));
 
+  }
+
+  wheelHitTest(e) {
+    const pos = util.getXYFromCanvasEvent(this.canvas, e);
+    return util.isPointInCircle(pos.x, pos.y, this.canvasCenterX, this.canvasCenterY, this.wheelRadius);
+  }
+
+  handleMouseMove(e) {
+    this.isMouse_over = this.wheelHitTest(e);
+    this.setCursor();
+  }
+
+  handleMouseOut(e) {
+    this.isMouse_over = false;
+    this.setCursor();
+  }
+
+  handleMouseDown(e) {
+    if (!this.wheelHitTest(e)) return;
+    this.spin(this.spinSpeed);
+  }
+
+  setCursor() {
+    if (this.isMouse_over) {
+      this.canvas.style.cursor = 'pointer';
+    } else {
+      this.canvas.style.cursor = 'default';
+    }
   }
 
 }
