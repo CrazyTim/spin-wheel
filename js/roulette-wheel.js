@@ -344,8 +344,21 @@ export default class RouletteWheel {
   }
 
   handleCanvasMouseMove(e) {
-    this.isMouse_over = this.wheelHitTest(e.clientX, e.clientY);
+
+    const [x,y] = [e.clientX, e.clientY];
+
+    this.isMouse_over = this.wheelHitTest(x, y);
     this.setCursor();
+
+    if (this.isMouse_down) {
+
+      // Get angle of the touch point:
+      const a = this.getAngle(x,y);
+
+      // Calc new rotation as difference from delta:
+      this.rotation = (a + this.touchDelta) % 360;
+    }
+
   }
 
   handleCanvasMouseEnter(e) {
@@ -362,9 +375,17 @@ export default class RouletteWheel {
   }
 
   handleCanvasMouseDown(e) {
-    if (!this.wheelHitTest(e.clientX, e.clientY)) return;
+
+    const [x,y] = [e.clientX, e.clientY];
+
+    if (!this.wheelHitTest(x, y)) return;
+
     this.isMouse_down = true;
     this.setCursor();
+
+    // Store delta for use in touch move.
+    this.touchDelta = this.getDelta(x,y);
+
   }
 
   handleCanvasMouseUp(e) {
@@ -393,11 +414,7 @@ export default class RouletteWheel {
     return (util.getAngle(this.canvasCenterX, this.canvasCenterY, pos.x, pos.y) + 90) % 360;
   }
 
-  handleCanvasTouchStart(e) {
-
-    const [x,y] = [e.touches[0].clientX, e.touches[0].clientY];
-
-    if (!this.wheelHitTest(x, y)) return;
+  getDelta(x,y) {
 
     // Get angle of the touch point:
     const a = this.getAngle(x,y);
@@ -410,8 +427,18 @@ export default class RouletteWheel {
       da = (a - this.rotation) * -1;
     }
 
-    // Store delta for later (touch move).
-    this.touchDelta = da;;
+    return da;
+
+  }
+
+  handleCanvasTouchStart(e) {
+
+    const [x,y] = [e.touches[0].clientX, e.touches[0].clientY];
+
+    if (!this.wheelHitTest(x, y)) return;
+
+    // Store delta for use in touch move.
+    this.touchDelta = this.getDelta(x,y);
 
   }
 
@@ -424,7 +451,7 @@ export default class RouletteWheel {
     // Get angle of the touch point:
     const a = this.getAngle(x,y);
 
-    // Calc difference from delta:
+    // Calc new rotation as difference from delta:
     this.rotation = (a + this.touchDelta) % 360;
 
   }
