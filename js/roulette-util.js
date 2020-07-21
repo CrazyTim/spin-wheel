@@ -77,14 +77,37 @@ export function isPointInCircle(x, y, cx, cy, radius) {
   return distancesquared <= radius * radius;
 }
 
-export function getXYFromCanvasEvent(canvas, event) {
+export function translateXYToCanvas(x, y, canvas) {
   let rect = canvas.getBoundingClientRect();
   return {
-    x: event.clientX - rect.left,
-    y: event.clientY - rect.top,
+    x: x - rect.left,
+    y: y - rect.top,
   };
 }
 
 export function getMouseButtonsPressed(event) {
   return [1,2,4,8,16].filter(i => event.buttons & i);
+}
+
+export function getAngle(originX, originY, targetX, targetY) {
+    var dx = originX - targetX;
+    var dy = originY - targetY;
+
+    // var theta = Math.atan2(dy, dx);  // [0, Ⲡ] then [-Ⲡ, 0]; clockwise; 0° = west
+    // theta *= 180 / Math.PI;          // [0, 180] then [-180, 0]; clockwise; 0° = west
+    // if (theta < 0) theta += 360;     // [0, 360]; clockwise; 0° = west
+
+    // var theta = Math.atan2(-dy, dx); // [0, Ⲡ] then [-Ⲡ, 0]; anticlockwise; 0° = west
+    // theta *= 180 / Math.PI;          // [0, 180] then [-180, 0]; anticlockwise; 0° = west
+    // if (theta < 0) theta += 360;     // [0, 360]; anticlockwise; 0° = west
+
+    // var theta = Math.atan2(dy, -dx); // [0, Ⲡ] then [-Ⲡ, 0]; anticlockwise; 0° = east
+    // theta *= 180 / Math.PI;          // [0, 180] then [-180, 0]; anticlockwise; 0° = east
+    // if (theta < 0) theta += 360;     // [0, 360]; anticlockwise; 0° = east
+
+    var theta = Math.atan2(-dy, -dx); // [0, Ⲡ] then [-Ⲡ, 0]; clockwise; 0° = east
+    theta *= 180 / Math.PI;           // [0, 180] then [-180, 0]; clockwise; 0° = east
+    if (theta < 0) theta += 360;      // [0, 360]; clockwise; 0° = east
+
+    return theta;
 }

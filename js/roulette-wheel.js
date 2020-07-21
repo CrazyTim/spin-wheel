@@ -47,6 +47,10 @@ export default class RouletteWheel {
     this.canvas.onmouseenter = (e) => this.handleCanvasMouseEnter(e);
     this.canvas.onmouseout = (e) => this.handleCanvasMouseOut(e);
 
+    this.canvas.ontouchstart = (e) => this.handleCanvasTouchStart(e);
+    this.canvas.ontouchmove = (e) => this.handleCanvasTouchMove(e);
+    this.canvas.ontouchend = (e) => this.handleCanvasTouchEnd(e);
+
   }
 
   /**
@@ -334,13 +338,13 @@ export default class RouletteWheel {
 
   }
 
-  wheelHitTest(e) {
-    const pos = util.getXYFromCanvasEvent(this.canvas, e);
+  wheelHitTest(x,y) {
+    const pos = util.translateXYToCanvas(x, y, this.canvas);
     return util.isPointInCircle(pos.x, pos.y, this.canvasCenterX, this.canvasCenterY, this.wheelRadius);
   }
 
   handleCanvasMouseMove(e) {
-    this.isMouse_over = this.wheelHitTest(e);
+    this.isMouse_over = this.wheelHitTest(e.clientX, e.clientY);
     this.setCursor();
   }
 
@@ -358,7 +362,7 @@ export default class RouletteWheel {
   }
 
   handleCanvasMouseDown(e) {
-    if (!this.wheelHitTest(e)) return;
+    if (!this.wheelHitTest(e.clientX, e.clientY)) return;
     this.isMouse_down = true;
     this.setCursor();
   }
@@ -378,6 +382,55 @@ export default class RouletteWheel {
       this.canvas.style.cursor = null;
       }
     }
+  }
+
+  /*
+   * Get the angle of the point.
+   * 0° = north.
+   */
+  getAngle(x,y) {
+    const pos = util.translateXYToCanvas(x, y, this.canvas);
+    return (util.getAngle(this.canvasCenterX, this.canvasCenterY, pos.x, pos.y) + 90) % 360;
+  }
+
+  handleCanvasTouchStart(e) {
+
+    const [x,y] = [e.touches[0].clientX, e.touches[0].clientY];
+
+    if (!this.wheelHitTest(x, y)) return;
+
+    // Get angle of the touch point:
+    const a = this.getAngle(x,y);
+
+    // Calc delta angel between a and this.rotation
+    let da = 0;
+    if (this.rotation > a) {
+      da = 360 - a - (360 - this.rotation);
+    } else {
+      da = (a - this.rotation) * -1;
+    }
+
+    // Store delta for later (touch move).
+    this.touchDelta = da;;
+
+  }
+
+  handleCanvasTouchMove(e) {
+
+    if (!this.touchDelta) return;
+
+    const [x,y] = [e.touches[0].clientX, e.touches[0].clientY];
+
+    // Get angle of the touch point:
+    const a = this.getAngle(x,y);
+
+    // Calc difference from delta:
+    this.rotation = (a + this.touchDelta) % 360;
+
+  }
+
+  handleCanvasTouchEnd(e) {
+    this.touchDelta = null;
   }
 
 }
