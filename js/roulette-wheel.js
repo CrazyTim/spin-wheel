@@ -39,7 +39,7 @@ export default class RouletteWheel {
 
   registerEvents() {
 
-    window.onresize = () => this.handleResize_window();
+    window.onresize = () => this.handleWindowResize();
 
     this.canvas.onmousedown = (e) => this.handleMouseDown(e);
     this.canvas.onmousemove = (e) => this.handleMouseMove(e);
@@ -85,7 +85,7 @@ export default class RouletteWheel {
       this.callback_spin = settings.callback_spin;
     }
 
-    this.handleResize_window(); // Initalise canvas width/height.
+    this.handleWindowResize(); // Initalise canvas width/height.
 
     { // Clean items:
 
@@ -166,7 +166,7 @@ export default class RouletteWheel {
   /**
    * Resize `canvas` to fit (contain) inside `canvasContainer`.
    */
-  handleResize_window() {
+  handleWindowResize() {
 
     // Get the smallest dimension of `canvasContainer`:
     let size = Math.min(this.canvasContainer.clientWidth, this.canvasContainer.clientHeight);
