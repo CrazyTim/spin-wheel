@@ -352,11 +352,11 @@ export default class RouletteWheel {
 
     if (this.isMouse_down) {
 
-      // Get angle of the touch point:
-      const a = this.getAngle(x,y);
+      const a = this.getAngleFromCenter(x,y);
 
-      // Calc new rotation as difference from delta:
+      // Set new rotation as difference from delta:
       this.rotation = (a + this.touchDelta) % 360;
+
     }
 
   }
@@ -383,10 +383,9 @@ export default class RouletteWheel {
     this.isMouse_down = true;
     this.setCursor();
 
-    // Get angle of the touch point:
-    const a = this.getAngle(x,y);
+    const a = this.getAngleFromCenter(x,y);
 
-    // Store delta for use in touch move.
+    // Calc delta (used later in touch move event).
     this.touchDelta = this.rotation - a;
 
   }
@@ -412,7 +411,7 @@ export default class RouletteWheel {
    * Get the angle of the point.
    * 0° = north.
    */
-  getAngle(x,y) {
+  getAngleFromCenter(x,y) {
     const pos = util.translateXYToCanvas(x, y, this.canvas);
     return (util.getAngle(this.canvasCenterX, this.canvasCenterY, pos.x, pos.y) + 90) % 360;
   }
@@ -423,10 +422,9 @@ export default class RouletteWheel {
 
     if (!this.wheelHitTest(x, y)) return;
 
-    // Get angle of the touch point:
-    const a = this.getAngle(x,y);
+    const a = this.getAngleFromCenter(x,y);
 
-    // Store delta for use in touch move.
+    // Calc delta (used later in touch move event).
     this.touchDelta = this.rotation - a;
 
   }
@@ -437,10 +435,9 @@ export default class RouletteWheel {
 
     const [x,y] = [e.touches[0].clientX, e.touches[0].clientY];
 
-    // Get angle of the touch point:
-    const a = this.getAngle(x,y);
+    const a = this.getAngleFromCenter(x,y);
 
-    // Calc new rotation as difference from delta:
+    // Set new rotation as difference from delta:
     this.rotation = (a + this.touchDelta) % 360;
 
   }
