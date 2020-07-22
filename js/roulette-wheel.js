@@ -343,6 +343,27 @@ export default class RouletteWheel {
     return util.isPointInCircle(pos.x, pos.y, this.canvasCenterX, this.canvasCenterY, this.wheelRadius);
   }
 
+  setCursor() {
+    if (this.isMouse_down) {
+      this.canvas.style.cursor = 'grabbing';
+    } else {
+      if (this.isMouse_over) {
+        this.canvas.style.cursor = 'grab';
+      } else {
+      this.canvas.style.cursor = null;
+      }
+    }
+  }
+
+  /*
+   * Get the angle of the point.
+   * 0° = north.
+   */
+  getAngleFromCenter(x,y) {
+    const pos = util.translateXYToCanvas(x, y, this.canvas);
+    return (util.getAngle(this.canvasCenterX, this.canvasCenterY, pos.x, pos.y) + 90) % 360;
+  }
+
   handleCanvasMouseMove(e) {
 
     const [x,y] = [e.clientX, e.clientY];
@@ -393,27 +414,6 @@ export default class RouletteWheel {
   handleCanvasMouseUp(e) {
     this.isMouse_down = false;
     this.setCursor();
-  }
-
-  setCursor() {
-    if (this.isMouse_down) {
-      this.canvas.style.cursor = 'grabbing';
-    } else {
-      if (this.isMouse_over) {
-        this.canvas.style.cursor = 'grab';
-      } else {
-      this.canvas.style.cursor = null;
-      }
-    }
-  }
-
-  /*
-   * Get the angle of the point.
-   * 0° = north.
-   */
-  getAngleFromCenter(x,y) {
-    const pos = util.translateXYToCanvas(x, y, this.canvas);
-    return (util.getAngle(this.canvasCenterX, this.canvasCenterY, pos.x, pos.y) + 90) % 360;
   }
 
   handleCanvasTouchStart(e) {
