@@ -40,10 +40,11 @@ export function shuffleArray(array) {
 }
 
 /**
- * Sum the value of the given key for each item.
+ * Sum the given property for each object in `array`.
+ * Falsy values are treated as 0.
  */
-export function sum(items, key) {
-  return items.reduce((a, b) => a + (b[key] || 0), 0);
+export function sumObjArray(array, property) {
+  return array.reduce((a, b) => a + (b[property] || 0), 0);
 }
 
 /**

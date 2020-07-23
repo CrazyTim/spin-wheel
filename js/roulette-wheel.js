@@ -133,7 +133,7 @@ export default class RouletteWheel {
 
     }
 
-    this.weightedItemAngle = 360 / util.sum(this.items, 'weight');
+    this.weightedItemAngle = 360 / util.sumObjArray(this.items, 'weight');
     this.pointerAngle = this.rotation;
     this.rotationDirection = this.getRotationDirection(this.rotationSpeed);
 
