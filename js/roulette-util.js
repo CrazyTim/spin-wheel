@@ -59,6 +59,15 @@ export function isAngleBetween(angle, arcStart, arcEnd) {
 }
 
 /**
+ * Average the values in `array`.
+ * Falsy values are treated as 0.
+ * An empty array will return 0.
+ */
+export function avgArray(array) {
+  return array.reduce((a, b) => a + (b || 0), 0) / array.length || 0;
+}
+
+/**
  * Calculate the largest font size that `text` can have without exceeding `maxWidth`.
  * Won't work unless `fontFamily` has been loaded.
  */
