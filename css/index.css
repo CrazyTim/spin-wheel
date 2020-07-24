@@ -10,6 +10,7 @@
 
 html, body {
   height: 100%;
+  overscroll-behavior-y: contain; /* Prevent pull-down-to-refresh gesture */
 }
 
 .wheel-wrapper {
