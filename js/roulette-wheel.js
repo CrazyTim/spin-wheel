@@ -353,23 +353,28 @@ export default class RouletteWheel {
     }
   }
 
-  /*
-   * Get the angle of the point from the center of the wheel.
-   * 0° = north.
-   */
-  getAngleFromCenter(x,y) {
-    const pos = util.translateXYToCanvas(x, y, this.canvas);
-    return (util.getAngle(this.canvasCenterX, this.canvasCenterY, pos.x, pos.y) + 90) % 360;
+  setRotationSpeed(speed) {
+
+    // Limit speed:
+    let newSpeed = Math.min(speed, this.maxRotationSpeed);
+    newSpeed = Math.max(newSpeed, this.maxRotationSpeed * -1);
+
+    this.rotationDirection = this.getRotationDirection(newSpeed);
+    this.rotationSpeed = newSpeed;
+
+  }
+
+  handleCanvasMouseDown(e) {
+    const [x, y] = [e.clientX, e.clientY];
+    if (this.wheelHitTest(x, y)) this.dragStart(x, y);
+    this.setCursor();
   }
 
   handleCanvasMouseMove(e) {
-
     const [x, y] = [e.clientX, e.clientY];
     if (this.isDragging) this.dragMove(x, y);
-
     this.isCursorOverWheel = this.wheelHitTest(x, y);
     this.setCursor();
-
   }
 
   handleCanvasMouseEnter(e) {
@@ -385,12 +390,6 @@ export default class RouletteWheel {
 
   handleCanvasMouseOut(e) {
     this.isCursorOverWheel = false;
-    this.setCursor();
-  }
-
-  handleCanvasMouseDown(e) {
-    const [x, y] = [e.clientX, e.clientY];
-    if (this.wheelHitTest(x, y)) this.dragStart(x, y);
     this.setCursor();
   }
 
@@ -411,6 +410,15 @@ export default class RouletteWheel {
 
   handleCanvasTouchEnd(e) {
     if (this.isDragging) this.dragEnd();
+  }
+
+  /*
+   * Get the angle of the point from the center of the wheel.
+   * 0° = north.
+   */
+  getAngleFromCenter(x,y) {
+    const pos = util.translateXYToCanvas(x, y, this.canvas);
+    return (util.getAngle(this.canvasCenterX, this.canvasCenterY, pos.x, pos.y) + 90) % 360;
   }
 
   dragStart(x, y) {
@@ -467,17 +475,6 @@ export default class RouletteWheel {
       distances: this.dragDistances,
     });
     */
-
-  }
-
-  setRotationSpeed(speed) {
-
-    // Limit speed:
-    let newSpeed = Math.min(speed, this.maxRotationSpeed);
-    newSpeed = Math.max(newSpeed, this.maxRotationSpeed * -1);
-
-    this.rotationDirection = this.getRotationDirection(newSpeed);
-    this.rotationSpeed = newSpeed;
 
   }
 
