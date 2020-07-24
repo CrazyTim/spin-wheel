@@ -28,7 +28,7 @@
 - [x] Support for clockwise and anticlockwise spinning.
 - [x] Setting to allow clicking the wheel to spin it, otherwise you can manually call `spin()`.
 - [x] Draw an image over the canvas (easily themeable).
-- [ ] Drag the edge of wheel to spin in that direction (or flick gesture).
+- [x] Drag the wheel around to spin it (click/drag or touch/flick).
 - [ ] Realistic pointer that moves when it hits pins on the spinning wheel.
 - [ ] Each item can have its own image.
 - [ ] Draw an image on the wheel (which will rotate with the wheel).

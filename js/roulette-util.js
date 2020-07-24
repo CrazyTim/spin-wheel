@@ -40,10 +40,11 @@ export function shuffleArray(array) {
 }
 
 /**
- * Sum the value of the given key for each item.
+ * Sum the given property for each object in `array`.
+ * Falsy values are treated as 0.
  */
-export function sum(items, key) {
-  return items.reduce((a, b) => a + (b[key] || 0), 0);
+export function sumObjArray(array, property) {
+  return array.reduce((a, b) => a + (b[property] || 0), 0);
 }
 
 /**
@@ -55,6 +56,15 @@ export function isAngleBetween(angle, arcStart, arcEnd) {
   if (arcStart < arcEnd)
    return arcStart <= angle && angle < arcEnd;
    return arcStart <= angle || angle < arcEnd;
+}
+
+/**
+ * Average the values in `array`.
+ * Falsy values are treated as 0.
+ * An empty array will return 0.
+ */
+export function avgArray(array) {
+  return array.reduce((a, b) => a + (b || 0), 0) / array.length || 0;
 }
 
 /**
@@ -77,10 +87,41 @@ export function isPointInCircle(x, y, cx, cy, radius) {
   return distancesquared <= radius * radius;
 }
 
-export function getXYFromCanvasEvent(canvas, event) {
+export function translateXYToCanvas(x, y, canvas) {
   let rect = canvas.getBoundingClientRect();
   return {
-    x: event.clientX - rect.left,
-    y: event.clientY - rect.top,
+    x: x - rect.left,
+    y: y - rect.top,
   };
+}
+
+export function getMouseButtonsPressed(event) {
+  return [1,2,4,8,16].filter(i => event.buttons & i);
+}
+
+export function getAngle(originX, originY, targetX, targetY) {
+    var dx = originX - targetX;
+    var dy = originY - targetY;
+
+    // var theta = Math.atan2(dy, dx);  // [0, Ⲡ] then [-Ⲡ, 0]; clockwise; 0° = west
+    // theta *= 180 / Math.PI;          // [0, 180] then [-180, 0]; clockwise; 0° = west
+    // if (theta < 0) theta += 360;     // [0, 360]; clockwise; 0° = west
+
+    // var theta = Math.atan2(-dy, dx); // [0, Ⲡ] then [-Ⲡ, 0]; anticlockwise; 0° = west
+    // theta *= 180 / Math.PI;          // [0, 180] then [-180, 0]; anticlockwise; 0° = west
+    // if (theta < 0) theta += 360;     // [0, 360]; anticlockwise; 0° = west
+
+    // var theta = Math.atan2(dy, -dx); // [0, Ⲡ] then [-Ⲡ, 0]; anticlockwise; 0° = east
+    // theta *= 180 / Math.PI;          // [0, 180] then [-180, 0]; anticlockwise; 0° = east
+    // if (theta < 0) theta += 360;     // [0, 360]; anticlockwise; 0° = east
+
+    var theta = Math.atan2(-dy, -dx); // [0, Ⲡ] then [-Ⲡ, 0]; clockwise; 0° = east
+    theta *= 180 / Math.PI;           // [0, 180] then [-180, 0]; clockwise; 0° = east
+    if (theta < 0) theta += 360;      // [0, 360]; clockwise; 0° = east
+
+    return theta;
+}
+
+export function distanceBetweenPoints(x1,y1, x2, y2) {
+  return Math.hypot(x2-x1, y2-y1);
 }

@@ -41,9 +41,15 @@ export default class RouletteWheel {
 
     window.onresize = () => this.handleWindowResize();
 
-    this.canvas.onmousedown = (e) => this.handleMouseDown(e);
-    this.canvas.onmousemove = (e) => this.handleMouseMove(e);
-    this.canvas.onmouseout = (e) => this.handleMouseOut(e);
+    this.canvas.onmousedown = (e) => this.handleCanvasMouseDown(e);
+    this.canvas.onmouseup = (e) => this.handleCanvasMouseUp(e);
+    this.canvas.onmousemove = (e) => this.handleCanvasMouseMove(e);
+    this.canvas.onmouseenter = (e) => this.handleCanvasMouseEnter(e);
+    this.canvas.onmouseout = (e) => this.handleCanvasMouseOut(e);
+
+    this.canvas.ontouchstart = (e) => this.handleCanvasTouchStart(e);
+    this.canvas.ontouchmove = (e) => this.handleCanvasTouchMove(e);
+    this.canvas.ontouchend = (e) => this.handleCanvasTouchEnd(e);
 
   }
 
@@ -127,9 +133,9 @@ export default class RouletteWheel {
 
     }
 
-    this.weightedItemAngle = 360 / util.sum(this.items, 'weight');
+    this.weightedItemAngle = 360 / util.sumObjArray(this.items, 'weight');
     this.pointerAngle = this.rotation;
-    this.rotationDirection = this.getRotationDirection(this.rotationSpeed);
+    this.setRotationSpeed(this.rotationSpeed);
 
     // Load overlay image:
     if (this.overlayImageUrl) {
@@ -145,11 +151,9 @@ export default class RouletteWheel {
   spin(speed) {
 
     // Randomise `speed` slightly so we can't predict when the wheel will stop.
-    let newRotationSpeed = this.rotationSpeed + util.getRandomInt(speed * 0.7, speed);
-    newRotationSpeed = Math.min(this.maxRotationSpeed, newRotationSpeed);
+    const newSpeed = this.rotationSpeed + util.getRandomInt(speed * 0.7, speed);
 
-    this.rotationDirection = this.getRotationDirection(newRotationSpeed);
-    this.rotationSpeed = newRotationSpeed;
+    this.setRotationSpeed(newSpeed);
 
     this.callback_spin({
       event: 'spin',
@@ -332,32 +336,146 @@ export default class RouletteWheel {
 
   }
 
-  wheelHitTest(e) {
-    const pos = util.getXYFromCanvasEvent(this.canvas, e);
+  wheelHitTest(x,y) {
+    const pos = util.translateXYToCanvas(x, y, this.canvas);
     return util.isPointInCircle(pos.x, pos.y, this.canvasCenterX, this.canvasCenterY, this.wheelRadius);
   }
 
-  handleMouseMove(e) {
-    this.isMouse_over = this.wheelHitTest(e);
-    this.setCursor();
-  }
-
-  handleMouseOut(e) {
-    this.isMouse_over = false;
-    this.setCursor();
-  }
-
-  handleMouseDown(e) {
-    if (!this.wheelHitTest(e)) return;
-    this.spin(this.spinSpeed);
-  }
-
   setCursor() {
-    if (this.isMouse_over) {
-      this.canvas.style.cursor = 'pointer';
+    if (this.isDragging) {
+      this.canvas.style.cursor = 'grabbing';
     } else {
-      this.canvas.style.cursor = 'default';
+      if (this.isCursorOverWheel) {
+        this.canvas.style.cursor = 'grab';
+      } else {
+      this.canvas.style.cursor = null;
+      }
     }
+  }
+
+  setRotationSpeed(speed) {
+
+    // Limit speed:
+    let newSpeed = Math.min(speed, this.maxRotationSpeed);
+    newSpeed = Math.max(newSpeed, this.maxRotationSpeed * -1);
+
+    this.rotationDirection = this.getRotationDirection(newSpeed);
+    this.rotationSpeed = newSpeed;
+
+  }
+
+  handleCanvasMouseDown(e) {
+    const [x, y] = [e.clientX, e.clientY];
+    if (this.wheelHitTest(x, y)) this.dragStart(x, y);
+    this.setCursor();
+  }
+
+  handleCanvasMouseMove(e) {
+    const [x, y] = [e.clientX, e.clientY];
+    if (this.isDragging) this.dragMove(x, y);
+    this.isCursorOverWheel = this.wheelHitTest(x, y);
+    this.setCursor();
+  }
+
+  handleCanvasMouseEnter(e) {
+
+    // If mouse up event occurs outside of canvas, end the drag when we mouse enter again:
+    if (this.isDragging && !util.getMouseButtonsPressed(e).includes(1)) {
+      this.dragEnd();
+    };
+
+    this.setCursor();
+
+  }
+
+  handleCanvasMouseOut(e) {
+    this.isCursorOverWheel = false;
+    this.setCursor();
+  }
+
+  handleCanvasMouseUp(e) {
+    if (this.isDragging) this.dragEnd();
+    this.setCursor();
+  }
+
+  handleCanvasTouchStart(e) {
+    const [x, y] = [e.touches[0].clientX, e.touches[0].clientY];
+    if (this.wheelHitTest(x, y)) this.dragStart(x, y);
+  }
+
+  handleCanvasTouchMove(e) {
+    const [x, y] = [e.touches[0].clientX, e.touches[0].clientY];
+    if (this.isDragging) this.dragMove(x, y);
+  }
+
+  handleCanvasTouchEnd(e) {
+    if (this.isDragging) this.dragEnd();
+  }
+
+  /*
+   * Get the angle of the point from the center of the wheel.
+   * 0° = north.
+   */
+  getAngleFromCenter(x,y) {
+    const pos = util.translateXYToCanvas(x, y, this.canvas);
+    return (util.getAngle(this.canvasCenterX, this.canvasCenterY, pos.x, pos.y) + 90) % 360;
+  }
+
+  dragStart(x, y) {
+
+    this.isDragging = true; // Bool to indicate we are currently dragging.
+
+    this.rotationSpeed = 0; // Stop the wheel from rotating.
+
+    const a = this.getAngleFromCenter(x,y);
+
+    this.dragDelta = this.rotation - a; // Used later in touchMove event.
+    this.dragDistances = []; // Initalise.
+    this.dragLastPoint = {x,y}; // Used later in touchMove event.
+
+    // Simulate the passing of time:
+    this.dragClearOldDistances = setInterval(() => {
+      this.dragDistances.pop();
+    }, 50);
+
+  }
+
+  dragMove(x, y) {
+
+    const a = this.getAngleFromCenter(x,y);
+
+    const newRotation = (a + this.dragDelta) % 360; // Difference from delta.
+    const direction = newRotation - this.rotation; // Use rotation to calc direction.
+    let distance = util.distanceBetweenPoints(x,y, this.dragLastPoint.x, this.dragLastPoint.y);
+    distance *= this.getRotationDirection(direction) // Add direction to distance.
+
+    this.dragDistances.unshift(distance); // Used later in touchEnd event.
+    this.rotation = newRotation;
+    this.dragLastPoint = {x,y};
+
+  }
+
+  dragEnd() {
+
+    this.isDragging = false;
+
+    this.dragDelta = null;
+
+    const speed = this.dragDistances.reduce((a,b) =>a+b,0) * 1.5;
+
+    this.setRotationSpeed(speed);
+
+    clearInterval(this.dragClearOldDistances);
+
+    /*
+    console.log({
+      direction: this.rotationDirection,
+      speed: parseInt(this.rotationSpeed),
+      distancesCount: this.dragDistances.length,
+      distances: this.dragDistances,
+    });
+    */
+
   }
 
 }
