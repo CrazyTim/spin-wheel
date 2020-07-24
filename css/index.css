@@ -6,6 +6,7 @@
   font-family: 'Rubik';
   font-size: 16px;
   -webkit-tap-highlight-color: transparent;
+  user-select: none; /* Prevent selecting ui text when dragging */
 }
 
 html, body {
