@@ -18,8 +18,6 @@ export default class RouletteWheel {
 
     this.init(); // This needs to be called again once the object has been created, passing the real settings.
 
-    this.drawFrame(); // Start animation loop.
-
   }
 
   createCanvas() {
@@ -91,8 +89,6 @@ export default class RouletteWheel {
       this.callback_spin = settings.callback_spin;
     }
 
-    this.handleWindowResize(); // Initalise canvas width/height.
-
     { // Clean items:
 
       let items = this.items;
@@ -143,6 +139,8 @@ export default class RouletteWheel {
       this.overlayImage.src = this.overlayImageUrl;
     }
 
+    this.handleWindowResize(); // Initalise canvas width/height and start the animation loop.
+
   }
 
   /**
@@ -172,6 +170,8 @@ export default class RouletteWheel {
    */
   handleWindowResize() {
 
+    window.cancelAnimationFrame(this.frameRequestId); // Cancel previous animation loop.
+
     // Get the smallest dimension of `canvasContainer`:
     const [w, h] = [this.canvasContainer.clientWidth, this.canvasContainer.clientHeight];
     const size = Math.min(w, h);
@@ -194,6 +194,8 @@ export default class RouletteWheel {
     this.items.forEach((i) => {
       this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(i.label, this.itemLabelFont, maxLabelWidth, this.context));
     });
+
+    this.frameRequestId = window.requestAnimationFrame(this.drawFrame.bind(this));
 
   }
 
@@ -332,7 +334,7 @@ export default class RouletteWheel {
     }
 
     // Wait until next frame.
-    window.requestAnimationFrame(this.drawFrame.bind(this));
+    this.frameRequestId = window.requestAnimationFrame(this.drawFrame.bind(this));
 
   }
 
