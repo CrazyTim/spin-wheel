@@ -5,13 +5,13 @@
 
 # Roulette Wheel
 
-## Rational
+## Motivation
 
 - A bit of fun learning HTML5 canvas.
-- Easy to see how it works.
-- Easy to implement and change the appearance ([see examples](https://crazytim.github.io/roulette-wheel/)).
+- Easy to read code.
+- Easy to implement and skin ([see examples](https://crazytim.github.io/roulette-wheel/)).
+- Interactive with mouse/touch gestures.
 - Vanilla JS, modular, simple API, no dependencies.
-- Extra features, like an animated pointer, flick gestures, etc.
 
 ## Features
 
