@@ -9,18 +9,15 @@ export default class RouletteWheel {
 
     this.canvasContainer = container;
 
-    this.createCanvas();
-    this.registerEvents();
+    this.initCanvas();
 
-    // Define callbacks:
+    // Set default callbacks:
     this.callback_rest = () => {};
     this.callback_spin = () => {};
 
-    this.init(); // This needs to be called again once the object has been created, passing the real settings.
-
   }
 
-  createCanvas() {
+  initCanvas() {
 
     // Remove any existing children:
     while (this.canvasContainer.firstChild) {
@@ -35,24 +32,8 @@ export default class RouletteWheel {
 
   }
 
-  registerEvents() {
-
-    window.onresize = () => this.handleWindowResize();
-
-    this.canvas.onmousedown = (e) => this.handleCanvasMouseDown(e);
-    this.canvas.onmouseup = (e) => this.handleCanvasMouseUp(e);
-    this.canvas.onmousemove = (e) => this.handleCanvasMouseMove(e);
-    this.canvas.onmouseenter = (e) => this.handleCanvasMouseEnter(e);
-    this.canvas.onmouseout = (e) => this.handleCanvasMouseOut(e);
-
-    this.canvas.ontouchstart = (e) => this.handleCanvasTouchStart(e);
-    this.canvas.ontouchmove = (e) => this.handleCanvasTouchMove(e);
-    this.canvas.ontouchend = (e) => this.handleCanvasTouchEnd(e);
-
-  }
-
   /**
-   * Initalise variables, allowing the wheel to be drawn.
+   * Initalise using the given settings, allowing the wheel to be drawn.
    */
   init(settings = {}) {
 
@@ -78,7 +59,7 @@ export default class RouletteWheel {
       rotationResistance:  this.rotationResistance = -35, // How fast the wheel slows down while spinning.
       spinSpeed:           this.spinSpeed = 190, // The max speed that can be created by a single spin (speed is randomised, as low as 70% of this value).
       overlayImageUrl:     this.overlayImageUrl = null, // Image to be overlayed.
-      clickToSpin:         this.clickToSpin = true, // Enable events so the user can click on the wheel to spin it (otherwise you need to manually implement `spin()`).
+      isInteractive:       this.isInteractive = true, // Allow the user to click-drag/swipe the wheel to spin it (otherwise you need to manually call `spin()`).
     } = settings);
 
     if (typeof settings.callback_rest === 'function') {
@@ -139,30 +120,40 @@ export default class RouletteWheel {
       this.overlayImage.src = this.overlayImageUrl;
     }
 
+    this.registerEvents();
+
     this.handleWindowResize(); // Initalise canvas width/height and start the animation loop.
 
   }
 
-  /**
-   * Spin the wheel by increasing `rotationSpeed`.
-   */
-  spin(speed) {
+  registerEvents() {
 
-    // Randomise `speed` slightly so we can't predict when the wheel will stop.
-    const newSpeed = this.rotationSpeed + util.getRandomInt(speed * 0.7, speed);
+    window.onresize = () => this.handleWindowResize();
 
-    this.setRotationSpeed(newSpeed);
+    if (this.isInteractive) {
 
-    this.callback_spin({
-      event: 'spin',
-      direction: this.rotationDirection,
-      speed: this.rotationSpeed,
-    });
+      this.canvas.onmousedown = e => this.handleCanvasMouseDown(e);
+      this.canvas.onmouseup = e => this.handleCanvasMouseUp(e);
+      this.canvas.onmousemove = e => this.handleCanvasMouseMove(e);
+      this.canvas.onmouseenter = e => this.handleCanvasMouseEnter(e);
+      this.canvas.onmouseout = e => this.handleCanvasMouseOut(e);
+      this.canvas.ontouchstart = e => this.handleCanvasTouchStart(e);
+      this.canvas.ontouchmove = e => this.handleCanvasTouchMove(e);
+      this.canvas.ontouchend = e => this.handleCanvasTouchEnd(e);
 
-  }
+    } else {
 
-  getRotationDirection(speed) {
-     return (speed > 0) ? 1 : -1; // 1 == clockwise, -1 == antiClockwise.
+      this.canvas.onmousedown = null;
+      this.canvas.onmouseup = null;
+      this.canvas.onmousemove = null;
+      this.canvas.onmouseenter = null;
+      this.canvas.onmouseout = null;
+      this.canvas.ontouchstart = null;
+      this.canvas.ontouchmove = null;
+      this.canvas.ontouchend = null;
+
+    }
+
   }
 
   /**
@@ -336,6 +327,28 @@ export default class RouletteWheel {
     // Wait until next frame.
     this.frameRequestId = window.requestAnimationFrame(this.drawFrame.bind(this));
 
+  }
+
+  /**
+   * Spin the wheel by increasing `rotationSpeed`.
+   */
+  spin(speed) {
+
+    // Randomise `speed` slightly so we can't predict when the wheel will stop.
+    const newSpeed = this.rotationSpeed + util.getRandomInt(speed * 0.7, speed);
+
+    this.setRotationSpeed(newSpeed);
+
+    this.callback_spin({
+      event: 'spin',
+      direction: this.rotationDirection,
+      speed: this.rotationSpeed,
+    });
+
+  }
+
+  getRotationDirection(speed) {
+     return (speed > 0) ? 1 : -1; // 1 == clockwise, -1 == antiClockwise.
   }
 
   wheelHitTest(x,y) {
