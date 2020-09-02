@@ -2,7 +2,9 @@ import * as util from './roulette-util.js'
 
 export default [
 
-  { label: 'Money',
+  {
+    id: 0,
+    label: 'Money',
     radius: .88,
     rotation: 0,
     itemLabelRadius: .93,
@@ -88,7 +90,9 @@ export default [
     ]
   },
 
-  { label: 'Takeaway',
+  {
+    id: 1,
+    label: 'Takeaway',
     radius: .89,
     rotation: 90,
     itemLabelRadius: .92,
@@ -170,7 +174,9 @@ export default [
     ]
   },
 
-  { label: 'Movies',
+  {
+    id: 2,
+    label: 'Movies',
     radius: .88,
     rotation: 0,
     itemLabelRadius: .92,

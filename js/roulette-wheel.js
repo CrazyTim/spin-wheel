@@ -318,13 +318,13 @@ export default class RouletteWheel {
         this.rotationSpeed += (this.rotationResistance * delta) * this.rotationDirection;
 
         // Prevent rotation from going back the oposite way:
-        if (this.rotationDirection == 1 && this.rotationSpeed < 0) {
+        if (this.rotationDirection === 1 && this.rotationSpeed < 0) {
           this.rotationSpeed = 0;
-        } else if (this.rotationDirection == -1 && this.rotationSpeed >= 0) {
+        } else if (this.rotationDirection === -1 && this.rotationSpeed >= 0) {
           this.rotationSpeed = 0;
         }
 
-        if (this.rotationSpeed == 0) {
+        if (this.rotationSpeed === 0) {
           this.callback_rest({
             event: 'finish',
             item: currentItem,
@@ -460,19 +460,25 @@ export default class RouletteWheel {
   dragEnd() {
 
     this.isDragging = false;
-
     this.dragDelta = null;
-
-    const speed = this.dragDistances.reduce((a,b) =>a+b,0) * 1.5;
-
-    this.setRotationSpeed(speed);
-
     clearInterval(this.dragClearOldDistances);
+
+    // Spin the wheel:
+    const dragDistance = this.dragDistances.reduce((a, b) => a + b, 0) * 1.5;
+    if (dragDistance !== 0) {
+
+      this.setRotationSpeed(dragDistance);
+
+      this.callback_spin({
+        event: 'spin',
+        direction: this.rotationDirection,
+        speed: this.rotationSpeed,
+      });
+
+    }
 
     /*
     console.log({
-      direction: this.rotationDirection,
-      speed: parseInt(this.rotationSpeed),
       distancesCount: this.dragDistances.length,
       distances: this.dragDistances,
     });

@@ -27,24 +27,25 @@
       const select = document.querySelector('select');
 
       // Initalise options:
-      for (var i = 0; i < settings.length; i++) {
+      settings.forEach(s => {
         const opt = document.createElement('option');
-        opt.dataset.id = i;
-        opt.textContent = settings[i].label;
+        opt.dataset.id = s.id;
+        opt.textContent = s.label;
         select.appendChild(opt);
-      }
+      });
 
       // Handle select onchange event:
       select.onchange = () => {
         const id = parseInt(select.options[select.selectedIndex].dataset.id);
         window.wheel.init({
           ...settings[id],
-          callback_spin: (e) => { console.log(e) }, // log when the wheel is spun.
-          callback_rest: (e) => { console.log(e) }, // log when the wheel comes to a rest.
+          callback_spin: e => console.log(e), // log when the wheel is spun.
+          callback_rest: e => console.log(e), // log when the wheel comes to a rest.
         });
       }
 
-      select.options[1].selected = 'selected'; // Select default item.
+      // Select initial item:
+      select.options[1].selected = 'selected';
       select.onchange();
 
     }
