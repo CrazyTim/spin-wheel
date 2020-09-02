@@ -33,33 +33,33 @@ export default class RouletteWheel {
   }
 
   /**
-   * Initalise using the given settings, allowing the wheel to be drawn.
+   * Initialise the instance with the given settings.
    */
   init(settings = {}) {
 
     // Destructure settings, define defaults:
+    // See README for a description on each setting.
     ({
-      items:               this.items = [], // Array of item objects to show on the wheel.
-      itemLabelRadius:     this.itemLabelRadius = .85, // Where to place the label along the radius (percent), starting from the inside of the circle.
-      itemLabelMaxRadius:  this.itemLabelMaxRadius = 0, // Labels will be automatically resized to fit inside this radius (percent), starting from the inside of the circle.
-      itemLabelRotation:   this.itemLabelRotation = 180, // Nessecary to flip the label upside down when changing `itemLabelAlign`.
-      itemLabelAlign:      this.itemLabelAlign = util.AlignTextEnum.left,
-      itemLabelLineHeight: this.itemLabelLineHeight = 0, // Adjust the line height of the font.
+      isInteractive:       this.isInteractive = true,
+      itemColorSet:        this.itemColorSet = [],
+      itemLabelAlign:      this.itemLabelAlign = util.AlignTextEnum.right,
       itemLabelColor:      this.itemLabelColor = '#000',
+      itemLabelColorSet:   this.itemLabelColorSet = [],
       itemLabelFont:       this.itemLabelFont = 'sans-serif',
-      itemLabelFontMaxSize:this.itemLabelFontMaxSize = 20, // Maximum font size, but font size may be resized further to fit `itemLabelMaxRadius`.
-      itemLineWidth:       this.itemLineWidth = 1, // Width of the line that separates each item.
-      itemLineColor:       this.itemLineColor = '#000', // Color of the line that separates each item.
-      itemColorSet:        this.itemColorSet = [], // Pattern of colors that will be applied to items repeatedly.
-      itemLabelColorSet:   this.itemLabelColorSet = [], // Pattern of colors that will be applied to items repeatedly.
-      radius:              this.radius = .95, // Radius of wheel relative to canvas dimensions (percent).
-      rotation:            this.rotation = 0, // The current rotation of the wheel.
-      rotationSpeed:       this.rotationSpeed = 0, // The current speed of the wheel.
-      maxRotationSpeed:    this.maxRotationSpeed = 250, // The max speed the wheel can reach (every spin will add to the speed).
-      rotationResistance:  this.rotationResistance = -35, // How fast the wheel slows down while spinning.
-      spinSpeed:           this.spinSpeed = 190, // The max speed that can be created by a single spin (speed is randomised, as low as 70% of this value).
-      overlayImageUrl:     this.overlayImageUrl = null, // Image to be overlayed.
-      isInteractive:       this.isInteractive = true, // Allow the user to click-drag/swipe the wheel to spin it (otherwise you need to manually call `spin()`).
+      itemLabelFontMaxSize:this.itemLabelFontMaxSize = 20,
+      itemLabelLineHeight: this.itemLabelLineHeight = 0,
+      itemLabelMaxRadius:  this.itemLabelMaxRadius = .2,
+      itemLabelRadius:     this.itemLabelRadius = .85,
+      itemLabelRotation:   this.itemLabelRotation = 0,
+      itemLineColor:       this.itemLineColor = '#000',
+      itemLineWidth:       this.itemLineWidth = 1,
+      items:               this.items = [],
+      maxRotationSpeed:    this.maxRotationSpeed = 250,
+      overlayImageUrl:     this.overlayImageUrl = null,
+      radius:              this.radius = .95,
+      rotation:            this.rotation = 0,
+      rotationResistance:  this.rotationResistance = -35,
+      rotationSpeed:       this.rotationSpeed = 0,
     } = settings);
 
     if (typeof settings.callback_rest === 'function') {
@@ -330,12 +330,11 @@ export default class RouletteWheel {
   }
 
   /**
-   * Spin the wheel by increasing `rotationSpeed`.
+   * Add `speed` to `rotationSpeed` ±30% (randomised to make it realistically less predictable).
    */
   spin(speed) {
 
-    // Randomise `speed` slightly so we can't predict when the wheel will stop.
-    const newSpeed = this.rotationSpeed + util.getRandomInt(speed * 0.7, speed);
+    const newSpeed = this.rotationSpeed + util.getRandomInt(speed * 0.85, speed * 0.15);
 
     this.setRotationSpeed(newSpeed);
 
@@ -429,7 +428,7 @@ export default class RouletteWheel {
 
   /*
    * Get the angle of the point from the center of the wheel.
-   * 0° = north.
+   * 0° == north.
    */
   getAngleFromCenter(x,y) {
     const pos = util.translateXYToCanvas(x, y, this.canvas);
