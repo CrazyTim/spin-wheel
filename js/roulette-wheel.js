@@ -448,10 +448,11 @@ export default class RouletteWheel {
     this.dragDistances = []; // Initalise.
     this.dragLastPoint = {x,y}; // Used later in touchMove event.
 
-    // Simulate the passing of time:
+    // Simulate the passing of time by forgetting old drags:
+    // Clearing 1 every 10ms, and with a max length of 25, will take 250ms to empty the array.
     this.dragClearOldDistances = setInterval(() => {
       this.dragDistances.pop();
-    }, 50);
+    }, 10);
 
   }
 
@@ -465,6 +466,7 @@ export default class RouletteWheel {
     distance *= this.getRotationDirection(direction) // Add direction to distance.
 
     this.dragDistances.unshift(distance); // Used later in touchEnd event.
+    this.dragDistances.length = 25; // Limit length of array.
     this.rotation = newRotation;
     this.dragLastPoint = {x,y};
 
