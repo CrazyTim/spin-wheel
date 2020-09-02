@@ -6,15 +6,8 @@ import * as util from './roulette-util.js'
 export default class RouletteWheel {
 
   constructor(container) {
-
     this.canvasContainer = container;
-
     this.initCanvas();
-
-    // Set default callbacks:
-    this.callback_rest = () => {};
-    this.callback_spin = () => {};
-
   }
 
   initCanvas() {
@@ -62,12 +55,16 @@ export default class RouletteWheel {
       rotationSpeed:       this.rotationSpeed = 0,
     } = settings);
 
-    if (typeof settings.callback_rest === 'function') {
-      this.callback_rest = settings.callback_rest;
+    if (typeof settings.onRest === 'function') {
+      this.onRest = settings.onRest;
+    } else {
+      this.onRest = () => {};
     }
 
-    if (typeof settings.callback_spin === 'function') {
-      this.callback_spin = settings.callback_spin;
+    if (typeof settings.onSpin === 'function') {
+      this.onSpin = settings.onSpin;
+    } else {
+      this.onSpin = () => {};
     }
 
     { // Clean items:
@@ -316,8 +313,8 @@ export default class RouletteWheel {
         }
 
         if (this.rotationSpeed === 0) {
-          this.callback_rest({
-            event: 'finish',
+          this.onRest({
+            event: 'rest',
             item: currentItem,
           });
         }
@@ -338,7 +335,7 @@ export default class RouletteWheel {
 
     this.setRotationSpeed(newSpeed);
 
-    this.callback_spin({
+    this.onSpin({
       event: 'spin',
       direction: this.rotationDirection,
       speed: this.rotationSpeed,
@@ -483,7 +480,7 @@ export default class RouletteWheel {
 
       this.setRotationSpeed(dragDistance);
 
-      this.callback_spin({
+      this.onSpin({
         event: 'spin',
         direction: this.rotationDirection,
         speed: this.rotationSpeed,

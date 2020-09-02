@@ -39,8 +39,8 @@
         const id = parseInt(select.options[select.selectedIndex].dataset.id);
         window.wheel.init({
           ...settings[id],
-          callback_spin: e => console.log(e), // log when the wheel is spun.
-          callback_rest: e => console.log(e), // log when the wheel comes to a rest.
+          onSpin: e => console.log(e), // log when the wheel is spun.
+          onRest: e => console.log(e), // log when the wheel comes to a rest.
         });
       }
 

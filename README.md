@@ -55,8 +55,6 @@ Refer to the [example settings](https://github.com/CrazyTim/roulette-wheel/blob/
 
 Key                                 | Default Value               | Description
 --------------------------- | --------------------------- | ---------------------------
-`callback_rest`             | `null`                      | A function to call when the wheel comes to a rest after spinning.
-`callback_spin`             | `null`                      | A function to call when the wheel has been spun.
 `isInteractive`             | `true`                      | Allow the user to click-drag/swipe the wheel to spin it (otherwise you need to manually call `RouletteWheel.spin()`).
 `itemColorSet`              | `[]`                        | Pattern of background colors that will be used for each `item`. Can be overridden by `item.color`. Example: `['#fff','#000']`.
 `itemLabelAlign`            | `right`                     | `left`|`center`|`right`. If you change this to `left`, you will also need to set `itemLabelRotation` to `180°`.
@@ -72,6 +70,8 @@ Key                                 | Default Value               | Description
 `itemLineWidth`             | `1`                         | Size of the line that separates each `item.label`.
 `items`                     | `[]`                        | The `items` to show on the wheel.
 `maxRotationSpeed`          | `250`                       | The maximum rotation speed that the wheel can reach.
+`onRest`                    | `null`                      | Callback function. When the wheel comes to a rest after spinning.
+`onSpin`                    | `null`                      | Callback function. When the wheel has been spun.
 `overlayImageUrl`           | `null`                      | The url of an image to be overlayed over the entire canvas (centred). This image will not spin with the wheel.
 `radius`                    | `.95`                       | Radius of the wheel as a percent of the canvas' smallest dimension.
 `rotation`                  | `0`                         | The angle that the wheel is rotated. `0°` is north. `item[0]' will be drawn clockwise. 
