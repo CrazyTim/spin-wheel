@@ -14,8 +14,18 @@
     import settings from './js/roulette-example-settings.js'
 
     window.onload = () => {
-      // Wait until all fonts are loaded:
-      document.fonts.ready.then(() => init());
+
+      // Check browser supports `document.fonts`.
+      if (!'fonts' in document) {
+        init(); return;
+      }
+
+      // Force load fonts, then init.
+      Promise.all([
+        document.fonts.load('1em Rubik'),
+        document.fonts.load('1em Amatic SC'),
+      ]).then(() => init());
+
     }
 
     function init() {
