@@ -49,6 +49,7 @@ export default class RouletteWheel {
       items:               this.items = [],
       maxRotationSpeed:    this.maxRotationSpeed = 250,
       overlayImageUrl:     this.overlayImageUrl = null,
+      pointerRotation:     this.pointerRotation = 0,
       radius:              this.radius = .95,
       rotation:            this.rotation = 0,
       rotationResistance:  this.rotationResistance = -35,
@@ -108,7 +109,6 @@ export default class RouletteWheel {
     }
 
     this.weightedItemAngle = 360 / util.sumObjArray(this.items, 'weight');
-    this.pointerAngle = this.rotation;
     this.setRotationSpeed(this.rotationSpeed);
 
     // Load overlay image:
@@ -244,7 +244,7 @@ export default class RouletteWheel {
 
         lastItemAngle += itemAngle;
 
-        if (util.isAngleBetween(this.pointerAngle, startAngle % 360, endAngle % 360)) {
+        if (util.isAngleBetween(this.pointerRotation, startAngle % 360, endAngle % 360)) {
           currentItem = this.items[i];
         }
 
@@ -338,7 +338,7 @@ export default class RouletteWheel {
     this.onSpin({
       event: 'spin',
       direction: this.rotationDirection,
-      speed: this.rotationSpeed,
+      rotationSpeed: this.rotationSpeed,
     });
 
   }
@@ -373,6 +373,10 @@ export default class RouletteWheel {
     this.rotationDirection = this.getRotationDirection(newSpeed);
     this.rotationSpeed = newSpeed;
 
+  }
+
+  setRotation(rotation) {
+    this.rotation = rotation;
   }
 
   handleCanvasMouseDown(e) {
@@ -483,7 +487,7 @@ export default class RouletteWheel {
       this.onSpin({
         event: 'spin',
         direction: this.rotationDirection,
-        speed: this.rotationSpeed,
+        rotationSpeed: this.rotationSpeed,
       });
 
     }
