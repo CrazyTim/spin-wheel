@@ -4,97 +4,73 @@ export default [
 
   {
     id: 0,
-    label: 'Money',
-    radius: .88,
-    rotation: 0,
+    label: 'Workout',
+    radius: .84,
     itemLabelRadius: .93,
+    itemLabelMaxRadius: .35,
     itemLabelRotation: 180,
     itemLabelAlign: util.AlignTextEnum.left,
-    itemLabelColor: '#000',
-    itemLabelLineHeight: -0.6,
-    itemLabelFont: 'Arial',
-    itemLabelFontMaxSize: 22,
+    itemLabelColor: '#fff',
+    itemLabelLineHeight: -1.8,
+    itemLabelFont: 'Amatic SC',
+    itemLabelFontMaxSize: 55,
     itemLineWidth: 1,
-    itemLineColor: '#000',
-    overlayImageUrl: './img/default-overlay-0.svg',
+    itemLineColor: '#fff',
+    itemColorSet: ['#ffc93c', '#66bfbf', '#a2d5f2', '#515070', '#43658b', '#ed6663', '#d54062' ],
+    image: './img/example-image-0.svg',
+    imageOverlay: './img/example-overlay-0.svg',
     items: [
       {
-        label: '$ 50',
+        label: 'TWISTS',
       },
       {
-        label: '$ 200',
+        label: 'PRESS UPS',
       },
       {
-        label: '$ 1000',
-        weight: .6,
-        color: '#f23925',
-        labelColor: '#fff',
+        label: 'JOGGING',
       },
       {
-        label: '$ 100',
+        label: 'SQUATS',
       },
       {
-        label: '$ 200',
+        label: 'PLANKS',
       },
       {
-        label: '$ 500',
-        weight: .8,
-        color: '#b1ddff',
+        label: 'LUNGES',
       },
       {
-        label: '$ 100',
+        label: 'BURPIES',
       },
       {
-        label: '$ 50',
+        label: 'CRUNCHES',
       },
       {
-        label: '$ 5000',
-        weight: .4,
-        color: '#000',
-        labelColor: '#fff',
+        label: 'MOUNT. CLIMB',
       },
       {
-        label: '$ 50',
+        label: 'STAR JUMPS',
       },
       {
-        label: '$ 200',
+        label: 'KANGAROOS',
       },
       {
-        label: '$ 500',
-        weight: .8,
-        color: '#b1ddff',
+        label: 'ROPE CLIMB',
       },
       {
-        label: '$ 100',
+        label: 'KICK BOXING',
       },
       {
-        label: '$ 200',
-      },
-      {
-        label: '$ 1000',
-        weight: .6,
-        color: '#f23925',
-        labelColor: '#fff',
-      },
-      {
-        label: '$ 100',
-      },
-      {
-        label: '$ 50',
-      },
-      {
-        label: '$ 500',
-        weight: .8,
-        color: '#b1ddff',
+        label: 'WALL SIT',
       },
     ]
+
   },
 
   {
     id: 1,
     label: 'Takeaway',
     radius: .89,
-    rotation: 90,
+    pointerRotation: 90,
     itemLabelRadius: .92,
     itemLabelMaxRadius: .37,
     itemLabelRotation: 0,
@@ -103,8 +79,8 @@ export default [
     itemLabelLineHeight: 0.42,
     itemLabelFont: 'Rubik',
     itemLineWidth: 0,
-    overlayImageUrl: './img/default-overlay-1.svg',
     itemColorSet: ['#fbf8c4', '#e4f1aa', '#c0d26e', '#ff7d7d'],
+    imageOverlay: './img/example-overlay-1.svg',
     items: [
       {
         label: 'Japanese',
@@ -178,7 +154,6 @@ export default [
     id: 2,
     label: 'Movies',
     radius: .88,
-    rotation: 0,
     itemLabelRadius: .92,
     itemLabelMaxRadius: .41,
     itemLabelRotation: 0,
@@ -187,9 +162,9 @@ export default [
     itemLabelFont: 'Arial',
     itemLineWidth: 2,
     itemLineColor: '#fff',
-    overlayImageUrl: './img/default-overlay-2.svg',
     itemColorSet: ['#c7160c', '#fff'],
     itemLabelColorSet: ['#fff', '#000'],
+    imageOverlay: './img/example-overlay-2.svg',
     items: [
       {
         label: 'Action',
@@ -238,6 +213,93 @@ export default [
       },
       {
         label: 'Fantasy',
+      },
+    ]
+  },
+
+  {
+    id: 3,
+    label: 'Money',
+    radius: .88,
+    itemLabelRadius: .93,
+    itemLabelRotation: 180,
+    itemLabelAlign: util.AlignTextEnum.left,
+    itemLabelColor: '#000',
+    itemLabelLineHeight: -0.6,
+    itemLabelFont: 'Arial',
+    itemLabelFontMaxSize: 22,
+    itemLineWidth: 1,
+    itemLineColor: '#000',
+    imageOverlay: './img/example-overlay-3.svg',
+    items: [
+      {
+        label: '$ 50',
+      },
+      {
+        label: '$ 200',
+      },
+      {
+        label: '$ 1000',
+        weight: .6,
+        color: '#f23925',
+        labelColor: '#fff',
+      },
+      {
+        label: '$ 100',
+      },
+      {
+        label: '$ 200',
+      },
+      {
+        label: '$ 500',
+        weight: .8,
+        color: '#b1ddff',
+      },
+      {
+        label: '$ 100',
+      },
+      {
+        label: '$ 50',
+      },
+      {
+        label: '$ 5000',
+        weight: .4,
+        color: '#000',
+        labelColor: '#fff',
+      },
+      {
+        label: '$ 50',
+      },
+      {
+        label: '$ 200',
+      },
+      {
+        label: '$ 500',
+        weight: .8,
+        color: '#b1ddff',
+      },
+      {
+        label: '$ 100',
+      },
+      {
+        label: '$ 200',
+      },
+      {
+        label: '$ 1000',
+        weight: .6,
+        color: '#f23925',
+        labelColor: '#fff',
+      },
+      {
+        label: '$ 100',
+      },
+      {
+        label: '$ 50',
+      },
+      {
+        label: '$ 500',
+        weight: .8,
+        color: '#b1ddff',
       },
     ]
   },

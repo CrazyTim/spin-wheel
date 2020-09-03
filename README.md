@@ -26,12 +26,9 @@
 - [x] Spin the wheel using click-drag/touch-flick.
 - [x] Click region is localised to the shape of the wheel.
 - [x] Setting to allow clicking the wheel to spin it, otherwise you can manually call `spin()`.
-- [x] Draw an image over the canvas (easily themeable).
+- [x] Draw an image over the wheel and canvas (easily themeable).
 - [ ] Realistic pointer that moves when it hits pins on the spinning wheel.
 - [ ] Each item can have its own image.
-- [ ] Display an image on the wheel which will rotate with the wheel.
-- [ ] Allow stroke effects on the lines between each item (example: dashes).
-
 
 ## Methods for `RouletteWheel` 
 
@@ -52,6 +49,8 @@ See the [example settings](https://github.com/CrazyTim/roulette-wheel/blob/maste
 
 Setting                     | Default Value               | Description
 --------------------------- | --------------------------- | ---------------------------
+`image`                     | `null`                      | The url of an image to draw on the centre of the wheel. This image will rotate with the wheel. Useful for skinning.
+`imageOverlay`              | `null`                      | The url of an image to draw over the entire canvas (centred and resized to fit). This image will not move when the wheel spins. Useful for skinning.
 `isInteractive`             | `true`                      | Allow the user to spin the wheel using click-drag/touch-flick (otherwise you need to manually call `RouletteWheel.spin()`).
 `itemColorSet`              | `[]`                        | Pattern of background colors that will be used for each `item`. Can be overridden by `item.color`. Example: `['#fff','#000']`.
 `itemLabelAlign`            | `right`                     | `left`|`center`|`right`. If you change this to `left`, you will also need to set `itemLabelRotation` to `180°`.
@@ -69,7 +68,6 @@ Setting                     | Default Value               | Description
 `maxRotationSpeed`          | `250`                       | The maximum rotation speed that the wheel can reach.
 `onRest`                    | `null`                      | The callback function for the `onRest` event (see below).
 `onSpin`                    | `null`                      | The callback function for the `onSpin` event (see below).
-`overlayImageUrl`           | `null`                      | The url of an image to draw over the entire canvas (centred). This image will not spin with the wheel. Useful for skinning.
 `pointerRotation`           | `0`                         | The angle of the pointer that is used to determine the "winning" item (see the `onRest` event). `0°` is north.
 `radius`                    | `.95`                       | Radius of the wheel as a percent of the canvas' smallest dimension.
 `rotation`                  | `0`                         | The initial angle that the wheel is rotated. `0°` is north. `item[0]` will be drawn clockwise from this point. Note: the rotation can also be changed by calling `setRotation()`.

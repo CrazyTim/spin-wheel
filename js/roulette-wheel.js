@@ -8,6 +8,9 @@ export default class RouletteWheel {
   constructor(container) {
     this.canvasContainer = container;
     this.initCanvas();
+
+    this.rotation = 0;
+    this.rotationSpeed = 0;
   }
 
   initCanvas() {
@@ -48,13 +51,20 @@ export default class RouletteWheel {
       itemLineWidth:       this.itemLineWidth = 1,
       items:               this.items = [],
       maxRotationSpeed:    this.maxRotationSpeed = 250,
-      overlayImageUrl:     this.overlayImageUrl = null,
       pointerRotation:     this.pointerRotation = 0,
       radius:              this.radius = .95,
-      rotation:            this.rotation = 0,
       rotationResistance:  this.rotationResistance = -35,
-      rotationSpeed:       this.rotationSpeed = 0,
     } = settings);
+
+    if (typeof settings.rotation === "number") {
+      // Preserve the old value if a new one wasn't supplied so its possible to keep the wheel spinning after changing the skin.
+      this.rotation = settings.rotation;
+    }
+
+    if (typeof settings.rotationSpeed === "number") {
+      // Preserve the old value if a new one wasn't supplied so its possible to keep the wheel spinning after changing the skin.
+      this.rotationSpeed = settings.rotationSpeed;
+    }
 
     if (typeof settings.onRest === 'function') {
       this.onRest = settings.onRest;
@@ -111,10 +121,18 @@ export default class RouletteWheel {
     this.weightedItemAngle = 360 / util.sumObjArray(this.items, 'weight');
     this.setRotationSpeed(this.rotationSpeed);
 
+    // Load image:
+    this.image = null;
+    if (settings.image) {
+      this.image = new Image();
+      this.image.src = settings.image;
+    }
+
     // Load overlay image:
-    if (this.overlayImageUrl) {
-      this.overlayImage = new Image();
-      this.overlayImage.src = this.overlayImageUrl;
+    this.imageOverlay = null;
+    if (settings.imageOverlay) {
+      this.imageOverlay = new Image();
+      this.imageOverlay.src = settings.imageOverlay;
     }
 
     this.registerEvents();
@@ -290,14 +308,43 @@ export default class RouletteWheel {
 
       }
 
-      // Draw overlayImage:
-      // Stretch image to fill canvas.
-      if (this.overlayImageUrl) {
-        let pos = {
-          x: (this.canvas.width / 2) - (this.canvasSize / 2),
-          y: (this.canvas.height / 2) - (this.canvasSize / 2),
-        }
-        ctx.drawImage(this.overlayImage, pos.x, pos.y, this.canvasSize, this.canvasSize);
+      // Draw image:
+      // Fit image to canvas dimensions.
+      if (this.image) {
+
+        ctx.save();
+
+        ctx.translate( // Move to centre of canvas.
+          this.canvas.width / 2,
+          this.canvas.height / 2,
+        );
+
+        ctx.rotate(util.degRad(this.rotation)); // Rotate.
+
+        ctx.drawImage(
+          this.image,
+          -(this.canvasSize / 2),
+          -(this.canvasSize / 2),
+          this.canvasSize,
+          this.canvasSize,
+          );
+
+        ctx.restore();
+
+      }
+
+      // Draw imageOverlay:
+      // Fit image to canvas dimensions.
+      if (this.imageOverlay) {
+
+        ctx.drawImage(
+          this.imageOverlay,
+          (this.canvas.width / 2) - (this.canvasSize / 2),
+          (this.canvas.height / 2) - (this.canvasSize / 2),
+          this.canvasSize,
+          this.canvasSize
+          );
+
       }
 
       if (this.rotationSpeed !== 0) {
@@ -368,7 +415,7 @@ export default class RouletteWheel {
 
     // Limit speed:
     let newSpeed = Math.min(speed, this.maxRotationSpeed);
-    newSpeed = Math.max(newSpeed, this.maxRotationSpeed * -1);
+    newSpeed = Math.max(newSpeed, -this.maxRotationSpeed);
 
     this.rotationDirection = this.getRotationDirection(newSpeed);
     this.rotationSpeed = newSpeed;
