@@ -42,7 +42,7 @@ export default class RouletteWheel {
       itemLabelColor:      this.itemLabelColor = '#000',
       itemLabelColorSet:   this.itemLabelColorSet = [],
       itemLabelFont:       this.itemLabelFont = 'sans-serif',
-      itemLabelFontMaxSize:this.itemLabelFontMaxSize = 20,
+      itemLabelFontMaxSize:this.itemLabelFontMaxSize = 100,
       itemLabelLineHeight: this.itemLabelLineHeight = 0,
       itemLabelMaxRadius:  this.itemLabelMaxRadius = .2,
       itemLabelRadius:     this.itemLabelRadius = .85,

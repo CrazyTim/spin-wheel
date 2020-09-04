@@ -57,7 +57,7 @@ Setting                     | Default Value               | Description
 `itemLabelColor`            | `'#000'`                    | The color of each `item.label`. Can be overridden by `itemColorSet`, or `item.color`.
 `itemLabelColorSet`         | `[]`                        | Pattern of colors that will be used for each `item.label`. Can be overridden by `item.labelColor`. Example: `['#fff','#000']`.
 `itemLabelFont`             | `'sans-serif'`              | The font family of each `item.label`.
-`itemLabelFontMaxSize`      | `20`                        | The maximum font size to draw each `item.label`. The actual font size may smaller than this to accommodate `itemLabelMaxRadius`.
+`itemLabelFontMaxSize`      | `100`                       | The maximum font size to draw each `item.label`. The actual font size is calculated dynamically so that the longest label of all the items fits within `itemLabelMaxRadius` and the font size is below `itemLabelFontMaxSize`.
 `itemLabelLineHeight`       | `0`                         | Use this to adjust the line height of the font.
 `itemLabelMaxRadius`        | `.2`                        | The point along the radius (as a percent, starting from the inside of the circle) to resize each `item.label` (to fit) if it is too wide.
 `itemLabelRadius`           | `.85`                       | The point along the radius (as a percent, starting from the inside of the circle) to start drawing each `item.label`.
