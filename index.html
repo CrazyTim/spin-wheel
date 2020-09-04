@@ -11,7 +11,7 @@
 
   <script type='module'>
     import RouletteWheel from './js/roulette-wheel.js'
-    import settings from './js/roulette-example-settings.js'
+    import exampleSettings from './js/roulette-example-settings.js'
 
     window.onload = () => {
 
@@ -34,29 +34,29 @@
       // Save object to window for easy debugging.
       window.wheel = new RouletteWheel(document.querySelector('.wheel-wrapper'));
 
-      const select = document.querySelector('select');
+      const dropdown = document.querySelector('select');
 
-      // Initalise options:
-      settings.forEach(s => {
+      // Initalise dropdown:
+      exampleSettings.forEach(s => {
         const opt = document.createElement('option');
         opt.dataset.id = s.id;
         opt.textContent = s.label;
-        select.appendChild(opt);
+        dropdown.appendChild(opt);
       });
 
-      // Handle select onchange event:
-      select.onchange = () => {
-        const id = parseInt(select.options[select.selectedIndex].dataset.id);
+      // Handle dropdown event:
+      dropdown.onchange = () => {
+        const id = parseInt(dropdown.options[dropdown.selectedIndex].dataset.id);
         window.wheel.init({
-          ...settings[id],
-          onSpin: e => console.log(e), // log when the wheel is spun.
-          onRest: e => console.log(e), // log when the wheel comes to a rest.
+          ...exampleSettings[id],
+          onSpin: e => console.log(e), // Log when the wheel is spun.
+          onRest: e => console.log(e), // Log when the wheel comes to a rest.
         });
       }
 
-      // Select initial item:
-      select.options[0].selected = 'selected';
-      select.onchange();
+      // Select default:
+      dropdown.options[0].selected = 'selected';
+      dropdown.onchange();
 
     }
 
