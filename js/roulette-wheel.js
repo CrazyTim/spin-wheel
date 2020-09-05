@@ -215,155 +215,155 @@ export default class RouletteWheel {
     ctx.clearRect(0 ,0, this.canvas.width, this.canvas.height); // Clear canvas.
 
     // Calculate delta since last frame:
-      if (this.lastFrame === undefined) {
-        this.lastFrame = now;
-      }
-      const delta = (now - this.lastFrame) / 1000;
-      if (delta > 0) {
-        this.rotation += delta * this.rotationSpeed;
-        this.rotation = this.rotation % 360;
-      }
+    if (this.lastFrame === undefined) {
       this.lastFrame = now;
+    }
+    const delta = (now - this.lastFrame) / 1000;
+    if (delta > 0) {
+      this.rotation += delta * this.rotationSpeed;
+      this.rotation = this.rotation % 360;
+    }
+    this.lastFrame = now;
 
-      let currentItem;
-      let itemAngle;
-      let lastItemAngle; // Record the last angle so we can resume in the next loop.
+    let currentItem;
+    let itemAngle;
+    let lastItemAngle; // Record the last angle so we can resume in the next loop.
 
-      ctx.strokeStyle = this.itemLineColor;
-      ctx.lineWidth = this.itemLineWidth;
-      ctx.lineJoin = 'bevel';
+    ctx.strokeStyle = this.itemLineColor;
+    ctx.lineWidth = this.itemLineWidth;
+    ctx.lineJoin = 'bevel';
 
-      // Draw wedges:
-      lastItemAngle = this.rotation;
-      for (let i = 0; i < this.items.length; i++) {
+    // Draw wedges:
+    lastItemAngle = this.rotation;
+    for (let i = 0; i < this.items.length; i++) {
 
-        itemAngle = this.items[i].weight * this.weightedItemAngle;
-        const startAngle = lastItemAngle;
-        const endAngle = lastItemAngle + itemAngle;
+      itemAngle = this.items[i].weight * this.weightedItemAngle;
+      const startAngle = lastItemAngle;
+      const endAngle = lastItemAngle + itemAngle;
 
-        ctx.beginPath();
-        ctx.moveTo(this.canvasCenterX, this.canvasCenterY);
-        ctx.arc(
-          this.canvasCenterX,
-          this.canvasCenterY,
-          this.wheelRadius,
-          util.degRad(startAngle + util.arcAdjust),
-          util.degRad(endAngle + util.arcAdjust)
-        );
-        ctx.closePath();
+      ctx.beginPath();
+      ctx.moveTo(this.canvasCenterX, this.canvasCenterY);
+      ctx.arc(
+        this.canvasCenterX,
+        this.canvasCenterY,
+        this.wheelRadius,
+        util.degRad(startAngle + util.arcAdjust),
+        util.degRad(endAngle + util.arcAdjust)
+      );
+      ctx.closePath();
 
-        ctx.fillStyle = this.items[i].color;
-        ctx.fill();
+      ctx.fillStyle = this.items[i].color;
+      ctx.fill();
 
-        if (this.itemLineWidth > 0) {
-          ctx.stroke();
-        }
-
-        lastItemAngle += itemAngle;
-
-        if (util.isAngleBetween(this.pointerRotation, startAngle % 360, endAngle % 360)) {
-          currentItem = this.items[i];
-        }
-
+      if (this.itemLineWidth > 0) {
+        ctx.stroke();
       }
 
-      // Set font:
-      ctx.textBaseline = 'middle';
-      ctx.textAlign = this.itemLabelAlign;
-      ctx.font = this.itemLabelFontSize + 'px ' + this.itemLabelFont;
-      ctx.fillStyle = this.itemLabelColor;
+      lastItemAngle += itemAngle;
+
+      if (util.isAngleBetween(this.pointerRotation, startAngle % 360, endAngle % 360)) {
+        currentItem = this.items[i];
+      }
+
+    }
+
+    // Set font:
+    ctx.textBaseline = 'middle';
+    ctx.textAlign = this.itemLabelAlign;
+    ctx.font = this.itemLabelFontSize + 'px ' + this.itemLabelFont;
+    ctx.fillStyle = this.itemLabelColor;
+
+    ctx.save();
+
+    // Draw item labels:
+    lastItemAngle = this.rotation;
+    for (let i = 0; i < this.items.length; i++) {
+
+      itemAngle = this.items[i].weight * this.weightedItemAngle;
+
+      ctx.save();
+      ctx.beginPath();
+
+      if (this.items[i].labelColor !== undefined) {
+        ctx.fillStyle = this.items[i].labelColor;
+      }
+
+      let angle = lastItemAngle + (itemAngle / 2) + this.itemLabelLineHeight;
+
+      ctx.translate(
+        this.canvasCenterX + Math.cos(util.degRad(angle + util.arcAdjust)) * (this.wheelRadius * this.itemLabelRadius),
+        this.canvasCenterY + Math.sin(util.degRad(angle + util.arcAdjust)) * (this.wheelRadius * this.itemLabelRadius)
+      );
+
+      ctx.rotate(util.degRad(angle + util.arcAdjust + this.itemLabelRotation));
+
+      if (this.items[i].label !== undefined) {
+        ctx.fillText(this.items[i].label, 0, 0);
+      }
+
+      ctx.restore();
+
+      lastItemAngle += itemAngle;
+
+    }
+
+    // Draw image:
+    // Fit image to canvas dimensions.
+    if (this.image) {
 
       ctx.save();
 
-      // Draw item labels:
-      lastItemAngle = this.rotation;
-      for (let i = 0; i < this.items.length; i++) {
+      ctx.translate( // Move to centre of canvas.
+        this.canvas.width / 2,
+        this.canvas.height / 2,
+      );
 
-        itemAngle = this.items[i].weight * this.weightedItemAngle;
+      ctx.rotate(util.degRad(this.rotation)); // Rotate.
 
-        ctx.save();
-        ctx.beginPath();
-
-        if (this.items[i].labelColor !== undefined) {
-          ctx.fillStyle = this.items[i].labelColor;
-        }
-
-        let angle = lastItemAngle + (itemAngle / 2) + this.itemLabelLineHeight;
-
-        ctx.translate(
-          this.canvasCenterX + Math.cos(util.degRad(angle + util.arcAdjust)) * (this.wheelRadius * this.itemLabelRadius),
-          this.canvasCenterY + Math.sin(util.degRad(angle + util.arcAdjust)) * (this.wheelRadius * this.itemLabelRadius)
+      ctx.drawImage(
+        this.image,
+        -(this.canvasSize / 2),
+        -(this.canvasSize / 2),
+        this.canvasSize,
+        this.canvasSize,
         );
 
-        ctx.rotate(util.degRad(angle + util.arcAdjust + this.itemLabelRotation));
+      ctx.restore();
 
-        if (this.items[i].label !== undefined) {
-          ctx.fillText(this.items[i].label, 0, 0);
-        }
+    }
 
-        ctx.restore();
+    // Draw imageOverlay:
+    // Fit image to canvas dimensions.
+    if (this.imageOverlay) {
 
-        lastItemAngle += itemAngle;
-
-      }
-
-      // Draw image:
-      // Fit image to canvas dimensions.
-      if (this.image) {
-
-        ctx.save();
-
-        ctx.translate( // Move to centre of canvas.
-          this.canvas.width / 2,
-          this.canvas.height / 2,
+      ctx.drawImage(
+        this.imageOverlay,
+        (this.canvas.width / 2) - (this.canvasSize / 2),
+        (this.canvas.height / 2) - (this.canvasSize / 2),
+        this.canvasSize,
+        this.canvasSize
         );
 
-        ctx.rotate(util.degRad(this.rotation)); // Rotate.
+    }
 
-        ctx.drawImage(
-          this.image,
-          -(this.canvasSize / 2),
-          -(this.canvasSize / 2),
-          this.canvasSize,
-          this.canvasSize,
-          );
+    if (this.rotationSpeed !== 0) {
 
-        ctx.restore();
+      // Decrease rotation (simulate drag):
+      this.rotationSpeed += (this.rotationResistance * delta) * this.rotationDirection;
 
+      // Prevent rotation from going back the oposite way:
+      if (this.rotationDirection === 1 && this.rotationSpeed < 0) {
+        this.rotationSpeed = 0;
+      } else if (this.rotationDirection === -1 && this.rotationSpeed >= 0) {
+        this.rotationSpeed = 0;
       }
 
-      // Draw imageOverlay:
-      // Fit image to canvas dimensions.
-      if (this.imageOverlay) {
-
-        ctx.drawImage(
-          this.imageOverlay,
-          (this.canvas.width / 2) - (this.canvasSize / 2),
-          (this.canvas.height / 2) - (this.canvasSize / 2),
-          this.canvasSize,
-          this.canvasSize
-          );
-
+      if (this.rotationSpeed === 0) {
+        this.onRest({
+          event: 'rest',
+          item: currentItem,
+        });
       }
-
-      if (this.rotationSpeed !== 0) {
-
-        // Decrease rotation (simulate drag):
-        this.rotationSpeed += (this.rotationResistance * delta) * this.rotationDirection;
-
-        // Prevent rotation from going back the oposite way:
-        if (this.rotationDirection === 1 && this.rotationSpeed < 0) {
-          this.rotationSpeed = 0;
-        } else if (this.rotationDirection === -1 && this.rotationSpeed >= 0) {
-          this.rotationSpeed = 0;
-        }
-
-        if (this.rotationSpeed === 0) {
-          this.onRest({
-            event: 'rest',
-            item: currentItem,
-          });
-        }
 
     }
 
