@@ -208,14 +208,13 @@ export default class RouletteWheel {
   /**
    * Main animation loop.
    */
-  drawFrame() {
+  drawFrame(now) {
 
     let ctx = this.context;
 
     ctx.clearRect(0 ,0, this.canvas.width, this.canvas.height); // Clear canvas.
 
     // Calculate delta since last frame:
-    const now = Date.now();
       if (this.lastFrame === undefined) {
         this.lastFrame = now;
       }
