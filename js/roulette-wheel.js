@@ -478,43 +478,59 @@ export default class RouletteWheel {
    * 0° == north.
    */
   getAngleFromCenter(x,y) {
-    const pos = util.translateXYToCanvas(x, y, this.canvas);
-    return (util.getAngle(this.canvasCenterX, this.canvasCenterY, pos.x, pos.y) + 90) % 360;
+    return (util.getAngle(this.canvasCenterX, this.canvasCenterY, x, y) + 90) % 360;
   }
 
   dragStart(x, y) {
 
+    const pos = util.translateXYToCanvas(x, y, this.canvas);
+
     this.isDragging = true; // Bool to indicate we are currently dragging.
 
-    this.rotationSpeed = 0; // Stop the wheel from rotating.
+    this.rotationSpeed = 0; // Stop the wheel from spinning.
 
-    const a = this.getAngleFromCenter(x,y);
+    const a = this.getAngleFromCenter(pos.x, pos.y);
 
-    this.dragDelta = this.rotation - a; // Used later in touchMove event.
-    this.dragDistances = []; // Initalise.
-    this.dragLastPoint = {x,y}; // Used later in touchMove event.
-
-    // Simulate the passing of time by forgetting old drags:
-    // Clearing 1 every 10ms, and with a max length of 25, will take 250ms to empty the array.
-    this.dragClearOldDistances = setInterval(() => {
-      this.dragDistances.pop();
-    }, 10);
+    this.dragDelta = util.addAngle(this.rotation, -a); // Used later in dragMove.
+    this.dragMoves = []; // Initalise.
+    this.dragLastPoint = {
+      x: pos.x,
+      y: pos.y,
+    };
 
   }
 
   dragMove(x, y) {
 
-    const a = this.getAngleFromCenter(x,y);
+    const pos = util.translateXYToCanvas(x, y, this.canvas);
+    const a = this.getAngleFromCenter(pos.x, pos.y);
 
-    const newRotation = (a + this.dragDelta) % 360; // Difference from delta.
-    const direction = newRotation - this.rotation; // Use rotation to calc direction.
-    let distance = util.distanceBetweenPoints(x,y, this.dragLastPoint.x, this.dragLastPoint.y);
-    distance *= this.getRotationDirection(direction) // Add direction to distance.
+    // Calc new rotation:
+    const newRotation = util.addAngle(a, this.dragDelta);
 
-    this.dragDistances.unshift(distance); // Used later in touchEnd event.
-    this.dragDistances.length = 25; // Limit length of array.
-    this.rotation = newRotation;
-    this.dragLastPoint = {x,y};
+    // Calc direction:
+    const aFromLast = util.addAngle(a, -this.getAngleFromCenter(this.dragLastPoint.x, this.dragLastPoint.y));
+    const direction = (aFromLast < 180) ? 1 : -1;
+
+    // Calc distance:
+    let distance = util.distanceBetweenPoints(pos.x, pos.y, this.dragLastPoint.x, this.dragLastPoint.y) * direction;
+
+    // Save data for use in dragEnd event.
+    this.dragMoves.unshift({
+      distance,
+      x: pos.x,
+      y: pos.y,
+      now:performance.now(),
+    });
+
+    this.dragMoves.length = 50; // Truncate array to keep it small.
+
+    this.rotation = newRotation; // Snap the rotation to the drag start point.
+
+    this.dragLastPoint = {
+      x: pos.x,
+      y: pos.y,
+    };
 
   }
 
@@ -524,8 +540,22 @@ export default class RouletteWheel {
     this.dragDelta = null;
     clearInterval(this.dragClearOldDistances);
 
+    // Calc the drag distance:
+    let dragDistance = 0;
+    const now = performance.now();
+    this.dragMoves = this.dragMoves.reduce( (result, value) => {
+
+      // Ignore old dragMove events (so the user can cancel the drag by not moving for a short time).
+      if (value !== undefined && now - value.now < 250) {
+        dragDistance += value.distance * 1.5;
+        result.push(value);
+      }
+
+      return result;
+
+    }, []);
+
     // Spin the wheel:
-    const dragDistance = this.dragDistances.reduce((a, b) => a + b, 0) * 1.5;
     if (dragDistance !== 0) {
 
       this.setRotationSpeed(dragDistance);
@@ -534,16 +564,10 @@ export default class RouletteWheel {
         event: 'spin',
         direction: this.rotationDirection,
         rotationSpeed: this.rotationSpeed,
+        dragMoves: this.dragMoves,
       });
 
     }
-
-    /*
-    console.log({
-      distancesCount: this.dragDistances.length,
-      distances: this.dragDistances,
-    });
-    */
 
   }
 

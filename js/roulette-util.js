@@ -128,3 +128,20 @@ export function getAngle(originX, originY, targetX, targetY) {
 export function distanceBetweenPoints(x1,y1, x2, y2) {
   return Math.hypot(x2-x1, y2-y1);
 }
+
+// Add two angles together.
+// The result will be a valid angle between 0 and 359.9999.
+// tests:
+// 0 + 0 = 0
+// 0 + 1 = 1
+// 0 + 360 = 0
+// 0 + 361 = 1
+// 0 + -1 = 359
+// 0 + -361 = 359
+// 0 + -360 = 0
+export function addAngle(a1, a2) {
+  let sum = a1 + a2;
+  if (sum > 0)
+    return sum % 360;
+    return 360 + (sum % 360);
+}
