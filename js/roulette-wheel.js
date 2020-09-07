@@ -367,6 +367,26 @@ export default class RouletteWheel {
 
     }
 
+    /*
+    // Debugging: draw dragMove events
+    if (this.dragMoves && this.dragMoves.length) {
+      for (let i = this.dragMoves.length; i >= 0; i--) {
+        const point = this.dragMoves[i];
+        if (point === undefined) continue;
+        let percentFill = i / this.dragMoves.length;
+        percentFill = (percentFill -1) * -1;
+        percentFill *= 100;
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, 5, 0, 2 * Math.PI);
+        ctx.fillStyle = `hsl(200,100%,${percentFill}%)`;
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 0.5;
+        ctx.fill();
+        ctx.stroke();
+      }
+    }
+    */
+
     // Wait until next frame.
     this.frameRequestId = window.requestAnimationFrame(this.drawFrame.bind(this));
 
