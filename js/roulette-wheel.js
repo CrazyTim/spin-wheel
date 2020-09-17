@@ -480,16 +480,22 @@ export default class RouletteWheel {
   }
 
   handleCanvasTouchStart(e) {
+    e.preventDefault();
+    e.stopPropagation();
     const [x, y] = [e.touches[0].clientX, e.touches[0].clientY];
     if (this.wheelHitTest(x, y)) this.dragStart(x, y);
   }
 
   handleCanvasTouchMove(e) {
+    e.preventDefault();
+    e.stopPropagation();
     const [x, y] = [e.touches[0].clientX, e.touches[0].clientY];
     if (this.isDragging) this.dragMove(x, y);
   }
 
   handleCanvasTouchEnd(e) {
+    e.preventDefault();
+    e.stopPropagation();
     if (this.isDragging) this.dragEnd();
   }
 
