@@ -1,0 +1,17 @@
+{
+  "name": "roulette-wheel",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "reload -b"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CrazyTim/roulette-wheel.git"
+  },
+  "author": "CrazyTim",
+  "license": "MIT",
+  "homepage": "https://github.com/CrazyTim/roulette-wheel#readme",
+  "devDependencies": {
+    "reload": "^3.1.1"
+  }
+}
