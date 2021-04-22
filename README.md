@@ -30,6 +30,15 @@
 - [ ] Realistic pointer that moves when it hits pins on the spinning wheel.
 - [ ] Each item can have its own image.
 
+## Getting Started
+
+Host the files on a web server, or if you have Node.js run:
+
+```shell
+npm install
+npm start
+```
+
 ## Methods for `RouletteWheel` 
 
 Method                           | Description
