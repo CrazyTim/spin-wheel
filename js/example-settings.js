@@ -1,4 +1,4 @@
-import * as util from './wheel.util.js'
+import * as enums from './wheel.enums.js';
 
 export default [
 
@@ -9,7 +9,7 @@ export default [
     itemLabelRadius: .93,
     itemLabelMaxRadius: .35,
     itemLabelRotation: 180,
-    itemLabelAlign: util.AlignTextEnum.left,
+    itemLabelAlign: enums.AlignText.left,
     itemLabelColor: '#fff',
     itemLabelLineHeight: -1.8,
     itemLabelFont: 'Amatic SC',
@@ -74,7 +74,7 @@ export default [
     itemLabelRadius: .92,
     itemLabelMaxRadius: .37,
     itemLabelRotation: 0,
-    itemLabelAlign: util.AlignTextEnum.right,
+    itemLabelAlign: enums.AlignText.right,
     itemLabelColor: '#000',
     itemLabelLineHeight: 0.42,
     itemLabelFont: 'Rubik',
@@ -157,7 +157,7 @@ export default [
     itemLabelRadius: .92,
     itemLabelMaxRadius: .4,
     itemLabelRotation: 0,
-    itemLabelAlign: util.AlignTextEnum.right,
+    itemLabelAlign: enums.AlignText.right,
     itemLabelLineHeight: 1.5,
     itemLabelFont: 'Pragati Narrow',
     itemLineWidth: 0,
@@ -222,7 +222,7 @@ export default [
     radius: .88,
     itemLabelRadius: .93,
     itemLabelRotation: 180,
-    itemLabelAlign: util.AlignTextEnum.left,
+    itemLabelAlign: enums.AlignText.left,
     itemLabelColor: '#000',
     itemLabelLineHeight: -0.6,
     itemLabelFont: 'Arial',

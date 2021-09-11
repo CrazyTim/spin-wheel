@@ -1,4 +1,5 @@
-import * as util from './wheel.util.js'
+import * as util from './wheel.util.js';
+import * as enums from './wheel.enums.js';
 
 /**
  * Draw the wheel.
@@ -38,7 +39,7 @@ export default class Wheel {
     ({
       isInteractive:       this.isInteractive = true,
       itemColorSet:        this.itemColorSet = [],
-      itemLabelAlign:      this.itemLabelAlign = util.AlignTextEnum.right,
+      itemLabelAlign:      this.itemLabelAlign = enums.AlignText.right,
       itemLabelColor:      this.itemLabelColor = '#000',
       itemLabelColorSet:   this.itemLabelColorSet = [],
       itemLabelFont:       this.itemLabelFont = 'sans-serif',
@@ -247,8 +248,8 @@ export default class Wheel {
         this.canvasCenterX,
         this.canvasCenterY,
         this.wheelRadius,
-        util.degRad(startAngle + util.arcAdjust),
-        util.degRad(endAngle + util.arcAdjust)
+        util.degRad(startAngle + enums.arcAdjust),
+        util.degRad(endAngle + enums.arcAdjust)
       );
       ctx.closePath();
 
@@ -291,11 +292,11 @@ export default class Wheel {
       let angle = lastItemAngle + (itemAngle / 2) + this.itemLabelLineHeight;
 
       ctx.translate(
-        this.canvasCenterX + Math.cos(util.degRad(angle + util.arcAdjust)) * (this.wheelRadius * this.itemLabelRadius),
-        this.canvasCenterY + Math.sin(util.degRad(angle + util.arcAdjust)) * (this.wheelRadius * this.itemLabelRadius)
+        this.canvasCenterX + Math.cos(util.degRad(angle + enums.arcAdjust)) * (this.wheelRadius * this.itemLabelRadius),
+        this.canvasCenterY + Math.sin(util.degRad(angle + enums.arcAdjust)) * (this.wheelRadius * this.itemLabelRadius)
       );
 
-      ctx.rotate(util.degRad(angle + util.arcAdjust + this.itemLabelRotation));
+      ctx.rotate(util.degRad(angle + enums.arcAdjust + this.itemLabelRotation));
 
       if (this.items[i].label !== undefined) {
         ctx.fillText(this.items[i].label, 0, 0);

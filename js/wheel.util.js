@@ -1,15 +1,3 @@
-export const arcAdjust = -90; // Adjustment when drawing canvas arcs, because it draws from 90° instead of 0°.
-
-export const KeyCodeEnum = Object.freeze({
-  enter: 13,
-});
-
-export const AlignTextEnum = Object.freeze({
-  left: 'left',
-  right: 'right',
-  center: 'center',
-});
-
 /**
  * Get a random integer between `min` (inclusive) and `max` (exclusive).
  */
