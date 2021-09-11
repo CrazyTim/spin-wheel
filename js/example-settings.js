@@ -1,4 +1,4 @@
-import * as util from './roulette-util.js'
+import * as util from './wheel.util.js'
 
 export default [
 

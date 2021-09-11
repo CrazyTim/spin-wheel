@@ -1,9 +1,9 @@
-import * as util from './roulette-util.js'
+import * as util from './wheel.util.js'
 
 /**
  * Draw the wheel.
  */
-export default class RouletteWheel {
+export default class Wheel {
 
   constructor(container) {
     this.canvasContainer = container;

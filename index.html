@@ -10,8 +10,8 @@
   <link rel="stylesheet" href="css/index.css"/>
 
   <script type='module'>
-    import RouletteWheel from './js/roulette-wheel.js'
-    import exampleSettings from './js/roulette-example-settings.js'
+    import Wheel from './js/wheel.js'
+    import exampleSettings from './js/example-settings.js'
 
     window.onload = () => {
 
@@ -33,7 +33,7 @@
 
       // Initalise wheel:
       // Save object to window for easy debugging.
-      window.wheel = new RouletteWheel(document.querySelector('.wheel-wrapper'));
+      window.wheel = new Wheel(document.querySelector('.wheel-wrapper'));
 
       const dropdown = document.querySelector('select');
 
