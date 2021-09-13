@@ -453,6 +453,8 @@ export default class Wheel {
       y: pos.y,
     };
 
+    this.setCursor();
+
   }
 
   /**
@@ -531,6 +533,8 @@ export default class Wheel {
       });
 
     }
+
+    this.setCursor();
 
   }
 

@@ -7,46 +7,64 @@ export function registerEvents(wheel = {}) {
   const canvas = wheel.canvas;
 
   if ('PointerEvent' in window) {
-    canvas.addEventListener('pointerdown', onPointerdown);
+    canvas.addEventListener('pointerdown', onPointerDown);
+    canvas.addEventListener('pointermove', onPointerMoveSetCursor);
   } else {
-    canvas.addEventListener('touchstart', onTouchstart);
-    canvas.addEventListener('mousedown', onMousedown);
+    canvas.addEventListener('touchstart', onTouchStart);
+    canvas.addEventListener('mousedown', onMouseDown);
+    canvas.addEventListener('mousemove', onMouseMoveSetCursor);
   }
 
   function dragStart(point) {
     //console.log(`drag start ${point.x}, ${point.y}`);
-    if (wheel.wheelHitTest(point)) wheel.dragStart(point);
-    wheel.setCursor();
+    wheel.dragStart(point);
   }
 
   function dragMove(point) {
     //console.log(`drag move ${point.x}, ${point.y}`);
     wheel.dragMove(point);
-    wheel.isCursorOverWheel = wheel.wheelHitTest(point);
-    wheel.setCursor();
   }
 
   function dragEnd() {
     //console.log('drag end');
     wheel.dragEnd();
+  }
+
+  function onPointerMoveSetCursor(e) {
+    const point = {
+      x: e.clientX,
+      y: e.clientY,
+    }
+    wheel.isCursorOverWheel = wheel.wheelHitTest(point);
     wheel.setCursor();
   }
 
-  function onPointerdown(e) {
-    if (!wheel.isInteractive) return;
-
-    e.preventDefault();
-    dragStart({
+  function onMouseMoveSetCursor(e) {
+    const point = {
       x: e.clientX,
       y: e.clientY,
-    });
+    }
+    wheel.isCursorOverWheel = wheel.wheelHitTest(point);
+    wheel.setCursor();
+  }
 
+  function onPointerDown(e) {
+    const point = {
+      x: e.clientX,
+      y: e.clientY,
+    }
+
+    if (!wheel.isInteractive) return;
+    if (!wheel.wheelHitTest(point)) return;
+
+    e.preventDefault();
+    dragStart(point);
     canvas.setPointerCapture(e.pointerId);
-    canvas.addEventListener('pointermove', onPointermove);
-    canvas.addEventListener('pointerup', onPointerup);
-    canvas.addEventListener('pointercancel', onPointerup);
+    canvas.addEventListener('pointermove', onPointerMove);
+    canvas.addEventListener('pointerup', onPointerUp);
+    canvas.addEventListener('pointercancel', onPointerUp);
 
-    function onPointermove(e) {
+    function onPointerMove(e) {
       e.preventDefault();
       dragMove({
         x: e.clientX,
@@ -54,29 +72,31 @@ export function registerEvents(wheel = {}) {
       });
     }
 
-    function onPointerup(e) {
+    function onPointerUp(e) {
       e.preventDefault();
       canvas.releasePointerCapture(e.pointerId);
-      canvas.removeEventListener('pointermove', onPointermove);
-      canvas.removeEventListener('pointerup', onPointerup);
-      canvas.removeEventListener('pointercancel', onPointerup);
+      canvas.removeEventListener('pointermove', onPointerMove);
+      canvas.removeEventListener('pointerup', onPointerUp);
+      canvas.removeEventListener('pointercancel', onPointerUp);
       dragEnd();
     }
 
   }
 
-  function onMousedown(e) {
-    if (!wheel.isInteractive) return;
-
-    dragStart({
+  function onMouseDown(e) {
+    const point = {
       x: e.clientX,
       y: e.clientY,
-    });
+    }
 
-    document.addEventListener('mousemove', onMousemove);
-    document.addEventListener('mouseup', onMouseup);
+    if (!wheel.isInteractive) return;
+    if (!wheel.wheelHitTest(point)) return;
 
-    function onMousemove(e) {
+    dragStart(point);
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+
+    function onMouseMove(e) {
       e.preventDefault();
       dragMove({
         x: e.clientX,
@@ -84,29 +104,31 @@ export function registerEvents(wheel = {}) {
       });
     }
 
-    function onMouseup(e) {
+    function onMouseUp(e) {
       e.preventDefault();
-      document.removeEventListener('mousemove', onMousemove);
-      document.removeEventListener('mouseup', onMouseup);
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
       dragEnd();
     }
 
   }
 
-  function onTouchstart(e) {
-    if (!wheel.isInteractive) return;
-
-    e.preventDefault();
-    dragStart({
+  function onTouchStart(e) {
+    const point = {
       x: e.targetTouches[0].clientX,
       y: e.targetTouches[0].clientY,
-    });
+    }
 
-    canvas.addEventListener('touchmove', onTouchmove);
-    canvas.addEventListener('touchend', onTouchend);
-    canvas.addEventListener('touchcancel', onTouchend);
+    if (!wheel.isInteractive) return;
+    if (!wheel.wheelHitTest(point)) return;
 
-    function onTouchmove(e) {
+    e.preventDefault();
+    dragStart(point);
+    canvas.addEventListener('touchmove', onTouchMove);
+    canvas.addEventListener('touchend', onTouchEnd);
+    canvas.addEventListener('touchcancel', onTouchEnd);
+
+    function onTouchMove(e) {
       e.preventDefault();
       dragMove({
         x: e.targetTouches[0].clientX,
@@ -114,11 +136,11 @@ export function registerEvents(wheel = {}) {
       });
     }
 
-    function onTouchend(e) {
+    function onTouchEnd(e) {
       e.preventDefault();
-      canvas.removeEventListener('touchmove', onTouchmove);
-      canvas.removeEventListener('touchend', onTouchend);
-      canvas.removeEventListener('touchcancel', onTouchend);
+      canvas.removeEventListener('touchmove', onTouchMove);
+      canvas.removeEventListener('touchend', onTouchEnd);
+      canvas.removeEventListener('touchcancel', onTouchEnd);
       dragEnd();
     }
 
