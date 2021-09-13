@@ -2,14 +2,6 @@ import * as util from './wheel.util.js';
 import * as enums from './wheel.enums.js';
 import * as drag from './wheel.drag.js';
 
-
-// todo:
-
-
-
-/**
- * Draw the wheel.
- */
 export default class Wheel {
 
   constructor(container) {
@@ -395,11 +387,17 @@ export default class Wheel {
      return (speed > 0) ? 1 : -1; // 1 == clockwise, -1 == antiClockwise.
   }
 
+  /**
+   * Return true if point is inside the wheel.
+   */
   wheelHitTest(point) {
     const pos = util.translateXYToCanvas(point.x, point.y, this.canvas);
     return util.isPointInCircle(pos.x, pos.y, this.canvasCenterX, this.canvasCenterY, this.wheelRadius);
   }
 
+  /**
+   * Set the appearance of the cursor while over the canvas.
+   */
   setCursor() {
     if (this.isDragging) {
       this.canvas.style.cursor = 'grabbing';
@@ -427,7 +425,7 @@ export default class Wheel {
     this.rotation = rotation;
   }
 
-  /*
+  /**
    * Get the angle of the point from the center of the wheel.
    * 0° == north.
    */
@@ -435,6 +433,9 @@ export default class Wheel {
     return (util.getAngle(this.canvasCenterX, this.canvasCenterY, point.x, point.y) + 90) % 360;
   }
 
+  /**
+   * Enter the drag state.
+   */
   dragStart(point) {
 
     const pos = util.translateXYToCanvas(point.x, point.y, this.canvas);
@@ -454,6 +455,10 @@ export default class Wheel {
 
   }
 
+  /**
+   * Animate the wheel to follow the pointer while dragging.
+   * Save the drag events for later.
+   */
   dragMove(point) {
 
     const pos = util.translateXYToCanvas(point.x, point.y, this.canvas);
@@ -488,6 +493,10 @@ export default class Wheel {
 
   }
 
+  /**
+   * Exit the drag state.
+   * Set the rotation speed so the wheel continues to spin in the same direction.
+   */
   dragEnd() {
 
     this.isDragging = false;
