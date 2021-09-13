@@ -15,21 +15,6 @@ export function registerEvents(wheel = {}) {
     canvas.addEventListener('mousemove', onMouseMoveSetCursor);
   }
 
-  function dragStart(point) {
-    //console.log(`drag start ${point.x}, ${point.y}`);
-    wheel.dragStart(point);
-  }
-
-  function dragMove(point) {
-    //console.log(`drag move ${point.x}, ${point.y}`);
-    wheel.dragMove(point);
-  }
-
-  function dragEnd() {
-    //console.log('drag end');
-    wheel.dragEnd();
-  }
-
   function onPointerMoveSetCursor(e) {
     const point = {
       x: e.clientX,
@@ -58,7 +43,7 @@ export function registerEvents(wheel = {}) {
     if (!wheel.wheelHitTest(point)) return;
 
     e.preventDefault();
-    dragStart(point);
+    wheel.dragStart(point);
     canvas.setPointerCapture(e.pointerId);
     canvas.addEventListener('pointermove', onPointerMove);
     canvas.addEventListener('pointerup', onPointerUp);
@@ -66,7 +51,7 @@ export function registerEvents(wheel = {}) {
 
     function onPointerMove(e) {
       e.preventDefault();
-      dragMove({
+      wheel.dragMove({
         x: e.clientX,
         y: e.clientY,
       });
@@ -78,7 +63,7 @@ export function registerEvents(wheel = {}) {
       canvas.removeEventListener('pointermove', onPointerMove);
       canvas.removeEventListener('pointerup', onPointerUp);
       canvas.removeEventListener('pointercancel', onPointerUp);
-      dragEnd();
+      wheel.dragEnd();
     }
 
   }
@@ -92,13 +77,13 @@ export function registerEvents(wheel = {}) {
     if (!wheel.isInteractive) return;
     if (!wheel.wheelHitTest(point)) return;
 
-    dragStart(point);
+    wheel.dragStart(point);
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
 
     function onMouseMove(e) {
       e.preventDefault();
-      dragMove({
+      wheel.dragMove({
         x: e.clientX,
         y: e.clientY,
       });
@@ -108,7 +93,7 @@ export function registerEvents(wheel = {}) {
       e.preventDefault();
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-      dragEnd();
+      wheel.dragEnd();
     }
 
   }
@@ -123,14 +108,14 @@ export function registerEvents(wheel = {}) {
     if (!wheel.wheelHitTest(point)) return;
 
     e.preventDefault();
-    dragStart(point);
+    wheel.dragStart(point);
     canvas.addEventListener('touchmove', onTouchMove);
     canvas.addEventListener('touchend', onTouchEnd);
     canvas.addEventListener('touchcancel', onTouchEnd);
 
     function onTouchMove(e) {
       e.preventDefault();
-      dragMove({
+      wheel.dragMove({
         x: e.targetTouches[0].clientX,
         y: e.targetTouches[0].clientY,
       });
@@ -141,7 +126,7 @@ export function registerEvents(wheel = {}) {
       canvas.removeEventListener('touchmove', onTouchMove);
       canvas.removeEventListener('touchend', onTouchEnd);
       canvas.removeEventListener('touchcancel', onTouchEnd);
-      dragEnd();
+      wheel.dragEnd();
     }
 
   }
