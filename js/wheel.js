@@ -1,5 +1,11 @@
 import * as util from './wheel.util.js';
 import * as enums from './wheel.enums.js';
+import * as drag from './wheel.drag.js';
+
+
+// todo:
+
+
 
 /**
  * Draw the wheel.
@@ -143,33 +149,8 @@ export default class Wheel {
   }
 
   registerEvents() {
-
     window.onresize = () => this.handleWindowResize();
-
-    if (this.isInteractive) {
-
-      this.canvas.onmousedown = e => this.handleCanvasMouseDown(e);
-      this.canvas.onmouseup = e => this.handleCanvasMouseUp(e);
-      this.canvas.onmousemove = e => this.handleCanvasMouseMove(e);
-      this.canvas.onmouseenter = e => this.handleCanvasMouseEnter(e);
-      this.canvas.onmouseout = e => this.handleCanvasMouseOut(e);
-      this.canvas.ontouchstart = e => this.handleCanvasTouchStart(e);
-      this.canvas.ontouchmove = e => this.handleCanvasTouchMove(e);
-      this.canvas.ontouchend = e => this.handleCanvasTouchEnd(e);
-
-    } else {
-
-      this.canvas.onmousedown = null;
-      this.canvas.onmouseup = null;
-      this.canvas.onmousemove = null;
-      this.canvas.onmouseenter = null;
-      this.canvas.onmouseout = null;
-      this.canvas.ontouchstart = null;
-      this.canvas.ontouchmove = null;
-      this.canvas.ontouchend = null;
-
-    }
-
+    drag.registerEvents(this);
   }
 
   /**
@@ -414,8 +395,8 @@ export default class Wheel {
      return (speed > 0) ? 1 : -1; // 1 == clockwise, -1 == antiClockwise.
   }
 
-  wheelHitTest(x,y) {
-    const pos = util.translateXYToCanvas(x, y, this.canvas);
+  wheelHitTest(point) {
+    const pos = util.translateXYToCanvas(point.x, point.y, this.canvas);
     return util.isPointInCircle(pos.x, pos.y, this.canvasCenterX, this.canvasCenterY, this.wheelRadius);
   }
 
@@ -446,77 +427,23 @@ export default class Wheel {
     this.rotation = rotation;
   }
 
-  handleCanvasMouseDown(e) {
-    const [x, y] = [e.clientX, e.clientY];
-    if (this.wheelHitTest(x, y)) this.dragStart(x, y);
-    this.setCursor();
-  }
-
-  handleCanvasMouseMove(e) {
-    const [x, y] = [e.clientX, e.clientY];
-    if (this.isDragging) this.dragMove(x, y);
-    this.isCursorOverWheel = this.wheelHitTest(x, y);
-    this.setCursor();
-  }
-
-  handleCanvasMouseEnter(e) {
-
-    // If mouse up event occurs outside of canvas, end the drag when we mouse enter again:
-    if (this.isDragging && !util.getMouseButtonsPressed(e).includes(1)) {
-      this.dragEnd();
-    };
-
-    this.setCursor();
-
-  }
-
-  handleCanvasMouseOut(e) {
-    this.isCursorOverWheel = false;
-    this.setCursor();
-  }
-
-  handleCanvasMouseUp(e) {
-    if (this.isDragging) this.dragEnd();
-    this.setCursor();
-  }
-
-  handleCanvasTouchStart(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    const [x, y] = [e.touches[0].clientX, e.touches[0].clientY];
-    if (this.wheelHitTest(x, y)) this.dragStart(x, y);
-  }
-
-  handleCanvasTouchMove(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    const [x, y] = [e.touches[0].clientX, e.touches[0].clientY];
-    if (this.isDragging) this.dragMove(x, y);
-  }
-
-  handleCanvasTouchEnd(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    if (this.isDragging) this.dragEnd();
-  }
-
   /*
    * Get the angle of the point from the center of the wheel.
    * 0° == north.
    */
-  getAngleFromCenter(x,y) {
-    return (util.getAngle(this.canvasCenterX, this.canvasCenterY, x, y) + 90) % 360;
+  getAngleFromCenter(point) {
+    return (util.getAngle(this.canvasCenterX, this.canvasCenterY, point.x, point.y) + 90) % 360;
   }
 
-  dragStart(x, y) {
+  dragStart(point) {
 
-    const pos = util.translateXYToCanvas(x, y, this.canvas);
+    const pos = util.translateXYToCanvas(point.x, point.y, this.canvas);
 
     this.isDragging = true; // Bool to indicate we are currently dragging.
 
     this.rotationSpeed = 0; // Stop the wheel from spinning.
 
-    const a = this.getAngleFromCenter(pos.x, pos.y);
+    const a = this.getAngleFromCenter(pos);
 
     this.dragDelta = util.addAngle(this.rotation, -a); // Used later in dragMove.
     this.dragMoves = []; // Initalise.
@@ -527,16 +454,16 @@ export default class Wheel {
 
   }
 
-  dragMove(x, y) {
+  dragMove(point) {
 
-    const pos = util.translateXYToCanvas(x, y, this.canvas);
-    const a = this.getAngleFromCenter(pos.x, pos.y);
+    const pos = util.translateXYToCanvas(point.x, point.y, this.canvas);
+    const a = this.getAngleFromCenter(pos);
 
     // Calc new rotation:
     const newRotation = util.addAngle(a, this.dragDelta);
 
     // Calc direction:
-    const aFromLast = util.addAngle(a, -this.getAngleFromCenter(this.dragLastPoint.x, this.dragLastPoint.y));
+    const aFromLast = util.addAngle(a, -this.getAngleFromCenter(this.dragLastPoint));
     const direction = (aFromLast < 180) ? 1 : -1;
 
     // Calc distance:
