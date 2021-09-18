@@ -2,7 +2,7 @@
   "name": "roulette-wheel",
   "version": "1.0.0",
   "scripts": {
-    "start": "reload -b"
+    "start": "browser-sync start --server --watch --ignore '**.*' --no-notify --startPath 'example'"
   },
   "repository": {
     "type": "git",
@@ -12,6 +12,6 @@
   "license": "MIT",
   "homepage": "https://github.com/CrazyTim/roulette-wheel#readme",
   "devDependencies": {
-    "reload": "^3.1.1"
+    "browser-sync": "^2.27.5"
   }
 }
