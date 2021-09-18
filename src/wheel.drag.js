@@ -19,7 +19,7 @@ export function registerEvents(wheel = {}) {
     const point = {
       x: e.clientX,
       y: e.clientY,
-    }
+    };
     wheel.isCursorOverWheel = wheel.wheelHitTest(point);
     wheel.setCursor();
   }
@@ -28,7 +28,7 @@ export function registerEvents(wheel = {}) {
     const point = {
       x: e.clientX,
       y: e.clientY,
-    }
+    };
     wheel.isCursorOverWheel = wheel.wheelHitTest(point);
     wheel.setCursor();
   }
@@ -37,7 +37,7 @@ export function registerEvents(wheel = {}) {
     const point = {
       x: e.clientX,
       y: e.clientY,
-    }
+    };
 
     if (!wheel.isInteractive) return;
     if (!wheel.wheelHitTest(point)) return;
@@ -72,7 +72,7 @@ export function registerEvents(wheel = {}) {
     const point = {
       x: e.clientX,
       y: e.clientY,
-    }
+    };
 
     if (!wheel.isInteractive) return;
     if (!wheel.wheelHitTest(point)) return;
@@ -102,7 +102,7 @@ export function registerEvents(wheel = {}) {
     const point = {
       x: e.targetTouches[0].clientX,
       y: e.targetTouches[0].clientY,
-    }
+    };
 
     if (!wheel.isInteractive) return;
     if (!wheel.wheelHitTest(point)) return;

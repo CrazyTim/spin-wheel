@@ -55,12 +55,12 @@ export default class Wheel {
       rotationResistance:  this.rotationResistance = -35,
     } = settings);
 
-    if (typeof settings.rotation === "number") {
+    if (typeof settings.rotation === 'number') {
       // Preserve the old value if a new one wasn't supplied so its possible to keep the wheel spinning after changing the skin.
       this.rotation = settings.rotation;
     }
 
-    if (typeof settings.rotationSpeed === "number") {
+    if (typeof settings.rotationSpeed === 'number') {
       // Preserve the old value if a new one wasn't supplied so its possible to keep the wheel spinning after changing the skin.
       this.rotationSpeed = settings.rotationSpeed;
     }
@@ -79,7 +79,7 @@ export default class Wheel {
 
     { // Clean items:
 
-      let items = this.items;
+      const items = this.items;
 
       if (this.itemColorSet.length) {
         // Fill any empty colors with a repeating color set:
@@ -101,7 +101,7 @@ export default class Wheel {
       // Set a default weight for items that don't have it:
       for (let i = 0; i < items.length; i++) {
         if (items[i].weight === undefined) {
-          items[i].weight = 1
+          items[i].weight = 1;
         };
       }
 
@@ -170,7 +170,7 @@ export default class Wheel {
 
     // Adjust the font size of labels so they all fit inside `wheelRadius`:
     this.itemLabelFontSize = this.itemLabelFontMaxSize * (size / this.defaultCanvasWidth);
-    const maxLabelWidth = this.wheelRadius * (this.itemLabelRadius - this.itemLabelMaxRadius)
+    const maxLabelWidth = this.wheelRadius * (this.itemLabelRadius - this.itemLabelMaxRadius);
     this.items.forEach((i) => {
       this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(i.label, this.itemLabelFont, maxLabelWidth, this.context));
     });
@@ -184,9 +184,9 @@ export default class Wheel {
    */
   drawFrame(now) {
 
-    let ctx = this.context;
+    const ctx = this.context;
 
-    ctx.clearRect(0 ,0, this.canvas.width, this.canvas.height); // Clear canvas.
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clear canvas.
 
     // Calculate delta since last frame:
     if (this.lastFrame === undefined) {
@@ -262,7 +262,7 @@ export default class Wheel {
         ctx.fillStyle = this.items[i].labelColor;
       }
 
-      let angle = lastItemAngle + (itemAngle / 2) + this.itemLabelLineHeight;
+      const angle = lastItemAngle + (itemAngle / 2) + this.itemLabelLineHeight;
 
       ctx.translate(
         this.canvasCenterX + Math.cos(util.degRad(angle + enums.arcAdjust)) * (this.wheelRadius * this.itemLabelRadius),
@@ -474,7 +474,7 @@ export default class Wheel {
     const direction = (aFromLast < 180) ? 1 : -1;
 
     // Calc distance:
-    let distance = util.distanceBetweenPoints(pos.x, pos.y, this.dragLastPoint.x, this.dragLastPoint.y) * direction;
+    const distance = util.distanceBetweenPoints(pos.x, pos.y, this.dragLastPoint.x, this.dragLastPoint.y) * direction;
 
     // Save data for use in dragEnd event.
     this.dragMoves.unshift({
@@ -508,7 +508,7 @@ export default class Wheel {
     // Calc the drag distance:
     let dragDistance = 0;
     const now = performance.now();
-    this.dragMoves = this.dragMoves.reduce( (result, value) => {
+    this.dragMoves = this.dragMoves.reduce((result, value) => {
 
       // Ignore old dragMove events (so the user can cancel the drag by not moving for a short time).
       if (value !== undefined && now - value.now < 250) {

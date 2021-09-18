@@ -19,9 +19,9 @@ export function degRad(deg) {
  * Use the Fisher-Yates shuffle algorithm.
  */
 export function shuffleArray(array) {
-  let a = array.slice(); // Clone array.
+  const a = array.slice(); // Clone array.
   for (let i = a.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1)); // Get random index from 0 to i
+    const j = Math.floor(Math.random() * (i + 1)); // Get random index from 0 to i
     [a[i], a[j]] = [a[j], a[i]]; // Swap a[i] and a[j]
   }
   return a;
@@ -71,12 +71,12 @@ export function getFontSizeToFit(text, fontFamily, maxWidth, canvasContext) {
 // cx, cy is circle center
 // radius is circle radius
 export function isPointInCircle(x, y, cx, cy, radius) {
-  var distancesquared = (x - cx) * (x - cx) + (y - cy) * (y - cy);
+  const distancesquared = (x - cx) * (x - cx) + (y - cy) * (y - cy);
   return distancesquared <= radius * radius;
 }
 
 export function translateXYToCanvas(x, y, canvas) {
-  let rect = canvas.getBoundingClientRect();
+  const rect = canvas.getBoundingClientRect();
   return {
     x: x - rect.left,
     y: y - rect.top,
@@ -84,12 +84,12 @@ export function translateXYToCanvas(x, y, canvas) {
 }
 
 export function getMouseButtonsPressed(event) {
-  return [1,2,4,8,16].filter(i => event.buttons & i);
+  return [1, 2, 4, 8, 16].filter(i => event.buttons & i);
 }
 
 export function getAngle(originX, originY, targetX, targetY) {
-    var dx = originX - targetX;
-    var dy = originY - targetY;
+    const dx = originX - targetX;
+    const dy = originY - targetY;
 
     // var theta = Math.atan2(dy, dx);  // [0, Ⲡ] then [-Ⲡ, 0]; clockwise; 0° = west
     // theta *= 180 / Math.PI;          // [0, 180] then [-180, 0]; clockwise; 0° = west
@@ -103,9 +103,9 @@ export function getAngle(originX, originY, targetX, targetY) {
     // theta *= 180 / Math.PI;          // [0, 180] then [-180, 0]; anticlockwise; 0° = east
     // if (theta < 0) theta += 360;     // [0, 360]; anticlockwise; 0° = east
 
-    var theta = Math.atan2(-dy, -dx); // [0, Ⲡ] then [-Ⲡ, 0]; clockwise; 0° = east
-    theta *= 180 / Math.PI;           // [0, 180] then [-180, 0]; clockwise; 0° = east
-    if (theta < 0) theta += 360;      // [0, 360]; clockwise; 0° = east
+    let theta = Math.atan2(-dy, -dx); // [0, Ⲡ] then [-Ⲡ, 0]; clockwise; 0° = east
+    theta *= 180 / Math.PI; // [0, 180] then [-180, 0]; clockwise; 0° = east
+    if (theta < 0) theta += 360; // [0, 360]; clockwise; 0° = east
 
     return theta;
 }
@@ -113,7 +113,7 @@ export function getAngle(originX, originY, targetX, targetY) {
 /**
  * Return the distance between two points.
  */
-export function distanceBetweenPoints(x1,y1, x2, y2) {
+export function distanceBetweenPoints(x1, y1, x2, y2) {
   return Math.hypot(x2-x1, y2-y1);
 }
 
@@ -128,7 +128,7 @@ export function distanceBetweenPoints(x1,y1, x2, y2) {
 // 0 + -361 = 359
 // 0 + -360 = 0
 export function addAngle(a1, a2) {
-  let sum = a1 + a2;
+  const sum = a1 + a2;
   if (sum > 0)
     return sum % 360;
     return 360 + (sum % 360);
