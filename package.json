@@ -2,7 +2,8 @@
   "name": "spin-wheel",
   "version": "1.0.0",
   "scripts": {
-    "start": "browser-sync start --server --watch --ignore '**.*' --no-notify --startPath 'example'"
+    "start": "browser-sync start --server --watch --ignore '**.*' --no-notify --startPath 'example'",
+    "lint": "eslint src/** --fix"
   },
   "repository": {
     "type": "git",
@@ -12,6 +13,7 @@
   "license": "MIT",
   "homepage": "https://github.com/CrazyTim/spin-wheel#readme",
   "devDependencies": {
-    "browser-sync": "^2.27.5"
+    "browser-sync": "^2.27.5",
+    "eslint": "^7.32.0"
   }
 }

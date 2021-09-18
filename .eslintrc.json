@@ -1,0 +1,23 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-var": ["error"],
+    "no-multiple-empty-lines": ["error"],
+    "camelcase": ["error"],
+    "prefer-const": ["error"],
+    "no-multi-spaces": ["error"],
+    "space-in-parens": ["error", "never"],
+    "semi": ["error", "always"],
+    "quotes": ["error", "single"],
+    "no-use-before-define": ["error", {"functions": false, "classes": false}],
+    "linebreak-style": ["error", "unix"],
+    "comma-spacing": ["error", {"before": false, "after": true}]
+  }
+}
