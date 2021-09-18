@@ -1,20 +1,20 @@
 <div>
-  <img alt="thumbnail" src="https://crazytim.github.io/roulette-wheel/repo-thumbnail.jpg" width=350px />
+  <img alt="thumbnail" src="https://crazytim.github.io/spin-wheel/repo-thumbnail.jpg" width=350px />
   <br>
 </div>
 
-# Roulette Wheel
+# Spin Wheel
 
 ## Motivation
 
 - Easy to read code.
 - Vanilla JS, modular, simple API, no dependencies.
-- Easy to implement and skin ([see examples](https://crazytim.github.io/roulette-wheel/example/)).
+- Easy to implement and skin ([see examples](https://crazytim.github.io/spin-wheel/example/)).
 - Interactive with mouse/touch gestures.
 
 ## Features
 
-- [x] No dependencies. 
+- [x] No dependencies.
 - [x] Simple, easy to read API.
 - [x] Realistic wheel rotation (no easing, just momentum and drag).
 - [x] Resize the canvas automatically to fit inside it's container.
@@ -39,7 +39,7 @@ npm install
 npm start
 ```
 
-## Methods for `RouletteWheel` 
+## Methods for `Wheel` 
 
 Method                           | Description
 -------------------------------- | ---------------------------
@@ -48,19 +48,19 @@ Method                           | Description
 `setRotationSpeed(speed:number)` | Set the rotation speed of the wheel.
 `setRotation(rotation:number)`   | Set the rotation of the wheel.
 
-## Settings for `RouletteWheel.init()` 
+## Settings for `Wheel.init()` 
 
 The only setting that is required is `items`.
 
-See the [example settings](https://github.com/CrazyTim/roulette-wheel/blob/master/js/roulette-example-settings.js).
+See the [example settings](https://github.com/CrazyTim/spin-wheel/blob/master/example/js/settings.js).
 
-![settings diagram](https://crazytim.github.io/roulette-wheel/settings-diagram.svg)
+![settings diagram](https://crazytim.github.io/spin-wheel/settings-diagram.svg)
 
 Setting                     | Default Value               | Description
 --------------------------- | --------------------------- | ---------------------------
 `image`                     | `null`                      | The url of an image to draw on the centre of the wheel. This image will rotate with the wheel. Useful for skinning.
 `imageOverlay`              | `null`                      | The url of an image to draw over the entire canvas (centred and resized to fit). This image will not move when the wheel spins. Useful for skinning.
-`isInteractive`             | `true`                      | Allow the user to spin the wheel using click-drag/touch-flick (otherwise you need to manually call `RouletteWheel.spin()`).
+`isInteractive`             | `true`                      | Allow the user to spin the wheel using click-drag/touch-flick (otherwise you need to manually call `spin()`).
 `itemColorSet`              | `[]`                        | Pattern of background colors that will be used for each `item`. Can be overridden by `item.color`. Example: `['#fff','#000']`.
 `itemLabelAlign`            | `right`                     | `left`|`center`|`right`. If you change this to `left`, you will also need to set `itemLabelRotation` to `180°`.
 `itemLabelColor`            | `'#000'`                    | The color of each `item.label`. Can be overridden by `itemColorSet`, or `item.color`.

@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Roulette Wheel</title>
+  <title>Spin Wheel Example</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <link rel="icon" href="data:image/x-icon;," type="image/x-icon">
   <link rel="stylesheet" href="./css/index.css"/>
 
   <script type='module'>
     import Wheel from '../src/wheel.js';
-    import exampleSettings from './js/example-settings.js';
+    import settings from './js/settings.js';
 
     window.onload = () => {
 
@@ -36,7 +36,7 @@
       const dropdown = document.querySelector('select');
 
       // Initalise dropdown:
-      exampleSettings.forEach(s => {
+      settings.forEach(s => {
         const opt = document.createElement('option');
         opt.dataset.id = s.id;
         opt.textContent = s.label;
@@ -47,7 +47,7 @@
       dropdown.onchange = () => {
         const id = parseInt(dropdown.options[dropdown.selectedIndex].dataset.id);
         window.wheel.init({
-          ...exampleSettings[id],
+          ...settings[id],
           onSpin: e => console.log(e), // Log when the wheel is spun.
           onRest: e => console.log(e), // Log when the wheel comes to a rest.
         });
