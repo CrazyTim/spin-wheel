@@ -9,7 +9,7 @@
 
 - Easy to read code.
 - Vanilla JS, modular, simple API, no dependencies.
-- Easy to implement and skin ([see examples](https://crazytim.github.io/roulette-wheel/)).
+- Easy to implement and skin ([see examples](https://crazytim.github.io/roulette-wheel/example/)).
 - Interactive with mouse/touch gestures.
 
 ## Features

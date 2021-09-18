@@ -1,4 +1,4 @@
-import * as enums from './wheel.enums.js';
+import * as enums from '../../src/wheel.enums.js';
 
 export default [
 
