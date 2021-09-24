@@ -3,8 +3,7 @@ import * as enums from '../../src/wheel.enums.js';
 export default [
 
   {
-    id: 0,
-    label: 'Workout',
+    name: 'Workout',
     radius: .84,
     itemLabelRadius: .93,
     itemLabelMaxRadius: .35,
@@ -67,8 +66,7 @@ export default [
   },
 
   {
-    id: 1,
-    label: 'Takeaway',
+    name: 'Takeaway',
     radius: .89,
     pointerRotation: 90,
     itemLabelRadius: .92,
@@ -151,8 +149,7 @@ export default [
   },
 
   {
-    id: 2,
-    label: 'Movies',
+    name: 'Movies',
     radius: .88,
     itemLabelRadius: .92,
     itemLabelMaxRadius: .4,
@@ -217,8 +214,7 @@ export default [
   },
 
   {
-    id: 3,
-    label: 'Money',
+    name: 'Money',
     radius: .88,
     itemLabelRadius: .93,
     itemLabelRotation: 180,

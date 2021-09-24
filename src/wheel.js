@@ -383,8 +383,11 @@ export default class Wheel {
 
   }
 
+  /**
+   * Return 1 for clockwise, -1 for antiClockwise.
+   */
   getRotationDirection(speed) {
-     return (speed > 0) ? 1 : -1; // 1 == clockwise, -1 == antiClockwise.
+     return (speed > 0) ? 1 : -1;
   }
 
   /**

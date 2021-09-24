@@ -36,18 +36,16 @@
       const dropdown = document.querySelector('select');
 
       // Initalise dropdown:
-      settings.forEach(s => {
+      for (const s of settings) {
         const opt = document.createElement('option');
-        opt.dataset.id = s.id;
-        opt.textContent = s.label;
+        opt.textContent = s.name;
         dropdown.appendChild(opt);
-      });
+      }
 
-      // Handle dropdown event:
+      // Handle dropdown:
       dropdown.onchange = () => {
-        const id = parseInt(dropdown.options[dropdown.selectedIndex].dataset.id);
         window.wheel.init({
-          ...settings[id],
+          ...settings[dropdown.selectedIndex],
           onSpin: e => console.log(e), // Log when the wheel is spun.
           onRest: e => console.log(e), // Log when the wheel comes to a rest.
         });

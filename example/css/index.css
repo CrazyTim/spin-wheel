@@ -39,12 +39,15 @@ body {
 }
 
 .gui-wrapper {
-  padding: 5px;
+  padding: 10px;
   background-color: #f3f3f3;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-p {
-  margin: 5px;
+select {
+  padding: 2px;
 }
 
 label {
