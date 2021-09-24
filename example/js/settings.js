@@ -299,4 +299,20 @@ export default [
     ]
   },
 
+  {
+    name: 'Default',
+    items: [
+      {
+        label: 'one',
+      },
+      {
+        label: 'two',
+      },
+      {
+        label: 'three',
+      },
+    ]
+
+  },
+
 ]
