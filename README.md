@@ -30,9 +30,25 @@
 - [ ] Realistic pointer that moves when it hits pins on the spinning wheel.
 - [ ] Each item can have its own image.
 
-## Getting Started
+## How to make your own spinner
 
-Host the files on a web server, or if you have Node.js run:
+1. Create a new `Wheel` object, passing the DOM element where you want it to go:
+
+```
+const wheel = new Wheel(document.querySelector('.wheel-wrapper'));
+```
+
+2. Initialise it with your settings:
+
+```
+wheel.init({
+    ...settings
+  });
+```
+
+See below for more detail. Also see the [example code](https://github.com/CrazyTim/spin-wheel/blob/master/example/index.html).
+
+To run the example, host the files on a web server, or if you have Node.js run:
 
 ```shell
 npm install
