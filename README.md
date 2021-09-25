@@ -17,18 +17,16 @@
 - [x] No dependencies.
 - [x] Simple, easy to read API.
 - [x] Realistic wheel rotation (no easing, just momentum and drag).
-- [x] Resize the canvas automatically to fit inside it's container.
-- [x] Implements `requestAnimationFrame` instead of `setTimeout`.
-- [x] Items can have their own weight (size can be adjusted proportionally).
-- [x] Adjust the appearance of individual labels and backgrounds, and apply repeating colour sets.
+- [x] Interactive - spin the wheel using click-drag/touch-flick, or you can manually call `spin()`.
+- [x] Easily themeable:
+  - [x] Adjust fonts and colors.
+  - [x] Draw an image over the wheel and canvas.
+  - [x] Apply repeating colour sets.
+  - [x] Items can have their own weight and be resized proportionally.
 - [x] Callbacks for certain events.
-- [x] Support for clockwise and anticlockwise spinning.
-- [x] Spin the wheel using click-drag/touch-flick.
-- [x] Click region is localised to the shape of the wheel.
-- [x] Setting to allow clicking the wheel to spin it, otherwise you can manually call `spin()`.
-- [x] Draw an image over the wheel and canvas (easily themeable).
-- [ ] Realistic pointer that moves when it hits pins on the spinning wheel.
-- [ ] Each item can have its own image.
+- [x] Clockwise and anticlockwise spinning.
+- [x] The wheel resizes automatically to fit inside its container.
+- [x] Implements `requestAnimationFrame` instead of `setTimeout`.
 
 ## How to make your own spinner
 
