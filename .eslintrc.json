@@ -12,12 +12,24 @@
     "no-multiple-empty-lines": ["error"],
     "camelcase": ["error"],
     "prefer-const": ["error"],
-    "no-multi-spaces": ["error"],
+    "no-multi-spaces": ["error", {"ignoreEOLComments": true}],
     "space-in-parens": ["error", "never"],
     "semi": ["error", "always"],
     "quotes": ["error", "single"],
     "no-use-before-define": ["error", {"functions": false, "classes": false}],
     "linebreak-style": ["error", "unix"],
-    "comma-spacing": ["error", {"before": false, "after": true}]
+    "comma-spacing": ["error", {"before": false, "after": true}],
+    "no-dupe-keys": ["error"],
+    "no-dupe-args": ["error"],
+    "no-sparse-arrays": ["error"],
+    "consistent-return": ["error", { "treatUndefinedAsUnspecified": true }],
+    "guard-for-in": ["error"],
+    "no-alert": ["error"],
+    "no-else-return": ["error"],
+    "no-floating-decimal": ["error"],
+    "no-octal": ["error"],
+    "no-return-assign": ["error", "always"],
+    "no-useless-concat": ["error"],
+    "no-cond-assign": ["error", "always"]
   }
 }
