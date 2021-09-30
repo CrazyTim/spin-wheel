@@ -43,15 +43,15 @@ export default class Wheel {
       itemLabelFont:       this.itemLabelFont = 'sans-serif',
       itemLabelFontMaxSize:this.itemLabelFontMaxSize = 100,
       itemLabelLineHeight: this.itemLabelLineHeight = 0,
-      itemLabelMaxRadius:  this.itemLabelMaxRadius = .2,
-      itemLabelRadius:     this.itemLabelRadius = .85,
+      itemLabelMaxRadius:  this.itemLabelMaxRadius = 0.2,
+      itemLabelRadius:     this.itemLabelRadius = 0.85,
       itemLabelRotation:   this.itemLabelRotation = 0,
       itemLineColor:       this.itemLineColor = '#000',
       itemLineWidth:       this.itemLineWidth = 1,
       items:               this.items = [],
       maxRotationSpeed:    this.maxRotationSpeed = 250,
       pointerRotation:     this.pointerRotation = 0,
-      radius:              this.radius = .95,
+      radius:              this.radius = 0.95,
       rotationResistance:  this.rotationResistance = -35,
     } = settings);
 
