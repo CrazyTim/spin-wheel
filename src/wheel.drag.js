@@ -8,29 +8,29 @@ export function registerEvents(wheel = {}) {
 
   if ('PointerEvent' in window) {
     canvas.addEventListener('pointerdown', onPointerDown);
-    canvas.addEventListener('pointermove', onPointerMoveSetCursor);
+    canvas.addEventListener('pointermove', onPointerMoveRefreshCursor);
   } else {
     canvas.addEventListener('touchstart', onTouchStart);
     canvas.addEventListener('mousedown', onMouseDown);
-    canvas.addEventListener('mousemove', onMouseMoveSetCursor);
+    canvas.addEventListener('mousemove', onMouseMoveRefreshCursor);
   }
 
-  function onPointerMoveSetCursor(e) {
+  function onPointerMoveRefreshCursor(e) {
     const point = {
       x: e.clientX,
       y: e.clientY,
     };
     wheel.isCursorOverWheel = wheel.wheelHitTest(point);
-    wheel.setCursor();
+    wheel.refreshCursor();
   }
 
-  function onMouseMoveSetCursor(e) {
+  function onMouseMoveRefreshCursor(e) {
     const point = {
       x: e.clientX,
       y: e.clientY,
     };
     wheel.isCursorOverWheel = wheel.wheelHitTest(point);
-    wheel.setCursor();
+    wheel.refreshCursor();
   }
 
   function onPointerDown(e) {

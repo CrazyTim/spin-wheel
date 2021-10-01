@@ -399,9 +399,10 @@ export default class Wheel {
   }
 
   /**
-   * Set the appearance of the cursor while over the canvas.
+   * Refresh the cursor state.
+   * Call this after the pointer moves.
    */
-  setCursor() {
+  refreshCursor() {
     if (this.isDragging) {
       this.canvas.style.cursor = 'grabbing';
     } else {
@@ -456,7 +457,7 @@ export default class Wheel {
       y: pos.y,
     };
 
-    this.setCursor();
+    this.refreshCursor();
 
   }
 
@@ -537,7 +538,7 @@ export default class Wheel {
 
     }
 
-    this.setCursor();
+    this.refreshCursor();
 
   }
 
