@@ -175,7 +175,7 @@ export default class Wheel {
   /**
    * Main animation loop.
    */
-  drawFrame(now) {
+  drawFrame(now = 0) {
 
     const ctx = this.context;
 
@@ -362,7 +362,7 @@ export default class Wheel {
   /**
    * Increase `rotationSpeed by the value of `speed` (randomised by ±15% to make it realistically chaotic).
    */
-  spin(speed) {
+  spin(speed = 0) {
 
     const newSpeed = this.rotationSpeed + util.getRandomInt(speed * 0.85, speed * 0.15);
 
@@ -379,16 +379,16 @@ export default class Wheel {
   /**
    * Return 1 for clockwise, -1 for antiClockwise.
    */
-  getRotationDirection(speed) {
+  getRotationDirection(speed = 0) {
      return (speed > 0) ? 1 : -1;
   }
 
   /**
-   * Return true if point is inside the wheel.
+   * Return true if the given point is inside the wheel.
    */
-  wheelHitTest(point) {
-    const pos = util.translateXYToCanvas(point.x, point.y, this.canvas);
-    return util.isPointInCircle(pos.x, pos.y, this.canvasCenterX, this.canvasCenterY, this.wheelRadius);
+  wheelHitTest(point = {x:0, y:0}) {
+    const p = util.translateXYToElement(point, this.canvas);
+    return util.isPointInCircle(p, this.canvasCenterX, this.canvasCenterY, this.wheelRadius);
   }
 
   /**
@@ -412,7 +412,7 @@ export default class Wheel {
    * Pass a positive number to spin clockwise, and a negative number to spin antiClockwise.
    * The further away from 0 the faster it will spin.
    */
-  setRotationSpeed(speed) {
+  setRotationSpeed(speed = 0) {
 
     // Limit speed to `this.maxRotationSpeed`
     let newSpeed = Math.min(speed, this.maxRotationSpeed);
@@ -427,7 +427,7 @@ export default class Wheel {
    * Set the rotation (angle in degrees) of the wheel.
    * 0 is north.
    */
-  setRotation(rotation) {
+  setRotation(rotation = 0) {
     this.rotation = rotation;
   }
 
@@ -435,28 +435,28 @@ export default class Wheel {
    * Get the angle (in degrees) of the given point from the center of the wheel.
    * 0 is north.
    */
-  getAngleFromCenter(point) {
+  getAngleFromCenter(point = {x:0, y:0}) {
     return (util.getAngle(this.canvasCenterX, this.canvasCenterY, point.x, point.y) + 90) % 360;
   }
 
   /**
    * Enter the drag state.
    */
-  dragStart(point) {
+  dragStart(point = {x:0, y:0}) {
 
-    const pos = util.translateXYToCanvas(point.x, point.y, this.canvas);
+    const p = util.translateXYToElement(point, this.canvas);
 
     this.isDragging = true; // Bool to indicate we are currently dragging.
 
     this.rotationSpeed = 0; // Stop the wheel from spinning.
 
-    const a = this.getAngleFromCenter(pos);
+    const a = this.getAngleFromCenter(p);
 
     this.dragDelta = util.addAngle(this.rotation, -a); // Used later in dragMove.
     this.dragMoves = []; // Initalise.
     this.dragLastPoint = {
-      x: pos.x,
-      y: pos.y,
+      x: p.x,
+      y: p.y,
     };
 
     this.refreshCursor();
@@ -467,10 +467,10 @@ export default class Wheel {
    * Animate the wheel to follow the pointer while dragging.
    * Save the drag events for later.
    */
-  dragMove(point) {
+  dragMove(point = {x:0, y:0}) {
 
-    const pos = util.translateXYToCanvas(point.x, point.y, this.canvas);
-    const a = this.getAngleFromCenter(pos);
+    const p = util.translateXYToElement(point, this.canvas);
+    const a = this.getAngleFromCenter(p);
 
     // Calc new rotation:
     const newRotation = util.addAngle(a, this.dragDelta);
@@ -480,13 +480,13 @@ export default class Wheel {
     const direction = (aFromLast < 180) ? 1 : -1;
 
     // Calc distance:
-    const distance = util.distanceBetweenPoints(pos.x, pos.y, this.dragLastPoint.x, this.dragLastPoint.y) * direction;
+    const distance = util.getDistanceBetweenPoints(p, this.dragLastPoint) * direction;
 
     // Save data for use in dragEnd event.
     this.dragMoves.unshift({
       distance,
-      x: pos.x,
-      y: pos.y,
+      x: p.x,
+      y: p.y,
       now:performance.now(),
     });
 
@@ -495,8 +495,8 @@ export default class Wheel {
     this.rotation = newRotation; // Snap the rotation to the drag start point.
 
     this.dragLastPoint = {
-      x: pos.x,
-      y: pos.y,
+      x: p.x,
+      y: p.y,
     };
 
   }

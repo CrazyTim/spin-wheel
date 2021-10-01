@@ -1,7 +1,7 @@
 /**
  * Get a random integer between `min` (inclusive) and `max` (exclusive).
  */
-export function getRandomInt(min, max) {
+export function getRandomInt(min = 0, max = 0) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min;
@@ -10,15 +10,15 @@ export function getRandomInt(min, max) {
 /**
  * Convert degrees to radians.
  */
-export function degRad(deg) {
-  return deg * Math.PI / 180;
+export function degRad(degrees = 0) {
+  return degrees * Math.PI / 180;
 }
 
 /**
  * Return a randomly shuffled copy of the array.
  * Use the Fisher-Yates shuffle algorithm.
  */
-export function shuffleArray(array) {
+export function shuffleArray(array = []) {
   const a = array.slice(); // Clone array.
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1)); // Get random index from 0 to i
@@ -51,7 +51,7 @@ export function isAngleBetween(angle, arcStart, arcEnd) {
  * Falsy values are treated as 0.
  * An empty array will return 0.
  */
-export function avgArray(array) {
+export function avgArray(array = []) {
   return array.reduce((a, b) => a + (b || 0), 0) / array.length || 0;
 }
 
@@ -67,23 +67,28 @@ export function getFontSizeToFit(text, fontFamily, maxWidth, canvasContext) {
   return maxWidth / w;
 }
 
-// x, y is the point to test
-// cx, cy is circle center
-// radius is circle radius
-export function isPointInCircle(x, y, cx, cy, radius) {
-  const distancesquared = (x - cx) * (x - cx) + (y - cy) * (y - cy);
+/**
+ * Return true if the given x/y point is inside a circle.
+ * cx, cy is circle center.
+ * radius is circle radius.
+ */
+export function isPointInCircle(point = {x: 0, y: 0}, cx, cy, radius) {
+  const distancesquared = (point.x - cx) * (point.x - cx) + (point.y - cy) * (point.y - cy);
   return distancesquared <= radius * radius;
 }
 
-export function translateXYToCanvas(x, y, canvas) {
-  const rect = canvas.getBoundingClientRect();
+/**
+ * Translate the given x/y point from the viewport's coordinate space to the element's coordinate space.
+ */
+export function translateXYToElement(point = {x: 0, y: 0}, element = {}) {
+  const rect = element.getBoundingClientRect();
   return {
-    x: x - rect.left,
-    y: y - rect.top,
+    x: point.x - rect.left,
+    y: point.y - rect.top,
   };
 }
 
-export function getMouseButtonsPressed(event) {
+export function getMouseButtonsPressed(event = {}) {
   return [1, 2, 4, 8, 16].filter(i => event.buttons & i);
 }
 
@@ -113,8 +118,8 @@ export function getAngle(originX, originY, targetX, targetY) {
 /**
  * Return the distance between two points.
  */
-export function distanceBetweenPoints(x1, y1, x2, y2) {
-  return Math.hypot(x2-x1, y2-y1);
+export function getDistanceBetweenPoints(point1 = {x: 0, y: 0}, point2 = {x: 0, y: 0}) {
+  return Math.hypot(point2.x - point1.x, point2.y - point1.y);
 }
 
 // Add two angles together.
@@ -127,7 +132,7 @@ export function distanceBetweenPoints(x1, y1, x2, y2) {
 // 0 + -1 = 359
 // 0 + -361 = 359
 // 0 + -360 = 0
-export function addAngle(a1, a2) {
+export function addAngle(a1 = 0, a2 = 0) {
   const sum = a1 + a2;
   if (sum > 0)
     return sum % 360;

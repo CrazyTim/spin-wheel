@@ -15,7 +15,7 @@ export function registerEvents(wheel = {}) {
     canvas.addEventListener('mousemove', onMouseMoveRefreshCursor);
   }
 
-  function onPointerMoveRefreshCursor(e) {
+  function onPointerMoveRefreshCursor(e = {}) {
     const point = {
       x: e.clientX,
       y: e.clientY,
@@ -24,7 +24,7 @@ export function registerEvents(wheel = {}) {
     wheel.refreshCursor();
   }
 
-  function onMouseMoveRefreshCursor(e) {
+  function onMouseMoveRefreshCursor(e = {}) {
     const point = {
       x: e.clientX,
       y: e.clientY,
@@ -33,7 +33,8 @@ export function registerEvents(wheel = {}) {
     wheel.refreshCursor();
   }
 
-  function onPointerDown(e) {
+  function onPointerDown(e = {}) {
+
     const point = {
       x: e.clientX,
       y: e.clientY,
@@ -49,7 +50,7 @@ export function registerEvents(wheel = {}) {
     canvas.addEventListener('pointerup', onPointerUp);
     canvas.addEventListener('pointercancel', onPointerUp);
 
-    function onPointerMove(e) {
+    function onPointerMove(e = {}) {
       e.preventDefault();
       wheel.dragMove({
         x: e.clientX,
@@ -57,7 +58,7 @@ export function registerEvents(wheel = {}) {
       });
     }
 
-    function onPointerUp(e) {
+    function onPointerUp(e = {}) {
       e.preventDefault();
       canvas.releasePointerCapture(e.pointerId);
       canvas.removeEventListener('pointermove', onPointerMove);
@@ -68,7 +69,8 @@ export function registerEvents(wheel = {}) {
 
   }
 
-  function onMouseDown(e) {
+  function onMouseDown(e = {}) {
+
     const point = {
       x: e.clientX,
       y: e.clientY,
@@ -81,7 +83,7 @@ export function registerEvents(wheel = {}) {
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
 
-    function onMouseMove(e) {
+    function onMouseMove(e = {}) {
       e.preventDefault();
       wheel.dragMove({
         x: e.clientX,
@@ -89,7 +91,7 @@ export function registerEvents(wheel = {}) {
       });
     }
 
-    function onMouseUp(e) {
+    function onMouseUp(e = {}) {
       e.preventDefault();
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
@@ -98,7 +100,8 @@ export function registerEvents(wheel = {}) {
 
   }
 
-  function onTouchStart(e) {
+  function onTouchStart(e = {}) {
+
     const point = {
       x: e.targetTouches[0].clientX,
       y: e.targetTouches[0].clientY,
@@ -113,7 +116,7 @@ export function registerEvents(wheel = {}) {
     canvas.addEventListener('touchend', onTouchEnd);
     canvas.addEventListener('touchcancel', onTouchEnd);
 
-    function onTouchMove(e) {
+    function onTouchMove(e = {}) {
       e.preventDefault();
       wheel.dragMove({
         x: e.targetTouches[0].clientX,
@@ -121,7 +124,7 @@ export function registerEvents(wheel = {}) {
       });
     }
 
-    function onTouchEnd(e) {
+    function onTouchEnd(e = {}) {
       e.preventDefault();
       canvas.removeEventListener('touchmove', onTouchMove);
       canvas.removeEventListener('touchend', onTouchEnd);
