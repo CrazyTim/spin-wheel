@@ -53,17 +53,10 @@ export default class Wheel {
       pointerRotation:     this.pointerRotation = 0,
       radius:              this.radius = 0.95,
       rotationResistance:  this.rotationResistance = -35,
+      rotation:            this.rotation = 0,
+      rotationSpeed:       this.rotationSpeed = 0,
+
     } = settings);
-
-    if (typeof settings.rotation === 'number') {
-      // Preserve the old value if a new one wasn't supplied so its possible to keep the wheel spinning after changing the skin.
-      this.rotation = settings.rotation;
-    }
-
-    if (typeof settings.rotationSpeed === 'number') {
-      // Preserve the old value if a new one wasn't supplied so its possible to keep the wheel spinning after changing the skin.
-      this.rotationSpeed = settings.rotationSpeed;
-    }
 
     if (typeof settings.onRest === 'function') {
       this.onRest = settings.onRest;

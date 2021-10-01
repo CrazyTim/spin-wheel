@@ -29,9 +29,7 @@
 
     function init() {
 
-      // Initalise wheel:
-      // Save object to window for easy debugging.
-      window.wheel = new Wheel(document.querySelector('.wheel-wrapper'));
+      const wheel = new Wheel(document.querySelector('.wheel-wrapper'));
 
       const dropdown = document.querySelector('select');
 
@@ -44,16 +42,21 @@
 
       // Handle dropdown:
       dropdown.onchange = () => {
-        window.wheel.init({
+        wheel.init({
           ...settings[dropdown.selectedIndex],
-          onSpin: e => console.log(e), // Log when the wheel is spun.
-          onRest: e => console.log(e), // Log when the wheel comes to a rest.
+          rotationSpeed: wheel.rotationSpeed, // Preserve value so it doesn't get reset.
+          rotation: wheel.rotaion, // Preserve value so it doesn't get reset.
+          onSpin: e => console.log(e),
+          onRest: e => console.log(e),
         });
       }
 
       // Select default:
       dropdown.options[0].selected = 'selected';
       dropdown.onchange();
+
+      // Save object globally for easy debugging.
+      window.wheel = wheel;
 
     }
 
