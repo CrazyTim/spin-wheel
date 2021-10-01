@@ -59,8 +59,8 @@ Method                           | Description
 -------------------------------- | ---------------------------
 `init(settings:object)`          | Initialise the instance with the given settings (see settings below).
 `spin(speed:number)`             | Spin the wheel and raise the `onSpin` event. `speed` is added to `rotationSpeed` ±30% (randomised to make it realistic and less predictable).
-`setRotationSpeed(speed:number)` | Set the rotation speed of the wheel.
-`setRotation(rotation:number)`   | Set the rotation of the wheel.
+`setRotationSpeed(speed:number)` | Set the rotation speed of the wheel. Pass a positive number to spin clockwise, or a negative number to spin antiClockwise. The further away from 0 the faster it will spin.
+`setRotation(rotation:number)`   | Set the rotation (angle in degrees) of the wheel. 0 is north.
 
 ## Settings for `Wheel.init()` 
 

@@ -77,7 +77,7 @@ export default class Wheel {
       this.onSpin = () => {};
     }
 
-    { // Clean items:
+    { // Initalise items:
 
       const items = this.items;
 
@@ -136,7 +136,7 @@ export default class Wheel {
 
     this.registerEvents();
 
-    this.handleWindowResize(); // Initalise canvas width/height and start the animation loop.
+    this.handleWindowResize(); // This will initalise the canvas width/height and start the animation loop.
 
   }
 
@@ -367,7 +367,7 @@ export default class Wheel {
   }
 
   /**
-   * Add `speed` to `rotationSpeed` ±30% (randomised to make it realistically less predictable).
+   * Increase `rotationSpeed by the value of `speed` (randomised by ±15% to make it realistically chaotic).
    */
   spin(speed) {
 
@@ -414,9 +414,14 @@ export default class Wheel {
     }
   }
 
+  /**
+   * Set the rotation speed of the wheel.
+   * Pass a positive number to spin clockwise, and a negative number to spin antiClockwise.
+   * The further away from 0 the faster it will spin.
+   */
   setRotationSpeed(speed) {
 
-    // Limit speed:
+    // Limit speed to `this.maxRotationSpeed`
     let newSpeed = Math.min(speed, this.maxRotationSpeed);
     newSpeed = Math.max(newSpeed, -this.maxRotationSpeed);
 
@@ -425,13 +430,17 @@ export default class Wheel {
 
   }
 
+  /**
+   * Set the rotation (angle in degrees) of the wheel.
+   * 0 is north.
+   */
   setRotation(rotation) {
     this.rotation = rotation;
   }
 
   /**
-   * Get the angle of the point from the center of the wheel.
-   * 0° == north.
+   * Get the angle (in degrees) of the given point from the center of the wheel.
+   * 0 is north.
    */
   getAngleFromCenter(point) {
     return (util.getAngle(this.canvasCenterX, this.canvasCenterY, point.x, point.y) + 90) % 360;
