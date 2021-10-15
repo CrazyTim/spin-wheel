@@ -24,18 +24,28 @@
 
 ## How to make your own spinner
 
-1. Create a new `Wheel` object, passing the DOM element where you want it to go:
-
-```
+```JavaScript
+// 1. Create a new `Wheel` object, passing the DOM element where you want it to go:
 const wheel = new Wheel(document.querySelector('.wheel-wrapper'));
-```
 
-2. Initialise it with your settings:
+// 2. Define your settings. The only setting that you must define is `items`.
+const settings = {
+  pointerRotation: 90,
+  items: [
+    {
+      label: 'one',
+    },
+    {
+      label: 'two',
+    },
+    {
+      label: 'three',
+    },
+  ]
+}
 
-```
-wheel.init({
-    ...settings
-  });
+// 3. Initialise the wheel with your settings:
+wheel.init(settings);
 ```
 
 See below for more detail. Also see the [example code](https://github.com/CrazyTim/spin-wheel/blob/master/example/index.html).
@@ -51,16 +61,16 @@ npm start
 
 Method                           | Description
 -------------------------------- | ---------------------------
-`init(settings:object)`          | Initialise the instance with the given settings (see settings below).
-`spin(speed:number)`             | Spin the wheel and raise the `onSpin` event. `speed` is added to `rotationSpeed` ±30% (randomised to make it realistic and less predictable).
-`setRotationSpeed(speed:number)` | Set the rotation speed of the wheel. Pass a positive number to spin clockwise, or a negative number to spin antiClockwise. The further away from 0 the faster it will spin.
-`setRotation(rotation:number)`   | Set the rotation (angle in degrees) of the wheel. 0 is north.
+`init(settings = {})`            | Initialise the wheel with the given settings (see Properties below).
+`spin(speed = 0)`                | Spin the wheel and raise the `onSpin` event. `speed` is added to `rotationSpeed` ±30% (randomised to make it realistic and less predictable).
+`setRotationSpeed(speed= 0)`     | Set the rotation speed of the wheel. Pass a positive number to spin clockwise, or a negative number to spin antiClockwise. The further away from 0 the faster it will spin.
+`setRotation(rotation = 0)`      | Set the rotation (angle in degrees) of the wheel. 0 is north.
 
-## Settings for `Wheel.init()`
+## Properties for `Wheel`
 
-The only setting that is required is `items`.
+You can set properties individually or by passing them as key-value pairs to `Wheel.init()`.
 
-See the [example settings](https://github.com/CrazyTim/spin-wheel/blob/master/example/js/settings.js).
+See [./example/js/settings.js](https://github.com/CrazyTim/spin-wheel/blob/master/example/js/settings.js).
 
 ![settings diagram](https://crazytim.github.io/spin-wheel/settings-diagram.svg)
 
@@ -91,7 +101,7 @@ Key                         | Default Value               | Description
 `rotationResistance`        | `-35`                       | The amount that `rotationSpeed` will reduce by every second.
 `rotationSpeed`             | `0`                         | The rotation speed of the wheel.
 
-## Properties for `item`
+## Properties for items
 
 Key                         | Default Value               | Description
 --------------------------- | --------------------------- | ---------------------------
