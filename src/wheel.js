@@ -396,15 +396,19 @@ export default class Wheel {
    * Call this after the pointer moves.
    */
   refreshCursor() {
+
     if (this.isDragging) {
       this.canvas.style.cursor = 'grabbing';
-    } else {
-      if (this.isCursorOverWheel) {
-        this.canvas.style.cursor = 'grab';
-      } else {
-      this.canvas.style.cursor = null;
-      }
+      return;
     }
+
+    if (this.isInteractive && this.isCursorOverWheel) {
+      this.canvas.style.cursor = 'grab';
+      return;
+    }
+
+    this.canvas.style.cursor = null;
+
   }
 
   /**
