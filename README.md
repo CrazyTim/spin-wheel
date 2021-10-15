@@ -8,7 +8,7 @@
 ## Motivation
 
 - Easy to read code.
-- Vanilla JS, modular, simple API, no dependencies.
+- Vanilla JS (ES6), simple API, no dependencies.
 - Easy to implement and skin ([see examples](https://crazytim.github.io/spin-wheel/example/)).
 - Interactive with mouse/touch gestures.
 
@@ -53,7 +53,7 @@ npm install
 npm start
 ```
 
-## Methods for `Wheel` 
+## Methods for `Wheel`
 
 Method                           | Description
 -------------------------------- | ---------------------------
@@ -62,7 +62,7 @@ Method                           | Description
 `setRotationSpeed(speed:number)` | Set the rotation speed of the wheel. Pass a positive number to spin clockwise, or a negative number to spin antiClockwise. The further away from 0 the faster it will spin.
 `setRotation(rotation:number)`   | Set the rotation (angle in degrees) of the wheel. 0 is north.
 
-## Settings for `Wheel.init()` 
+## Settings for `Wheel.init()`
 
 The only setting that is required is `items`.
 
@@ -99,7 +99,7 @@ Setting                     | Default Value               | Description
 
 ## Events
 
-#### `onRest(e:object)`            
+#### `onRest(e:object)`
 
 Raised when the wheel comes to a rest after spinning. 
 
