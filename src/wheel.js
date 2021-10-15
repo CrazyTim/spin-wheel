@@ -25,6 +25,8 @@ export default class Wheel {
     this.context = this.canvas.getContext('2d');
     this.defaultCanvasWidth = 500; // So we can scale fonts.
 
+    this.registerEvents();
+
   }
 
   /**
@@ -48,86 +50,19 @@ export default class Wheel {
       itemLabelRotation:   this.itemLabelRotation = 0,
       itemLineColor:       this.itemLineColor = '#000',
       itemLineWidth:       this.itemLineWidth = 1,
-      items:               this.items = [],
       maxRotationSpeed:    this.maxRotationSpeed = 250,
       pointerRotation:     this.pointerRotation = 0,
       radius:              this.radius = 0.95,
       rotationResistance:  this.rotationResistance = -35,
-      rotation:            this.rotation = 0,
-      rotationSpeed:       this.rotationSpeed = 0,
-
     } = settings);
 
-    if (typeof settings.onRest === 'function') {
-      this.onRest = settings.onRest;
-    } else {
-      this.onRest = () => {};
-    }
-
-    if (typeof settings.onSpin === 'function') {
-      this.onSpin = settings.onSpin;
-    } else {
-      this.onSpin = () => {};
-    }
-
-    { // Initalise items:
-
-      const items = this.items;
-
-      if (this.itemColorSet.length) {
-        // Fill any empty colors with a repeating color set:
-        for (let i = 0; i < items.length; i++) {
-          const c = this.itemColorSet[i % this.itemColorSet.length];
-          if (!items[i].color) {
-            items[i].color = c;
-          }
-        }
-      } else {
-        // Fill any empty colors with white:
-        for (let i = 0; i < items.length; i++) {
-          if (!items[i].color) {
-            items[i].color = '#fff';
-          }
-        }
-      }
-
-      // Set a default weight for items that don't have it:
-      for (let i = 0; i < items.length; i++) {
-        if (items[i].weight === undefined) {
-          items[i].weight = 1;
-        };
-      }
-
-      // Apply repeating label colors:
-      if (this.itemLabelColorSet.length) {
-        for (let i = 0; i < items.length; i++) {
-          const c = this.itemLabelColorSet[i % this.itemLabelColorSet.length];
-          if (!items[i].labelColor) {
-            items[i].labelColor = c;
-          }
-        }
-      }
-
-    }
-
-    this.weightedItemAngle = 360 / util.sumObjArray(this.items, 'weight');
-    this.setRotationSpeed(this.rotationSpeed);
-
-    // Load image:
-    this.image = null;
-    if (settings.image) {
-      this.image = new Image();
-      this.image.src = settings.image;
-    }
-
-    // Load overlay image:
-    this.imageOverlay = null;
-    if (settings.imageOverlay) {
-      this.imageOverlay = new Image();
-      this.imageOverlay.src = settings.imageOverlay;
-    }
-
-    this.registerEvents();
+    this.setOnRest(settings.onRest);
+    this.setOnSpin(settings.onSpin);
+    this.setItems(settings.items);
+    this.setRotation(settings.rotation);
+    this.setRotationSpeed(settings.rotationSpeed);
+    this.setImage(settings.image);
+    this.setOverlayImage(settings.overlayImage);
 
     this.handleWindowResize(); // This will initalise the canvas width/height and start the animation loop.
 
@@ -299,12 +234,12 @@ export default class Wheel {
 
     }
 
-    // Draw imageOverlay:
+    // Draw overlay image:
     // Fit image to canvas dimensions.
-    if (this.imageOverlay) {
+    if (this.overlayImage) {
 
       ctx.drawImage(
-        this.imageOverlay,
+        this.overlayImage,
         (this.canvas.width / 2) - (this.canvasSize / 2),
         (this.canvas.height / 2) - (this.canvasSize / 2),
         this.canvasSize,
@@ -326,7 +261,7 @@ export default class Wheel {
       }
 
       if (this.rotationSpeed === 0) {
-        this.onRest({
+        this.onRest?.({
           event: 'rest',
           item: currentItem,
         });
@@ -368,7 +303,7 @@ export default class Wheel {
 
     this.setRotationSpeed(newSpeed);
 
-    this.onSpin({
+    this.onSpin?.({
       event: 'spin',
       direction: this.rotationDirection,
       rotationSpeed: this.rotationSpeed,
@@ -409,6 +344,94 @@ export default class Wheel {
 
     this.canvas.style.cursor = null;
 
+  }
+
+  setImage(url = '') {
+
+    if (!url) {
+      this.image = null;
+      return
+    }
+
+    this.image = new Image();
+    this.image.src = url;
+
+  }
+
+  setOverlayImage(url = '') {
+
+    if (!url) {
+      this.overlayImage = null;
+      return
+    }
+
+    this.overlayImage = new Image();
+    this.overlayImage.src = url;
+
+  }
+
+  setItems(items = []) {
+
+    if(!Array.isArray(items)) {
+      this.items = [];
+      this.weightedItemAngle = 0;
+      return;
+    }
+
+    this.items = items;
+
+    if (this.itemColorSet.length) {
+      // Fill any empty colors with a repeating color set:
+      for (let i = 0; i < items.length; i++) {
+        const c = this.itemColorSet[i % this.itemColorSet.length];
+        if (!items[i].color) {
+          items[i].color = c;
+        }
+      }
+    } else {
+      // Fill any empty colors with white:
+      for (let i = 0; i < items.length; i++) {
+        if (!items[i].color) {
+          items[i].color = '#fff';
+        }
+      }
+    }
+
+    // Set a default weight for items that don't have it:
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].weight === undefined) {
+        items[i].weight = 1;
+      };
+    }
+
+    // Apply repeating label colors:
+    if (this.itemLabelColorSet.length) {
+      for (let i = 0; i < items.length; i++) {
+        const c = this.itemLabelColorSet[i % this.itemLabelColorSet.length];
+        if (!items[i].labelColor) {
+          items[i].labelColor = c;
+        }
+      }
+    }
+
+    this.weightedItemAngle = 360 / util.sumObjArray(this.items, 'weight');
+
+  }
+
+  setOnRest(callback = null) {
+    if (typeof callback !== 'function') {
+      this.onRest = null;
+      return;
+    }
+    this.onRest = callback;
+  }
+
+  setOnSpin(callback = null) {
+    if (typeof callback !== 'function') {
+      this.onSpin = null;
+      return;
+    }
+    this.onSpin = callback;
   }
 
   /**
@@ -535,7 +558,7 @@ export default class Wheel {
 
       this.setRotationSpeed(dragDistance);
 
-      this.onSpin({
+      this.onSpin?.({
         event: 'spin',
         direction: this.rotationDirection,
         rotationSpeed: this.rotationSpeed,

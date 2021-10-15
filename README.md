@@ -63,12 +63,17 @@ Method                           | Description
 -------------------------------- | ---------------------------
 `init(settings = {})`            | Initialise the wheel with the given settings (see Properties below).
 `spin(speed = 0)`                | Spin the wheel and raise the `onSpin` event. `speed` is added to `rotationSpeed` ±30% (randomised to make it realistic and less predictable).
-`setRotationSpeed(speed= 0)`     | Set the rotation speed of the wheel. Pass a positive number to spin clockwise, or a negative number to spin antiClockwise. The further away from 0 the faster it will spin.
-`setRotation(rotation = 0)`      | Set the rotation (angle in degrees) of the wheel. 0 is north.
+`setImage(url = '')`             | Draw an image over the wheel (centred and resized to fit) which will rotate with the wheel.
+`setItems(items = [])`           | Set the `items` to show on the wheel.
+`setRotationSpeed(speed = 0)`    | Set the rotation speed of the wheel. Pass a positive number to spin clockwise, or a negative number to spin antiClockwise. The further away from 0 the faster it will spin.
+`setRotation(rotation = 0)`      | Set the rotation (angle in degrees) of the wheel. `0°` is north. `item[0]` will be drawn clockwise from this point.
+`setOnRest(callback = null)`     | Set a callback for the `onRest` event (see below).
+`setOnSpin(callback = null)`     | Set a callback for the `onSpin` event (see below).
+`setOverlayImage(url = '')`      | Draw an image over the wheel (centred and resized to fit) which will not rotate with the wheel.
 
 ## Properties for `Wheel`
 
-You can set properties individually or by passing them as key-value pairs to `Wheel.init()`.
+You can set properties all at once by passing them as key-value pairs to `Wheel.init()`.
 
 See [./example/js/settings.js](https://github.com/CrazyTim/spin-wheel/blob/master/example/js/settings.js).
 
@@ -76,8 +81,7 @@ See [./example/js/settings.js](https://github.com/CrazyTim/spin-wheel/blob/maste
 
 Key                         | Default Value               | Description
 --------------------------- | --------------------------- | ---------------------------
-`image`                     | `null`                      | The url of an image to draw on the centre of the wheel. This image will rotate with the wheel. Useful for skinning.
-`imageOverlay`              | `null`                      | The url of an image to draw over the entire canvas (centred and resized to fit). This image will not move when the wheel spins. Useful for skinning.
+`image`*                    | `null`                      | See method above.
 `isInteractive`             | `true`                      | Allow the user to spin the wheel using click-drag/touch-flick (otherwise you need to manually call `spin()`).
 `itemColorSet`              | `[]`                        | Pattern of background colors that will be used for each `item`. Can be overridden by `item.color`. Example: `['#fff','#000']`.
 `itemLabelAlign`            | `right`                     | `left`|`center`|`right`. If you change this to `left`, you will also need to set `itemLabelRotation` to `180°`.
@@ -91,15 +95,18 @@ Key                         | Default Value               | Description
 `itemLabelRotation`         | `0`                         | Use this to flip `item.label` `180°` when changing `itemLabelAlign`.
 `itemLineColor`             | `'#000'`                    | Color of the line that separates each `item.label`.
 `itemLineWidth`             | `1`                         | Size of the line that separates each `item.label`.
-`items`                     | `[]`                        | The `items` to show on the wheel.
+`items`*                    | `[]`                        | See method above.
 `maxRotationSpeed`          | `250`                       | The maximum rotation speed that the wheel can reach.
-`onRest`                    | `null`                      | The callback function for the `onRest` event (see below).
-`onSpin`                    | `null`                      | The callback function for the `onSpin` event (see below).
+`onRest`*                   | `null`                      | The callback function for the `onRest` event (see below).
+`onSpin`*                   | `null`                      | The callback function for the `onSpin` event (see below).
+`overlayImage`*             | `null`                      | See method above.
 `pointerRotation`           | `0`                         | The angle of the pointer that is used to determine the "winning" item (see the `onRest` event). `0°` is north.
 `radius`                    | `.95`                       | Radius of the wheel as a percent of the canvas' smallest dimension.
-`rotation`                  | `0`                         | The initial angle that the wheel is rotated. `0°` is north. `item[0]` will be drawn clockwise from this point. Note: the rotation can also be changed by calling `setRotation()`.
+`rotation`*                 | `0`                         | See method above.
 `rotationResistance`        | `-35`                       | The amount that `rotationSpeed` will reduce by every second.
-`rotationSpeed`             | `0`                         | The rotation speed of the wheel.
+`rotationSpeed`*            | `0`                         | See method above.
+
+* = Do not set this property directly. Use it's equivalent `set` method instead.
 
 ## Properties for items
 
