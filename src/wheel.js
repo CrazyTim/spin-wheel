@@ -84,16 +84,18 @@ export default class Wheel {
     const [w, h] = [this.canvasContainer.clientWidth, this.canvasContainer.clientHeight];
     const size = Math.min(w, h);
 
-    // Resize canvas:
+    // Resize canvas element:
     this.canvasSize = size;
     this.canvas.style.width = w + 'px';
     this.canvas.style.height = h + 'px';
     this.canvas.width = w;
     this.canvas.height = h;
 
-    // Calc some things for later on:
-    this.canvasCenterX = w / 2;
-    this.canvasCenterY = h / 2;
+    this.center = {
+      x: w / 2,
+      y: h / 2,
+    };
+
     this.wheelRadius = (size / 2) * this.radius;
 
     // Adjust the font size of labels so they all fit inside `wheelRadius`:
@@ -144,10 +146,10 @@ export default class Wheel {
       const endAngle = lastItemAngle + itemAngle;
 
       ctx.beginPath();
-      ctx.moveTo(this.canvasCenterX, this.canvasCenterY);
+      ctx.moveTo(this.center.x, this.center.y);
       ctx.arc(
-        this.canvasCenterX,
-        this.canvasCenterY,
+        this.center.x,
+        this.center.y,
         this.wheelRadius,
         util.degRad(startAngle + enums.arcAdjust),
         util.degRad(endAngle + enums.arcAdjust)
@@ -193,8 +195,8 @@ export default class Wheel {
       const angle = lastItemAngle + (itemAngle / 2) + this.itemLabelLineHeight;
 
       ctx.translate(
-        this.canvasCenterX + Math.cos(util.degRad(angle + enums.arcAdjust)) * (this.wheelRadius * this.itemLabelRadius),
-        this.canvasCenterY + Math.sin(util.degRad(angle + enums.arcAdjust)) * (this.wheelRadius * this.itemLabelRadius)
+        this.center.x + Math.cos(util.degRad(angle + enums.arcAdjust)) * (this.wheelRadius * this.itemLabelRadius),
+        this.center.y + Math.sin(util.degRad(angle + enums.arcAdjust)) * (this.wheelRadius * this.itemLabelRadius)
       );
 
       ctx.rotate(util.degRad(angle + enums.arcAdjust + this.itemLabelRotation));
@@ -323,7 +325,7 @@ export default class Wheel {
    */
   wheelHitTest(point = {x:0, y:0}) {
     const p = util.translateXYToElement(point, this.canvas);
-    return util.isPointInCircle(p, this.canvasCenterX, this.canvasCenterY, this.wheelRadius);
+    return util.isPointInCircle(p, this.center.x, this.center.y, this.wheelRadius);
   }
 
   /**
@@ -463,7 +465,7 @@ export default class Wheel {
    * 0 is north.
    */
   getAngleFromCenter(point = {x:0, y:0}) {
-    return (util.getAngle(this.canvasCenterX, this.canvasCenterY, point.x, point.y) + 90) % 360;
+    return (util.getAngle(this.center.x, this.center.y, point.x, point.y) + 90) % 360;
   }
 
   /**
