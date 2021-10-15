@@ -64,7 +64,7 @@ See the [example settings](https://github.com/CrazyTim/spin-wheel/blob/master/ex
 
 ![settings diagram](https://crazytim.github.io/spin-wheel/settings-diagram.svg)
 
-Setting                     | Default Value               | Description
+Key                         | Default Value               | Description
 --------------------------- | --------------------------- | ---------------------------
 `image`                     | `null`                      | The url of an image to draw on the centre of the wheel. This image will rotate with the wheel. Useful for skinning.
 `imageOverlay`              | `null`                      | The url of an image to draw over the entire canvas (centred and resized to fit). This image will not move when the wheel spins. Useful for skinning.
@@ -90,6 +90,15 @@ Setting                     | Default Value               | Description
 `rotation`                  | `0`                         | The initial angle that the wheel is rotated. `0°` is north. `item[0]` will be drawn clockwise from this point. Note: the rotation can also be changed by calling `setRotation()`.
 `rotationResistance`        | `-35`                       | The amount that `rotationSpeed` will reduce by every second.
 `rotationSpeed`             | `0`                         | The rotation speed of the wheel.
+
+## Properties for `item`
+
+Key                         | Default Value               | Description
+--------------------------- | --------------------------- | ---------------------------
+`label`                     | `''`                        | The text you want to show in the item.
+`weight`                    | `1`                         | The size of the item. For example say you have 2 items, where `item[0]` has a weight of `1` and `item[1]` has a weight of `2`. This means `item[0]` will take up 1/3 of the space on the wheel and `item[1]` will take up 2/3 of the space.
+`color`                     | `''`                        | Background color. Example: `#fff'`.
+`labelColor`                | `''`                        | Example: `#fff'`.
 
 ## Events
 
