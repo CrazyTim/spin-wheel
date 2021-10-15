@@ -47,7 +47,7 @@
 				<path style="fill:none;stroke:#FF9933;stroke-width:2;stroke-miterlimit:10;stroke-dasharray:3;" d="M398.9,163L398.9,163
 					c4.2-19.6,9.2-30.4,23.3-44.5l93.4,77.4"/>
 			</g>
-			<text transform="matrix(0.9613 0.2755 -0.2755 0.9613 326.158 156.9902)" style="font-family:'Georgia'; font-size:45.1947px;">item label</text>
+			<text transform="matrix(0.9613 0.2755 -0.2755 0.9613 326.158 156.9902)" style="font-family:'Georgia'; font-size:45.1947px;">item.label</text>
 		</g>
 		<g id="Annotations">
 			<text transform="matrix(1 0 0 1 328.3063 36.7461)" style="font-family:'Consolas'; font-size:14.8671px;">itemLineWidth</text>
