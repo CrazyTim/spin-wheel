@@ -30,12 +30,12 @@ export default class Wheel {
   }
 
   /**
-   * Initialise the instance with the given settings.
+   * Initialise the instance with the given properties.
    */
-  init(settings = {}) {
+  init(props = {}) {
 
-    // Destructure settings, define defaults:
-    // See README for a description on each setting.
+    // Destructure properties, define defaults:
+    // See README.md for property descriptions.
     ({
       isInteractive:       this.isInteractive = true,
       itemColorSet:        this.itemColorSet = [],
@@ -54,50 +54,64 @@ export default class Wheel {
       pointerRotation:     this.pointerRotation = 0,
       radius:              this.radius = 0.95,
       rotationResistance:  this.rotationResistance = -35,
-    } = settings);
+      offset:              this.offset = {x: 0, y: 0},
+    } = props);
 
-    this.setOnRest(settings.onRest);
-    this.setOnSpin(settings.onSpin);
-    this.setItems(settings.items);
-    this.setRotation(settings.rotation);
-    this.setRotationSpeed(settings.rotationSpeed);
-    this.setImage(settings.image);
-    this.setOverlayImage(settings.overlayImage);
+    this.setOnRest(props.onRest);
+    this.setOnSpin(props.onSpin);
+    this.setItems(props.items);
+    this.setRotation(props.rotation);
+    this.setRotationSpeed(props.rotationSpeed);
+    this.setImage(props.image);
+    this.setOverlayImage(props.overlayImage);
 
-    this.handleWindowResize(); // This will initalise the canvas width/height and start the animation loop.
+    this.resize(); // This will start the animation loop.
 
   }
 
   registerEvents() {
-    window.onresize = () => this.handleWindowResize();
+    window.onresize = () => this.resize();
     drag.registerEvents(this);
   }
 
   /**
-   * Resize `canvas` to fit (contain) inside `canvasContainer`.
+   * Resize the wheel to fit (contain) inside it's container.
+   * Call this after changing any property of the wheel that relates to it's size or position.
    */
-  handleWindowResize() {
+  resize() {
 
+    // Reset the animation loop:
     window.cancelAnimationFrame(this.frameRequestId); // Cancel previous animation loop.
 
     // Get the smallest dimension of `canvasContainer`:
     const [w, h] = [this.canvasContainer.clientWidth, this.canvasContainer.clientHeight];
-    const size = Math.min(w, h);
 
-    // Resize canvas:
-    this.canvasSize = size;
+    // Adjust the wheel size depending on the offset so it fills the container:
+    let minSize = Math.min(w, h);
+    const wheelSize = {
+      w: minSize - (minSize * this.offset.x),
+      h: minSize - (minSize * this.offset.y),
+    }
+    let scale = Math.min(w / wheelSize.w, h / wheelSize.h); // Calc scale of the wheel fitted inside it's container.
+    this.size = Math.max(wheelSize.w * scale, wheelSize.h * scale);
+
+    // Resize canvas element:
     this.canvas.style.width = w + 'px';
     this.canvas.style.height = h + 'px';
     this.canvas.width = w;
     this.canvas.height = h;
 
-    // Calc some things for later on:
-    this.canvasCenterX = w / 2;
-    this.canvasCenterY = h / 2;
-    this.wheelRadius = (size / 2) * this.radius;
+    // Re-calculate the center of the wheel:
+    this.center = {
+      x: w / 2 + (w * this.offset.x),
+      y: h / 2 + (h * this.offset.y),
+    };
+
+    // Recalculate the wheel radius:
+    this.wheelRadius = (this.size / 2) * this.radius;
 
     // Adjust the font size of labels so they all fit inside `wheelRadius`:
-    this.itemLabelFontSize = this.itemLabelFontMaxSize * (size / this.defaultCanvasWidth);
+    this.itemLabelFontSize = this.itemLabelFontMaxSize * (this.size / this.defaultCanvasWidth);
     const maxLabelWidth = this.wheelRadius * (this.itemLabelRadius - this.itemLabelMaxRadius);
     this.items.forEach((i) => {
       this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(i.label, this.itemLabelFont, maxLabelWidth, this.context));
@@ -144,10 +158,10 @@ export default class Wheel {
       const endAngle = lastItemAngle + itemAngle;
 
       ctx.beginPath();
-      ctx.moveTo(this.canvasCenterX, this.canvasCenterY);
+      ctx.moveTo(this.center.x, this.center.y);
       ctx.arc(
-        this.canvasCenterX,
-        this.canvasCenterY,
+        this.center.x,
+        this.center.y,
         this.wheelRadius,
         util.degRad(startAngle + enums.arcAdjust),
         util.degRad(endAngle + enums.arcAdjust)
@@ -193,8 +207,8 @@ export default class Wheel {
       const angle = lastItemAngle + (itemAngle / 2) + this.itemLabelLineHeight;
 
       ctx.translate(
-        this.canvasCenterX + Math.cos(util.degRad(angle + enums.arcAdjust)) * (this.wheelRadius * this.itemLabelRadius),
-        this.canvasCenterY + Math.sin(util.degRad(angle + enums.arcAdjust)) * (this.wheelRadius * this.itemLabelRadius)
+        this.center.x + Math.cos(util.degRad(angle + enums.arcAdjust)) * (this.wheelRadius * this.itemLabelRadius),
+        this.center.y + Math.sin(util.degRad(angle + enums.arcAdjust)) * (this.wheelRadius * this.itemLabelRadius)
       );
 
       ctx.rotate(util.degRad(angle + enums.arcAdjust + this.itemLabelRotation));
@@ -209,44 +223,8 @@ export default class Wheel {
 
     }
 
-    // Draw image:
-    // Fit image to canvas dimensions.
-    if (this.image) {
-
-      ctx.save();
-
-      ctx.translate( // Move to centre of canvas.
-        this.canvas.width / 2,
-        this.canvas.height / 2,
-      );
-
-      ctx.rotate(util.degRad(this.rotation)); // Rotate.
-
-      ctx.drawImage(
-        this.image,
-        -(this.canvasSize / 2),
-        -(this.canvasSize / 2),
-        this.canvasSize,
-        this.canvasSize,
-        );
-
-      ctx.restore();
-
-    }
-
-    // Draw overlay image:
-    // Fit image to canvas dimensions.
-    if (this.overlayImage) {
-
-      ctx.drawImage(
-        this.overlayImage,
-        (this.canvas.width / 2) - (this.canvasSize / 2),
-        (this.canvas.height / 2) - (this.canvasSize / 2),
-        this.canvasSize,
-        this.canvasSize
-        );
-
-    }
+    this.drawImageOnCanvas(this.image, false);
+    this.drawImageOnCanvas(this.overlayImage, true);
 
     if (this.rotationSpeed !== 0) {
 
@@ -294,6 +272,38 @@ export default class Wheel {
 
   }
 
+  drawImageOnCanvas(image, isOverlay = false) {
+
+    if (!image) return;
+
+    const ctx = this.context;
+
+    ctx.save();
+
+    ctx.translate(
+      this.center.x,
+      this.center.y,
+    );
+
+    if (!isOverlay) ctx.rotate(util.degRad(this.rotation));
+
+    // Draw the image centered and scaled to fit the wheel's container:
+    // For convenience, scale the 'normal' image to the size of the wheel radius
+    // (so a change in the wheel radius won't require the image to also be updated).
+    const size = isOverlay ? this.size : this.size * this.radius;
+    const sizeHalf = -(size / 2);
+    ctx.drawImage(
+      image,
+      sizeHalf,
+      sizeHalf,
+      size,
+      size,
+    );
+
+    ctx.restore();
+
+  }
+
   /**
    * Increase `rotationSpeed by the value of `speed` (randomised by ±15% to make it realistically chaotic).
    */
@@ -323,7 +333,7 @@ export default class Wheel {
    */
   wheelHitTest(point = {x:0, y:0}) {
     const p = util.translateXYToElement(point, this.canvas);
-    return util.isPointInCircle(p, this.canvasCenterX, this.canvasCenterY, this.wheelRadius);
+    return util.isPointInCircle(p, this.center.x, this.center.y, this.wheelRadius);
   }
 
   /**
@@ -356,6 +366,11 @@ export default class Wheel {
     this.image = new Image();
     this.image.src = url;
 
+  }
+
+  setOffset(point = {x: 0, y: 0}) {
+    this.offset = point;
+    this.resize();
   }
 
   setOverlayImage(url = '') {
@@ -463,7 +478,7 @@ export default class Wheel {
    * 0 is north.
    */
   getAngleFromCenter(point = {x:0, y:0}) {
-    return (util.getAngle(this.canvasCenterX, this.canvasCenterY, point.x, point.y) + 90) % 360;
+    return (util.getAngle(this.center.x, this.center.y, point.x, point.y) + 90) % 360;
   }
 
   /**

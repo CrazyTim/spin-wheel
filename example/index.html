@@ -9,7 +9,7 @@
 
   <script type='module'>
     import Wheel from '../src/wheel.js';
-    import settings from './js/settings.js';
+    import props from './js/props.js';
 
     window.onload = () => {
 
@@ -33,17 +33,17 @@
 
       const dropdown = document.querySelector('select');
 
-      // Initalise dropdown:
-      for (const s of settings) {
+      // Initalise dropdown with the names of each example:
+      for (const p of props) {
         const opt = document.createElement('option');
-        opt.textContent = s.name;
+        opt.textContent = p.name;
         dropdown.appendChild(opt);
       }
 
-      // Handle dropdown:
+      // Handle dropdown change:
       dropdown.onchange = () => {
         wheel.init({
-          ...settings[dropdown.selectedIndex],
+          ...props[dropdown.selectedIndex],
           rotationSpeed: wheel.rotationSpeed, // Preserve value so it doesn't get reset.
           rotation: wheel.rotaion, // Preserve value so it doesn't get reset.
           onSpin: e => console.log(e),
