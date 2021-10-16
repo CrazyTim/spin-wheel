@@ -277,13 +277,14 @@ export default class Wheel {
     if (rotateWithWheel) ctx.rotate(util.degRad(this.rotation));
 
     // Draw centered and fit to canvas dimensions.
-    const canvasSizeHalf = -(this.canvasSize / 2);
+    const size = this.canvasSize * this.radius;
+    const sizeHalf = -(size / 2);
     ctx.drawImage(
       image,
-      canvasSizeHalf,
-      canvasSizeHalf,
-      this.canvasSize,
-      this.canvasSize,
+      sizeHalf,
+      sizeHalf,
+      size,
+      size,
     );
 
     ctx.restore();
