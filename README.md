@@ -67,6 +67,7 @@ Method                           | Description
 `setItems(items = [])`           | Set the `items` to show on the wheel.
 `setRotationSpeed(speed = 0)`    | Set the rotation speed of the wheel. Pass a positive number to spin clockwise, or a negative number to spin antiClockwise. The further away from 0 the faster it will spin.
 `setRotation(rotation = 0)`      | Set the rotation (angle in degrees) of the wheel. `0°` is north. `item[0]` will be drawn clockwise from this point.
+`setOffset(point = {x: 0, y: 0})`| Set the offset of the wheel relative to it's centre as a percent of the wheels diameter, where `1` = 100%. This allows for simple positioning considering the wheel is always centred anyway.
 `setOnRest(callback = null)`     | Set a callback for the `onRest` event (see below).
 `setOnSpin(callback = null)`     | Set a callback for the `onSpin` event (see below).
 `setOverlayImage(url = '')`      | Draw an image over the wheel (centred and resized to fit) which will not rotate with the wheel.
@@ -81,7 +82,7 @@ See [./example/js/props.js](https://github.com/CrazyTim/spin-wheel/blob/master/e
 
 Key                         | Default Value               | Description
 --------------------------- | --------------------------- | ---------------------------
-`image`*                    | `null`                      | See method above.
+`image`                     | `null`                      | *
 `isInteractive`             | `true`                      | Allow the user to spin the wheel using click-drag/touch-flick (otherwise you need to manually call `spin()`).
 `itemColorSet`              | `[]`                        | Pattern of background colors that will be used for each `item`. Can be overridden by `item.color`. Example: `['#fff','#000']`.
 `itemLabelAlign`            | `right`                     | `left`|`center`|`right`. If you change this to `left`, you will also need to set `itemLabelRotation` to `180°`.
@@ -95,18 +96,19 @@ Key                         | Default Value               | Description
 `itemLabelRotation`         | `0`                         | Use this to flip `item.label` `180°` when changing `itemLabelAlign`.
 `itemLineColor`             | `'#000'`                    | Color of the line that separates each `item.label`.
 `itemLineWidth`             | `1`                         | Size of the line that separates each `item.label`.
-`items`*                    | `[]`                        | See method above.
+`items`                     | `[]`                        | *
 `maxRotationSpeed`          | `250`                       | The maximum rotation speed that the wheel can reach.
-`onRest`*                   | `null`                      | The callback function for the `onRest` event (see below).
-`onSpin`*                   | `null`                      | The callback function for the `onSpin` event (see below).
-`overlayImage`*             | `null`                      | See method above.
+`offset`                    | `{x: 0, y: 0}`              | *
+`onRest`                    | `null`                      | The callback function for the `onRest` event (see below).
+`onSpin`                    | `null`                      | The callback function for the `onSpin` event (see below).
+`overlayImage`              | `null`                      | *
 `pointerRotation`           | `0`                         | The angle of the pointer that is used to determine the "winning" item (see the `onRest` event). `0°` is north.
 `radius`                    | `.95`                       | Radius of the wheel as a percent of the container's smallest dimension.
-`rotation`*                 | `0`                         | See method above.
+`rotation`                  | `0`                         | *
 `rotationResistance`        | `-35`                       | The amount that `rotationSpeed` will reduce by every second.
-`rotationSpeed`*            | `0`                         | See method above.
+`rotationSpeed`             | `0`                         | *
 
-* = Do not set this property directly. Use it's equivalent `set` method instead.
+* = See method description above. Do not set this property directly. Use it's equivalent `set` method instead.
 
 ## Properties for items
 
