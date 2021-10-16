@@ -54,6 +54,7 @@ export default class Wheel {
       pointerRotation:     this.pointerRotation = 0,
       radius:              this.radius = 0.95,
       rotationResistance:  this.rotationResistance = -35,
+      offset:              this.offset = {x: 0, y: 0},
     } = settings);
 
     this.setOnRest(settings.onRest);
@@ -92,8 +93,8 @@ export default class Wheel {
     this.canvas.height = h;
 
     this.center = {
-      x: w / 2,
-      y: h / 2,
+      x: w / 2 + this.offset.x,
+      y: h / 2 + this.offset.y,
     };
 
     this.wheelRadius = (size / 2) * this.radius;
