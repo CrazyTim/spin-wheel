@@ -65,20 +65,22 @@ export default class Wheel {
     this.setImage(props.image);
     this.setOverlayImage(props.overlayImage);
 
-    this.handleWindowResize(); // This will initalise the canvas width/height and start the animation loop.
+    this.resize(); // This will start the animation loop.
 
   }
 
   registerEvents() {
-    window.onresize = () => this.handleWindowResize();
+    window.onresize = () => this.resize();
     drag.registerEvents(this);
   }
 
   /**
-   * Resize `canvas` to fit (contain) inside `canvasContainer`.
+   * Resize the wheel to fit (contain) inside it's container.
+   * Call this after changing any property of the wheel that relates to it's size or position.
    */
-  handleWindowResize() {
+  resize() {
 
+    // Reset the animation loop:
     window.cancelAnimationFrame(this.frameRequestId); // Cancel previous animation loop.
 
     // Get the smallest dimension of `canvasContainer`:
@@ -92,11 +94,13 @@ export default class Wheel {
     this.canvas.width = w;
     this.canvas.height = h;
 
+    // Re-calculate the center of the wheel:
     this.center = {
       x: w / 2 + this.offset.x,
       y: h / 2 + this.offset.y,
     };
 
+    // Recalculate the wheel radius:
     this.wheelRadius = (size / 2) * this.radius;
 
     // Adjust the font size of labels so they all fit inside `wheelRadius`:
@@ -357,7 +361,7 @@ export default class Wheel {
 
   setOffset(point = {x: 0, y: 0}) {
     this.offset = point;
-    handleWindowResize();
+    this.resize();
   }
 
   setOverlayImage(url = '') {
