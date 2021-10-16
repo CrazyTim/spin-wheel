@@ -96,8 +96,8 @@ export default class Wheel {
 
     // Re-calculate the center of the wheel:
     this.center = {
-      x: w / 2 + this.offset.x,
-      y: h / 2 + this.offset.y,
+      x: w / 2 + (w * this.offset.x),
+      y: h / 2 + (h * this.offset.y),
     };
 
     // Recalculate the wheel radius:
@@ -273,9 +273,9 @@ export default class Wheel {
 
     ctx.save();
 
-    ctx.translate( // Move to centre of canvas.
-      (this.canvas.width / 2) + this.offset.x,
-      this.canvas.height / 2 + this.offset.y,
+    ctx.translate(
+      this.center.x,
+      this.center.y,
     );
 
     if (rotateWithWheel) ctx.rotate(util.degRad(this.rotation));
