@@ -101,7 +101,7 @@ Key                         | Default Value               | Description
 `onSpin`*                   | `null`                      | The callback function for the `onSpin` event (see below).
 `overlayImage`*             | `null`                      | See method above.
 `pointerRotation`           | `0`                         | The angle of the pointer that is used to determine the "winning" item (see the `onRest` event). `0°` is north.
-`radius`                    | `.95`                       | Radius of the wheel as a percent of the canvas' smallest dimension.
+`radius`                    | `.95`                       | Radius of the wheel as a percent of the container's smallest dimension.
 `rotation`*                 | `0`                         | See method above.
 `rotationResistance`        | `-35`                       | The amount that `rotationSpeed` will reduce by every second.
 `rotationSpeed`*            | `0`                         | See method above.

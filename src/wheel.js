@@ -212,44 +212,8 @@ export default class Wheel {
 
     }
 
-    // Draw image:
-    // Fit image to canvas dimensions.
-    if (this.image) {
-
-      ctx.save();
-
-      ctx.translate( // Move to centre of canvas.
-        this.canvas.width / 2,
-        this.canvas.height / 2,
-      );
-
-      ctx.rotate(util.degRad(this.rotation)); // Rotate.
-
-      ctx.drawImage(
-        this.image,
-        -(this.canvasSize / 2),
-        -(this.canvasSize / 2),
-        this.canvasSize,
-        this.canvasSize,
-        );
-
-      ctx.restore();
-
-    }
-
-    // Draw overlay image:
-    // Fit image to canvas dimensions.
-    if (this.overlayImage) {
-
-      ctx.drawImage(
-        this.overlayImage,
-        (this.canvas.width / 2) - (this.canvasSize / 2),
-        (this.canvas.height / 2) - (this.canvasSize / 2),
-        this.canvasSize,
-        this.canvasSize
-        );
-
-    }
+    this.drawImageOnCanvas(this.image, true);
+    this.drawImageOnCanvas(this.overlayImage, false);
 
     if (this.rotationSpeed !== 0) {
 
@@ -294,6 +258,35 @@ export default class Wheel {
 
     // Wait until next frame.
     this.frameRequestId = window.requestAnimationFrame(this.drawFrame.bind(this));
+
+  }
+
+  drawImageOnCanvas(image, rotateWithWheel = false) {
+
+    if (!image) return;
+
+    const ctx = this.context;
+
+    ctx.save();
+
+    ctx.translate( // Move to centre of canvas.
+      (this.canvas.width / 2) + this.offset.x,
+      this.canvas.height / 2 + this.offset.y,
+    );
+
+    if (rotateWithWheel) ctx.rotate(util.degRad(this.rotation));
+
+    // Draw centered and fit to canvas dimensions.
+    const canvasSizeHalf = -(this.canvasSize / 2);
+    ctx.drawImage(
+      image,
+      canvasSizeHalf,
+      canvasSizeHalf,
+      this.canvasSize,
+      this.canvasSize,
+    );
+
+    ctx.restore();
 
   }
 
@@ -359,6 +352,11 @@ export default class Wheel {
     this.image = new Image();
     this.image.src = url;
 
+  }
+
+  setOffset(point = {x: 0, y: 0}) {
+    this.offset = point;
+    handleWindowResize();
   }
 
   setOverlayImage(url = '') {
