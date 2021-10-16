@@ -28,8 +28,8 @@
 // 1. Create a new `Wheel` object, passing the DOM element where you want it to go:
 const wheel = new Wheel(document.querySelector('.wheel-wrapper'));
 
-// 2. Define your settings. The only setting that you must define is `items`.
-const settings = {
+// 2. Define the wheel's properties. The only required property is `items`.
+const props = {
   pointerRotation: 90,
   items: [
     {
@@ -44,8 +44,8 @@ const settings = {
   ]
 }
 
-// 3. Initialise the wheel with your settings:
-wheel.init(settings);
+// 3. Initialise the wheel with the properties:
+wheel.init(props);
 ```
 
 See below for more detail. Also see the [example code](https://github.com/CrazyTim/spin-wheel/blob/master/example/index.html).
@@ -61,7 +61,7 @@ npm start
 
 Method                           | Description
 -------------------------------- | ---------------------------
-`init(settings = {})`            | Initialise the wheel with the given settings (see Properties below).
+`init(props = {})`               | Initialise the wheel with the given properties (see Properties below).
 `spin(speed = 0)`                | Spin the wheel and raise the `onSpin` event. `speed` is added to `rotationSpeed` ±30% (randomised to make it realistic and less predictable).
 `setImage(url = '')`             | Draw an image over the wheel (centred and resized to fit) which will rotate with the wheel.
 `setItems(items = [])`           | Set the `items` to show on the wheel.
@@ -75,9 +75,9 @@ Method                           | Description
 
 You can set properties all at once by passing them as key-value pairs to `Wheel.init()`.
 
-See [./example/js/settings.js](https://github.com/CrazyTim/spin-wheel/blob/master/example/js/settings.js).
+See [./example/js/props.js](https://github.com/CrazyTim/spin-wheel/blob/master/example/js/props.js).
 
-![settings diagram](https://crazytim.github.io/spin-wheel/settings-diagram.svg)
+![props diagram](https://crazytim.github.io/spin-wheel/props-diagram.svg)
 
 Key                         | Default Value               | Description
 --------------------------- | --------------------------- | ---------------------------
@@ -126,7 +126,7 @@ Raised when the wheel comes to a rest after spinning.
 Key                         | Value
 --------------------------- | ---------------------------
 `event`                     | `'rest'`
-`item`                      | The item that the `pointer` was pointing at when the wheel stopped spinning (see the `pointerRotation` setting).
+`item`                      | The item that the `pointer` was pointing at when the wheel stopped spinning (see `pointerRotation`).
 
 #### `onSpin(e:object)`
 

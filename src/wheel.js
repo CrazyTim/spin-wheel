@@ -30,12 +30,12 @@ export default class Wheel {
   }
 
   /**
-   * Initialise the instance with the given settings.
+   * Initialise the instance with the given properties.
    */
-  init(settings = {}) {
+  init(props = {}) {
 
-    // Destructure settings, define defaults:
-    // See README for a description on each setting.
+    // Destructure properties, define defaults:
+    // See README.md for property descriptions.
     ({
       isInteractive:       this.isInteractive = true,
       itemColorSet:        this.itemColorSet = [],
@@ -55,15 +55,15 @@ export default class Wheel {
       radius:              this.radius = 0.95,
       rotationResistance:  this.rotationResistance = -35,
       offset:              this.offset = {x: 0, y: 0},
-    } = settings);
+    } = props);
 
-    this.setOnRest(settings.onRest);
-    this.setOnSpin(settings.onSpin);
-    this.setItems(settings.items);
-    this.setRotation(settings.rotation);
-    this.setRotationSpeed(settings.rotationSpeed);
-    this.setImage(settings.image);
-    this.setOverlayImage(settings.overlayImage);
+    this.setOnRest(props.onRest);
+    this.setOnSpin(props.onSpin);
+    this.setItems(props.items);
+    this.setRotation(props.rotation);
+    this.setRotationSpeed(props.rotationSpeed);
+    this.setImage(props.image);
+    this.setOverlayImage(props.overlayImage);
 
     this.handleWindowResize(); // This will initalise the canvas width/height and start the animation loop.
 
