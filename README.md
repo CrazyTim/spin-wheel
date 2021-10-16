@@ -63,14 +63,14 @@ Method                           | Description
 -------------------------------- | ---------------------------
 `init(props = {})`               | Initialise the wheel with the given properties (see Properties below).
 `spin(speed = 0)`                | Spin the wheel and raise the `onSpin` event. `speed` is added to `rotationSpeed` ±30% (randomised to make it realistic and less predictable).
-`setImage(url = '')`             | Draw an image over the wheel (centred and resized to fit) which will rotate with the wheel.
+`setImage(url = '')`             | Draw an image over the centre of the wheel, which will be scaled to fit the wheel diameter and rotate with the wheel.
 `setItems(items = [])`           | Set the `items` to show on the wheel.
 `setRotationSpeed(speed = 0)`    | Set the rotation speed of the wheel. Pass a positive number to spin clockwise, or a negative number to spin antiClockwise. The further away from 0 the faster it will spin.
 `setRotation(rotation = 0)`      | Set the rotation (angle in degrees) of the wheel. `0°` is north. `item[0]` will be drawn clockwise from this point.
 `setOffset(point = {x: 0, y: 0})`| Set the offset of the wheel relative to it's centre as a percent of the wheels diameter, where `1` = 100%. This allows for simple positioning considering the wheel is always centred anyway.
 `setOnRest(callback = null)`     | Set a callback for the `onRest` event (see below).
 `setOnSpin(callback = null)`     | Set a callback for the `onSpin` event (see below).
-`setOverlayImage(url = '')`      | Draw an image over the wheel (centred and resized to fit) which will not rotate with the wheel.
+`setOverlayImage(url = '')`      | Draw an image over the centre of the wheel which will not rotate with the wheel. Use this to draw decorations around the wheel, such as a stand or pointer.
 
 ## Properties for `Wheel`
 

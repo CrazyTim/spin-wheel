@@ -93,10 +93,9 @@ export default class Wheel {
       h: minSize - (minSize * this.offset.y),
     }
     let scale = Math.min(w / wheelSize.w, h / wheelSize.h); // Calc scale of the wheel fitted inside it's container.
-    let size = Math.max(wheelSize.w * scale, wheelSize.h * scale);
+    this.size = Math.max(wheelSize.w * scale, wheelSize.h * scale);
 
     // Resize canvas element:
-    this.canvasSize = size;
     this.canvas.style.width = w + 'px';
     this.canvas.style.height = h + 'px';
     this.canvas.width = w;
@@ -109,10 +108,10 @@ export default class Wheel {
     };
 
     // Recalculate the wheel radius:
-    this.wheelRadius = (size / 2) * this.radius;
+    this.wheelRadius = (this.size / 2) * this.radius;
 
     // Adjust the font size of labels so they all fit inside `wheelRadius`:
-    this.itemLabelFontSize = this.itemLabelFontMaxSize * (size / this.defaultCanvasWidth);
+    this.itemLabelFontSize = this.itemLabelFontMaxSize * (this.size / this.defaultCanvasWidth);
     const maxLabelWidth = this.wheelRadius * (this.itemLabelRadius - this.itemLabelMaxRadius);
     this.items.forEach((i) => {
       this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(i.label, this.itemLabelFont, maxLabelWidth, this.context));
@@ -224,8 +223,8 @@ export default class Wheel {
 
     }
 
-    this.drawImageOnCanvas(this.image, true);
-    this.drawImageOnCanvas(this.overlayImage, false);
+    this.drawImageOnCanvas(this.image, false);
+    this.drawImageOnCanvas(this.overlayImage, true);
 
     if (this.rotationSpeed !== 0) {
 
@@ -273,7 +272,7 @@ export default class Wheel {
 
   }
 
-  drawImageOnCanvas(image, rotateWithWheel = false) {
+  drawImageOnCanvas(image, isOverlay = false) {
 
     if (!image) return;
 
@@ -286,10 +285,12 @@ export default class Wheel {
       this.center.y,
     );
 
-    if (rotateWithWheel) ctx.rotate(util.degRad(this.rotation));
+    if (!isOverlay) ctx.rotate(util.degRad(this.rotation));
 
-    // Draw centered and fit to canvas dimensions.
-    const size = this.canvasSize * this.radius;
+    // Draw the image centered and scaled to fit the wheel's container:
+    // For convenience, scale the 'normal' image to the size of the wheel radius
+    // (so a change in the wheel radius won't require the image to also be updated).
+    const size = isOverlay ? this.size : this.size * this.radius;
     const sizeHalf = -(size / 2);
     ctx.drawImage(
       image,
