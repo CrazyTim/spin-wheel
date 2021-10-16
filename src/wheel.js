@@ -85,7 +85,15 @@ export default class Wheel {
 
     // Get the smallest dimension of `canvasContainer`:
     const [w, h] = [this.canvasContainer.clientWidth, this.canvasContainer.clientHeight];
-    const size = Math.min(w, h);
+
+    // Adjust the wheel size depending on the offset so it fills the container:
+    let minSize = Math.min(w, h);
+    const wheelSize = {
+      w: minSize - (minSize * this.offset.x),
+      h: minSize - (minSize * this.offset.y),
+    }
+    let scale = Math.min(w / wheelSize.w, h / wheelSize.h); // Calc scale of the wheel fitted inside it's container.
+    let size = Math.max(wheelSize.w * scale, wheelSize.h * scale);
 
     // Resize canvas element:
     this.canvasSize = size;
