@@ -7,9 +7,6 @@ export default class Wheel {
   constructor(container) {
     this.canvasContainer = container;
     this.initCanvas();
-
-    this.rotation = 0;
-    this.rotationSpeed = 0;
   }
 
   initCanvas() {
