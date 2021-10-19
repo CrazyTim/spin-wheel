@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "browser-sync start --server --watch --ignore '**.*' --no-notify --startPath 'example'",
-    "lint": "eslint src/** --fix"
+    "eslint": "eslint src/** --fix"
   },
   "repository": {
     "type": "git",

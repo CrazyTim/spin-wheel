@@ -87,12 +87,12 @@ export default class Wheel {
     const [w, h] = [this.canvasContainer.clientWidth, this.canvasContainer.clientHeight];
 
     // Adjust the wheel size depending on the offset so it fills the container:
-    let minSize = Math.min(w, h);
+    const minSize = Math.min(w, h);
     const wheelSize = {
       w: minSize - (minSize * this.offset.x),
       h: minSize - (minSize * this.offset.y),
-    }
-    let scale = Math.min(w / wheelSize.w, h / wheelSize.h); // Calc scale of the wheel fitted inside it's container.
+    };
+    const scale = Math.min(w / wheelSize.w, h / wheelSize.h); // Calc scale of the wheel fitted inside it's container.
     this.size = Math.max(wheelSize.w * scale, wheelSize.h * scale);
 
     // Resize canvas element:
@@ -360,7 +360,7 @@ export default class Wheel {
 
     if (!url) {
       this.image = null;
-      return
+      return;
     }
 
     this.image = new Image();
@@ -377,7 +377,7 @@ export default class Wheel {
 
     if (!url) {
       this.overlayImage = null;
-      return
+      return;
     }
 
     this.overlayImage = new Image();
