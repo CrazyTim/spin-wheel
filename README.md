@@ -65,6 +65,7 @@ Method                                       | Description
 `spin(speed = 0)`                            | Spin the wheel and raise the `onSpin` event. `speed` is added to `rotationSpeed` ±30% (randomised to make it realistic and less predictable).
 `setImage(url = '')`                         | Draw an image over the centre of the wheel, which will be scaled to fit the wheel diameter and rotate with the wheel.
 `setItems(items = [])`                       | Set the `items` to show on the wheel.
+`setMaxRotationSpeed(speed = 0)`             | Set a maximum value for `rotationSpeed`. The wheel will not spin faster than this value.
 `setRotationSpeed(speed = 0)`                | Set the rotation speed of the wheel. Pass a positive number to spin clockwise, or a negative number to spin antiClockwise. The further away from 0 the faster it will spin.
 `setRotation(rotation = 0)`                  | Set the rotation (angle in degrees) of the wheel. `0` is north. `item[0]` will be drawn clockwise from this point.
 `setRotationResistance(resistance = 0)`      | Set how much to reduce `rotationSpeed` by every second.
@@ -98,7 +99,7 @@ Key                         | Default Value               | Description
 `itemLineColor`             | `'#000'`                    | Color of the line that separates each `item.label`.
 `itemLineWidth`             | `1`                         | Size of the line that separates each `item.label`.
 `items`                     | `[]`                        | *
-`maxRotationSpeed`          | `250`                       | The maximum rotation speed that the wheel can reach.
+`maxRotationSpeed`          | `250`                       | *
 `offset`                    | `{x: 0, y: 0}`              | *
 `onRest`                    | `null`                      | The callback function for the `onRest` event (see below).
 `onSpin`                    | `null`                      | The callback function for the `onSpin` event (see below).

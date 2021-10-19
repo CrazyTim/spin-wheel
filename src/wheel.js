@@ -50,17 +50,17 @@ export default class Wheel {
       itemLabelRotation:   this.itemLabelRotation = 0,
       itemLineColor:       this.itemLineColor = '#000',
       itemLineWidth:       this.itemLineWidth = 1,
-      maxRotationSpeed:    this.maxRotationSpeed = 250,
       pointerRotation:     this.pointerRotation = 0,
       radius:              this.radius = 0.95,
-      rotationResistance:  this.rotationResistance = -35,
       offset:              this.offset = {x: 0, y: 0},
     } = props);
 
+    this.setMaxRotationSpeed(props.maxRotationSpeed);
     this.setOnRest(props.onRest);
     this.setOnSpin(props.onSpin);
     this.setItems(props.items);
     this.setRotation(props.rotation);
+    this.setRotationResistance(props.rotationResistance);
     this.setRotationSpeed(props.rotationSpeed);
     this.setImage(props.image);
     this.setOverlayImage(props.overlayImage);
@@ -431,6 +431,18 @@ export default class Wheel {
 
     this.weightedItemAngle = 360 / util.sumObjArray(this.items, 'weight');
 
+  }
+
+  /**
+   * Set a maximum value for `rotationSpeed`.
+   * The wheel will not spin faster than this value.
+   */
+  setMaxRotationSpeed(value = 250) {
+    if (typeof value !== 'number') {
+      this.maxRotationSpeed = 250;
+      return;
+    }
+    this.maxRotationSpeed = value;
   }
 
   setOnRest(callback = null) {
