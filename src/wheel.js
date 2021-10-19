@@ -466,6 +466,17 @@ export default class Wheel {
   }
 
   /**
+   * Set how much to reduce `rotationSpeed` by every second.
+   */
+  setRotationResistance(value = -35) {
+    if (typeof value !== 'number') {
+      this.rotation = -35;
+      return;
+    }
+    this.rotationResistance = value;
+  }
+
+  /**
    * Set the rotation (angle in degrees) of the wheel.
    * 0 is north.
    */

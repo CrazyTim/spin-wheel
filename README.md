@@ -59,18 +59,19 @@ npm start
 
 ## Methods for `Wheel`
 
-Method                           | Description
--------------------------------- | ---------------------------
-`init(props = {})`               | Initialise the wheel with the given properties (see Properties below).
-`spin(speed = 0)`                | Spin the wheel and raise the `onSpin` event. `speed` is added to `rotationSpeed` ±30% (randomised to make it realistic and less predictable).
-`setImage(url = '')`             | Draw an image over the centre of the wheel, which will be scaled to fit the wheel diameter and rotate with the wheel.
-`setItems(items = [])`           | Set the `items` to show on the wheel.
-`setRotationSpeed(speed = 0)`    | Set the rotation speed of the wheel. Pass a positive number to spin clockwise, or a negative number to spin antiClockwise. The further away from 0 the faster it will spin.
-`setRotation(rotation = 0)`      | Set the rotation (angle in degrees) of the wheel. `0°` is north. `item[0]` will be drawn clockwise from this point.
-`setOffset(point = {x: 0, y: 0})`| Set the offset of the wheel relative to it's centre as a percent of the wheels diameter, where `1` = 100%. This allows for simple positioning considering the wheel is always centred anyway.
-`setOnRest(callback = null)`     | Set a callback for the `onRest` event (see below).
-`setOnSpin(callback = null)`     | Set a callback for the `onSpin` event (see below).
-`setOverlayImage(url = '')`      | Draw an image over the centre of the wheel which will not rotate with the wheel. Use this to draw decorations around the wheel, such as a stand or pointer.
+Method                                       | Description
+-------------------------------------------- | ---------------------------
+`init(props = {})`                           | Initialise the wheel with the given properties (see Properties below).
+`spin(speed = 0)`                            | Spin the wheel and raise the `onSpin` event. `speed` is added to `rotationSpeed` ±30% (randomised to make it realistic and less predictable).
+`setImage(url = '')`                         | Draw an image over the centre of the wheel, which will be scaled to fit the wheel diameter and rotate with the wheel.
+`setItems(items = [])`                       | Set the `items` to show on the wheel.
+`setRotationSpeed(speed = 0)`                | Set the rotation speed of the wheel. Pass a positive number to spin clockwise, or a negative number to spin antiClockwise. The further away from 0 the faster it will spin.
+`setRotation(rotation = 0)`                  | Set the rotation (angle in degrees) of the wheel. `0` is north. `item[0]` will be drawn clockwise from this point.
+`setRotationResistance(resistance = 0)`      | Set how much to reduce `rotationSpeed` by every second.
+`setOffset(point = {x: 0, y: 0})`            | Set the offset of the wheel relative to it's centre as a percent of the wheels diameter, where `1` = 100%. This allows for simple positioning considering the wheel is always centred anyway.
+`setOnRest(callback = null)`                 | Set a callback for the `onRest` event (see below).
+`setOnSpin(callback = null)`                 | Set a callback for the `onSpin` event (see below).
+`setOverlayImage(url = '')`                  | Draw an image over the centre of the wheel which will not rotate with the wheel. Use this to draw decorations around the wheel, such as a stand or pointer.
 
 ## Properties for `Wheel`
 
@@ -105,7 +106,7 @@ Key                         | Default Value               | Description
 `pointerRotation`           | `0`                         | The angle of the pointer that is used to determine the "winning" item (see the `onRest` event). `0°` is north.
 `radius`                    | `.95`                       | Radius of the wheel as a percent of the container's smallest dimension.
 `rotation`                  | `0`                         | *
-`rotationResistance`        | `-35`                       | The amount that `rotationSpeed` will reduce by every second.
+`rotationResistance`        | `-35`                       | *
 `rotationSpeed`             | `0`                         | *
 
 * = See method description above. Do not set this property directly. Use it's equivalent `set` method instead.
