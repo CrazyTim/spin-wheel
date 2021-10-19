@@ -37,7 +37,6 @@ export default class Wheel {
     // Destructure properties, define defaults:
     // See README.md for property descriptions.
     ({
-      isInteractive:       this.isInteractive = true,
       itemColorSet:        this.itemColorSet = [],
       itemLabelAlign:      this.itemLabelAlign = enums.AlignText.right,
       itemLabelColor:      this.itemLabelColor = '#000',
@@ -55,6 +54,7 @@ export default class Wheel {
       offset:              this.offset = {x: 0, y: 0},
     } = props);
 
+    this.setIsInteractive(props.isInteractive);
     this.setMaxRotationSpeed(props.maxRotationSpeed);
     this.setOnRest(props.onRest);
     this.setOnSpin(props.onSpin);
@@ -431,6 +431,17 @@ export default class Wheel {
 
     this.weightedItemAngle = 360 / util.sumObjArray(this.items, 'weight');
 
+  }
+
+  /**
+   * Enable/disable the feature that lets the user spin the wheel using click-drag/touch-flick.
+   */
+  setIsInteractive(value = true) {
+    if (typeof resistance !== 'number') {
+      this.isInteractive = true;
+      return;
+    }
+    this.isInteractive = value;
   }
 
   /**
