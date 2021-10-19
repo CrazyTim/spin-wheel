@@ -28,6 +28,7 @@ export default class Wheel {
 
   /**
    * Initialise the instance with the given properties.
+   * If any properties are omitted, then default values will be applied.
    */
   init(props = {}) {
 
@@ -48,7 +49,6 @@ export default class Wheel {
       itemLineWidth:       this.itemLineWidth = 1,
       pointerRotation:     this.pointerRotation = 0,
       radius:              this.radius = 0.95,
-      offset:              this.offset = {x: 0, y: 0},
     } = props);
 
     this.setIsInteractive(props.isInteractive);
@@ -60,6 +60,7 @@ export default class Wheel {
     this.setRotationResistance(props.rotationResistance);
     this.setRotationSpeed(props.rotationSpeed);
     this.setImage(props.image);
+    this.setOffset(props.offset);
     this.setOverlayImage(props.overlayImage);
 
     this.resize(); // This will start the animation loop.
@@ -366,8 +367,15 @@ export default class Wheel {
   }
 
   setOffset(point = {x: 0, y: 0}) {
+
+    if (!point) {
+      this.offset = {x: 0, y: 0};
+      return;
+    }
+
     this.offset = point;
     this.resize();
+
   }
 
   setOverlayImage(url = '') {
@@ -453,6 +461,9 @@ export default class Wheel {
     this.maxRotationSpeed = value;
   }
 
+  /**
+   * Set a callback for the `onRest` event.
+   */
   setOnRest(callback = null) {
     if (typeof callback !== 'function') {
       this.onRest = null;
@@ -461,6 +472,9 @@ export default class Wheel {
     this.onRest = callback;
   }
 
+  /**
+   * Set a callback for the `onSpin` event.
+   */
   setOnSpin(callback = null) {
     if (typeof callback !== 'function') {
       this.onSpin = null;
@@ -471,13 +485,13 @@ export default class Wheel {
 
   /**
    * Set the rotation speed of the wheel.
-   * Pass a positive number to spin clockwise, and a negative number to spin antiClockwise.
+   * Pass a positive number to spin clockwise, or a negative number to spin antiClockwise.
    * The further away from 0 the faster it will spin.
    */
-  setRotationSpeed(speed = 0) {
+  setRotationSpeed(value = 0) {
 
     // Limit speed to `this.maxRotationSpeed`
-    let newSpeed = Math.min(speed, this.maxRotationSpeed);
+    let newSpeed = Math.min(value, this.maxRotationSpeed);
     newSpeed = Math.max(newSpeed, -this.maxRotationSpeed);
 
     this.rotationDirection = this.getRotationDirection(newSpeed);
@@ -498,10 +512,10 @@ export default class Wheel {
 
   /**
    * Set the rotation (angle in degrees) of the wheel.
-   * 0 is north.
+   * 0 is north. `item[0]` will be drawn clockwise from this point.
    */
-  setRotation(rotation = 0) {
-    this.rotation = rotation;
+  setRotation(value = 0) {
+    this.rotation = value;
   }
 
   /**

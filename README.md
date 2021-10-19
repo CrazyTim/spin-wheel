@@ -61,7 +61,7 @@ npm start
 
 Method                                       | Description
 -------------------------------------------- | ---------------------------
-`init(props = {})`                           | Initialise the wheel with the given properties (see Properties below).
+`init(props = {})`                           | Initialise the instance with the given properties (see Properties below). If any properties are omitted, then default values will be applied.
 `spin(speed = 0)`                            | Spin the wheel and raise the `onSpin` event. `speed` is added to `rotationSpeed` ±30% (randomised to make it realistic and less predictable).
 `setImage(url = '')`                         | Draw an image over the centre of the wheel, which will be scaled to fit the wheel diameter and rotate with the wheel.
 `setItems(items = [])`                       | Set the `items` to show on the wheel.
@@ -102,8 +102,8 @@ Key                         | Default Value               | Description
 `items`                     | `[]`                        | *
 `maxRotationSpeed`          | `250`                       | *
 `offset`                    | `{x: 0, y: 0}`              | *
-`onRest`                    | `null`                      | The callback function for the `onRest` event (see below).
-`onSpin`                    | `null`                      | The callback function for the `onSpin` event (see below).
+`onRest`                    | `null`                      | *
+`onSpin`                    | `null`                      | *
 `overlayImage`              | `null`                      | *
 `pointerRotation`           | `0`                         | The angle of the pointer that is used to determine the "winning" item (see the `onRest` event). `0°` is north.
 `radius`                    | `.95`                       | Radius of the wheel as a percent of the container's smallest dimension.
