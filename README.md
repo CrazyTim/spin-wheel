@@ -65,6 +65,8 @@ Method                                       | Description
 `spin(speed = 0)`                            | Spin the wheel and raise the `onSpin` event. `speed` is added to `rotationSpeed` ±30% (randomised to make it realistic and less predictable).
 `setImage(url = '')`                         | Draw an image over the centre of the wheel, which will be scaled to fit the wheel diameter and rotate with the wheel.
 `setItems(items = [])`                       | Set the `items` to show on the wheel.
+`setItemBackgroundColors(colors = [])`       | Set the repeating pattern of colors that will be used for each `item.backgroundColor`. Is overridden by `item.backgroundColor`. Example: `['#fff','#000']`.
+`setItemLabelColors(colors = [])`            | Set the repeating pattern of colors that will be used for each `item.labelColor`. Is overridden by `item.labelColor`. Example: `['#fff','#000']`.
 `setIsInteractive()`                         | Enable/disable the feature that lets the user spin the wheel using click-drag/touch-flick.
 `setMaxRotationSpeed(speed = 0)`             | Set a maximum value for `rotationSpeed`. The wheel will not spin faster than this value.
 `setRadius(value = 0.95)`                    | Set the radius of the wheel as a percent of the container's smallest dimension.
@@ -89,10 +91,9 @@ Key                         | Default Value               | Description
 --------------------------- | --------------------------- | ---------------------------
 `image`                     | `null`                      | *
 `isInteractive`             | `true`                      | *
-`itemColorSet`              | `[]`                        | Pattern of background colors that will be used for each `item`. Can be overridden by `item.color`. Example: `['#fff','#000']`.
+`itemBackgroundColors`      | `[]`                        | *
 `itemLabelAlign`            | `right`                     | `left`|`center`|`right`. If you change this to `left`, you will also need to set `itemLabelRotation` to `180°`.
-`itemLabelColor`            | `'#000'`                    | The color of each `item.label`. Can be overridden by `itemColorSet`, or `item.color`.
-`itemLabelColorSet`         | `[]`                        | Pattern of colors that will be used for each `item.label`. Can be overridden by `item.labelColor`. Example: `['#fff','#000']`.
+`itemLabelColors`           | `[]`                        | *
 `itemLabelFont`             | `'sans-serif'`              | The font family of each `item.label`.
 `itemLabelFontMaxSize`      | `100`                       | The maximum font size to draw each `item.label`. The actual font size is calculated dynamically so that the longest label of all the items fits within `itemLabelMaxRadius` and the font size is below `itemLabelFontMaxSize`.
 `itemLabelLineHeight`       | `0`                         | Use this to adjust the line height of the font.
@@ -119,10 +120,10 @@ Key                         | Default Value               | Description
 
 Key                         | Default Value               | Description
 --------------------------- | --------------------------- | ---------------------------
+`backgroundColor`           | `'#fff'`                    | The background color of the item.
 `label`                     | `''`                        | The text you want to show in the item.
+`labelColor`                | `'#000'`                    | The color of the label.
 `weight`                    | `1`                         | The size of the item. For example say you have 2 items, where `item[0]` has a weight of `1` and `item[1]` has a weight of `2`. This means `item[0]` will take up 1/3 of the space on the wheel and `item[1]` will take up 2/3 of the space.
-`color`                     | `''`                        | Background color. Example: `#fff'`.
-`labelColor`                | `''`                        | Example: `#fff'`.
 
 ## Events
 

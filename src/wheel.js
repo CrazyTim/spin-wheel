@@ -7,6 +7,10 @@ export default class Wheel {
   constructor(container) {
     this.canvasContainer = container;
     this.initCanvas();
+
+    this.itemBackgroundColors = [];
+    this.itemLabelColors = [];
+    this.offset = {x: 0, y: 0};
   }
 
   initCanvas() {
@@ -35,10 +39,7 @@ export default class Wheel {
     // Destructure properties, define defaults:
     // See README.md for property descriptions.
     ({
-      itemColorSet:        this.itemColorSet = [],
       itemLabelAlign:      this.itemLabelAlign = enums.AlignText.right,
-      itemLabelColor:      this.itemLabelColor = '#000',
-      itemLabelColorSet:   this.itemLabelColorSet = [],
       itemLabelFont:       this.itemLabelFont = 'sans-serif',
       itemLabelFontMaxSize:this.itemLabelFontMaxSize = 100,
       itemLabelLineHeight: this.itemLabelLineHeight = 0,
@@ -52,6 +53,8 @@ export default class Wheel {
     this.setImage(props.image);
     this.setIsInteractive(props.isInteractive);
     this.setItems(props.items);
+    this.setItemBackgroundColors(props.itemBackgroundColors);
+    this.setItemLabelColors(props.itemLabelColors);
     this.setMaxRotationSpeed(props.maxRotationSpeed);
     this.setOffset(props.offset);
     this.setOnRest(props.onRest);
@@ -111,7 +114,7 @@ export default class Wheel {
     // Adjust the font size of labels so they all fit inside `wheelRadius`:
     this.itemLabelFontSize = this.itemLabelFontMaxSize * (this.size / this.defaultCanvasWidth);
     const maxLabelWidth = this.actualRadius * (this.itemLabelRadius - this.itemLabelMaxRadius);
-    this.items.forEach((i) => {
+    this.actualItems.forEach((i) => {
       this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(i.label, this.itemLabelFont, maxLabelWidth, this.context));
     });
 
@@ -149,9 +152,9 @@ export default class Wheel {
 
     // Draw wedges:
     lastItemAngle = this.rotation;
-    for (let i = 0; i < this.items.length; i++) {
+    for (let i = 0; i < this.actualItems.length; i++) {
 
-      itemAngle = this.items[i].weight * this.weightedItemAngle;
+      itemAngle = this.actualItems[i].weight * this.weightedItemAngle;
       const startAngle = lastItemAngle;
       const endAngle = lastItemAngle + itemAngle;
 
@@ -166,7 +169,7 @@ export default class Wheel {
       );
       ctx.closePath();
 
-      ctx.fillStyle = this.items[i].color;
+      ctx.fillStyle = this.actualItems[i].backgroundColor;
       ctx.fill();
 
       if (this.itemLineWidth > 0) {
@@ -176,7 +179,7 @@ export default class Wheel {
       lastItemAngle += itemAngle;
 
       if (util.isAngleBetween(this.pointerRotation, startAngle % 360, endAngle % 360)) {
-        currentItem = this.items[i];
+        currentItem = this.actualItems[i];
       }
 
     }
@@ -185,22 +188,19 @@ export default class Wheel {
     ctx.textBaseline = 'middle';
     ctx.textAlign = this.itemLabelAlign;
     ctx.font = this.itemLabelFontSize + 'px ' + this.itemLabelFont;
-    ctx.fillStyle = this.itemLabelColor;
 
     ctx.save();
 
     // Draw item labels:
     lastItemAngle = this.rotation;
-    for (let i = 0; i < this.items.length; i++) {
+    for (let i = 0; i < this.actualItems.length; i++) {
 
-      itemAngle = this.items[i].weight * this.weightedItemAngle;
+      itemAngle = this.actualItems[i].weight * this.weightedItemAngle;
 
       ctx.save();
       ctx.beginPath();
 
-      if (this.items[i].labelColor !== undefined) {
-        ctx.fillStyle = this.items[i].labelColor;
-      }
+      ctx.fillStyle = this.actualItems[i].labelColor;
 
       const angle = lastItemAngle + (itemAngle / 2) + this.itemLabelLineHeight;
 
@@ -211,8 +211,8 @@ export default class Wheel {
 
       ctx.rotate(util.degRad(angle + enums.arcAdjust + this.itemLabelRotation));
 
-      if (this.items[i].label !== undefined) {
-        ctx.fillText(this.items[i].label, 0, 0);
+      if (this.actualItems[i].label !== undefined) {
+        ctx.fillText(this.actualItems[i].label, 0, 0);
       }
 
       ctx.restore();
@@ -354,88 +354,127 @@ export default class Wheel {
 
   }
 
-  setImage(url = '') {
+  processItems() {
 
+    this.actualItems = [];
+
+    for (let i = 0; i < this.items.length; i++) {
+
+      const item = this.items[i];
+      const newItem = {};
+
+      // Background color:
+      if (item.backgroundColor) {
+        newItem.backgroundColor = item.backgroundColor
+      } else if (this.itemBackgroundColors.length) {
+        // Use a value from the repeating set:
+        newItem.backgroundColor = this.itemBackgroundColors[i % this.itemBackgroundColors.length];
+      } else {
+        newItem.backgroundColor = '#fff'; // Default.
+      }
+
+      // Label:
+      if (item.label) {
+        newItem.label = item.label;
+      } else {
+        newItem.label = '';
+      }
+
+      // Label Color:
+      if (item.labelColor) {
+        newItem.labelColor = item.labelColor;
+      } else if (this.itemLabelColors.length) {
+        // Use a value from the repeating set:
+        newItem.labelColor = this.itemLabelColors[i % this.itemLabelColors.length];
+      } else {
+        newItem.labelColor = '#000'; // Default.
+      }
+
+      // Weight:
+      if (typeof item.weight === 'number') {
+        newItem.weight = item.weight;
+      } else {
+        newItem.weight = 1;
+      };
+
+      this.actualItems.push(newItem);
+
+    }
+
+    if (this.actualItems.length) {
+      this.weightedItemAngle = 360 / util.sumObjArray(this.actualItems, 'weight');
+    } else {
+      this.weightedItemAngle = 0;
+    }
+
+  }
+
+  setImage(url = '') {
     if (!url) {
       this.image = null;
       return;
     }
-
     this.image = new Image();
     this.image.src = url;
-
   }
 
   setOffset(point = {x: 0, y: 0}) {
-
     if (!point) {
       this.offset = {x: 0, y: 0};
       return;
     }
-
     this.offset = point;
     this.resize();
-
   }
 
   setOverlayImage(url = '') {
-
     if (!url) {
       this.overlayImage = null;
       return;
     }
-
     this.overlayImage = new Image();
     this.overlayImage.src = url;
-
   }
 
+  /**
+   * Set the `items` to show on the wheel.
+   */
   setItems(items = []) {
-
     if(!Array.isArray(items)) {
       this.items = [];
       this.weightedItemAngle = 0;
       return;
     }
-
     this.items = items;
+    this.processItems();
+  }
 
-    if (this.itemColorSet.length) {
-      // Fill any empty colors with a repeating color set:
-      for (let i = 0; i < items.length; i++) {
-        const c = this.itemColorSet[i % this.itemColorSet.length];
-        if (!items[i].color) {
-          items[i].color = c;
-        }
-      }
-    } else {
-      // Fill any empty colors with white:
-      for (let i = 0; i < items.length; i++) {
-        if (!items[i].color) {
-          items[i].color = '#fff';
-        }
-      }
+  /**
+   * Set the repeating pattern of colors that will be used for each item's `backgroundColor`.
+   * Is overridden by `item.backgroundColor`.
+   * Example: `['#fff','#000']`.
+   */
+  setItemBackgroundColors(value = []) {
+    if(!Array.isArray(value)) {
+      this.itemBackgroundColors = [];
+      return;
     }
+    this.itemBackgroundColors = value;
+    this.processItems();
+  }
 
-    // Set a default weight for items that don't have it:
-    for (let i = 0; i < items.length; i++) {
-      if (items[i].weight === undefined) {
-        items[i].weight = 1;
-      };
+  /**
+   * Set the repeating pattern of colors that will be used for each item's `labelColor`.
+   * Is overridden by `item.labelColor`.
+   * Example: `['#fff','#000']`.
+   */
+  setItemLabelColors(value = []) {
+    if(!Array.isArray(value)) {
+      this.itemLabelColors = [];
+      return;
     }
-
-    // Apply repeating label colors:
-    if (this.itemLabelColorSet.length) {
-      for (let i = 0; i < items.length; i++) {
-        const c = this.itemLabelColorSet[i % this.itemLabelColorSet.length];
-        if (!items[i].labelColor) {
-          items[i].labelColor = c;
-        }
-      }
-    }
-
-    this.weightedItemAngle = 360 / util.sumObjArray(this.items, 'weight');
-
+    this.itemLabelColors = value;
+    this.processItems();
   }
 
   /**
