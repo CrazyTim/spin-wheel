@@ -49,19 +49,19 @@ export default class Wheel {
       itemLineWidth:       this.itemLineWidth = 1,
     } = props);
 
+    this.setImage(props.image);
     this.setIsInteractive(props.isInteractive);
+    this.setItems(props.items);
     this.setMaxRotationSpeed(props.maxRotationSpeed);
+    this.setOffset(props.offset);
     this.setOnRest(props.onRest);
     this.setOnSpin(props.onSpin);
-    this.setItems(props.items);
+    this.setOverlayImage(props.overlayImage);
     this.setPointerRotation(props.items);
-    this.setRotation(props.rotation);
     this.setRadius(props.radius);
+    this.setRotation(props.rotation);
     this.setRotationResistance(props.rotationResistance);
     this.setRotationSpeed(props.rotationSpeed);
-    this.setImage(props.image);
-    this.setOffset(props.offset);
-    this.setOverlayImage(props.overlayImage);
 
     this.resize(); // This will start the animation loop.
 
@@ -106,11 +106,11 @@ export default class Wheel {
     };
 
     // Recalculate the wheel radius:
-    this.wheelRadius = (this.size / 2) * this.radius;
+    this.actualRadius = (this.size / 2) * this.radius;
 
     // Adjust the font size of labels so they all fit inside `wheelRadius`:
     this.itemLabelFontSize = this.itemLabelFontMaxSize * (this.size / this.defaultCanvasWidth);
-    const maxLabelWidth = this.wheelRadius * (this.itemLabelRadius - this.itemLabelMaxRadius);
+    const maxLabelWidth = this.actualRadius * (this.itemLabelRadius - this.itemLabelMaxRadius);
     this.items.forEach((i) => {
       this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(i.label, this.itemLabelFont, maxLabelWidth, this.context));
     });
@@ -160,7 +160,7 @@ export default class Wheel {
       ctx.arc(
         this.center.x,
         this.center.y,
-        this.wheelRadius,
+        this.actualRadius,
         util.degRad(startAngle + enums.arcAdjust),
         util.degRad(endAngle + enums.arcAdjust)
       );
@@ -205,8 +205,8 @@ export default class Wheel {
       const angle = lastItemAngle + (itemAngle / 2) + this.itemLabelLineHeight;
 
       ctx.translate(
-        this.center.x + Math.cos(util.degRad(angle + enums.arcAdjust)) * (this.wheelRadius * this.itemLabelRadius),
-        this.center.y + Math.sin(util.degRad(angle + enums.arcAdjust)) * (this.wheelRadius * this.itemLabelRadius)
+        this.center.x + Math.cos(util.degRad(angle + enums.arcAdjust)) * (this.actualRadius * this.itemLabelRadius),
+        this.center.y + Math.sin(util.degRad(angle + enums.arcAdjust)) * (this.actualRadius * this.itemLabelRadius)
       );
 
       ctx.rotate(util.degRad(angle + enums.arcAdjust + this.itemLabelRotation));
@@ -331,7 +331,7 @@ export default class Wheel {
    */
   wheelHitTest(point = {x:0, y:0}) {
     const p = util.translateXYToElement(point, this.canvas);
-    return util.isPointInCircle(p, this.center.x, this.center.y, this.wheelRadius);
+    return util.isPointInCircle(p, this.center.x, this.center.y, this.actualRadius);
   }
 
   /**
