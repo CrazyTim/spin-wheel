@@ -48,7 +48,6 @@ export default class Wheel {
       itemLineColor:       this.itemLineColor = '#000',
       itemLineWidth:       this.itemLineWidth = 1,
       pointerRotation:     this.pointerRotation = 0,
-      radius:              this.radius = 0.95,
     } = props);
 
     this.setIsInteractive(props.isInteractive);
@@ -57,6 +56,7 @@ export default class Wheel {
     this.setOnSpin(props.onSpin);
     this.setItems(props.items);
     this.setRotation(props.rotation);
+    this.setRadius(props.radius);
     this.setRotationResistance(props.rotationResistance);
     this.setRotationSpeed(props.rotationSpeed);
     this.setImage(props.image);
@@ -481,6 +481,18 @@ export default class Wheel {
       return;
     }
     this.onSpin = callback;
+  }
+
+  /**
+   * Set the radius of the wheel as a percent of the container's smallest dimension.
+   */
+  setRadius(value = 0.95) {
+    if (typeof value !== 'number') {
+      this.radius = 0.95;
+      return;
+    }
+    this.radius = value;
+    this.resize();
   }
 
   /**

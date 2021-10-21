@@ -67,6 +67,7 @@ Method                                       | Description
 `setItems(items = [])`                       | Set the `items` to show on the wheel.
 `setIsInteractive()`                         | Enable/disable the feature that lets the user spin the wheel using click-drag/touch-flick.
 `setMaxRotationSpeed(speed = 0)`             | Set a maximum value for `rotationSpeed`. The wheel will not spin faster than this value.
+`setRadius(value = 0.95)`                    | Set the radius of the wheel as a percent of the container's smallest dimension.
 `setRotationSpeed(speed = 0)`                | Set the rotation speed of the wheel. Pass a positive number to spin clockwise, or a negative number to spin antiClockwise. The further away from 0 the faster it will spin.
 `setRotation(rotation = 0)`                  | Set the rotation (angle in degrees) of the wheel. `0` is north. `item[0]` will be drawn clockwise from this point.
 `setRotationResistance(resistance = 0)`      | Set how much to reduce `rotationSpeed` by every second.
@@ -106,7 +107,7 @@ Key                         | Default Value               | Description
 `onSpin`                    | `null`                      | *
 `overlayImage`              | `null`                      | *
 `pointerRotation`           | `0`                         | The angle of the pointer that is used to determine the "winning" item (see the `onRest` event). `0°` is north.
-`radius`                    | `.95`                       | Radius of the wheel as a percent of the container's smallest dimension.
+`radius`                    | `0.95`                      | *
 `rotation`                  | `0`                         | *
 `rotationResistance`        | `-35`                       | *
 `rotationSpeed`             | `0`                         | *
