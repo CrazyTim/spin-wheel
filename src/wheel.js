@@ -47,7 +47,6 @@ export default class Wheel {
       itemLabelRotation:   this.itemLabelRotation = 0,
       itemLineColor:       this.itemLineColor = '#000',
       itemLineWidth:       this.itemLineWidth = 1,
-      pointerRotation:     this.pointerRotation = 0,
     } = props);
 
     this.setIsInteractive(props.isInteractive);
@@ -55,6 +54,7 @@ export default class Wheel {
     this.setOnRest(props.onRest);
     this.setOnSpin(props.onSpin);
     this.setItems(props.items);
+    this.setPointerRotation(props.items);
     this.setRotation(props.rotation);
     this.setRadius(props.radius);
     this.setRotationResistance(props.rotationResistance);
@@ -481,6 +481,18 @@ export default class Wheel {
       return;
     }
     this.onSpin = callback;
+  }
+
+  /**
+   * Set the angle of the pointer which is used to determine the "winning" item.
+   * 0 is north.
+   */
+  setPointerRotation(value = 0) {
+    if (typeof value !== 'number') {
+      this.pointerRotation = 0;
+      return;
+    }
+    this.pointerRotation = value;
   }
 
   /**

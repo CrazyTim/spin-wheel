@@ -75,6 +75,7 @@ Method                                       | Description
 `setOnRest(callback = null)`                 | Set a callback for the `onRest` event (see below).
 `setOnSpin(callback = null)`                 | Set a callback for the `onSpin` event (see below).
 `setOverlayImage(url = '')`                  | Draw an image over the centre of the wheel which will not rotate with the wheel. Use this to draw decorations around the wheel, such as a stand or pointer.
+`setPointerRotation(value = 0)`              | Set the angle of the pointer which is used to determine the "winning" item. 0 is north.
 
 ## Properties for `Wheel`
 
@@ -96,7 +97,7 @@ Key                         | Default Value               | Description
 `itemLabelFontMaxSize`      | `100`                       | The maximum font size to draw each `item.label`. The actual font size is calculated dynamically so that the longest label of all the items fits within `itemLabelMaxRadius` and the font size is below `itemLabelFontMaxSize`.
 `itemLabelLineHeight`       | `0`                         | Use this to adjust the line height of the font.
 `itemLabelMaxRadius`        | `.2`                        | The point along the radius (as a percent, starting from the inside of the circle) to resize each `item.label` (to fit) if it is too wide.
-`itemLabelRadius`           | `.85`                       | The point along the radius (as a percent, starting from the inside of the circle) to start drawing each `item.label`.
+`itemLabelRadius`           | `0.85`                      | The point along the radius (as a percent, starting from the inside of the circle) to start drawing each `item.label`.
 `itemLabelRotation`         | `0`                         | Use this to flip `item.label` `180°` when changing `itemLabelAlign`.
 `itemLineColor`             | `'#000'`                    | Color of the line that separates each `item.label`.
 `itemLineWidth`             | `1`                         | Size of the line that separates each `item.label`.
@@ -106,7 +107,7 @@ Key                         | Default Value               | Description
 `onRest`                    | `null`                      | *
 `onSpin`                    | `null`                      | *
 `overlayImage`              | `null`                      | *
-`pointerRotation`           | `0`                         | The angle of the pointer that is used to determine the "winning" item (see the `onRest` event). `0°` is north.
+`pointerRotation`           | `0`                         | *
 `radius`                    | `0.95`                      | *
 `rotation`                  | `0`                         | *
 `rotationResistance`        | `-35`                       | *
