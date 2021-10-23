@@ -90,7 +90,11 @@ You can set properties all at once by passing them as key-value pairs to `Wheel.
 
 See [./example/js/props.js](https://github.com/CrazyTim/spin-wheel/blob/master/example/js/props.js).
 
-![props diagram](https://crazytim.github.io/spin-wheel/props-diagram.svg)
+<div>
+  <img alt="diagram of props" src="https://crazytim.github.io/spin-wheel/props-diagram.svg" width=615px />
+  <br>
+  <br>
+</div>
 
 Key                         | Default Value               | Description
 --------------------------- | --------------------------- | ---------------------------
