@@ -407,7 +407,7 @@ export default class Wheel {
   }
 
   setImage(url = '') {
-    if (!url) {
+    if (typeof url !== 'string') {
       this.image = null;
       return;
     }
@@ -425,7 +425,7 @@ export default class Wheel {
   }
 
   setOverlayImage(url = '') {
-    if (!url) {
+    if (typeof url !== 'string') {
       this.overlayImage = null;
       return;
     }
@@ -480,7 +480,7 @@ export default class Wheel {
    * Example: `'sans-serif'`.
    */
   setItemLabelFont(value = 'sans-serif') {
-    if(!value) {
+    if(typeof value !== 'string') {
       this.itemLabelFont = 'sans-serif';
       return;
     }
@@ -492,7 +492,7 @@ export default class Wheel {
    * Enable/disable the feature that lets the user spin the wheel using click-drag/touch-flick.
    */
   setIsInteractive(value = true) {
-    if (typeof resistance !== 'number') {
+    if (typeof value !== 'boolean') {
       this.isInteractive = true;
       return;
     }
