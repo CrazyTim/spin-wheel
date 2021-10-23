@@ -67,6 +67,7 @@ Method                                       | Description
 `setItems(items = [])`                       | Set the `items` to show on the wheel.
 `setItemBackgroundColors(colors = [])`       | Set the repeating pattern of colors that will be used for each `item.backgroundColor`. Is overridden by `item.backgroundColor`. Example: `['#fff','#000']`.
 `setItemLabelColors(colors = [])`            | Set the repeating pattern of colors that will be used for each `item.labelColor`. Is overridden by `item.labelColor`. Example: `['#fff','#000']`.
+`setItemLabelFont(font = '')`                | Set the font family of each `item.labelFont`. Is overridden by `item.labelFont`. Example: `'sans-serif'`.
 `setIsInteractive()`                         | Enable/disable the feature that lets the user spin the wheel using click-drag/touch-flick.
 `setMaxRotationSpeed(speed = 0)`             | Set a maximum value for `rotationSpeed`. The wheel will not spin faster than this value.
 `setRadius(value = 0.95)`                    | Set the radius of the wheel as a percent of the container's smallest dimension.
@@ -94,7 +95,7 @@ Key                         | Default Value               | Description
 `itemBackgroundColors`      | `[]`                        | *
 `itemLabelAlign`            | `right`                     | `left`|`center`|`right`. If you change this to `left`, you will also need to set `itemLabelRotation` to `180°`.
 `itemLabelColors`           | `[]`                        | *
-`itemLabelFont`             | `'sans-serif'`              | The font family of each `item.label`.
+`itemLabelFont`             | `'sans-serif'`              | *
 `itemLabelFontMaxSize`      | `100`                       | The maximum font size to draw each `item.label`. The actual font size is calculated dynamically so that the longest label of all the items fits within `itemLabelMaxRadius` and the font size is below `itemLabelFontMaxSize`.
 `itemLabelLineHeight`       | `0`                         | Use this to adjust the line height of the font.
 `itemLabelMaxRadius`        | `.2`                        | The point along the radius (as a percent, starting from the inside of the circle) to resize each `item.label` (to fit) if it is too wide.

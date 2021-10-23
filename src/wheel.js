@@ -22,9 +22,7 @@ export default class Wheel {
 
     this.canvas = document.createElement('canvas');
     this.canvasContainer.appendChild(this.canvas);
-
     this.context = this.canvas.getContext('2d');
-    this.defaultCanvasWidth = 500; // So we can scale fonts.
 
     this.registerEvents();
 
@@ -40,7 +38,6 @@ export default class Wheel {
     // See README.md for property descriptions.
     ({
       itemLabelAlign:      this.itemLabelAlign = enums.AlignText.right,
-      itemLabelFont:       this.itemLabelFont = 'sans-serif',
       itemLabelFontMaxSize:this.itemLabelFontMaxSize = 100,
       itemLabelLineHeight: this.itemLabelLineHeight = 0,
       itemLabelMaxRadius:  this.itemLabelMaxRadius = 0.2,
@@ -55,6 +52,7 @@ export default class Wheel {
     this.setItems(props.items);
     this.setItemBackgroundColors(props.itemBackgroundColors);
     this.setItemLabelColors(props.itemLabelColors);
+    this.setItemLabelFont(props.itemLabelFont);
     this.setMaxRotationSpeed(props.maxRotationSpeed);
     this.setOffset(props.offset);
     this.setOnRest(props.onRest);
@@ -87,13 +85,13 @@ export default class Wheel {
     // Get the smallest dimension of `canvasContainer`:
     const [w, h] = [this.canvasContainer.clientWidth, this.canvasContainer.clientHeight];
 
-    // Adjust the wheel size depending on the offset so it fills the container:
+    // Calc the size that the wheel needs to be to fit in it's container:
     const minSize = Math.min(w, h);
     const wheelSize = {
       w: minSize - (minSize * this.offset.x),
       h: minSize - (minSize * this.offset.y),
     };
-    const scale = Math.min(w / wheelSize.w, h / wheelSize.h); // Calc scale of the wheel fitted inside it's container.
+    const scale = Math.min(w / wheelSize.w, h / wheelSize.h);
     this.size = Math.max(wheelSize.w * scale, wheelSize.h * scale);
 
     // Resize canvas element:
@@ -112,7 +110,7 @@ export default class Wheel {
     this.actualRadius = (this.size / 2) * this.radius;
 
     // Adjust the font size of labels so they all fit inside `wheelRadius`:
-    this.itemLabelFontSize = this.itemLabelFontMaxSize * (this.size / this.defaultCanvasWidth);
+    this.itemLabelFontSize = this.itemLabelFontMaxSize * (this.size / enums.fontScale);
     const maxLabelWidth = this.actualRadius * (this.itemLabelRadius - this.itemLabelMaxRadius);
     this.actualItems.forEach((i) => {
       this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(i.label, this.itemLabelFont, maxLabelWidth, this.context));
@@ -475,6 +473,20 @@ export default class Wheel {
     }
     this.itemLabelColors = value;
     this.processItems();
+  }
+
+  /**
+   * Set the font family of each `item.labelFont`.
+   * Is overridden by `item.labelFont`.
+   * Example: `'sans-serif'`.
+   */
+  setItemLabelFont(value = 'sans-serif') {
+    if(!value) {
+      this.itemLabelFont = 'sans-serif';
+      return;
+    }
+    this.itemLabelFont = value;
+    this.resize();
   }
 
   /**
