@@ -63,6 +63,7 @@ Method                                       | Description
 -------------------------------------------- | ---------------------------
 `init(props = {})`                           | Initialise the instance with the given properties (see Properties below). If any properties are omitted, then default values will be applied.
 `spin(speed = 0)`                            | Spin the wheel and raise the `onSpin` event. `speed` is added to `rotationSpeed` ±30% (randomised to make it realistic and less predictable).
+`setDebug(debug = false)`                    | Show/hide debugging info. This is particularly helpful when fine-tuning labels.
 `setImage(url = '')`                         | Draw an image over the centre of the wheel, which will be scaled to fit the wheel diameter and rotate with the wheel.
 `setItems(items = [])`                       | Set the `items` to show on the wheel.
 `setItemBackgroundColors(colors = [])`       | Set the repeating pattern of colors that will be used for each `item.backgroundColor`. Is overridden by `item.backgroundColor`. Example: `['#fff','#000']`.
@@ -93,10 +94,11 @@ See [./example/js/props.js](https://github.com/CrazyTim/spin-wheel/blob/master/e
 
 Key                         | Default Value               | Description
 --------------------------- | --------------------------- | ---------------------------
+`debug`                     | `false`                     | *
 `image`                     | `null`                      | *
 `isInteractive`             | `true`                      | *
 `itemBackgroundColors`      | `[]`                        | *
-`itemLabelAlign`            | `right`                     | `left`|`center`|`right`. If you change this to `left`, you will also need to set `itemLabelRotation` to `180°`.
+`itemLabelAlign`            | `'right'`                   | `'left'`|`'center'`|`'right'`. If you change this to `'left'`, you will also need to set `itemLabelRotation` to `180°`.
 `itemLabelColors`           | `[]`                        | *
 `itemLabelFont`             | `'sans-serif'`              | *
 `itemLabelFontMaxSize`      | `100`                       | The maximum font size to draw each `item.label`. The actual font size is calculated dynamically so that the longest label of all the items fits within `itemLabelMaxRadius` and the font size is below `itemLabelFontMaxSize`.
@@ -118,7 +120,7 @@ Key                         | Default Value               | Description
 `rotationResistance`        | `-35`                       | *
 `rotationSpeed`             | `0`                         | *
 
-* = See method description above. Do not set this property directly. Use it's equivalent `set` method instead.
+* = See method description above. Do not set this property directly. Use the equivalent `set` method instead.
 
 ## Properties for items
 

@@ -44,6 +44,7 @@ export default class Wheel {
       itemLabelRotation:   this.itemLabelRotation = 0,
     } = props);
 
+    this.setDebug(props.debug);
     this.setImage(props.image);
     this.setIsInteractive(props.isInteractive);
     this.setItems(props.items);
@@ -111,9 +112,9 @@ export default class Wheel {
 
     // Adjust the font size of labels so they all fit inside `wheelRadius`:
     this.itemLabelFontSize = this.itemLabelFontMaxSize * (this.size / enums.fontScale);
-    const maxLabelWidth = this.actualRadius * (this.itemLabelRadius - this.itemLabelMaxRadius);
+    this.labelMaxWidth = this.actualRadius * (this.itemLabelRadius - this.itemLabelMaxRadius);
     this.actualItems.forEach((i) => {
-      this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(i.label, this.itemLabelFont, maxLabelWidth, this.context));
+      this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(i.label, this.itemLabelFont, this.labelMaxWidth, this.context));
     });
 
     this.frameRequestId = window.requestAnimationFrame(this.drawFrame.bind(this));
@@ -185,6 +186,7 @@ export default class Wheel {
     ctx.textBaseline = 'middle';
     ctx.textAlign = this.itemLabelAlign;
     ctx.font = this.itemLabelFontSize + 'px ' + this.itemLabelFont;
+    const itemLabelBaselineOffset = this.itemLabelFontSize * -this.itemLabelBaselineOffset;
 
     ctx.save();
 
@@ -206,7 +208,20 @@ export default class Wheel {
         this.center.y + Math.sin(util.degRad(angle + enums.arcAdjust)) * (this.actualRadius * this.itemLabelRadius)
       );
 
-      ctx.rotate(util.degRad(angle + enums.arcAdjust + this.itemLabelRotation));
+      ctx.rotate(util.degRad(angle + enums.arcAdjust));
+
+      if (this.debug) {
+        ctx.beginPath();
+        ctx.strokeStyle = '#ff00ff'
+        ctx.lineWidth = 1;
+        ctx.moveTo(0, 0);
+        ctx.lineTo(-this.labelMaxWidth, 0);
+        ctx.stroke();
+
+        ctx.strokeRect(0, -this.itemLabelFontSize/2, -this.labelMaxWidth, this.itemLabelFontSize)
+      }
+
+      ctx.rotate(util.degRad(this.itemLabelRotation));
 
       if (this.actualItems[i].label !== undefined) {
         ctx.fillText(this.actualItems[i].label, 0, itemLabelBaselineOffset);
@@ -242,25 +257,25 @@ export default class Wheel {
 
     }
 
-    /*
-    // Debugging: draw dragMove events
-    if (this.dragMoves && this.dragMoves.length) {
-      for (let i = this.dragMoves.length; i >= 0; i--) {
-        const point = this.dragMoves[i];
-        if (point === undefined) continue;
-        let percentFill = i / this.dragMoves.length;
-        percentFill = (percentFill -1) * -1;
-        percentFill *= 100;
-        ctx.beginPath();
-        ctx.arc(point.x, point.y, 5, 0, 2 * Math.PI);
-        ctx.fillStyle = `hsl(200,100%,${percentFill}%)`;
-        ctx.strokeStyle = '#000';
-        ctx.lineWidth = 0.5;
-        ctx.fill();
-        ctx.stroke();
+    if (this.debug) {
+      // Draw dragMove events:
+      if (this.dragMoves && this.dragMoves.length) {
+        for (let i = this.dragMoves.length; i >= 0; i--) {
+          const point = this.dragMoves[i];
+          if (point === undefined) continue;
+          let percentFill = i / this.dragMoves.length;
+          percentFill = (percentFill -1) * -1;
+          percentFill *= 100;
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, 5, 0, 2 * Math.PI);
+          ctx.fillStyle = `hsl(200,100%,${percentFill}%)`;
+          ctx.strokeStyle = '#000';
+          ctx.lineWidth = 0.5;
+          ctx.fill();
+          ctx.stroke();
+        }
       }
     }
-    */
 
     // Wait until next frame.
     this.frameRequestId = window.requestAnimationFrame(this.drawFrame.bind(this));
@@ -404,6 +419,18 @@ export default class Wheel {
       this.weightedItemAngle = 0;
     }
 
+  }
+
+  /**
+   * Show/hide debugging info.
+   * This is particularly helpful when fine-tuning labels.
+   */
+  setDebug(value = false) {
+    if (typeof value !== 'boolean') {
+      this.debug = false;
+      return;
+    }
+    this.debug = value;
   }
 
   setImage(url = '') {
