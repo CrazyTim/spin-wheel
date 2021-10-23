@@ -69,6 +69,8 @@ Method                                       | Description
 `setItemLabelColors(colors = [])`            | Set the repeating pattern of colors that will be used for each `item.labelColor`. Is overridden by `item.labelColor`. Example: `['#fff','#000']`.
 `setItemLabelFont(font = '')`                | Set the font family of each `item.labelFont`. Is overridden by `item.labelFont`. Example: `'sans-serif'`.
 `setIsInteractive()`                         | Enable/disable the feature that lets the user spin the wheel using click-drag/touch-flick.
+`setlineColor()`                             | Set the color of the lines between each item.
+`setlineWidth()`                             | Set the width of the lines between each item.
 `setMaxRotationSpeed(speed = 0)`             | Set a maximum value for `rotationSpeed`. The wheel will not spin faster than this value.
 `setRadius(value = 0.95)`                    | Set the radius of the wheel as a percent of the container's smallest dimension.
 `setRotationSpeed(speed = 0)`                | Set the rotation speed of the wheel. Pass a positive number to spin clockwise, or a negative number to spin antiClockwise. The further away from 0 the faster it will spin.
@@ -101,8 +103,8 @@ Key                         | Default Value               | Description
 `itemLabelMaxRadius`        | `.2`                        | The point along the radius (as a percent, starting from the inside of the circle) to resize each `item.label` (to fit) if it is too wide.
 `itemLabelRadius`           | `0.85`                      | The point along the radius (as a percent, starting from the inside of the circle) to start drawing each `item.label`.
 `itemLabelRotation`         | `0`                         | Use this to flip `item.label` `180°` when changing `itemLabelAlign`.
-`itemLineColor`             | `'#000'`                    | Color of the line that separates each `item.label`.
-`itemLineWidth`             | `1`                         | Size of the line that separates each `item.label`.
+`lineColor`                 | `'#000'`                    | *
+`lineWidth`                 | `1`                         | *
 `items`                     | `[]`                        | *
 `maxRotationSpeed`          | `250`                       | *
 `offset`                    | `{x: 0, y: 0}`              | *

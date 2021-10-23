@@ -43,8 +43,6 @@ export default class Wheel {
       itemLabelMaxRadius:  this.itemLabelMaxRadius = 0.2,
       itemLabelRadius:     this.itemLabelRadius = 0.85,
       itemLabelRotation:   this.itemLabelRotation = 0,
-      itemLineColor:       this.itemLineColor = '#000',
-      itemLineWidth:       this.itemLineWidth = 1,
     } = props);
 
     this.setImage(props.image);
@@ -53,6 +51,8 @@ export default class Wheel {
     this.setItemBackgroundColors(props.itemBackgroundColors);
     this.setItemLabelColors(props.itemLabelColors);
     this.setItemLabelFont(props.itemLabelFont);
+    this.setLineColor(props.lineColor);
+    this.setLineWidth(props.lineWidth);
     this.setMaxRotationSpeed(props.maxRotationSpeed);
     this.setOffset(props.offset);
     this.setOnRest(props.onRest);
@@ -144,10 +144,6 @@ export default class Wheel {
     let itemAngle;
     let lastItemAngle; // Record the last angle so we can resume in the next loop.
 
-    ctx.strokeStyle = this.itemLineColor;
-    ctx.lineWidth = this.itemLineWidth;
-    ctx.lineJoin = 'bevel';
-
     // Draw wedges:
     lastItemAngle = this.rotation;
     for (let i = 0; i < this.actualItems.length; i++) {
@@ -170,7 +166,10 @@ export default class Wheel {
       ctx.fillStyle = this.actualItems[i].backgroundColor;
       ctx.fill();
 
-      if (this.itemLineWidth > 0) {
+      if (this.lineWidth > 0) {
+        ctx.strokeStyle = this.lineColor;
+        ctx.lineWidth = this.lineWidth;
+        ctx.lineJoin = 'bevel';
         ctx.stroke();
       }
 
@@ -498,6 +497,28 @@ export default class Wheel {
       return;
     }
     this.isInteractive = value;
+  }
+
+  /**
+   * Set the color of the lines between each item.
+   */
+  setLineColor(value = '#000') {
+    if (typeof value !== 'string') {
+      this.lineColor = '#000';
+      return;
+    }
+    this.lineColor = value;
+  }
+
+  /**
+   * Set the width of the lines between each item.
+   */
+  setLineWidth(value = 1) {
+    if (typeof value !== 'number') {
+      this.lineWidth = 1;
+      return;
+    }
+    this.lineWidth = value;
   }
 
   /**
