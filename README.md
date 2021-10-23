@@ -26,7 +26,7 @@
 
 ```JavaScript
 // 1. Create a new `Wheel` object, passing the DOM element where you want it to go:
-const wheel = new Wheel(document.querySelector('.wheel-wrapper'));
+const wheel = new Wheel(document.querySelector('.wheel-container'));
 
 // 2. Define the wheel's properties. The only required property is `items`.
 const props = {
@@ -56,6 +56,14 @@ To run the example, host the files on a web server, or if you have Node.js run:
 npm install
 npm start
 ```
+
+## Configuring
+
+Some numeric properties are specified as a percent. For example, instead of setting `wheel.radius` to an absolute value of `400px` you set it to `1.0` or 100%, meaning it will fill the available space in the container. This makes sense because the wheel always resizes itself to fit inside the container. This makes things easier because when the size of the container changes you don't have to worry about updating fiddly things like the font size - it happens automatically :grin:.
+
+The same goes for `wheel.offset` which is measured as a percent from the center of the container. Setting `offset.w` to `-0.5` will move the wheel 50% off the left edge of the container.
+
+Labels are not given an absolute size either. Instead you set `itemLabelFont` (example `'Arial'`), `itemLabelFontMaxSize` (this is a relative size), and `itemLabelMaxRadius` (as a percent of the radius), and the actual size of the font is calculated automatically to fit in the available space.
 
 ## Methods for `Wheel`
 
