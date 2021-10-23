@@ -10,7 +10,7 @@ export default class Wheel {
 
     this.itemBackgroundColors = [];
     this.itemLabelColors = [];
-    this.offset = {x: 0, y: 0};
+    this.offset = {w: 0, h: 0};
   }
 
   initCanvas() {
@@ -89,8 +89,8 @@ export default class Wheel {
     // Calc the size that the wheel needs to be to fit in it's container:
     const minSize = Math.min(w, h);
     const wheelSize = {
-      w: minSize - (minSize * this.offset.x),
-      h: minSize - (minSize * this.offset.y),
+      w: minSize - (minSize * this.offset.w),
+      h: minSize - (minSize * this.offset.h),
     };
     const scale = Math.min(w / wheelSize.w, h / wheelSize.h);
     this.size = Math.max(wheelSize.w * scale, wheelSize.h * scale);
@@ -103,8 +103,8 @@ export default class Wheel {
 
     // Re-calculate the center of the wheel:
     this.center = {
-      x: w / 2 + (w * this.offset.x),
-      y: h / 2 + (h * this.offset.y),
+      x: w / 2 + (w * this.offset.w),
+      y: h / 2 + (h * this.offset.h),
     };
 
     // Recalculate the wheel radius:
@@ -442,12 +442,12 @@ export default class Wheel {
     this.image.src = url;
   }
 
-  setOffset(point = {x: 0, y: 0}) {
-    if (!point) {
-      this.offset = {x: 0, y: 0};
+  setOffset(size = {w: 0, h: 0}) {
+    if (!size) {
+      this.offset = {w: 0, h: 0};
       return;
     }
-    this.offset = point;
+    this.offset = size;
     this.resize();
   }
 
