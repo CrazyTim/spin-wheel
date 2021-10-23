@@ -68,6 +68,7 @@ Method                                       | Description
 `setItemBackgroundColors(colors = [])`       | Set the repeating pattern of colors that will be used for each `item.backgroundColor`. Is overridden by `item.backgroundColor`. Example: `['#fff','#000']`.
 `setItemLabelColors(colors = [])`            | Set the repeating pattern of colors that will be used for each `item.labelColor`. Is overridden by `item.labelColor`. Example: `['#fff','#000']`.
 `setItemLabelFont(font = '')`                | Set the font family of each `item.labelFont`. Is overridden by `item.labelFont`. Example: `'sans-serif'`.
+`setItemLabelBaselineOffset(offset = 0)`     | Offset the baseline (or line height) of each `item.label` as a percentage of the label's height.
 `setIsInteractive()`                         | Enable/disable the feature that lets the user spin the wheel using click-drag/touch-flick.
 `setlineColor()`                             | Set the color of the lines between each item.
 `setlineWidth()`                             | Set the width of the lines between each item.
@@ -99,7 +100,7 @@ Key                         | Default Value               | Description
 `itemLabelColors`           | `[]`                        | *
 `itemLabelFont`             | `'sans-serif'`              | *
 `itemLabelFontMaxSize`      | `100`                       | The maximum font size to draw each `item.label`. The actual font size is calculated dynamically so that the longest label of all the items fits within `itemLabelMaxRadius` and the font size is below `itemLabelFontMaxSize`.
-`itemLabelLineHeight`       | `0`                         | Use this to adjust the line height of the font.
+`itemLabelOffset`           | `0`                         | *
 `itemLabelMaxRadius`        | `.2`                        | The point along the radius (as a percent, starting from the inside of the circle) to resize each `item.label` (to fit) if it is too wide.
 `itemLabelRadius`           | `0.85`                      | The point along the radius (as a percent, starting from the inside of the circle) to start drawing each `item.label`.
 `itemLabelRotation`         | `0`                         | Use this to flip `item.label` `180°` when changing `itemLabelAlign`.

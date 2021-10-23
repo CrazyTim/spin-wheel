@@ -39,7 +39,6 @@ export default class Wheel {
     ({
       itemLabelAlign:      this.itemLabelAlign = enums.AlignText.right,
       itemLabelFontMaxSize:this.itemLabelFontMaxSize = 100,
-      itemLabelLineHeight: this.itemLabelLineHeight = 0,
       itemLabelMaxRadius:  this.itemLabelMaxRadius = 0.2,
       itemLabelRadius:     this.itemLabelRadius = 0.85,
       itemLabelRotation:   this.itemLabelRotation = 0,
@@ -51,6 +50,7 @@ export default class Wheel {
     this.setItemBackgroundColors(props.itemBackgroundColors);
     this.setItemLabelColors(props.itemLabelColors);
     this.setItemLabelFont(props.itemLabelFont);
+    this.setItemLabelBaselineOffset(props.itemLabelBaselineOffset);
     this.setLineColor(props.lineColor);
     this.setLineWidth(props.lineWidth);
     this.setMaxRotationSpeed(props.maxRotationSpeed);
@@ -199,7 +199,7 @@ export default class Wheel {
 
       ctx.fillStyle = this.actualItems[i].labelColor;
 
-      const angle = lastItemAngle + (itemAngle / 2) + this.itemLabelLineHeight;
+      const angle = lastItemAngle + (itemAngle / 2);
 
       ctx.translate(
         this.center.x + Math.cos(util.degRad(angle + enums.arcAdjust)) * (this.actualRadius * this.itemLabelRadius),
@@ -209,7 +209,7 @@ export default class Wheel {
       ctx.rotate(util.degRad(angle + enums.arcAdjust + this.itemLabelRotation));
 
       if (this.actualItems[i].label !== undefined) {
-        ctx.fillText(this.actualItems[i].label, 0, 0);
+        ctx.fillText(this.actualItems[i].label, 0, itemLabelBaselineOffset);
       }
 
       ctx.restore();
@@ -485,6 +485,18 @@ export default class Wheel {
       return;
     }
     this.itemLabelFont = value;
+    this.resize();
+  }
+
+  /**
+   * Offset the baseline (or line height) of each `item.label` as a percentage of the label's height.
+   */
+  setItemLabelBaselineOffset(value = 0) {
+    if(typeof value !== 'number') {
+      this.itemLabelBaselineOffset = 0;
+      return;
+    }
+    this.itemLabelBaselineOffset = value;
     this.resize();
   }
 
