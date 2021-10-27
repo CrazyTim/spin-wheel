@@ -35,31 +35,31 @@ export default class Wheel {
    */
   init(props = {}) {
 
-    this.setDebug(props.debug);
-    this.setImage(props.image);
-    this.setIsInteractive(props.isInteractive);
-    this.setItems(props.items);
-    this.setItemBackgroundColors(props.itemBackgroundColors);
-    this.setItemLabelAlign(props.itemLabelAlign);
-    this.setItemLabelColors(props.itemLabelColors);
-    this.setItemLabelFont(props.itemLabelFont);
-    this.setItemLabelFontSizeMax(props.itemLabelFontSizeMax);
-    this.setItemLabelBaselineOffset(props.itemLabelBaselineOffset);
-    this.setItemLabelRadius(props.setItemLabelRadius);
-    this.setItemLabelRadiusMax(props.setItemLabelRadiusMax);
-    this.setItemLabelRotation(props.setItemLabelRotation);
-    this.setLineColor(props.lineColor);
-    this.setLineWidth(props.lineWidth);
-    this.setMaxRotationSpeed(props.maxRotationSpeed);
-    this.setOffset(props.offset);
-    this.setOnRest(props.onRest);
-    this.setOnSpin(props.onSpin);
-    this.setOverlayImage(props.overlayImage);
-    this.setPointerRotation(props.items);
-    this.setRadius(props.radius);
-    this.setRotation(props.rotation);
-    this.setRotationResistance(props.rotationResistance);
-    this.setRotationSpeed(props.rotationSpeed);
+    this.debug = props.debug;
+    this.image = props.image;
+    this.isInteractive = props.isInteractive;
+    this.itemBackgroundColors = props.itemBackgroundColors;
+    this.itemLabelAlign = props.itemLabelAlign;
+    this.itemLabelBaselineOffset = props.itemLabelBaselineOffset;
+    this.itemLabelColors = props.itemLabelColors;
+    this.itemLabelFont = props.itemLabelFont;
+    this.itemLabelFontSizeMax = props.itemLabelFontSizeMax;
+    this.itemLabelRadius = props.setItemLabelRadius;
+    this.itemLabelRadiusMax = props.setItemLabelRadiusMax;
+    this.itemLabelRotation = props.setItemLabelRotation;
+    this.items = props.items;
+    this.lineColor = props.lineColor;
+    this.lineWidth = props.lineWidth;
+    this.maxRotationSpeed = props.maxRotationSpeed;
+    this.radius = props.radius;
+    this.rotation = props.rotation;
+    this.rotationResistance =props.rotationResistance;
+    this.rotationSpeed = props.rotationSpeed;
+    this.offset = props.offset;
+    this.onRest = props.onRest;
+    this.onSpin = props.onSpin;
+    this.overlayImage = props.overlayImage;
+    this.pointerRotation = props.items;
 
     this.resize(); // This will start the animation loop.
 
@@ -317,7 +317,7 @@ export default class Wheel {
 
     const newSpeed = this.rotationSpeed + util.getRandomInt(speed * 0.85, speed * 0.15);
 
-    this.setRotationSpeed(newSpeed);
+    this.rotationSpeed = newSpeed;
 
     this.onSpin?.({
       event: 'spin',
@@ -421,294 +421,377 @@ export default class Wheel {
    * Show/hide debugging info.
    * This is particularly helpful when fine-tuning labels.
    */
-  setDebug(value = false) {
-    if (typeof value !== 'boolean') {
-      this.debug = false;
+  get debug () {
+    return this._debug;
+  }
+  set debug(val) {
+    if (typeof val !== 'boolean') {
+      this._debug = false;
       return;
     }
-    this.debug = value;
+    this._debug = val;
   }
 
-  setImage(url = '') {
-    if (typeof url !== 'string') {
-      this.image = null;
+  get image () {
+    return this._image;
+  }
+  set image(val) {
+    if (typeof val !== 'string') {
+      this._image = null;
       return;
     }
-    this.image = new Image();
-    this.image.src = url;
+    this._image = new Image();
+    this._image.src = val;
   }
 
-  setOffset(size = {w: 0, h: 0}) {
-    if (!size) {
-      this.offset = {w: 0, h: 0};
+  get offset () {
+    return this._offset;
+  }
+  set offset(val) {
+    if (!val) {
+      this._offset = {w: 0, h: 0};
       return;
     }
-    this.offset = size;
+    this._offset = val;
     this.resize();
   }
 
-  setOverlayImage(url = '') {
-    if (typeof url !== 'string') {
-      this.overlayImage = null;
+  get overlayImage () {
+    return this._overlayImage;
+  }
+  set overlayImage(val) {
+    if (typeof val !== 'string') {
+      this._overlayImage = null;
       return;
     }
-    this.overlayImage = new Image();
-    this.overlayImage.src = url;
+    this._overlayImage = new Image();
+    this._overlayImage.src = val;
   }
 
   /**
-   * Set the `items` to show on the wheel.
+   * The `items` to show on the wheel.
    */
-  setItems(items = []) {
-    if(!Array.isArray(items)) {
-      this.items = [];
-      this.weightedItemAngle = 0;
+  get items () {
+    return this._items;
+  }
+  set items(val) {
+    if(!Array.isArray(val)) {
+      this._items = [];
+      this._weightedItemAngle = 0;
       return;
     }
-    this.items = items;
+    this._items = val;
     this.processItems();
   }
 
   /**
-   * Set the repeating pattern of colors that will be used for each item's `backgroundColor`.
+   * The repeating pattern of colors that will be used for each item's `backgroundColor`.
    * Is overridden by `item.backgroundColor`.
    * Example: `['#fff','#000']`.
    */
-  setItemBackgroundColors(value = []) {
-    if(!Array.isArray(value)) {
-      this.itemBackgroundColors = [];
+  get itemBackgroundColors () {
+    return this._itemBackgroundColors;
+  }
+  set itemBackgroundColors(val) {
+    if(!Array.isArray(val)) {
+      this._temBackgroundColors = [];
       return;
     }
-    this.itemBackgroundColors = value;
+    this._itemBackgroundColors = val;
     this.processItems();
   }
 
   /**
-   * Set the alignment of each `item.label`.
+   * The alignment of each `item.label`.
    * Is overridden by `item.labelColor`.
    * Accepted vlaues: `'left'`|`'center'`|`'right'`.
    * If you change this to `'left'`, you will also need to set `itemLabelRotation` to `180°`.
    */
-  setItemLabelAlign(value = enums.AlignText.right) {
-    if(typeof value !== 'string') {
-      this.itemLabelAlign = enums.AlignText.right;
+  get itemLabelAlign () {
+    return this._itemLabelAlign;
+  }
+  set itemLabelAlign(val) {
+    if(typeof val !== 'string') {
+      this._itemLabelAlign = enums.AlignText.right;
       return;
     }
-    this.itemLabelAlign = value;
+    this._itemLabelAlign = val;
   }
 
   /**
-   * Set the maximum font size to draw each `item.label`.
+   * The maximum font size to draw each `item.label`.
    * The actual font size will be calculated dynamically so that the longest label of all
    * the items fits within `itemLabelRadiusMax` and the font size is below `itemLabelFontSizeMax`.
    */
-  setItemLabelFontSizeMax(value = 100) {
-    if(typeof value !== 'number') {
-      this.itemLabelFontSizeMax = 100;
+  get itemLabelFontSizeMax () {
+    return this._itemLabelFontSizeMax;
+  }
+  set itemLabelFontSizeMax(val) {
+    if(typeof val !== 'number') {
+      this._itemLabelFontSizeMax = 100;
       return;
     }
-    this.itemLabelFontSizeMax = value;
+    this._itemLabelFontSizeMax = val;
   }
 
   /**
-   * Set the point along the radius (as a percent, starting from the inside of the circle) to
+   * The point along the radius (as a percent, starting from the inside of the circle) to
    * start drawing each `item.label`.
    */
-  setItemLabelRadius(value = 0.85) {
-    if(typeof value !== 'number') {
-      this.itemLabelRadius = 0.85;
+  get itemLabelRadius () {
+    return this._itemLabelRadius;
+  }
+  set itemLabelRadius(val) {
+    if(typeof val !== 'number') {
+      this._itemLabelRadius = 0.85;
       return;
     }
-    this.itemLabelRadius = value;
+    this._itemLabelRadius = val;
   }
 
   /**
-   * Set the point along the radius (as a percent, starting from the inside of the circle) to
+   * The point along the radius (as a percent, starting from the inside of the circle) to
    * resize each `item.label` (to fit) if it is too wide.
    */
-  setItemLabelRadiusMax(value = 0.2) {
-    if(typeof value !== 'number') {
-      this.itemLabelRadiusMax = 0.2;
+  get itemLabelRadiusMax () {
+    return this._itemLabelRadiusMax;
+  }
+  set itemLabelRadiusMax(val) {
+    if(typeof val !== 'number') {
+      this._itemLabelRadiusMax = 0.2;
       return;
     }
-    this.itemLabelRadiusMax = value;
+    this._itemLabelRadiusMax = val;
   }
 
   /**
    * Use this to flip `item.label` `180°` when changing `itemLabelAlign`.
    */
-  setItemLabelRotation(value = 0) {
-    if(typeof value !== 'number') {
-      this.itemLabelRotation = 0;
+  get itemLabelRotation () {
+    return this._itemLabelRotation;
+  }
+  set itemLabelRotation(val) {
+    if(typeof val !== 'number') {
+      this._itemLabelRotation = 0;
       return;
     }
-    this.itemLabelRotation = value;
+    this._itemLabelRotation = val;
   }
 
   /**
-   * Set the repeating pattern of colors that will be used for each item's `labelColor`.
+   * The repeating pattern of colors that will be used for each item's `labelColor`.
    * Is overridden by `item.labelColor`.
    * Example: `['#fff','#000']`.
    */
-  setItemLabelColors(value = []) {
+  get itemLabelColors () {
+    return this._itemLabelColors;
+  }
+  set itemLabelColors(val) {
     if(!Array.isArray(value)) {
-      this.itemLabelColors = [];
+      this._itemLabelColors = [];
       return;
     }
-    this.itemLabelColors = value;
+    this._itemLabelColors = val;
     this.processItems();
   }
 
   /**
-   * Set the font family of each `item.labelFont`.
+   * The font family of each `item.labelFont`.
    * Is overridden by `item.labelFont`.
    * Example: `'sans-serif'`.
    */
-  setItemLabelFont(value = 'sans-serif') {
-    if(typeof value !== 'string') {
-      this.itemLabelFont = 'sans-serif';
+  get itemLabelFont () {
+    return this._itemLabelFont;
+  }
+  set itemLabelFont(val) {
+    if(typeof val !== 'string') {
+      this._itemLabelFont = 'sans-serif';
       return;
     }
-    this.itemLabelFont = value;
+    this._itemLabelFont = val;
     this.resize();
   }
 
   /**
    * Offset the baseline (or line height) of each `item.label` as a percentage of the label's height.
    */
-  setItemLabelBaselineOffset(value = 0) {
-    if(typeof value !== 'number') {
-      this.itemLabelBaselineOffset = 0;
+  get itemLabelBaselineOffset () {
+    return this._itemLabelBaselineOffset;
+  }
+  set itemLabelBaselineOffset(val) {
+    if(typeof val !== 'number') {
+      this._itemLabelBaselineOffset = 0;
       return;
     }
-    this.itemLabelBaselineOffset = value;
+    this._itemLabelBaselineOffset = val;
     this.resize();
   }
 
   /**
    * Enable/disable the feature that lets the user spin the wheel using click-drag/touch-flick.
    */
-  setIsInteractive(value = true) {
-    if (typeof value !== 'boolean') {
-      this.isInteractive = true;
+  get isInteractive () {
+    return this._isInteractive;
+  }
+  set isInteractive(val) {
+    if (typeof val !== 'boolean') {
+      this._isInteractive = true;
       return;
     }
-    this.isInteractive = value;
+    this._isInteractive = val;
   }
 
   /**
-   * Set the color of the lines between each item.
+   * The color of the lines between each item.
    */
-  setLineColor(value = '#000') {
-    if (typeof value !== 'string') {
-      this.lineColor = '#000';
+  get lineColor () {
+    return this._lineColor;
+  }
+  set lineColor(val) {
+    if (typeof val !== 'string') {
+      this._lineColor = '#000';
       return;
     }
-    this.lineColor = value;
+    this._lineColor = val;
   }
 
   /**
-   * Set the width of the lines between each item.
+   * The width of the lines between each item.
    */
-  setLineWidth(value = 1) {
-    if (typeof value !== 'number') {
-      this.lineWidth = 1;
+  get lineWidth () {
+    return this._lineWidth;
+  }
+  set lineWidth(val) {
+    if (typeof val !== 'number') {
+      this._lineWidth = 1;
       return;
     }
-    this.lineWidth = value;
+    this._lineWidth = val;
   }
 
   /**
-   * Set a maximum value for `rotationSpeed`.
-   * The wheel will not spin faster than this value.
+   * The maximum value for `rotationSpeed`.
+   * The wheel will not spin faster than this.
    */
-  setMaxRotationSpeed(value = 250) {
-    if (typeof value !== 'number') {
-      this.maxRotationSpeed = 250;
+  get maxRotationSpeed () {
+    return this._maxRotationSpeed;
+  }
+  set maxRotationSpeed(val) {
+    if (typeof val !== 'number') {
+      this._maxRotationSpeed = 250;
       return;
     }
-    this.maxRotationSpeed = value;
+    this._maxRotationSpeed = val;
   }
 
   /**
-   * Set a callback for the `onRest` event.
+   * The callback for the `onRest` event.
    */
-  setOnRest(callback = null) {
-    if (typeof callback !== 'function') {
-      this.onRest = null;
+  get onRest () {
+    return this._onRest;
+  }
+  set onRest(val) {
+    if (typeof val !== 'function') {
+      this._onRest = null;
       return;
     }
-    this.onRest = callback;
+    this._onRest = val;
   }
 
   /**
-   * Set a callback for the `onSpin` event.
+   * The callback for the `onSpin` event.
    */
-  setOnSpin(callback = null) {
-    if (typeof callback !== 'function') {
-      this.onSpin = null;
+  get onSpin () {
+    return this._onSpin;
+  }
+  set onSpin(val) {
+    if (typeof val !== 'function') {
+      this._onSpin = null;
       return;
     }
-    this.onSpin = callback;
+    this._onSpin = val;
   }
 
   /**
-   * Set the angle of the pointer which is used to determine the "winning" item.
+   * The angle of the pointer which is used to determine the "winning" item.
    * 0 is north.
    */
-  setPointerRotation(value = 0) {
-    if (typeof value !== 'number') {
-      this.pointerRotation = 0;
+  get pointerRotation () {
+    return this._pointerRotation;
+  }
+  set pointerRotation(val) {
+    if (typeof val !== 'number') {
+      this._pointerRotation = 0;
       return;
     }
-    this.pointerRotation = value;
+    this._pointerRotation = val;
   }
 
   /**
-   * Set the radius of the wheel as a percent of the container's smallest dimension.
+   * The radius of the wheel as a percent of the container's smallest dimension.
    */
-  setRadius(value = 0.95) {
-    if (typeof value !== 'number') {
-      this.radius = 0.95;
+  get radius () {
+    return this._radius;
+  }
+  set radius(val) {
+    if (typeof val !== 'number') {
+      this._radius = 0.95;
       return;
     }
-    this.radius = value;
+    this._radius = val;
     this.resize();
   }
 
   /**
-   * Set the rotation speed of the wheel.
+   * The rotation speed of the wheel.
    * Pass a positive number to spin clockwise, or a negative number to spin antiClockwise.
    * The further away from 0 the faster it will spin.
    */
-  setRotationSpeed(value = 0) {
-
-    // Limit speed to `this.maxRotationSpeed`
-    let newSpeed = Math.min(value, this.maxRotationSpeed);
-    newSpeed = Math.max(newSpeed, -this.maxRotationSpeed);
-
-    this.rotationDirection = this.getRotationDirection(newSpeed);
-    this.rotationSpeed = newSpeed;
-
+  get rotationSpeed () {
+    return this._rotationSpeed;
   }
-
-  /**
-   * Set how much to reduce `rotationSpeed` by every second.
-   */
-  setRotationResistance(value = -35) {
-    if (typeof value !== 'number') {
-      this.rotation = -35;
+  set rotationSpeed(val) {
+    if (typeof val !== 'number') {
+      this._rotationDirection = 0;
+      this._rotationSpeed = 0;
       return;
     }
-    this.rotationResistance = value;
+
+    // Limit speed to `this.maxRotationSpeed`
+    let newSpeed = Math.min(val, this._maxRotationSpeed);
+    newSpeed = Math.max(newSpeed, -this._maxRotationSpeed);
+
+    this._rotationDirection = this.getRotationDirection(newSpeed);
+    this._rotationSpeed = newSpeed;
   }
 
   /**
-   * Set the rotation (angle in degrees) of the wheel.
+   * How much to reduce `rotationSpeed` by every second.
+   */
+  get rotationResistance () {
+    return this._rotationResistance;
+  }
+  set rotationResistance(val) {
+    if (typeof val !== 'number') {
+      this._rotationResistance = -35;
+      return;
+    }
+    this._rotationResistance = val;
+  }
+
+  /**
+   * The rotation (angle in degrees) of the wheel.
    * 0 is north. `item[0]` will be drawn clockwise from this point.
    */
-  setRotation(value = 0) {
-    this.rotation = value;
+  get rotation () {
+    return this._rotation;
+  }
+  set rotation(val) {
+    if (typeof val !== 'number') {
+      this._rotation = 0;
+      return;
+    }
+    this._rotation = val;
   }
 
   /**
@@ -809,7 +892,7 @@ export default class Wheel {
     // Spin the wheel:
     if (dragDistance !== 0) {
 
-      this.setRotationSpeed(dragDistance);
+      this.rotationSpeed = dragDistance;
 
       this.onSpin?.({
         event: 'spin',

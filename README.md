@@ -63,7 +63,7 @@ Some numeric properties are specified as a percent. For example, instead of sett
 
 The same goes for `wheel.offset` which is measured as a percent from the center of the container. Setting `offset.w` to `-0.5` will move the wheel 50% off the left edge of the container.
 
-Labels are not given an absolute size either. Instead you set `itemLabelFont` (example `'Arial'`), `itemLabelFontMaxSize` (this is a relative size), and `itemLabelMaxRadius` (as a percent of the radius), and the actual size of the font is calculated automatically to fit in the available space.
+Labels are not given an absolute size either. Instead you set `itemLabelFont` (example `'Arial'`), `itemLabelFontSizeMax` (this is a relative size), and `itemLabelRadiusMax` (as a percent of the radius), and the actual size of the font is calculated automatically to fit in the available space.
 
 ## Methods for `Wheel`
 
@@ -71,37 +71,10 @@ Method                                       | Description
 -------------------------------------------- | ---------------------------
 `init(props = {})`                           | Initialise the instance with the given properties (see Properties below). If any properties are omitted, then default values will be applied.
 `spin(speed = 0)`                            | Spin the wheel and raise the `onSpin` event. `speed` is added to `rotationSpeed` ±30% (randomised to make it realistic and less predictable).
-`setDebug(debug = false)`                    | Show/hide debugging info. This is particularly helpful when fine-tuning labels.
-`setImage(url = '')`                         | Draw an image over the centre of the wheel, which will be scaled to fit the wheel diameter and rotate with the wheel.
-`setItems(items = [])`                       | Set the `items` to show on the wheel.
-`setItemBackgroundColors(colors = [])`       | Set the repeating pattern of colors that will be used for each `item.backgroundColor`. Is overridden by `item.backgroundColor`. Example: `['#fff','#000']`.
-`setItemLabelAlign(align = 'right')`         | Set the alignment of each `item.label`. Is overridden by `item.labelColor`. Accepted vlaues: `'left'`|`'center'`|`'right'`. If you change this to `'left'`, you will also need to set `itemLabelRotation` to `180°`.
-`setItemLabelBaselineOffset(offset = 0)`     | Offset the baseline (or line height) of each `item.label` as a percentage of the label's height.
-`setItemLabelColors(colors = [])`            | Set the repeating pattern of colors that will be used for each `item.labelColor`. Is overridden by `item.labelColor`. Example: `['#fff','#000']`.
-`setItemLabelFont(font = '')`                | Set the font family of each `item.labelFont`. Is overridden by `item.labelFont`. Example: `'sans-serif'`.
-`setItemLabelFontSizeMax(size = 100)`        | Set the maximum font size to draw each `item.label`. The actual font size will be calculated dynamically so that the longest label of all the items fits within `itemLabelMaxRadius` and the font size is below `itemLabelFontMaxSize`.
-`setItemLabelRadius(radius = 0.85)`          | Set the point along the radius (as a percent, starting from the inside of the circle) to start drawing each `item.label`.
-`setItemLabelRadiusMax(radius = 0.2)`        | Set the point along the radius (as a percent, starting from the inside of the circle) to resize each `item.label` (to fit) if it is too wide.
-`setItemLabelRotation(rotation = 0)`         | Use this to flip `item.label` `180°` when changing `itemLabelAlign`.
-`setIsInteractive()`                         | Enable/disable the feature that lets the user spin the wheel using click-drag/touch-flick.
-`setlineColor()`                             | Set the color of the lines between each item.
-`setlineWidth()`                             | Set the width of the lines between each item.
-`setMaxRotationSpeed(speed = 0)`             | Set a maximum value for `rotationSpeed`. The wheel will not spin faster than this value.
-`setRadius(value = 0.95)`                    | Set the radius of the wheel as a percent of the container's smallest dimension.
-`setRotationSpeed(speed = 0)`                | Set the rotation speed of the wheel. Pass a positive number to spin clockwise, or a negative number to spin antiClockwise. The further away from 0 the faster it will spin.
-`setRotation(rotation = 0)`                  | Set the rotation (angle in degrees) of the wheel. `0` is north. `item[0]` will be drawn clockwise from this point.
-`setRotationResistance(resistance = 0)`      | Set how much to reduce `rotationSpeed` by every second.
-`setOffset(size = {w: 0, h: 0})`             | Set the offset of the wheel relative to it's centre as a percent of the wheels diameter, where `1` = 100%. This allows for simple positioning considering the wheel is always centred anyway.
-`setOnRest(callback = null)`                 | Set a callback for the `onRest` event (see below).
-`setOnSpin(callback = null)`                 | Set a callback for the `onSpin` event (see below).
-`setOverlayImage(url = '')`                  | Draw an image over the centre of the wheel which will not rotate with the wheel. Use this to draw decorations around the wheel, such as a stand or pointer.
-`setPointerRotation(value = 0)`              | Set the angle of the pointer which is used to determine the "winning" item. 0 is north.
 
 ## Properties for `Wheel`
 
 You can set properties all at once by passing them as key-value pairs to `Wheel.init()`.
-
-Do not set properties directly. Use the equivalent `set` method instead (see above).
 
 For example usage see [./example/js/props.js](https://github.com/CrazyTim/spin-wheel/blob/master/example/js/props.js).
 
@@ -111,14 +84,42 @@ For example usage see [./example/js/props.js](https://github.com/CrazyTim/spin-w
   <br>
 </div>
 
+Name                            | Default Value     | Description
+------------------------------- | ------------------| ---------------------------
+`debug`                         | `false`           | Show/hide debugging info. This is particularly helpful when fine-tuning labels.
+`image`                         | `''`              | An image that will be drawn over the centre of the wheel. It will be scaled to fit the wheel diameter and rotate with the wheel.
+`isInteractive`                 | `false`           | Let the user spin the wheel using click-drag/touch-flick.
+`itemBackgroundColors`          | `[]`              | The repeating pattern of colors that will be used for each `item.backgroundColor`. Is overridden by `item.backgroundColor`. Example: `['#fff','#000']`.
+`itemLabelAlign`                | `'right'`         | The alignment of each `item.label`. Is overridden by `item.labelColor`. Accepted vlaues: `'left'`|`'center'`|`'right'`. If you change this to `'left'`, you will also need to set `itemLabelRotation` to `180°`.
+`itemLabelBaselineOffset`       | `0`               | The offset of the baseline (or line height) of each `item.label` as a percentage of the label's height.
+`itemLabelColors`               | `[]`              | The repeating pattern of colors that will be used for each `item.labelColor`. Is overridden by `item.labelColor`. Example: `['#fff','#000']`.
+`itemLabelFont`                 | `''`              | The font family of each `item.labelFont`. Is overridden by `item.labelFont`. Example: `'sans-serif'`.
+`itemLabelFontSizeMax`          | `100`             | The maximum font size to draw each `item.label`. The actual font size will be calculated dynamically so that the longest label of all the items fits within `itemLabelRadiusMax` and the font size is below `itemLabelFontSizeMax`.
+`itemLabelRadius`               | `0.85`            | The point along the radius (as a percent, starting from the inside of the circle) to start drawing each `item.label`.
+`itemLabelRadiusMax`            | `0.2`             | The point along the radius (as a percent, starting from the inside of the circle) to resize each `item.label` (to fit) if it is too wide.
+`itemLabelRotation`             | `0`               | Use this to flip `item.label` `180°` when changing `itemLabelAlign`.
+`items`                         | `[]`              | The `items` to show on the wheel.
+`lineColor`                     | `'#000'`          | The color of the lines between each item.
+`lineWidth`                     | `1`               | The width of the lines between each item.
+`maxRotationSpeed`              | `0`               | The maximum value for `rotationSpeed`. The wheel will not spin faster than this value.
+`radius`                        | `0.95`            | The radius of the wheel as a percent of the container's smallest dimension.
+`rotation`                      | `0`               | The rotation (angle in degrees) of the wheel. `0` is north. `item[0]` will be drawn clockwise from this point.
+`rotationResistance`            | `0`               | How much to reduce `rotationSpeed` by every second.
+`rotationSpeed`                 | `0`               | The rotation speed of the wheel. Pass a positive number to spin clockwise, or a negative number to spin antiClockwise. The further away from 0 the faster it will spin.
+`offset`                        | `{w: 0, h: 0}`    | The offset of the wheel relative to it's centre as a percent of the wheels diameter, where `1` = 100%. This allows for simple positioning considering the wheel is always centred anyway.
+`onRest`                        | `null`            | The callback for the `onRest` event (see below).
+`onSpin`                        | `null`            | The callback for the `onSpin` event (see below).
+`overlayImage`                  | `''`              | Draw an image over the centre of the wheel which will not rotate with the wheel. Use this to draw decorations around the wheel, such as a stand or pointer.
+`pointerRotation`               | `0`               | The angle of the pointer which is used to determine the "winning" item. 0 is north.
+
 ## Properties for items
 
-Key                         | Default Value               | Description
---------------------------- | --------------------------- | ---------------------------
-`backgroundColor`           | `'#fff'`                    | The background color of the item.
-`label`                     | `''`                        | The text you want to show in the item.
-`labelColor`                | `'#000'`                    | The color of the label.
-`weight`                    | `1`                         | The size of the item. For example say you have 2 items, where `item[0]` has a weight of `1` and `item[1]` has a weight of `2`. This means `item[0]` will take up 1/3 of the space on the wheel and `item[1]` will take up 2/3 of the space.
+Name                            | Default Value     | Description
+------------------------------- | ----------------- | ---------------------------
+`backgroundColor`               | `'#fff'`          | The background color of the item.
+`label`                         | `''`              | The text you want to show in the item.
+`labelColor`                    | `'#000'`          | The color of the label.
+`weight`                        | `1`               | The size of the item. For example say you have 2 items, where `item[0]` has a weight of `1` and `item[1]` has a weight of `2`. This means `item[0]` will take up 1/3 of the space on the wheel and `item[1]` will take up 2/3 of the space.
 
 ## Events
 
