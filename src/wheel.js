@@ -31,27 +31,23 @@ export default class Wheel {
   /**
    * Initialise the instance with the given properties.
    * If any properties are omitted, then default values will be applied.
+   * See README.md for property descriptions.
    */
   init(props = {}) {
-
-    // Destructure properties, define defaults:
-    // See README.md for property descriptions.
-    ({
-      itemLabelAlign:      this.itemLabelAlign = enums.AlignText.right,
-      itemLabelFontMaxSize:this.itemLabelFontMaxSize = 100,
-      itemLabelMaxRadius:  this.itemLabelMaxRadius = 0.2,
-      itemLabelRadius:     this.itemLabelRadius = 0.85,
-      itemLabelRotation:   this.itemLabelRotation = 0,
-    } = props);
 
     this.setDebug(props.debug);
     this.setImage(props.image);
     this.setIsInteractive(props.isInteractive);
     this.setItems(props.items);
     this.setItemBackgroundColors(props.itemBackgroundColors);
+    this.setItemLabelAlign(props.itemLabelAlign);
     this.setItemLabelColors(props.itemLabelColors);
     this.setItemLabelFont(props.itemLabelFont);
+    this.setItemLabelFontSizeMax(props.itemLabelFontSizeMax);
     this.setItemLabelBaselineOffset(props.itemLabelBaselineOffset);
+    this.setItemLabelRadius(props.setItemLabelRadius);
+    this.setItemLabelRadiusMax(props.setItemLabelRadiusMax);
+    this.setItemLabelRotation(props.setItemLabelRotation);
     this.setLineColor(props.lineColor);
     this.setLineWidth(props.lineWidth);
     this.setMaxRotationSpeed(props.maxRotationSpeed);
@@ -111,8 +107,8 @@ export default class Wheel {
     this.actualRadius = (this.size / 2) * this.radius;
 
     // Adjust the font size of labels so they all fit inside `wheelRadius`:
-    this.itemLabelFontSize = this.itemLabelFontMaxSize * (this.size / enums.fontScale);
-    this.labelMaxWidth = this.actualRadius * (this.itemLabelRadius - this.itemLabelMaxRadius);
+    this.itemLabelFontSize = this.itemLabelFontSizeMax * (this.size / enums.fontScale);
+    this.labelMaxWidth = this.actualRadius * (this.itemLabelRadius - this.itemLabelRadiusMax);
     this.actualItems.forEach((i) => {
       this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(i.label, this.itemLabelFont, this.labelMaxWidth, this.context));
     });
@@ -485,6 +481,68 @@ export default class Wheel {
     }
     this.itemBackgroundColors = value;
     this.processItems();
+  }
+
+  /**
+   * Set the alignment of each `item.label`.
+   * Is overridden by `item.labelColor`.
+   * Accepted vlaues: `'left'`|`'center'`|`'right'`.
+   * If you change this to `'left'`, you will also need to set `itemLabelRotation` to `180°`.
+   */
+  setItemLabelAlign(value = enums.AlignText.right) {
+    if(typeof value !== 'string') {
+      this.itemLabelAlign = enums.AlignText.right;
+      return;
+    }
+    this.itemLabelAlign = value;
+  }
+
+  /**
+   * Set the maximum font size to draw each `item.label`.
+   * The actual font size will be calculated dynamically so that the longest label of all
+   * the items fits within `itemLabelRadiusMax` and the font size is below `itemLabelFontSizeMax`.
+   */
+  setItemLabelFontSizeMax(value = 100) {
+    if(typeof value !== 'number') {
+      this.itemLabelFontSizeMax = 100;
+      return;
+    }
+    this.itemLabelFontSizeMax = value;
+  }
+
+  /**
+   * Set the point along the radius (as a percent, starting from the inside of the circle) to
+   * start drawing each `item.label`.
+   */
+  setItemLabelRadius(value = 0.85) {
+    if(typeof value !== 'number') {
+      this.itemLabelRadius = 0.85;
+      return;
+    }
+    this.itemLabelRadius = value;
+  }
+
+  /**
+   * Set the point along the radius (as a percent, starting from the inside of the circle) to
+   * resize each `item.label` (to fit) if it is too wide.
+   */
+  setItemLabelRadiusMax(value = 0.2) {
+    if(typeof value !== 'number') {
+      this.itemLabelRadiusMax = 0.2;
+      return;
+    }
+    this.itemLabelRadiusMax = value;
+  }
+
+  /**
+   * Use this to flip `item.label` `180°` when changing `itemLabelAlign`.
+   */
+  setItemLabelRotation(value = 0) {
+    if(typeof value !== 'number') {
+      this.itemLabelRotation = 0;
+      return;
+    }
+    this.itemLabelRotation = value;
   }
 
   /**

@@ -75,9 +75,14 @@ Method                                       | Description
 `setImage(url = '')`                         | Draw an image over the centre of the wheel, which will be scaled to fit the wheel diameter and rotate with the wheel.
 `setItems(items = [])`                       | Set the `items` to show on the wheel.
 `setItemBackgroundColors(colors = [])`       | Set the repeating pattern of colors that will be used for each `item.backgroundColor`. Is overridden by `item.backgroundColor`. Example: `['#fff','#000']`.
+`setItemLabelAlign(align = 'right')`         | Set the alignment of each `item.label`. Is overridden by `item.labelColor`. Accepted vlaues: `'left'`|`'center'`|`'right'`. If you change this to `'left'`, you will also need to set `itemLabelRotation` to `180°`.
+`setItemLabelBaselineOffset(offset = 0)`     | Offset the baseline (or line height) of each `item.label` as a percentage of the label's height.
 `setItemLabelColors(colors = [])`            | Set the repeating pattern of colors that will be used for each `item.labelColor`. Is overridden by `item.labelColor`. Example: `['#fff','#000']`.
 `setItemLabelFont(font = '')`                | Set the font family of each `item.labelFont`. Is overridden by `item.labelFont`. Example: `'sans-serif'`.
-`setItemLabelBaselineOffset(offset = 0)`     | Offset the baseline (or line height) of each `item.label` as a percentage of the label's height.
+`setItemLabelFontSizeMax(size = 100)`        | Set the maximum font size to draw each `item.label`. The actual font size will be calculated dynamically so that the longest label of all the items fits within `itemLabelMaxRadius` and the font size is below `itemLabelFontMaxSize`.
+`setItemLabelRadius(radius = 0.85)`          | Set the point along the radius (as a percent, starting from the inside of the circle) to start drawing each `item.label`.
+`setItemLabelRadiusMax(radius = 0.2)`        | Set the point along the radius (as a percent, starting from the inside of the circle) to resize each `item.label` (to fit) if it is too wide.
+`setItemLabelRotation(rotation = 0)`         | Use this to flip `item.label` `180°` when changing `itemLabelAlign`.
 `setIsInteractive()`                         | Enable/disable the feature that lets the user spin the wheel using click-drag/touch-flick.
 `setlineColor()`                             | Set the color of the lines between each item.
 `setlineWidth()`                             | Set the width of the lines between each item.
@@ -96,43 +101,15 @@ Method                                       | Description
 
 You can set properties all at once by passing them as key-value pairs to `Wheel.init()`.
 
-See [./example/js/props.js](https://github.com/CrazyTim/spin-wheel/blob/master/example/js/props.js).
+Do not set properties directly. Use the equivalent `set` method instead (see above).
+
+For example usage see [./example/js/props.js](https://github.com/CrazyTim/spin-wheel/blob/master/example/js/props.js).
 
 <div>
   <img alt="diagram of props" src="https://crazytim.github.io/spin-wheel/props-diagram.svg" width=615px />
   <br>
   <br>
 </div>
-
-Key                         | Default Value               | Description
---------------------------- | --------------------------- | ---------------------------
-`debug`                     | `false`                     | *
-`image`                     | `null`                      | *
-`isInteractive`             | `true`                      | *
-`itemBackgroundColors`      | `[]`                        | *
-`itemLabelAlign`            | `'right'`                   | `'left'`|`'center'`|`'right'`. If you change this to `'left'`, you will also need to set `itemLabelRotation` to `180°`.
-`itemLabelColors`           | `[]`                        | *
-`itemLabelFont`             | `'sans-serif'`              | *
-`itemLabelFontMaxSize`      | `100`                       | The maximum font size to draw each `item.label`. The actual font size is calculated dynamically so that the longest label of all the items fits within `itemLabelMaxRadius` and the font size is below `itemLabelFontMaxSize`.
-`itemLabelOffset`           | `0`                         | *
-`itemLabelMaxRadius`        | `.2`                        | The point along the radius (as a percent, starting from the inside of the circle) to resize each `item.label` (to fit) if it is too wide.
-`itemLabelRadius`           | `0.85`                      | The point along the radius (as a percent, starting from the inside of the circle) to start drawing each `item.label`.
-`itemLabelRotation`         | `0`                         | Use this to flip `item.label` `180°` when changing `itemLabelAlign`.
-`lineColor`                 | `'#000'`                    | *
-`lineWidth`                 | `1`                         | *
-`items`                     | `[]`                        | *
-`maxRotationSpeed`          | `250`                       | *
-`offset`                    | `{x: 0, y: 0}`              | *
-`onRest`                    | `null`                      | *
-`onSpin`                    | `null`                      | *
-`overlayImage`              | `null`                      | *
-`pointerRotation`           | `0`                         | *
-`radius`                    | `0.95`                      | *
-`rotation`                  | `0`                         | *
-`rotationResistance`        | `-35`                       | *
-`rotationSpeed`             | `0`                         | *
-
-* = See method description above. Do not set this property directly. Use the equivalent `set` method instead.
 
 ## Properties for items
 
