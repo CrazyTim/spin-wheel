@@ -4,13 +4,16 @@ import * as drag from './wheel.drag.js';
 
 export default class Wheel {
 
-  constructor(container) {
+  constructor(container, props = {}) {
     this.canvasContainer = container;
     this.initCanvas();
 
+    // Initalise some required properties:
     this.itemBackgroundColors = [];
     this.itemLabelColors = [];
     this.offset = {w: 0, h: 0};
+
+    if (props) this.init(props);
   }
 
   initCanvas() {

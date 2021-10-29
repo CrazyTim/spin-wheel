@@ -25,10 +25,7 @@
 ## How to make your own spinner
 
 ```JavaScript
-// 1. Create a new `Wheel` object, passing the DOM element where you want it to go:
-const wheel = new Wheel(document.querySelector('.wheel-container'));
-
-// 2. Define the wheel's properties. The only required property is `items`.
+// 1. Define the wheel's properties. The only required property is `items`.
 const props = {
   pointerRotation: 90,
   items: [
@@ -44,8 +41,11 @@ const props = {
   ]
 }
 
-// 3. Initialise the wheel with the properties:
-wheel.init(props);
+// 2. Decide where you want it to go:
+const container = document.querySelector('.wheel-container');
+
+// 3. Create the wheel in the container and initialise it with the props:
+const wheel = new Wheel(container, props);
 ```
 
 See below for more detail. Also see the [example code](https://github.com/CrazyTim/spin-wheel/blob/master/example/index.html).
