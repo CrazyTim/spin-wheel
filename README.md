@@ -57,13 +57,21 @@ npm install
 npm start
 ```
 
-## Configuring
+## Configuration
 
 Some numeric properties are specified as a percent. For example, instead of setting `wheel.radius` to an absolute value of `400px` you set it to `1.0` or 100%, meaning it will fill the available space in the container. This makes sense because the wheel always resizes itself to fit inside the container. This makes things easier because when the size of the container changes you don't have to worry about updating fiddly things like the font size - it happens automatically :grin:.
 
 The same goes for `wheel.offset` which is measured as a percent from the center of the container. Setting `offset.w` to `-0.5` will move the wheel 50% off the left edge of the container.
 
 Labels are not given an absolute size either. Instead you set `itemLabelFont` (example `'Arial'`), `itemLabelFontSizeMax` (this is a relative size), and `itemLabelRadiusMax` (as a percent of the radius), and the actual size of the font is calculated automatically to fit in the available space.
+
+For example usage see [./example/js/props.js](https://github.com/CrazyTim/spin-wheel/blob/master/example/js/props.js).
+
+<div>
+  <img alt="diagram of props" src="https://crazytim.github.io/spin-wheel/props-diagram.svg" width=615px />
+  <br>
+  <br>
+</div>
 
 ## Methods for `Wheel`
 
@@ -74,20 +82,10 @@ Method                                       | Description
 
 ## Properties for `Wheel`
 
-You can set properties all at once by passing them as key-value pairs to `Wheel.init()`.
-
-For example usage see [./example/js/props.js](https://github.com/CrazyTim/spin-wheel/blob/master/example/js/props.js).
-
-<div>
-  <img alt="diagram of props" src="https://crazytim.github.io/spin-wheel/props-diagram.svg" width=615px />
-  <br>
-  <br>
-</div>
-
 Name                            | Default Value     | Description
 ------------------------------- | ------------------| ---------------------------
 `debug`                         | `false`           | Show debugging info. This is particularly helpful when fine-tuning labels.
-`image`                         | `''`              | The url of an image that will be drawn over the centre of the wheel which will rotate with the wheel. It will be scaled to fit `radius`.
+`image`                         | `''`              | The url of an image that will be drawn over the center of the wheel which will rotate with the wheel. It will be scaled to fit `radius`.
 `isInteractive`                 | `true`            | Allow the user to spin the wheel using click-drag/touch-flick.
 `itemBackgroundColors`          | `['#fff']`        | The repeating pattern of colors that will be used for each `item.backgroundColor`. Is overridden by `item.backgroundColor`. Example: `['#fff','#000']`.
 `itemLabelAlign`                | `'right'`         | The alignment of each `item.label`. Is overridden by `item.labelColor`. Accepted vlaues: `'left'`|`'center'`|`'right'`. If you change this to `'left'`, you will also need to set `itemLabelRotation` to `180°`.
@@ -106,10 +104,10 @@ Name                            | Default Value     | Description
 `rotationResistance`            | `-35`             | How much to reduce `rotationSpeed` by every second.
 `rotationSpeed`                 | `0`               | The rotation speed of the wheel. Pass a positive number to spin clockwise, or a negative number to spin antiClockwise. The further away from 0 the faster it will spin.
 `rotationSpeedMax`              | `250`             | The maximum value for `rotationSpeed`. The wheel will not spin faster than this value.
-`offset`                        | `{w: 0, h: 0}`    | The offset of the wheel relative to it's centre as a percent of the wheels diameter, where `1` = 100%. This allows for simple positioning considering the wheel is always centred anyway.
+`offset`                        | `{w: 0, h: 0}`    | The offset of the wheel relative to it's center as a percent of the wheels diameter, where `1` = 100%. This allows for simple positioning considering the wheel is always centered anyway.
 `onRest`                        | `null`            | The callback for the `onRest` event (see below).
 `onSpin`                        | `null`            | The callback for the `onSpin` event (see below).
-`overlayImage`                  | `''`              | The url of an image that will be drawn over the centre of the wheel which will not rotate with the wheel. It will be scaled to fit a radius of 100%. Use this to draw decorations around the wheel, such as a stand or pointer.
+`overlayImage`                  | `''`              | The url of an image that will be drawn over the center of the wheel which will not rotate with the wheel. It will be scaled to fit a radius of 100%. Use this to draw decorations around the wheel, such as a stand or pointer.
 `pointerRotation`               | `0`               | The angle of the pointer which is used to determine the "winning" item. 0 is north.
 
 ## Properties for items
@@ -120,9 +118,9 @@ Name                            | Default Value     | Description
 `label`                         | `''`              | The text you want to show in the item.
 `labelColor`                    | `null`            | The color of the label. Example: `'#000'`.
 `labelFont`                     | `null`            | The font of the label. Example: `'sans-serif'`.
-`weight`                        | `1`               | The size of the item. For example say you have 2 items, where `item[0]` has a weight of `1` and `item[1]` has a weight of `2`. This means `item[0]` will take up 1/3 of the space on the wheel and `item[1]` will take up 2/3 of the space.
+`weight`                        | `1`               | The proportional size of the item. For example say you have 2 items, where `item[0]` has a weight of `1` and `item[1]` has a weight of `2`. This means `item[0]` will take up 1/3 of the space on the wheel and `item[1]` will take up 2/3 of the space.
 
-## Events
+## Events for `Wheel`
 
 #### `onRest(e:object)`
 
