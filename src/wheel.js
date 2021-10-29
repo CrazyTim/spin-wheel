@@ -436,11 +436,11 @@ export default class Wheel {
     return this._debug;
   }
   set debug(val) {
-    if (typeof val !== 'boolean') {
+    if (typeof val === 'boolean') {
+      this._debug = val;
+    } else {
       this._debug = false;
-      return;
     }
-    this._debug = val;
   }
 
   /**
@@ -451,12 +451,12 @@ export default class Wheel {
     return this._image;
   }
   set image(val) {
-    if (typeof val !== 'string') {
+    if (typeof val === 'string') {
+      this._image = new Image();
+      this._image.src = val;
+    } else {
       this._image = null;
-      return;
     }
-    this._image = new Image();
-    this._image.src = val;
   }
 
   /**
@@ -466,11 +466,11 @@ export default class Wheel {
     return this._isInteractive;
   }
   set isInteractive(val) {
-    if (typeof val !== 'boolean') {
+    if (typeof val === 'boolean') {
+      this._isInteractive = val;
+    } else {
       this._isInteractive = true;
-      return;
     }
-    this._isInteractive = val;
   }
 
   /**
@@ -482,11 +482,11 @@ export default class Wheel {
     return this._itemBackgroundColors;
   }
   set itemBackgroundColors(val) {
-    if(!Array.isArray(val)) {
+    if (Array.isArray(val)) {
+      this._itemBackgroundColors = val;
+    } else {
       this._temBackgroundColors = [];
-      return;
     }
-    this._itemBackgroundColors = val;
     this.processItems();
   }
 
@@ -500,11 +500,11 @@ export default class Wheel {
     return this._itemLabelAlign;
   }
   set itemLabelAlign(val) {
-    if(typeof val !== 'string') {
+    if (typeof val === 'string') {
+      this._itemLabelAlign = val;
+    } else {
       this._itemLabelAlign = enums.AlignText.right;
-      return;
     }
-    this._itemLabelAlign = val;
   }
 
   /**
@@ -514,11 +514,11 @@ export default class Wheel {
     return this._itemLabelBaselineOffset;
   }
   set itemLabelBaselineOffset(val) {
-    if(typeof val !== 'number') {
+    if (typeof val === 'number') {
+      this._itemLabelBaselineOffset = val;
+    } else {
       this._itemLabelBaselineOffset = 0;
-      return;
     }
-    this._itemLabelBaselineOffset = val;
     this.resize();
   }
 
@@ -531,11 +531,11 @@ export default class Wheel {
     return this._itemLabelColors;
   }
   set itemLabelColors(val) {
-    if(!Array.isArray(value)) {
+    if (Array.isArray(val)) {
+      this._itemLabelColors = val;
+    } else {
       this._itemLabelColors = [];
-      return;
     }
-    this._itemLabelColors = val;
     this.processItems();
   }
 
@@ -548,11 +548,11 @@ export default class Wheel {
     return this._itemLabelFont;
   }
   set itemLabelFont(val) {
-    if(typeof val !== 'string') {
+    if (typeof val === 'string') {
+      this._itemLabelFont = val;
+    } else {
       this._itemLabelFont = 'sans-serif';
-      return;
     }
-    this._itemLabelFont = val;
     this.resize();
   }
 
@@ -565,11 +565,11 @@ export default class Wheel {
     return this._itemLabelFontSizeMax;
   }
   set itemLabelFontSizeMax(val) {
-    if(typeof val !== 'number') {
+    if (typeof val === 'number') {
+      this._itemLabelFontSizeMax = val;
+    } else {
       this._itemLabelFontSizeMax = 100;
-      return;
     }
-    this._itemLabelFontSizeMax = val;
   }
 
   /**
@@ -580,11 +580,11 @@ export default class Wheel {
     return this._itemLabelRadius;
   }
   set itemLabelRadius(val) {
-    if(typeof val !== 'number') {
+    if (typeof val === 'number') {
+      this._itemLabelRadius = val;
+    } else {
       this._itemLabelRadius = 0.85;
-      return;
     }
-    this._itemLabelRadius = val;
   }
 
   /**
@@ -595,11 +595,11 @@ export default class Wheel {
     return this._itemLabelRadiusMax;
   }
   set itemLabelRadiusMax(val) {
-    if(typeof val !== 'number') {
+    if (typeof val === 'number') {
+      this._itemLabelRadiusMax = val;
+    } else {
       this._itemLabelRadiusMax = 0.2;
-      return;
     }
-    this._itemLabelRadiusMax = val;
   }
 
   /**
@@ -610,11 +610,11 @@ export default class Wheel {
     return this._itemLabelRotation;
   }
   set itemLabelRotation(val) {
-    if(typeof val !== 'number') {
+    if (typeof val === 'number') {
+      this._itemLabelRotation = val;
+    } else {
       this._itemLabelRotation = 0;
-      return;
     }
-    this._itemLabelRotation = val;
   }
 
   /**
@@ -624,12 +624,11 @@ export default class Wheel {
     return this._items;
   }
   set items(val) {
-    if(!Array.isArray(val)) {
+    if (Array.isArray(val)) {
+      this._items = val;
+    } else {
       this._items = [];
-      this._weightedItemAngle = 0;
-      return;
     }
-    this._items = val;
     this.processItems();
   }
 
@@ -640,11 +639,11 @@ export default class Wheel {
     return this._lineColor;
   }
   set lineColor(val) {
-    if (typeof val !== 'string') {
+    if (typeof val === 'string') {
+      this._lineColor = val;
+    } else {
       this._lineColor = '#000';
-      return;
     }
-    this._lineColor = val;
   }
 
   /**
@@ -654,11 +653,11 @@ export default class Wheel {
     return this._lineWidth;
   }
   set lineWidth(val) {
-    if (typeof val !== 'number') {
+    if (typeof val === 'number') {
+      this._lineWidth = val;
+    } else {
       this._lineWidth = 1;
-      return;
     }
-    this._lineWidth = val;
   }
 
   /**
@@ -668,11 +667,11 @@ export default class Wheel {
     return this._radius;
   }
   set radius(val) {
-    if (typeof val !== 'number') {
+    if (typeof val === 'number') {
+      this._radius = val;
+    } else {
       this._radius = 0.95;
-      return;
     }
-    this._radius = val;
     this.resize();
   }
 
@@ -684,11 +683,11 @@ export default class Wheel {
     return this._rotation;
   }
   set rotation(val) {
-    if (typeof val !== 'number') {
+    if (typeof val === 'number') {
+      this._rotation = val;
+    } else {
       this._rotation = 0;
-      return;
     }
-    this._rotation = val;
   }
 
   /**
@@ -698,11 +697,11 @@ export default class Wheel {
     return this._rotationResistance;
   }
   set rotationResistance(val) {
-    if (typeof val !== 'number') {
+    if (typeof val === 'number') {
+      this._rotationResistance = val;
+    } else {
       this._rotationResistance = -35;
-      return;
     }
-    this._rotationResistance = val;
   }
 
   /**
@@ -714,18 +713,19 @@ export default class Wheel {
     return this._rotationSpeed;
   }
   set rotationSpeed(val) {
-    if (typeof val !== 'number') {
+    if (typeof val === 'number') {
+
+      // Limit speed to `rotationSpeedMax`
+      let newSpeed = Math.min(val, this.rotationSpeedMax);
+      newSpeed = Math.max(newSpeed, -this.rotationSpeedMax);
+
+      this._rotationDirection = this.getRotationDirection(newSpeed);
+      this._rotationSpeed = newSpeed;
+
+    } else {
       this._rotationDirection = 0;
       this._rotationSpeed = 0;
-      return;
     }
-
-    // Limit speed to `rotationSpeedMax`
-    let newSpeed = Math.min(val, this.rotationSpeedMax);
-    newSpeed = Math.max(newSpeed, -this.rotationSpeedMax);
-
-    this._rotationDirection = this.getRotationDirection(newSpeed);
-    this._rotationSpeed = newSpeed;
   }
 
   /**
@@ -736,11 +736,11 @@ export default class Wheel {
     return this._rotationSpeedMax;
   }
   set rotationSpeedMax(val) {
-    if (typeof val !== 'number') {
+    if (typeof val === 'number') {
+      this._rotationSpeedMax = val;
+    } else {
       this._rotationSpeedMax = 250;
-      return;
     }
-    this._rotationSpeedMax = val;
   }
 
   /**
@@ -751,11 +751,11 @@ export default class Wheel {
     return this._offset;
   }
   set offset(val) {
-    if (!val) {
+    if (val) {
+      this._offset = val;
+    } else {
       this._offset = {w: 0, h: 0};
-      return;
     }
-    this._offset = val;
     this.resize();
   }
 
@@ -766,11 +766,11 @@ export default class Wheel {
     return this._onRest;
   }
   set onRest(val) {
-    if (typeof val !== 'function') {
+    if (typeof val === 'function') {
+      this._onRest = val;
+    } else {
       this._onRest = null;
-      return;
     }
-    this._onRest = val;
   }
 
   /**
@@ -780,11 +780,11 @@ export default class Wheel {
     return this._onSpin;
   }
   set onSpin(val) {
-    if (typeof val !== 'function') {
+    if (typeof val === 'function') {
+      this._onSpin = val;
+    } else {
       this._onSpin = null;
-      return;
     }
-    this._onSpin = val;
   }
 
   /**
@@ -796,12 +796,12 @@ export default class Wheel {
     return this._overlayImage;
   }
   set overlayImage(val) {
-    if (typeof val !== 'string') {
+    if (typeof val === 'string') {
+      this._overlayImage = new Image();
+      this._overlayImage.src = val;
+    } else {
       this._overlayImage = null;
-      return;
     }
-    this._overlayImage = new Image();
-    this._overlayImage.src = val;
   }
 
   /**
@@ -812,11 +812,11 @@ export default class Wheel {
     return this._pointerRotation;
   }
   set pointerRotation(val) {
-    if (typeof val !== 'number') {
+    if (typeof val === 'number') {
+      this._pointerRotation = val;
+    } else {
       this._pointerRotation = 0;
-      return;
     }
-    this._pointerRotation = val;
   }
 
   /**
@@ -894,12 +894,12 @@ export default class Wheel {
     // Calc the drag distance:
     let dragDistance = 0;
     const now = performance.now();
-    this.dragMoves = this.dragMoves.reduce((result, value) => {
+    this.dragMoves = this.dragMoves.reduce((result, val) => {
 
       // Ignore old dragMove events (so the user can cancel the drag by not moving for a short time).
-      if (value !== undefined && now - value.now < 250) {
-        dragDistance += value.distance * 1.5;
-        result.push(value);
+      if (val !== undefined && now - val.now < 250) {
+        dragDistance += val.distance * 1.5;
+        result.push(val);
       }
 
       return result;
