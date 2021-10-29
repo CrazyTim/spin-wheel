@@ -8,10 +8,32 @@ export default class Wheel {
     this.canvasContainer = container;
     this.initCanvas();
 
-    // Initalise some required properties:
-    this.itemBackgroundColors = [];
-    this.itemLabelColors = [];
-    this.offset = {w: 0, h: 0};
+    // Set property defaults:
+    this._debug = enums.Defaults.debug;
+    this._image = enums.Defaults.image;
+    this._isInteractive = enums.Defaults.isInteractive;
+    this._itemBackgroundColors = enums.Defaults.itemBackgroundColors;
+    this._itemLabelAlign = enums.Defaults.itemLabelAlign;
+    this._itemLabelBaselineOffset = enums.Defaults.itemLabelBaselineOffset;
+    this._itemLabelColors = enums.Defaults.itemLabelColors;
+    this._itemLabelFont = enums.Defaults.itemLabelFont;
+    this._itemLabelFontSizeMax = enums.Defaults.itemLabelFontSizeMax;
+    this._itemLabelRadius = enums.Defaults.itemLabelRadius;
+    this._itemLabelRadiusMax = enums.Defaults.itemLabelRadiusMax;
+    this._itemLabelRotation = enums.Defaults.itemLabelRotation;
+    this._items = enums.Defaults.items;
+    this._lineColor = enums.Defaults.lineColor;
+    this._lineWidth = enums.Defaults.lineWidth;
+    this._rotationSpeedMax = enums.Defaults.rotationSpeedMax;
+    this._radius = enums.Defaults.radius;
+    this._rotation = enums.Defaults.rotation;
+    this._rotationResistance =enums.Defaults.rotationResistance;
+    this._rotationSpeed = enums.Defaults.rotationSpeed;
+    this._offset = enums.Defaults.offset;
+    this._onRest = enums.Defaults.onRest;
+    this._onSpin = enums.Defaults.onSpin;
+    this._overlayImage = enums.Defaults.overlayImage;
+    this._pointerRotation = enums.Defaults.items;
 
     if (props) this.init(props);
   }
@@ -47,9 +69,9 @@ export default class Wheel {
     this.itemLabelColors = props.itemLabelColors;
     this.itemLabelFont = props.itemLabelFont;
     this.itemLabelFontSizeMax = props.itemLabelFontSizeMax;
-    this.itemLabelRadius = props.setItemLabelRadius;
-    this.itemLabelRadiusMax = props.setItemLabelRadiusMax;
-    this.itemLabelRotation = props.setItemLabelRotation;
+    this.itemLabelRadius = props.itemLabelRadius;
+    this.itemLabelRadiusMax = props.itemLabelRadiusMax;
+    this.itemLabelRotation = props.itemLabelRotation;
     this.items = props.items;
     this.lineColor = props.lineColor;
     this.lineWidth = props.lineWidth;
@@ -439,7 +461,7 @@ export default class Wheel {
     if (typeof val === 'boolean') {
       this._debug = val;
     } else {
-      this._debug = false;
+      this._debug = enums.Defaults.debug;
     }
   }
 
@@ -455,7 +477,7 @@ export default class Wheel {
       this._image = new Image();
       this._image.src = val;
     } else {
-      this._image = null;
+      this._image = enums.Defaults.image;
     }
   }
 
@@ -469,7 +491,7 @@ export default class Wheel {
     if (typeof val === 'boolean') {
       this._isInteractive = val;
     } else {
-      this._isInteractive = true;
+      this._isInteractive = enums.Defaults.isInteractive;
     }
   }
 
@@ -485,7 +507,7 @@ export default class Wheel {
     if (Array.isArray(val)) {
       this._itemBackgroundColors = val;
     } else {
-      this._temBackgroundColors = [];
+      this._itemBackgroundColors = enums.Defaults.itemBackgroundColors;
     }
     this.processItems();
   }
@@ -503,7 +525,7 @@ export default class Wheel {
     if (typeof val === 'string') {
       this._itemLabelAlign = val;
     } else {
-      this._itemLabelAlign = enums.AlignText.right;
+      this._itemLabelAlign = enums.Defaults.itemLabelAlign;
     }
   }
 
@@ -517,7 +539,7 @@ export default class Wheel {
     if (typeof val === 'number') {
       this._itemLabelBaselineOffset = val;
     } else {
-      this._itemLabelBaselineOffset = 0;
+      this._itemLabelBaselineOffset = enums.Defaults.itemLabelBaselineOffset;
     }
     this.resize();
   }
@@ -534,7 +556,7 @@ export default class Wheel {
     if (Array.isArray(val)) {
       this._itemLabelColors = val;
     } else {
-      this._itemLabelColors = [];
+      this._itemLabelColors = enums.Defaults.itemLabelColors;
     }
     this.processItems();
   }
@@ -551,7 +573,7 @@ export default class Wheel {
     if (typeof val === 'string') {
       this._itemLabelFont = val;
     } else {
-      this._itemLabelFont = 'sans-serif';
+      this._itemLabelFont = enums.Defaults.itemLabelFont;
     }
     this.resize();
   }
@@ -568,7 +590,7 @@ export default class Wheel {
     if (typeof val === 'number') {
       this._itemLabelFontSizeMax = val;
     } else {
-      this._itemLabelFontSizeMax = 100;
+      this._itemLabelFontSizeMax = enums.Defaults.itemLabelFontSizeMax;
     }
   }
 
@@ -583,7 +605,7 @@ export default class Wheel {
     if (typeof val === 'number') {
       this._itemLabelRadius = val;
     } else {
-      this._itemLabelRadius = 0.85;
+      this._itemLabelRadius = enums.Defaults.itemLabelRadius;
     }
   }
 
@@ -598,7 +620,7 @@ export default class Wheel {
     if (typeof val === 'number') {
       this._itemLabelRadiusMax = val;
     } else {
-      this._itemLabelRadiusMax = 0.2;
+      this._itemLabelRadiusMax = enums.Defaults.itemLabelRadiusMax;
     }
   }
 
@@ -613,7 +635,7 @@ export default class Wheel {
     if (typeof val === 'number') {
       this._itemLabelRotation = val;
     } else {
-      this._itemLabelRotation = 0;
+      this._itemLabelRotation = enums.Defaults.itemLabelRotation;
     }
   }
 
@@ -627,7 +649,7 @@ export default class Wheel {
     if (Array.isArray(val)) {
       this._items = val;
     } else {
-      this._items = [];
+      this._items = enums.Defaults.items;
     }
     this.processItems();
   }
@@ -642,7 +664,7 @@ export default class Wheel {
     if (typeof val === 'string') {
       this._lineColor = val;
     } else {
-      this._lineColor = '#000';
+      this._lineColor = enums.Defaults.lineColor;
     }
   }
 
@@ -656,7 +678,7 @@ export default class Wheel {
     if (typeof val === 'number') {
       this._lineWidth = val;
     } else {
-      this._lineWidth = 1;
+      this._lineWidth = enums.Defaults.lineWidth;
     }
   }
 
@@ -670,7 +692,7 @@ export default class Wheel {
     if (typeof val === 'number') {
       this._radius = val;
     } else {
-      this._radius = 0.95;
+      this._radius = enums.Defaults.radius;
     }
     this.resize();
   }
@@ -686,7 +708,7 @@ export default class Wheel {
     if (typeof val === 'number') {
       this._rotation = val;
     } else {
-      this._rotation = 0;
+      this._rotation = enums.Defaults.rotation;
     }
   }
 
@@ -700,7 +722,7 @@ export default class Wheel {
     if (typeof val === 'number') {
       this._rotationResistance = val;
     } else {
-      this._rotationResistance = -35;
+      this._rotationResistance = enums.Defaults.rotationResistance;
     }
   }
 
@@ -719,12 +741,12 @@ export default class Wheel {
       let newSpeed = Math.min(val, this.rotationSpeedMax);
       newSpeed = Math.max(newSpeed, -this.rotationSpeedMax);
 
-      this._rotationDirection = this.getRotationDirection(newSpeed);
+      this.rotationDirection = this.getRotationDirection(newSpeed);
       this._rotationSpeed = newSpeed;
 
     } else {
-      this._rotationDirection = 0;
-      this._rotationSpeed = 0;
+      this.rotationDirection = 0;
+      this._rotationSpeed = enums.Defaults.rotationSpeed;
     }
   }
 
@@ -739,7 +761,7 @@ export default class Wheel {
     if (typeof val === 'number') {
       this._rotationSpeedMax = val;
     } else {
-      this._rotationSpeedMax = 250;
+      this._rotationSpeedMax = enums.Defaults.rotationSpeedMax;
     }
   }
 
@@ -754,7 +776,7 @@ export default class Wheel {
     if (val) {
       this._offset = val;
     } else {
-      this._offset = {w: 0, h: 0};
+      this._offset = enums.Defaults.offset;
     }
     this.resize();
   }
@@ -769,7 +791,7 @@ export default class Wheel {
     if (typeof val === 'function') {
       this._onRest = val;
     } else {
-      this._onRest = null;
+      this._onRest = enums.Defaults.onRest;
     }
   }
 
@@ -783,7 +805,7 @@ export default class Wheel {
     if (typeof val === 'function') {
       this._onSpin = val;
     } else {
-      this._onSpin = null;
+      this._onSpin = enums.Defaults.onSpin;
     }
   }
 
@@ -800,7 +822,7 @@ export default class Wheel {
       this._overlayImage = new Image();
       this._overlayImage.src = val;
     } else {
-      this._overlayImage = null;
+      this._overlayImage = enums.Defaults.overlayImage;
     }
   }
 
@@ -815,7 +837,7 @@ export default class Wheel {
     if (typeof val === 'number') {
       this._pointerRotation = val;
     } else {
-      this._pointerRotation = 0;
+      this._pointerRotation = enums.Defaults.pointerRotation;
     }
   }
 
