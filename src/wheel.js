@@ -211,13 +211,13 @@ export default class Wheel {
 
       if (this.debug) {
         ctx.beginPath();
-        ctx.strokeStyle = '#ff00ff'
+        ctx.strokeStyle = '#ff00ff';
         ctx.lineWidth = 1;
         ctx.moveTo(0, 0);
         ctx.lineTo(-this.labelMaxWidth, 0);
         ctx.stroke();
 
-        ctx.strokeRect(0, -this.itemLabelFontSize/2, -this.labelMaxWidth, this.itemLabelFontSize)
+        ctx.strokeRect(0, -this.itemLabelFontSize / 2, -this.labelMaxWidth, this.itemLabelFontSize);
       }
 
       ctx.rotate(util.degRad(this.itemLabelRotation));
@@ -376,7 +376,7 @@ export default class Wheel {
 
       // Background color:
       if (item.backgroundColor) {
-        newItem.backgroundColor = item.backgroundColor
+        newItem.backgroundColor = item.backgroundColor;
       } else if (this.itemBackgroundColors.length) {
         // Use a value from the repeating set:
         newItem.backgroundColor = this.itemBackgroundColors[i % this.itemBackgroundColors.length];
