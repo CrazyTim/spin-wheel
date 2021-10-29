@@ -13,6 +13,7 @@
     "camelcase": ["error"],
     "prefer-const": ["error"],
     "no-multi-spaces": ["error", {"ignoreEOLComments": true}],
+    "keyword-spacing": ["error"],
     "space-in-parens": ["error", "never"],
     "semi": ["error", "always"],
     "quotes": ["error", "single"],
