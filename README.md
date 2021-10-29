@@ -89,11 +89,11 @@ Name                            | Default Value     | Description
 `debug`                         | `false`           | Show debugging info. This is particularly helpful when fine-tuning labels.
 `image`                         | `''`              | The url of an image that will be drawn over the centre of the wheel which will rotate with the wheel. It will be scaled to fit `radius`.
 `isInteractive`                 | `true`            | Allow the user to spin the wheel using click-drag/touch-flick.
-`itemBackgroundColors`          | `[]`              | The repeating pattern of colors that will be used for each `item.backgroundColor`. Is overridden by `item.backgroundColor`. Example: `['#fff','#000']`.
+`itemBackgroundColors`          | `['#fff']`        | The repeating pattern of colors that will be used for each `item.backgroundColor`. Is overridden by `item.backgroundColor`. Example: `['#fff','#000']`.
 `itemLabelAlign`                | `'right'`         | The alignment of each `item.label`. Is overridden by `item.labelColor`. Accepted vlaues: `'left'`|`'center'`|`'right'`. If you change this to `'left'`, you will also need to set `itemLabelRotation` to `180°`.
 `itemLabelBaselineOffset`       | `0`               | The offset of the baseline (or line height) of each `item.label` as a percentage of the label's height.
-`itemLabelColors`               | `[]`              | The repeating pattern of colors that will be used for each `item.labelColor`. Is overridden by `item.labelColor`. Example: `['#fff','#000']`.
-`itemLabelFont`                 | `''`              | The font family of each `item.labelFont`. Is overridden by `item.labelFont`. Example: `'sans-serif'`.
+`itemLabelColors`               | `['#000']`        | The repeating pattern of colors that will be used for each `item.labelColor`. Is overridden by `item.labelColor`. Example: `['#fff','#000']`.
+`itemLabelFont`                 | `'sans-serif'`    | The font family of each `item.labelFont`. Is overridden by `item.labelFont`. Example: `'sans-serif'`.
 `itemLabelFontSizeMax`          | `100`             | The maximum font size to draw each `item.label`. The actual font size will be calculated dynamically so that the longest label of all the items fits within `itemLabelRadiusMax` and the font size is below `itemLabelFontSizeMax`.
 `itemLabelRadius`               | `0.85`            | The point along the radius (as a percent, starting from the inside of the circle) to start drawing each `item.label`.
 `itemLabelRadiusMax`            | `0.2`             | The point along the radius (as a percent, starting from the inside of the circle) to resize each `item.label` (to fit) if it is too wide.
@@ -116,9 +116,10 @@ Name                            | Default Value     | Description
 
 Name                            | Default Value     | Description
 ------------------------------- | ----------------- | ---------------------------
-`backgroundColor`               | `'#fff'`          | The background color of the item.
+`backgroundColor`               | `null`            | The background color of the item. Example: `'#fff'`.
 `label`                         | `''`              | The text you want to show in the item.
-`labelColor`                    | `'#000'`          | The color of the label.
+`labelColor`                    | `null`            | The color of the label. Example: `'#000'`.
+`labelFont`                     | `null`            | The font of the label. Example: `'sans-serif'`.
 `weight`                        | `1`               | The size of the item. For example say you have 2 items, where `item[0]` has a weight of `1` and `item[1]` has a weight of `2`. This means `item[0]` will take up 1/3 of the space on the wheel and `item[1]` will take up 2/3 of the space.
 
 ## Events

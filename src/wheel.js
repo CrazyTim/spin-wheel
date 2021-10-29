@@ -397,7 +397,7 @@ export default class Wheel {
       const newItem = {};
 
       // Background color:
-      if (item.backgroundColor) {
+      if (typeof item.backgroundColor === 'string') {
         newItem.backgroundColor = item.backgroundColor;
       } else if (this.itemBackgroundColors.length) {
         // Use a value from the repeating set:
@@ -407,14 +407,21 @@ export default class Wheel {
       }
 
       // Label:
-      if (item.label) {
+      if (typeof item.label === 'string') {
         newItem.label = item.label;
       } else {
-        newItem.label = '';
+        newItem.label = ''; // Default.
+      }
+
+      // Label Font:
+      if (typeof item.labelFont === 'string') {
+        newItem.labelFont = item.labelFont;
+      } else {
+        newItem.labelFont = this.itemLabelFont;
       }
 
       // Label Color:
-      if (item.labelColor) {
+      if (typeof item.labelColor === 'string') {
         newItem.labelColor = item.labelColor;
       } else if (this.itemLabelColors.length) {
         // Use a value from the repeating set:
@@ -427,7 +434,7 @@ export default class Wheel {
       if (typeof item.weight === 'number') {
         newItem.weight = item.weight;
       } else {
-        newItem.weight = 1;
+        newItem.weight = 1; // Default.
       };
 
       this.actualItems.push(newItem);
