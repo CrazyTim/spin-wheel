@@ -7,20 +7,20 @@
 
 ## Features
 
-- [x] Vanilla JavaScript (ES6).
-- [x] No dependencies.
-- [x] Simple, easy to read API.
-- [x] Realistic wheel rotation (no easing, just momentum and drag).
-- [x] Interactive - spin the wheel using click-drag/touch-flick, or you can manually call `spin()`.
-- [x] Easily themeable ([see examples](https://crazytim.github.io/spin-wheel/example/)):
-  - [x] Adjust fonts and colors.
-  - [x] Draw an image over the wheel and canvas.
-  - [x] Apply repeating colour sets.
-  - [x] Items can have their own weight and be resized proportionally.
-- [x] Callbacks such as `onSpin` and `onRest`.
-- [x] Clockwise and anticlockwise spinning.
-- [x] The wheel resizes dynamically to fit inside its container element.
-- [x] Implements `requestAnimationFrame` instead of `setTimeout`.
+- Vanilla JavaScript (ES6).
+- No dependencies.
+- Simple, easy to read API.
+- Realistic wheel rotation (no easing, just momentum and drag).
+- Interactive - spin the wheel using click-drag/touch-flick, or you can manually call `spin()`.
+- Easily themeable ([see examples](https://crazytim.github.io/spin-wheel/example/)):
+  - Adjust fonts and colors.
+  - Draw an image over the wheel and canvas.
+  - Apply repeating colour sets.
+  - Items can have their own weight and be resized proportionally.
+- Callbacks such as `onSpin` and `onRest`.
+- Clockwise and anticlockwise spinning.
+- The wheel resizes dynamically to fit inside its container element.
+- Implements `requestAnimationFrame` instead of `setTimeout`.
 
 ## How to make your own spinner
 
