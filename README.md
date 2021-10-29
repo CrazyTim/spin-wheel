@@ -86,9 +86,9 @@ For example usage see [./example/js/props.js](https://github.com/CrazyTim/spin-w
 
 Name                            | Default Value     | Description
 ------------------------------- | ------------------| ---------------------------
-`debug`                         | `false`           | Show/hide debugging info. This is particularly helpful when fine-tuning labels.
-`image`                         | `''`              | An image that will be drawn over the centre of the wheel. It will be scaled to fit the wheel diameter and rotate with the wheel.
-`isInteractive`                 | `false`           | Let the user spin the wheel using click-drag/touch-flick.
+`debug`                         | `false`           | Show debugging info. This is particularly helpful when fine-tuning labels.
+`image`                         | `''`              | The url of an image that will be drawn over the centre of the wheel which will rotate with the wheel. It will be scaled to fit `radius`.
+`isInteractive`                 | `false`           | Allow the user to spin the wheel using click-drag/touch-flick.
 `itemBackgroundColors`          | `[]`              | The repeating pattern of colors that will be used for each `item.backgroundColor`. Is overridden by `item.backgroundColor`. Example: `['#fff','#000']`.
 `itemLabelAlign`                | `'right'`         | The alignment of each `item.label`. Is overridden by `item.labelColor`. Accepted vlaues: `'left'`|`'center'`|`'right'`. If you change this to `'left'`, you will also need to set `itemLabelRotation` to `180°`.
 `itemLabelBaselineOffset`       | `0`               | The offset of the baseline (or line height) of each `item.label` as a percentage of the label's height.
@@ -97,19 +97,19 @@ Name                            | Default Value     | Description
 `itemLabelFontSizeMax`          | `100`             | The maximum font size to draw each `item.label`. The actual font size will be calculated dynamically so that the longest label of all the items fits within `itemLabelRadiusMax` and the font size is below `itemLabelFontSizeMax`.
 `itemLabelRadius`               | `0.85`            | The point along the radius (as a percent, starting from the inside of the circle) to start drawing each `item.label`.
 `itemLabelRadiusMax`            | `0.2`             | The point along the radius (as a percent, starting from the inside of the circle) to resize each `item.label` (to fit) if it is too wide.
-`itemLabelRotation`             | `0`               | Use this to flip `item.label` `180°` when changing `itemLabelAlign`.
+`itemLabelRotation`             | `0`               | The rotation of each `item.label`. Use this to flip the labels `180°` when changing `itemLabelAlign`.
 `items`                         | `[]`              | The `items` to show on the wheel.
 `lineColor`                     | `'#000'`          | The color of the lines between each item.
 `lineWidth`                     | `1`               | The width of the lines between each item.
-`maxRotationSpeed`              | `0`               | The maximum value for `rotationSpeed`. The wheel will not spin faster than this value.
 `radius`                        | `0.95`            | The radius of the wheel as a percent of the container's smallest dimension.
 `rotation`                      | `0`               | The rotation (angle in degrees) of the wheel. `0` is north. `item[0]` will be drawn clockwise from this point.
 `rotationResistance`            | `0`               | How much to reduce `rotationSpeed` by every second.
 `rotationSpeed`                 | `0`               | The rotation speed of the wheel. Pass a positive number to spin clockwise, or a negative number to spin antiClockwise. The further away from 0 the faster it will spin.
+`rotationSpeedMax`              | `0`               | The maximum value for `rotationSpeed`. The wheel will not spin faster than this value.
 `offset`                        | `{w: 0, h: 0}`    | The offset of the wheel relative to it's centre as a percent of the wheels diameter, where `1` = 100%. This allows for simple positioning considering the wheel is always centred anyway.
 `onRest`                        | `null`            | The callback for the `onRest` event (see below).
 `onSpin`                        | `null`            | The callback for the `onSpin` event (see below).
-`overlayImage`                  | `''`              | Draw an image over the centre of the wheel which will not rotate with the wheel. Use this to draw decorations around the wheel, such as a stand or pointer.
+`overlayImage`                  | `''`              | The url of an image that will be drawn over the centre of the wheel which will not rotate with the wheel. It will be scaled to fit a radius of 100%. Use this to draw decorations around the wheel, such as a stand or pointer.
 `pointerRotation`               | `0`               | The angle of the pointer which is used to determine the "winning" item. 0 is north.
 
 ## Properties for items

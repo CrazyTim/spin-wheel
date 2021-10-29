@@ -53,7 +53,7 @@ export default class Wheel {
     this.items = props.items;
     this.lineColor = props.lineColor;
     this.lineWidth = props.lineWidth;
-    this.maxRotationSpeed = props.maxRotationSpeed;
+    this.rotationSpeedMax = props.rotationSpeedMax;
     this.radius = props.radius;
     this.rotation = props.rotation;
     this.rotationResistance =props.rotationResistance;
@@ -421,7 +421,15 @@ export default class Wheel {
   }
 
   /**
-   * Show/hide debugging info.
+   * Get the angle (in degrees) of the given point from the center of the wheel.
+   * 0 is north.
+   */
+  getAngleFromCenter(point = {x:0, y:0}) {
+    return (util.getAngle(this.center.x, this.center.y, point.x, point.y) + 90) % 360;
+  }
+
+  /**
+   * Show debugging info.
    * This is particularly helpful when fine-tuning labels.
    */
   get debug () {
@@ -435,6 +443,10 @@ export default class Wheel {
     this._debug = val;
   }
 
+  /**
+   * The url of an image that will be drawn over the centre of the wheel which will rotate with the wheel.
+   * It will be scaled to fit `radius`.
+   */
   get image () {
     return this._image;
   }
@@ -447,44 +459,18 @@ export default class Wheel {
     this._image.src = val;
   }
 
-  get offset () {
-    return this._offset;
-  }
-  set offset(val) {
-    if (!val) {
-      this._offset = {w: 0, h: 0};
-      return;
-    }
-    this._offset = val;
-    this.resize();
-  }
-
-  get overlayImage () {
-    return this._overlayImage;
-  }
-  set overlayImage(val) {
-    if (typeof val !== 'string') {
-      this._overlayImage = null;
-      return;
-    }
-    this._overlayImage = new Image();
-    this._overlayImage.src = val;
-  }
-
   /**
-   * The `items` to show on the wheel.
+   * Allow the user to spin the wheel using click-drag/touch-flick.
    */
-  get items () {
-    return this._items;
+  get isInteractive () {
+    return this._isInteractive;
   }
-  set items(val) {
-    if(!Array.isArray(val)) {
-      this._items = [];
-      this._weightedItemAngle = 0;
+  set isInteractive(val) {
+    if (typeof val !== 'boolean') {
+      this._isInteractive = true;
       return;
     }
-    this._items = val;
-    this.processItems();
+    this._isInteractive = val;
   }
 
   /**
@@ -519,6 +505,55 @@ export default class Wheel {
       return;
     }
     this._itemLabelAlign = val;
+  }
+
+  /**
+   * Offset the baseline (or line height) of each `item.label` as a percentage of the label's height.
+   */
+  get itemLabelBaselineOffset () {
+    return this._itemLabelBaselineOffset;
+  }
+  set itemLabelBaselineOffset(val) {
+    if(typeof val !== 'number') {
+      this._itemLabelBaselineOffset = 0;
+      return;
+    }
+    this._itemLabelBaselineOffset = val;
+    this.resize();
+  }
+
+  /**
+   * The repeating pattern of colors that will be used for each item's `labelColor`.
+   * Is overridden by `item.labelColor`.
+   * Example: `['#fff','#000']`.
+   */
+  get itemLabelColors () {
+    return this._itemLabelColors;
+  }
+  set itemLabelColors(val) {
+    if(!Array.isArray(value)) {
+      this._itemLabelColors = [];
+      return;
+    }
+    this._itemLabelColors = val;
+    this.processItems();
+  }
+
+  /**
+   * The font family of each `item.labelFont`.
+   * Is overridden by `item.labelFont`.
+   * Example: `'sans-serif'`.
+   */
+  get itemLabelFont () {
+    return this._itemLabelFont;
+  }
+  set itemLabelFont(val) {
+    if(typeof val !== 'string') {
+      this._itemLabelFont = 'sans-serif';
+      return;
+    }
+    this._itemLabelFont = val;
+    this.resize();
   }
 
   /**
@@ -568,7 +603,8 @@ export default class Wheel {
   }
 
   /**
-   * Use this to flip `item.label` `180°` when changing `itemLabelAlign`.
+   * The rotation of each `item.label`.
+   * Use this to flip the labels `180°` when changing `itemLabelAlign`.
    */
   get itemLabelRotation () {
     return this._itemLabelRotation;
@@ -582,66 +618,19 @@ export default class Wheel {
   }
 
   /**
-   * The repeating pattern of colors that will be used for each item's `labelColor`.
-   * Is overridden by `item.labelColor`.
-   * Example: `['#fff','#000']`.
+   * The `items` to show on the wheel.
    */
-  get itemLabelColors () {
-    return this._itemLabelColors;
+  get items () {
+    return this._items;
   }
-  set itemLabelColors(val) {
-    if(!Array.isArray(value)) {
-      this._itemLabelColors = [];
+  set items(val) {
+    if(!Array.isArray(val)) {
+      this._items = [];
+      this._weightedItemAngle = 0;
       return;
     }
-    this._itemLabelColors = val;
+    this._items = val;
     this.processItems();
-  }
-
-  /**
-   * The font family of each `item.labelFont`.
-   * Is overridden by `item.labelFont`.
-   * Example: `'sans-serif'`.
-   */
-  get itemLabelFont () {
-    return this._itemLabelFont;
-  }
-  set itemLabelFont(val) {
-    if(typeof val !== 'string') {
-      this._itemLabelFont = 'sans-serif';
-      return;
-    }
-    this._itemLabelFont = val;
-    this.resize();
-  }
-
-  /**
-   * Offset the baseline (or line height) of each `item.label` as a percentage of the label's height.
-   */
-  get itemLabelBaselineOffset () {
-    return this._itemLabelBaselineOffset;
-  }
-  set itemLabelBaselineOffset(val) {
-    if(typeof val !== 'number') {
-      this._itemLabelBaselineOffset = 0;
-      return;
-    }
-    this._itemLabelBaselineOffset = val;
-    this.resize();
-  }
-
-  /**
-   * Enable/disable the feature that lets the user spin the wheel using click-drag/touch-flick.
-   */
-  get isInteractive () {
-    return this._isInteractive;
-  }
-  set isInteractive(val) {
-    if (typeof val !== 'boolean') {
-      this._isInteractive = true;
-      return;
-    }
-    this._isInteractive = val;
   }
 
   /**
@@ -673,18 +662,101 @@ export default class Wheel {
   }
 
   /**
+   * The radius of the wheel as a percent of the container's smallest dimension.
+   */
+  get radius () {
+    return this._radius;
+  }
+  set radius(val) {
+    if (typeof val !== 'number') {
+      this._radius = 0.95;
+      return;
+    }
+    this._radius = val;
+    this.resize();
+  }
+
+  /**
+   * The rotation (angle in degrees) of the wheel.
+   * 0 is north. `item[0]` will be drawn clockwise from this point.
+   */
+  get rotation () {
+    return this._rotation;
+  }
+  set rotation(val) {
+    if (typeof val !== 'number') {
+      this._rotation = 0;
+      return;
+    }
+    this._rotation = val;
+  }
+
+  /**
+   * How much to reduce `rotationSpeed` by every second.
+   */
+  get rotationResistance () {
+    return this._rotationResistance;
+  }
+  set rotationResistance(val) {
+    if (typeof val !== 'number') {
+      this._rotationResistance = -35;
+      return;
+    }
+    this._rotationResistance = val;
+  }
+
+  /**
+   * The rotation speed of the wheel.
+   * Pass a positive number to spin clockwise, or a negative number to spin antiClockwise.
+   * The further away from 0 the faster it will spin.
+   */
+  get rotationSpeed () {
+    return this._rotationSpeed;
+  }
+  set rotationSpeed(val) {
+    if (typeof val !== 'number') {
+      this._rotationDirection = 0;
+      this._rotationSpeed = 0;
+      return;
+    }
+
+    // Limit speed to `rotationSpeedMax`
+    let newSpeed = Math.min(val, this.rotationSpeedMax);
+    newSpeed = Math.max(newSpeed, -this.rotationSpeedMax);
+
+    this._rotationDirection = this.getRotationDirection(newSpeed);
+    this._rotationSpeed = newSpeed;
+  }
+
+  /**
    * The maximum value for `rotationSpeed`.
    * The wheel will not spin faster than this.
    */
-  get maxRotationSpeed () {
-    return this._maxRotationSpeed;
+  get rotationSpeedMax () {
+    return this._rotationSpeedMax;
   }
-  set maxRotationSpeed(val) {
+  set rotationSpeedMax(val) {
     if (typeof val !== 'number') {
-      this._maxRotationSpeed = 250;
+      this._rotationSpeedMax = 250;
       return;
     }
-    this._maxRotationSpeed = val;
+    this._rotationSpeedMax = val;
+  }
+
+  /**
+   * The offset of the wheel relative to it's centre as a percent of the wheels diameter, where `1` = 100%.
+   * This allows for simple positioning considering the wheel is always centred anyway.
+   */
+  get offset () {
+    return this._offset;
+  }
+  set offset(val) {
+    if (!val) {
+      this._offset = {w: 0, h: 0};
+      return;
+    }
+    this._offset = val;
+    this.resize();
   }
 
   /**
@@ -716,6 +788,23 @@ export default class Wheel {
   }
 
   /**
+   * The url of an image that will be drawn over the centre of the wheel which will not rotate with the wheel.
+   * It will be scaled to fit a radius of 100%.
+   * Use this to draw decorations around the wheel, such as a stand or pointer.
+   */
+  get overlayImage () {
+    return this._overlayImage;
+  }
+  set overlayImage(val) {
+    if (typeof val !== 'string') {
+      this._overlayImage = null;
+      return;
+    }
+    this._overlayImage = new Image();
+    this._overlayImage.src = val;
+  }
+
+  /**
    * The angle of the pointer which is used to determine the "winning" item.
    * 0 is north.
    */
@@ -728,81 +817,6 @@ export default class Wheel {
       return;
     }
     this._pointerRotation = val;
-  }
-
-  /**
-   * The radius of the wheel as a percent of the container's smallest dimension.
-   */
-  get radius () {
-    return this._radius;
-  }
-  set radius(val) {
-    if (typeof val !== 'number') {
-      this._radius = 0.95;
-      return;
-    }
-    this._radius = val;
-    this.resize();
-  }
-
-  /**
-   * The rotation speed of the wheel.
-   * Pass a positive number to spin clockwise, or a negative number to spin antiClockwise.
-   * The further away from 0 the faster it will spin.
-   */
-  get rotationSpeed () {
-    return this._rotationSpeed;
-  }
-  set rotationSpeed(val) {
-    if (typeof val !== 'number') {
-      this._rotationDirection = 0;
-      this._rotationSpeed = 0;
-      return;
-    }
-
-    // Limit speed to `this.maxRotationSpeed`
-    let newSpeed = Math.min(val, this._maxRotationSpeed);
-    newSpeed = Math.max(newSpeed, -this._maxRotationSpeed);
-
-    this._rotationDirection = this.getRotationDirection(newSpeed);
-    this._rotationSpeed = newSpeed;
-  }
-
-  /**
-   * How much to reduce `rotationSpeed` by every second.
-   */
-  get rotationResistance () {
-    return this._rotationResistance;
-  }
-  set rotationResistance(val) {
-    if (typeof val !== 'number') {
-      this._rotationResistance = -35;
-      return;
-    }
-    this._rotationResistance = val;
-  }
-
-  /**
-   * The rotation (angle in degrees) of the wheel.
-   * 0 is north. `item[0]` will be drawn clockwise from this point.
-   */
-  get rotation () {
-    return this._rotation;
-  }
-  set rotation(val) {
-    if (typeof val !== 'number') {
-      this._rotation = 0;
-      return;
-    }
-    this._rotation = val;
-  }
-
-  /**
-   * Get the angle (in degrees) of the given point from the center of the wheel.
-   * 0 is north.
-   */
-  getAngleFromCenter(point = {x:0, y:0}) {
-    return (util.getAngle(this.center.x, this.center.y, point.x, point.y) + 90) % 360;
   }
 
   /**
