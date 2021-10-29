@@ -6,16 +6,16 @@ export default [
     name: 'Workout',
     radius: .84,
     itemLabelRadius: .93,
-    itemLabelMaxRadius: .35,
+    itemLabelRadiusMax: .35,
     itemLabelRotation: 180,
     itemLabelAlign: enums.AlignText.left,
-    itemLabelColor: '#fff',
-    itemLabelLineHeight: -1.8,
+    itemLabelColors: ['#fff'],
+    itemLabelBaselineOffset: -0.07,
     itemLabelFont: 'Amatic SC',
-    itemLabelFontMaxSize: 55,
-    itemLineWidth: 1,
-    itemLineColor: '#fff',
-    itemColorSet: ['#ffc93c', '#66bfbf', '#a2d5f2', '#515070', '#43658b', '#ed6663', '#d54062' ],
+    itemLabelFontSizeMax: 55,
+    lineWidth: 1,
+    lineColor: '#fff',
+    itemBackgroundColors: ['#ffc93c', '#66bfbf', '#a2d5f2', '#515070', '#43658b', '#ed6663', '#d54062' ],
     image: './img/example-image-0.svg',
     overlayImage: './img/example-overlay-0.svg',
     items: [
@@ -70,14 +70,14 @@ export default [
     radius: .89,
     pointerRotation: 90,
     itemLabelRadius: .92,
-    itemLabelMaxRadius: .37,
+    itemLabelRadiusMax: .37,
     itemLabelRotation: 0,
     itemLabelAlign: enums.AlignText.right,
-    itemLabelColor: '#000',
-    itemLabelLineHeight: 0.42,
+    itemLabelColors: ['#000'],
+    itemLabelBaselineOffset: -0.06,
     itemLabelFont: 'Rubik',
-    itemLineWidth: 0,
-    itemColorSet: ['#fbf8c4', '#e4f1aa', '#c0d26e', '#ff7d7d'],
+    lineWidth: 0,
+    itemBackgroundColors: ['#fbf8c4', '#e4f1aa', '#c0d26e', '#ff7d7d'],
     overlayImage: './img/example-overlay-1.svg',
     items: [
       {
@@ -152,14 +152,14 @@ export default [
     name: 'Movies',
     radius: .88,
     itemLabelRadius: .92,
-    itemLabelMaxRadius: .4,
+    itemLabelRadiusMax: .4,
     itemLabelRotation: 0,
     itemLabelAlign: enums.AlignText.right,
-    itemLabelLineHeight: 1.5,
+    itemLabelBaselineOffset: -0.13,
     itemLabelFont: 'Pragati Narrow',
-    itemLineWidth: 0,
-    itemColorSet: ['#c7160c', '#fff'],
-    itemLabelColorSet: ['#fff', '#000'],
+    lineWidth: 0,
+    itemBackgroundColors: ['#c7160c', '#fff'],
+    itemLabelColors: ['#fff', '#000'],
     overlayImage: './img/example-overlay-2.svg',
     items: [
       {
@@ -219,12 +219,12 @@ export default [
     itemLabelRadius: .93,
     itemLabelRotation: 180,
     itemLabelAlign: enums.AlignText.left,
-    itemLabelColor: '#000',
-    itemLabelLineHeight: -0.6,
+    itemLabelColors: ['#000'],
+    itemLabelBaselineOffset: -0.06,
     itemLabelFont: 'Arial',
-    itemLabelFontMaxSize: 22,
-    itemLineWidth: 1,
-    itemLineColor: '#000',
+    itemLabelFontSizeMax: 22,
+    lineWidth: 1,
+    lineColor: '#000',
     overlayImage: './img/example-overlay-3.svg',
     items: [
       {
@@ -236,7 +236,7 @@ export default [
       {
         label: '$ 1000',
         weight: .6,
-        color: '#f23925',
+        backgroundColor: '#f23925',
         labelColor: '#fff',
       },
       {
@@ -248,7 +248,7 @@ export default [
       {
         label: '$ 500',
         weight: .8,
-        color: '#b1ddff',
+        backgroundColor: '#b1ddff',
       },
       {
         label: '$ 100',
@@ -259,7 +259,7 @@ export default [
       {
         label: '$ 5000',
         weight: .4,
-        color: '#000',
+        backgroundColor: '#000',
         labelColor: '#fff',
       },
       {
@@ -271,7 +271,7 @@ export default [
       {
         label: '$ 500',
         weight: .8,
-        color: '#b1ddff',
+        backgroundColor: '#b1ddff',
       },
       {
         label: '$ 100',
@@ -282,7 +282,7 @@ export default [
       {
         label: '$ 1000',
         weight: .6,
-        color: '#f23925',
+        backgroundColor: '#f23925',
         labelColor: '#fff',
       },
       {
@@ -294,7 +294,7 @@ export default [
       {
         label: '$ 500',
         weight: .8,
-        color: '#b1ddff',
+        backgroundColor: '#b1ddff',
       },
     ]
   },

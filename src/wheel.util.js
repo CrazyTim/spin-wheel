@@ -15,19 +15,6 @@ export function degRad(degrees = 0) {
 }
 
 /**
- * Return a randomly shuffled copy of the array.
- * Use the Fisher-Yates shuffle algorithm.
- */
-export function shuffleArray(array = []) {
-  const a = array.slice(); // Clone array.
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1)); // Get random index from 0 to i
-    [a[i], a[j]] = [a[j], a[i]]; // Swap a[i] and a[j]
-  }
-  return a;
-}
-
-/**
  * Sum the given property for each object in `array`.
  * Falsy values are treated as 0.
  */
