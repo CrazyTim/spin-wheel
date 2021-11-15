@@ -923,17 +923,16 @@ export default class Wheel {
     // Calc the drag distance:
     let dragDistance = 0;
     const now = performance.now();
-    this.dragMoves = this.dragMoves.reduce((result, val) => {
+    this.dragMoves = this.dragMoves.filter(i => {
 
-      // Ignore old dragMove events (so the user can cancel the drag by not moving for a short time).
-      if (val !== undefined && now - val.now < 250) {
-        dragDistance += val.distance * 1.5;
-        result.push(val);
+      // Remove old events.
+      // This allows the user to cancel the spin by holding the wheel still immediately before ending the drag.
+      if (i !== undefined && now - i.now < 250) {
+        dragDistance += i.distance * 1.5;
+        return true;
       }
 
-      return result;
-
-    }, []);
+    });
 
     // Spin the wheel:
     if (dragDistance !== 0) {
