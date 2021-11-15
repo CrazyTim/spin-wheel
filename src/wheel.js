@@ -259,15 +259,15 @@ export default class Wheel {
 
     if (this.rotationSpeed !== 0) {
 
-      // Decrease rotation (simulate drag):
-      this.rotationSpeed += (this.rotationResistance * delta) * this.rotationDirection;
+      // Simulate drag:
+      let newSpeed = this.rotationSpeed + (this.rotationResistance * delta) * this.rotationDirection;
 
-      // Prevent rotation from going back the oposite way:
-      if (this.rotationDirection === 1 && this.rotationSpeed < 0) {
-        this.rotationSpeed = 0;
-      } else if (this.rotationDirection === -1 && this.rotationSpeed >= 0) {
-        this.rotationSpeed = 0;
+      // Prevent wheel from rotating in the oposite direction:
+      if (this.rotationDirection === 1 && newSpeed < 0 || this.rotationDirection === -1 && newSpeed >= 0) {
+        newSpeed = 0;
       }
+
+      this.rotationSpeed = newSpeed;
 
       if (this.rotationSpeed === 0) {
         this.onRest?.({
