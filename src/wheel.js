@@ -138,14 +138,14 @@ export default class Wheel {
       this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(i.label, this.itemLabelFont, this.labelMaxWidth, this.context));
     });
 
-    this.frameRequestId = window.requestAnimationFrame(this.drawFrame.bind(this));
+    this.frameRequestId = window.requestAnimationFrame(this.draw.bind(this));
 
   }
 
   /**
    * Main animation loop.
    */
-  drawFrame(now = 0) {
+  draw(now = 0) {
 
     const ctx = this.context;
 
@@ -299,7 +299,7 @@ export default class Wheel {
     }
 
     // Wait until next frame.
-    this.frameRequestId = window.requestAnimationFrame(this.drawFrame.bind(this));
+    this.frameRequestId = window.requestAnimationFrame(this.draw.bind(this));
 
   }
 
