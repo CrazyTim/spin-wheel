@@ -190,7 +190,13 @@ export default class Wheel {
       }
 
       if (util.isAngleBetween(this.pointerRotation, a.start % 360, a.end % 360)) {
-        this._currentIndex = i;
+        if (this._currentIndex !== i) {
+          this._currentIndex = i;
+
+          this.onCurrentIndexChange?.({
+            currentIndex: this._currentIndex,
+          });
+        }
       }
 
     }
@@ -806,6 +812,20 @@ export default class Wheel {
       this._offset = enums.Defaults.offset;
     }
     this.resize();
+  }
+
+  /**
+   * The callback for the `onCurrentIndexChange` event.
+   */
+  get onCurrentIndexChange () {
+    return this._onCurrentIndexChange;
+  }
+  set onCurrentIndexChange(val) {
+    if (typeof val === 'function') {
+      this._onCurrentIndexChange = val;
+    } else {
+      this._onCurrentIndexChange = enums.Defaults.onCurrentIndexChange;
+    }
   }
 
   /**
