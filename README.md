@@ -79,6 +79,7 @@ Method                                       | Description
 -------------------------------------------- | ---------------------------
 `init(props = {})`                           | Initialise the instance with the given properties (see Properties below). If any properties are omitted, then default values will be applied.
 `spin(speed = 0)`                            | Spin the wheel and raise the `onSpin` event. `speed` is added to `rotationSpeed` ±30% (randomised to make it realistic and less predictable).
+`getCurrentIndex()`                          | Get the index of the item that the `pointer` is pointing at.
 
 ## Properties for `Wheel`
 
@@ -108,7 +109,7 @@ Name                            | Default Value     | Description
 `onRest`                        | `null`            | The callback for the `onRest` event (see below).
 `onSpin`                        | `null`            | The callback for the `onSpin` event (see below).
 `overlayImage`                  | `''`              | The url of an image that will be drawn over the center of the wheel which will not rotate with the wheel. It will be scaled to fit a radius of 100%. Use this to draw decorations around the wheel, such as a stand or pointer.
-`pointerRotation`               | `0`               | The angle of the pointer which is used to determine the "winning" item. 0 is north.
+`pointerRotation`               | `0`               | The angle of the pointer which is used to determine the `currentIndex` (or the "winning" item). 0 is north.
 
 ## Properties for items
 
@@ -129,7 +130,7 @@ Raised when the wheel comes to a rest after spinning.
 Key                         | Value
 --------------------------- | ---------------------------
 `event`                     | `'rest'`
-`item`                      | The item that the `pointer` was pointing at when the wheel stopped spinning (see `pointerRotation`).
+`currentIndex`              | The index of the item that the `pointer` was pointing at (see `pointerRotation`).
 
 #### `onSpin(e:object)`
 
@@ -138,7 +139,7 @@ Raised when the wheel has been spun by the user (via click-drag/touch-flick), or
 Key                         | Value
 --------------------------- | --------------------------- 
 `event`                     | `'spin'`
-`direction`                 | The direction that the wheel is spinning; `1` for clockwise, `-1` for anticlockwise.
+`direction`                 | The direction that the wheel was spinning; `1` for clockwise, `-1` for anticlockwise.
 `rotationSpeed`             | The rotation speed of the wheel.
 
 ## Acknowledgements

@@ -147,6 +147,7 @@ export default class Wheel {
    */
   draw(now = 0) {
 
+    const angles = this.getItemAngles();
     const ctx = this.context;
 
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clear canvas.
@@ -162,17 +163,10 @@ export default class Wheel {
     }
     this.lastFrame = now;
 
-    let currentItem;
-    let itemAngle;
-    let lastItemAngle; // Record the last angle so we can resume in the next loop.
-
     // Draw wedges:
-    lastItemAngle = this.rotation;
-    for (let i = 0; i < this.actualItems.length; i++) {
+    for (let i = 0; i < angles.length; i++) {
 
-      itemAngle = this.actualItems[i].weight * this.weightedItemAngle;
-      const startAngle = lastItemAngle;
-      const endAngle = lastItemAngle + itemAngle;
+      const a = angles[i];
 
       ctx.beginPath();
       ctx.moveTo(this.center.x, this.center.y);
@@ -180,8 +174,8 @@ export default class Wheel {
         this.center.x,
         this.center.y,
         this.actualRadius,
-        util.degRad(startAngle + enums.arcAdjust),
-        util.degRad(endAngle + enums.arcAdjust)
+        util.degRad(a.start + enums.arcAdjust),
+        util.degRad(a.end + enums.arcAdjust)
       );
       ctx.closePath();
 
@@ -195,10 +189,8 @@ export default class Wheel {
         ctx.stroke();
       }
 
-      lastItemAngle += itemAngle;
-
-      if (util.isAngleBetween(this.pointerRotation, startAngle % 360, endAngle % 360)) {
-        currentItem = this.actualItems[i];
+      if (util.isAngleBetween(this.pointerRotation, a.start % 360, a.end % 360)) {
+        this._currentIndex = i;
       }
 
     }
@@ -212,17 +204,16 @@ export default class Wheel {
     ctx.save();
 
     // Draw item labels:
-    lastItemAngle = this.rotation;
-    for (let i = 0; i < this.actualItems.length; i++) {
+    for (let i = 0; i < angles.length; i++) {
 
-      itemAngle = this.actualItems[i].weight * this.weightedItemAngle;
+      const a = angles[i];
 
       ctx.save();
       ctx.beginPath();
 
       ctx.fillStyle = this.actualItems[i].labelColor;
 
-      const angle = lastItemAngle + (itemAngle / 2);
+      const angle = a.start + ((a.start - a.end) / 2);
 
       ctx.translate(
         this.center.x + Math.cos(util.degRad(angle + enums.arcAdjust)) * (this.actualRadius * this.itemLabelRadius),
@@ -250,8 +241,6 @@ export default class Wheel {
 
       ctx.restore();
 
-      lastItemAngle += itemAngle;
-
     }
 
     this.drawImage(this.image, false);
@@ -272,13 +261,14 @@ export default class Wheel {
       if (this.rotationSpeed === 0) {
         this.onRest?.({
           event: 'rest',
-          item: currentItem,
+          currentIndex: this._currentIndex,
         });
       }
 
     }
 
     if (this.debug) {
+
       // Draw dragMove events:
       if (this.dragMoves && this.dragMoves.length) {
         for (let i = this.dragMoves.length; i >= 0; i--) {
@@ -296,6 +286,7 @@ export default class Wheel {
           ctx.stroke();
         }
       }
+
     }
 
     // Wait until next frame.
@@ -455,6 +446,35 @@ export default class Wheel {
    */
   getAngleFromCenter(point = {x:0, y:0}) {
     return (util.getAngle(this.center.x, this.center.y, point.x, point.y) + 90) % 360;
+  }
+
+  /**
+   * Get the index of the item that the `pointer` is pointing at.
+   */
+  getCurrentIndex() {
+    return this._currentIndex;
+  }
+
+  /**
+   * Return an array of objects which represents the current start/end angles for each item.
+   */
+  getItemAngles() {
+
+    const angles = [];
+    let itemAngle;
+    let lastItemAngle = this.rotation;
+
+    for (const item of this.actualItems) {
+      itemAngle = item.weight * this.weightedItemAngle;
+      angles.push({
+        start: lastItemAngle,
+        end: lastItemAngle + itemAngle,
+      });
+      lastItemAngle += itemAngle;
+    }
+
+    return angles;
+
   }
 
   /**
