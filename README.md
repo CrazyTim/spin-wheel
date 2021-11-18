@@ -1,5 +1,5 @@
 <div>
-  <img alt="thumbnail" src="https://crazytim.github.io/spin-wheel/repo-thumbnail.jpg" width=350px />
+  <img alt="thumbnail" src="https://crazytim.github.io/spin-wheel/repo-thumbnail.jpg" width="350px" />
   <br>
 </div>
 
@@ -68,7 +68,7 @@ Labels are not given an absolute size either. Instead you set `itemLabelFont` (e
 For example usage see [./example/js/props.js](https://github.com/CrazyTim/spin-wheel/blob/master/example/js/props.js).
 
 <div>
-  <img alt="diagram of props" src="https://crazytim.github.io/spin-wheel/props-diagram.svg" width=615px />
+  <img alt="diagram of props" src="https://crazytim.github.io/spin-wheel/props-diagram.svg" width="615px" />
   <br>
   <br>
 </div>
@@ -106,8 +106,9 @@ Name                            | Default Value     | Description
 `rotationSpeed`                 | `0`               | The rotation speed of the wheel. Pass a positive number to spin clockwise, or a negative number to spin antiClockwise. The further away from 0 the faster it will spin.
 `rotationSpeedMax`              | `250`             | The maximum value for `rotationSpeed`. The wheel will not spin faster than this value.
 `offset`                        | `{w: 0, h: 0}`    | The offset of the wheel relative to it's center as a percent of the wheels diameter, where `1` = 100%. This allows for simple positioning considering the wheel is always centered anyway.
-`onRest`                        | `null`            | The callback for the `onRest` event (see below).
-`onSpin`                        | `null`            | The callback for the `onSpin` event (see below).
+`onCurrentIndexChange`          | `null`            | The callback for the `onCurrentIndexChange` event.
+`onRest`                        | `null`            | The callback for the `onRest` event.
+`onSpin`                        | `null`            | The callback for the `onSpin` event.
 `overlayImage`                  | `''`              | The url of an image that will be drawn over the center of the wheel which will not rotate with the wheel. It will be scaled to fit a radius of 100%. Use this to draw decorations around the wheel, such as a stand or pointer.
 `pointerRotation`               | `0`               | The angle of the pointer which is used to determine the `currentIndex` (or the "winning" item). 0 is north.
 
@@ -123,7 +124,16 @@ Name                            | Default Value     | Description
 
 ## Events for `Wheel`
 
-#### `onRest(e:object)`
+#### `onCurrentIndexChange(event = {})`
+
+Raised when a new item is pointed at. This can be used to change the color of the current item, or play a 'ticking' sound. 
+
+Key                         | Value
+--------------------------- | ---------------------------
+`event`                     | `'currentIndexChange'`
+`currentIndex`              | The index of the item that the `pointer` was pointing at (see `pointerRotation`).
+
+#### `onRest(event = {})`
 
 Raised when the wheel comes to a rest after spinning. 
 
@@ -132,7 +142,7 @@ Key                         | Value
 `event`                     | `'rest'`
 `currentIndex`              | The index of the item that the `pointer` was pointing at (see `pointerRotation`).
 
-#### `onSpin(e:object)`
+#### `onSpin(event = {})`
 
 Raised when the wheel has been spun by the user (via click-drag/touch-flick), or after calling `spin()`.
 
