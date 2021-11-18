@@ -254,8 +254,8 @@ export default class Wheel {
 
     }
 
-    this.drawImageOnCanvas(this.image, false);
-    this.drawImageOnCanvas(this.overlayImage, true);
+    this.drawImage(this.image, false);
+    this.drawImage(this.overlayImage, true);
 
     if (this.rotationSpeed !== 0) {
 
@@ -303,7 +303,7 @@ export default class Wheel {
 
   }
 
-  drawImageOnCanvas(image, isOverlay = false) {
+  drawImage(image, isOverlay = false) {
 
     if (!image) return;
 
