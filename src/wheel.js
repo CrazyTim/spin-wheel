@@ -917,7 +917,7 @@ export default class Wheel {
   dragEnd() {
 
     this.isDragging = false;
-    this.dragDelta = null;
+
     clearInterval(this.dragClearOldDistances);
 
     // Calc the drag distance:
