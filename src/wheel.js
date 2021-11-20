@@ -134,9 +134,9 @@ export default class Wheel {
     // Adjust the font size of labels so they all fit inside `wheelRadius`:
     this.itemLabelFontSize = this.itemLabelFontSizeMax * (this.size / enums.fontScale);
     this.labelMaxWidth = this.actualRadius * (this.itemLabelRadius - this.itemLabelRadiusMax);
-    this.actualItems.forEach((i) => {
-      this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(i.label, this.itemLabelFont, this.labelMaxWidth, this.context));
-    });
+    for (const item of this.actualItems) {
+      this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(item.label, this.itemLabelFont, this.labelMaxWidth, this.context));
+    }
 
     this.frameRequestId = window.requestAnimationFrame(this.draw.bind(this));
 
@@ -164,9 +164,7 @@ export default class Wheel {
     this.lastFrame = now;
 
     // Draw wedges:
-    for (let i = 0; i < angles.length; i++) {
-
-      const a = angles[i];
+    for (const [i, a] of angles.entries()) {
 
       ctx.beginPath();
       ctx.moveTo(this.center.x, this.center.y);
@@ -210,9 +208,7 @@ export default class Wheel {
     ctx.save();
 
     // Draw item labels:
-    for (let i = 0; i < angles.length; i++) {
-
-      const a = angles[i];
+    for (const [i, a] of angles.entries()) {
 
       ctx.save();
       ctx.beginPath();
@@ -235,7 +231,6 @@ export default class Wheel {
         ctx.moveTo(0, 0);
         ctx.lineTo(-this.labelMaxWidth, 0);
         ctx.stroke();
-
         ctx.strokeRect(0, -this.itemLabelFontSize / 2, -this.labelMaxWidth, this.itemLabelFontSize);
       }
 
@@ -273,26 +268,21 @@ export default class Wheel {
 
     }
 
-    if (this.debug) {
-
-      // Draw dragMove events:
-      if (this.dragMoves && this.dragMoves.length) {
-        for (let i = this.dragMoves.length; i >= 0; i--) {
-          const point = this.dragMoves[i];
-          if (point === undefined) continue;
-          let percentFill = i / this.dragMoves.length;
-          percentFill = (percentFill -1) * -1;
-          percentFill *= 100;
-          ctx.beginPath();
-          ctx.arc(point.x, point.y, 5, 0, 2 * Math.PI);
-          ctx.fillStyle = `hsl(200,100%,${percentFill}%)`;
-          ctx.strokeStyle = '#000';
-          ctx.lineWidth = 0.5;
-          ctx.fill();
-          ctx.stroke();
-        }
+    if (this.debug && this.dragMoves?.length) {
+      // Draw dragMoves:
+      for (const [i, point] of this.dragMoves.entries()) {
+        if (point === undefined) continue;
+        let percentFill = i / this.dragMoves.length;
+        percentFill = (percentFill -1) * -1;
+        percentFill *= 100;
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, 5, 0, 2 * Math.PI);
+        ctx.fillStyle = `hsl(200,100%,${percentFill}%)`;
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 0.5;
+        ctx.fill();
+        ctx.stroke();
       }
-
     }
 
     // Wait until next frame.
@@ -388,9 +378,8 @@ export default class Wheel {
 
     this.actualItems = [];
 
-    for (let i = 0; i < this.items.length; i++) {
+    for (const [i, item] of this.items.entries()) {
 
-      const item = this.items[i];
       const newItem = {};
 
       // Background color:
