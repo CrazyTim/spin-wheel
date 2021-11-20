@@ -903,7 +903,7 @@ export default class Wheel {
 
     this.dragDelta = util.addAngle(this.rotation, -a); // Used later in dragMove.
     this.dragMoves = []; // Initalise.
-    this.dragLastPoint = {
+    this.dragPoint = {
       x: p.x,
       y: p.y,
     };
@@ -921,15 +921,15 @@ export default class Wheel {
     const p = util.translateXYToElement(point, this.canvas);
     const a = this.getAngleFromCenter(p);
 
-    // Calc new rotation:
+    // Calc rotation:
     const newRotation = util.addAngle(a, this.dragDelta);
 
     // Calc direction:
-    const aFromLast = util.addAngle(a, -this.getAngleFromCenter(this.dragLastPoint));
-    const direction = (aFromLast < 180) ? 1 : -1;
+    const angle = util.addAngle(a, -this.getAngleFromCenter(this.dragPoint));
+    const direction = (angle < 180) ? 1 : -1;
 
     // Calc distance:
-    const distance = util.getDistanceBetweenPoints(p, this.dragLastPoint) * direction;
+    const distance = util.getDistanceBetweenPoints(p, this.dragPoint) * direction;
 
     // Save data for use in dragEnd event.
     this.dragMoves.unshift({
