@@ -39,6 +39,7 @@ export const Defaults = Object.freeze({
   rotationSpeed: 0,
   rotationSpeedMax: 250,
   offset: {w: 0, h: 0},
+  onCurrentIndexChange: null,
   onRest: null,
   onSpin: null,
   overlayImage: '',
