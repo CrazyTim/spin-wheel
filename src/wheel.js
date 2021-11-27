@@ -1,6 +1,6 @@
-import * as util from './wheel.util.js';
-import * as enums from './wheel.enums.js';
-import * as drag from './wheel.drag.js';
+import * as util from './util.js';
+import * as enums from './enums.js';
+import * as drag from './drag.js';
 
 export default class Wheel {
 
