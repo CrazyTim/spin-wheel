@@ -1,9 +1,13 @@
 {
   "name": "spin-wheel",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
-    "start": "browser-sync start --server --watch --ignore '**.*' --no-notify --startPath 'example'",
-    "eslint": "eslint src/** --fix"
+    "start": "node bin/build.js -entryPoint=src/wheel.js -serve",
+    "eslint": "eslint src/** --fix",
+    "build": "npm run build-esm && npm run build-iife",
+    "build-esm": "node bin/build.js -entryPoint=src/wheel.js -esm",
+    "build-iife": "node bin/build.js -entryPoint=src/wheel.js -iife"
   },
   "repository": {
     "type": "git",
@@ -14,6 +18,7 @@
   "homepage": "https://github.com/CrazyTim/spin-wheel#readme",
   "devDependencies": {
     "browser-sync": "^2.27.5",
+    "esbuild": "^0.13.11",
     "eslint": "^7.32.0"
   }
 }
