@@ -961,6 +961,8 @@ export default class Wheel {
         return true;
       }
 
+      return false;
+
     });
 
     // Spin the wheel:
