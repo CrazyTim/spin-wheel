@@ -4,7 +4,6 @@
   "type": "module",
   "scripts": {
     "start": "node bin/build.js -entryPoint=src/wheel.js -serve",
-    "eslint": "eslint src/** --fix",
     "build": "npm run build-esm && npm run build-iife",
     "build-esm": "node bin/build.js -entryPoint=src/wheel.js -esm",
     "build-iife": "node bin/build.js -entryPoint=src/wheel.js -iife"
