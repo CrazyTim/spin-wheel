@@ -4,9 +4,9 @@ export default [
 
   {
     name: 'Workout',
-    radius: .84,
-    itemLabelRadius: .93,
-    itemLabelRadiusMax: .35,
+    radius: 0.84,
+    itemLabelRadius: 0.93,
+    itemLabelRadiusMax: 0.35,
     itemLabelRotation: 180,
     itemLabelAlign: enums.AlignText.left,
     itemLabelColors: ['#fff'],
@@ -67,10 +67,10 @@ export default [
 
   {
     name: 'Takeaway',
-    radius: .89,
+    radius: 0.89,
     pointerRotation: 90,
-    itemLabelRadius: .92,
-    itemLabelRadiusMax: .37,
+    itemLabelRadius: 0.92,
+    itemLabelRadiusMax: 0.37,
     itemLabelRotation: 0,
     itemLabelAlign: enums.AlignText.right,
     itemLabelColors: ['#000'],
@@ -150,9 +150,9 @@ export default [
 
   {
     name: 'Movies',
-    radius: .88,
-    itemLabelRadius: .92,
-    itemLabelRadiusMax: .4,
+    radius: 0.88,
+    itemLabelRadius: 0.92,
+    itemLabelRadiusMax: 0.4,
     itemLabelRotation: 0,
     itemLabelAlign: enums.AlignText.right,
     itemLabelBaselineOffset: -0.13,
@@ -215,8 +215,8 @@ export default [
 
   {
     name: 'Money',
-    radius: .88,
-    itemLabelRadius: .93,
+    radius: 0.88,
+    itemLabelRadius: 0.93,
     itemLabelRotation: 180,
     itemLabelAlign: enums.AlignText.left,
     itemLabelColors: ['#000'],
@@ -235,7 +235,7 @@ export default [
       },
       {
         label: '$ 1000',
-        weight: .6,
+        weight: 0.6,
         backgroundColor: '#f23925',
         labelColor: '#fff',
       },
@@ -247,7 +247,7 @@ export default [
       },
       {
         label: '$ 500',
-        weight: .8,
+        weight: 0.8,
         backgroundColor: '#b1ddff',
       },
       {
@@ -258,7 +258,7 @@ export default [
       },
       {
         label: '$ 5000',
-        weight: .4,
+        weight: 0.4,
         backgroundColor: '#000',
         labelColor: '#fff',
       },
@@ -270,7 +270,7 @@ export default [
       },
       {
         label: '$ 500',
-        weight: .8,
+        weight: 0.8,
         backgroundColor: '#b1ddff',
       },
       {
@@ -281,7 +281,7 @@ export default [
       },
       {
         label: '$ 1000',
-        weight: .6,
+        weight: 0.6,
         backgroundColor: '#f23925',
         labelColor: '#fff',
       },
@@ -293,7 +293,7 @@ export default [
       },
       {
         label: '$ 500',
-        weight: .8,
+        weight: 0.8,
         backgroundColor: '#b1ddff',
       },
     ]
@@ -315,4 +315,4 @@ export default [
 
   },
 
-]
+];
