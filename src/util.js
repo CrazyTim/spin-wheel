@@ -16,10 +16,17 @@ export function degRad(degrees = 0) {
 
 /**
  * Sum the given property for each object in `array`.
- * Falsy values are treated as 0.
+ * Only operate on truthy values.
+ * Truthy values that are not Numbers count as 1.
+ * An empty array will return 0.
  */
 export function sumObjArray(array, property) {
-  return array.reduce((a, b) => a + (b[property] || 0), 0);
+  let sum = 0;
+  for (const i of array) {
+    const val = i[property];
+    if (val) sum += ((typeof val === 'number') ? val : 1);
+  }
+  return sum;
 }
 
 /**
@@ -35,11 +42,16 @@ export function isAngleBetween(angle, arcStart, arcEnd) {
 
 /**
  * Average the values in `array`.
- * Falsy values are treated as 0.
+ * Only operate on truthy values.
+ * Truthy values that are not Numbers count as 1.
  * An empty array will return 0.
  */
-export function avgArray(array = []) {
-  return array.reduce((a, b) => a + (b || 0), 0) / array.length || 0;
+export function aveArray(array = []) {
+  let sum = 0;
+  for (const val of array) {
+    if (val) sum += ((typeof val === 'number') ? val : 1);
+  }
+  return sum / array.length || 0;
 }
 
 /**
