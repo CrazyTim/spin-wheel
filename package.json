@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "start": "node bin/build.js -entryPoint=src/wheel.js -serve",
-    "build": "npm run build-esm && npm run build-iife",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
+    "build": "npm run test && npm run build-esm && npm run build-iife",
     "build-esm": "node bin/build.js -entryPoint=src/wheel.js -esm",
     "build-iife": "node bin/build.js -entryPoint=src/wheel.js -iife"
   },
@@ -18,6 +19,7 @@
   "devDependencies": {
     "browser-sync": "^2.27.5",
     "esbuild": "^0.13.11",
-    "eslint": "^7.32.0"
+    "eslint": "^7.32.0",
+    "jest": "^27.4.3"
   }
 }
