@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node bin/build.js -entryPoint=src/wheel.js -serve",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
-    "build": "npm run test && npm run build-esm && npm run build-iife",
+    "lint": "eslint src/** --fix",
+    "build": "npm run lint && npm run test && npm run build-esm && npm run build-iife",
     "build-esm": "node bin/build.js -entryPoint=src/wheel.js -esm",
     "build-iife": "node bin/build.js -entryPoint=src/wheel.js -iife"
   },

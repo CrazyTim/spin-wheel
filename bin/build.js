@@ -2,15 +2,8 @@
 import esbuild from 'esbuild';
 
 import { readFile } from 'fs/promises';
-import lint from './lint.js';
 import * as util from './util.js';
 import startWebServer from './serve.js';
-
-await lint()
-.catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
 
 const p = JSON.parse(
   await readFile(
