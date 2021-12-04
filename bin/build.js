@@ -12,27 +12,28 @@ const p = JSON.parse(
 );
 
 const entryPoint = process.argv.filter(i => i.startsWith('-entryPoint='))[0]?.substring(12);
-
 const serveFlag = process.argv.includes('-serve');
+const format = process.argv.includes('-iife') ? 'iife' : 'esm';
 
-const build = {
-  'name': p.name,
-  'version': p.version,
-  'format': process.argv.includes('-iife') ? 'iife' : 'esm',
-  'author': p.author,
-  'date': util.dateFormat (new Date (), '%Y-%m-%d %H:%M:%S'),
-};
+const preamble = [
+  `/**\n`,
+  ` * ${p.displayName} (${format.toUpperCase()}) v${p.version}\n`,
+  ` * ${p.homepage}\n`,
+  ` * Copyright (c) ${p.author} ${util.dateFormat (new Date (), '%Y')}.\n`,
+  ` * Distributed under the MIT License.\n`,
+  ` */`,
+];
 
 await esbuild.build({
   entryPoints: [entryPoint],
-  outfile: `dist/${p.name}-${build.format}.js`,
+  outfile: `dist/${p.name}-${format}.js`,
   bundle: true,
   minify: true,
   target: ['es6'],
-  format: build.format,
+  format: format,
   globalName: 'wheel', // This setting is only for IIFE format.
   watch: serveFlag,
-  banner: {'js': `/**\n * Name: ${build.name} (${build.format.toUpperCase()}) v${build.version}\n * Author: ${build.author}\n * Date: ${build.date}\n */`},
+  banner: {'js': preamble.join('')},
 })
 .catch((error) => {
   console.error(error);
