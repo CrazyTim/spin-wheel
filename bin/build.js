@@ -30,6 +30,7 @@ await esbuild.build({
   minify: true,
   target: ['es6'],
   format: build.format,
+  globalName: 'wheel', // This setting is only for IIFE format.
   watch: serveFlag,
   banner: {'js': `/**\n * Name: ${build.name} (${build.format.toUpperCase()}) v${build.version}\n * Author: ${build.author}\n * Date: ${build.date}\n */`},
 })

@@ -2,7 +2,7 @@ import * as util from './util.js';
 import * as enums from './enums.js';
 import * as drag from './drag.js';
 
-export default class Wheel {
+export class Wheel {
 
   constructor(container, props = {}) {
     this.canvasContainer = container;
