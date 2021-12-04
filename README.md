@@ -12,15 +12,14 @@
 - Simple, easy to read API.
 - Realistic wheel rotation (no easing, just momentum and drag).
 - Interactive - spin the wheel using click-drag/touch-flick, or you can manually call `spin()`.
-- Easily themeable ([see examples](https://crazytim.github.io/spin-wheel/example/)):
+- [Easily themeable](https://crazytim.github.io/spin-wheel/examples/themes):
   - Adjust fonts and colors.
   - Draw an image over the wheel and canvas.
   - Apply repeating colour sets.
   - Items can have their own weight and be resized proportionally.
-- Callbacks such as `onSpin` and `onRest`.
+- Callbacks for events like `onSpin` and `onRest`.
 - Clockwise and anticlockwise spinning.
 - The wheel resizes dynamically to fit inside its container element.
-- Implements `requestAnimationFrame` instead of `setTimeout`.
 
 ## How to make your own spinner
 
@@ -48,7 +47,7 @@ const container = document.querySelector('.wheel-container');
 const wheel = new Wheel(container, props);
 ```
 
-See below for more detail. Also see the [example code](https://github.com/CrazyTim/spin-wheel/blob/master/example/index.html).
+See below for more detail. Also see the [examples](https://github.com/CrazyTim/spin-wheel/blob/master/examples).
 
 To run the example, host the files on a web server, or if you have Node.js run:
 
@@ -65,7 +64,7 @@ The same goes for `wheel.offset` which is measured as a percent from the center 
 
 Labels are not given an absolute size either. Instead you set `itemLabelFont` (example `'Arial'`), `itemLabelFontSizeMax` (this is a relative size), and `itemLabelRadiusMax` (as a percent of the radius), and the actual size of the font is calculated automatically to fit in the available space.
 
-For example usage see [./example/js/props.js](https://github.com/CrazyTim/spin-wheel/blob/master/example/js/props.js).
+For example configurations see [./examples/themes/js/props.js](https://github.com/CrazyTim/spin-wheel/blob/master/examples/themes/js/props.js).
 
 <div>
   <img alt="diagram of props" src="https://crazytim.github.io/spin-wheel/props-diagram.svg" width="615px" />
