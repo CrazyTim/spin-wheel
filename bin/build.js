@@ -40,4 +40,4 @@ await esbuild.build({
   process.exit(1);
 });
 
-if (serveFlag) startWebServer();
+if (serveFlag) startWebServer('examples/themes');

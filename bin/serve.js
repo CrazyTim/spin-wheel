@@ -1,12 +1,12 @@
 import * as browsersync from 'browser-sync';
 
-export default function startWebServer () {
+export default function startWebServer (startPath) {
 
   browsersync.create();
 
   browsersync.init({
     server: '.',
-    startPath: 'example',
+    startPath: startPath,
     watch: true,
     notify: false,
     ignore: [

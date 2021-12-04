@@ -1,4 +1,4 @@
-import * as enums from '../../src/enums.js';
+import * as enums from '../../../src/enums.js';
 
 export default [
 

@@ -1,0 +1,51 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Lucida Grande', sans-serif;
+  font-size: 15px;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none; /* Prevent selecting ui text when dragging */
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  /* Prevent pull-down-to-refresh gesture */
+  overscroll-behavior-y: contain;
+
+  /* Prevent iOS rubber-band effect */
+  position: fixed;
+  width: 100%;
+
+  /* Prevent browser from handling touch events */
+  touch-action: none;
+
+  display: flex;
+  flex-direction: column;
+  justify-items: stretch;
+  align-items: stretch;
+}
+
+.wheel-wrapper {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+.gui-wrapper {
+  padding: 10px;
+  background-color: #f3f3f3;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+select {
+  padding: 2px;
+}
+
+label {
+  margin-right: 5px;
+}
