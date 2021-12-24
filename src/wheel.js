@@ -958,7 +958,7 @@ export class Wheel {
 
       // Remove old events.
       // This allows the user to cancel the spin by holding the wheel still immediately before ending the drag.
-      if (i !== undefined && now - i.now < 250) {
+      if (i !== undefined && !this.isDragEventTooOld(now, i)) {
         dragDistance += i.distance * 1.5;
         return true;
       }
@@ -983,6 +983,10 @@ export class Wheel {
 
     this.refreshCursor();
 
+  }
+
+  isDragEventTooOld(now, event = {}) {
+    return (now - event.now) > enums.dragCapturePeriod;
   }
 
 }

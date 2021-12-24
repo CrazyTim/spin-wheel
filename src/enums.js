@@ -5,6 +5,8 @@ export const arcAdjust = -90;
 
 export const fontScale = 500; // 500 seemed to be a good base value for this.
 
+export const dragCapturePeriod = 250; // Milliseconds.
+
 /**
  * Text alignment
  */
