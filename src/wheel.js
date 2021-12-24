@@ -268,13 +268,14 @@ export class Wheel {
 
     }
 
+    // Draw drag move points:
     if (this.debug && this.dragMoves?.length) {
-      // Draw dragMoves:
-      for (const [i, point] of this.dragMoves.entries()) {
+
+      const dragMovesReversed = [...this.dragMoves].reverse();
+
+      for (const [i, point] of dragMovesReversed.entries()) {
         if (point === undefined) continue;
-        let percentFill = i / this.dragMoves.length;
-        percentFill = (percentFill -1) * -1;
-        percentFill *= 100;
+        const percentFill = (i / this.dragMoves.length) * 100;
         ctx.beginPath();
         ctx.arc(point.x, point.y, 5, 0, 2 * Math.PI);
         ctx.fillStyle = `hsl(200,100%,${percentFill}%)`;
@@ -283,6 +284,7 @@ export class Wheel {
         ctx.fill();
         ctx.stroke();
       }
+
     }
 
     // Wait until next frame.
