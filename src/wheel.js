@@ -325,13 +325,14 @@ export class Wheel {
   }
 
   /**
-   * Increase `rotationSpeed by the value of `speed` (randomised by ±15% to make it realistically chaotic).
+   * Spin the wheel by setting `rotationSpeed`.
+   * Apply a small randomised adjustment to make it realistic and less predictable.
    */
   spin(speed = 0) {
 
-    const newSpeed = this.rotationSpeed + util.getRandomInt(speed * 0.85, speed * 0.15);
+    const adjust = enums.onSpinPlusMinusRandomAdjustment / 2;
 
-    this.rotationSpeed = newSpeed;
+    this.rotationSpeed = util.getRandomInt(speed * (1 - adjust), speed * (1 + adjust));
 
     this.onSpin?.({
       event: 'spin',
@@ -751,9 +752,9 @@ export class Wheel {
   }
 
   /**
-   * The rotation speed of the wheel.
+   * How far (angle in degrees) the wheel should spin every 1 second.
+   * Any number other than 0 will spin the wheel.
    * Pass a positive number to spin clockwise, or a negative number to spin antiClockwise.
-   * The further away from 0 the faster it will spin.
    */
   get rotationSpeed () {
     return this._rotationSpeed;

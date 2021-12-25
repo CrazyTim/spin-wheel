@@ -7,6 +7,8 @@ export const fontScale = 500; // 500 seemed to be a good base value for this.
 
 export const dragCapturePeriod = 250; // Milliseconds.
 
+export const onSpinPlusMinusRandomAdjustment = 0.30; // Percent.
+
 /**
  * Text alignment
  */
