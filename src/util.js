@@ -121,19 +121,20 @@ export function getDistanceBetweenPoints(point1 = {x: 0, y: 0}, point2 = {x: 0, 
   return Math.hypot(point2.x - point1.x, point2.y - point1.y);
 }
 
-// Add two angles together.
-// The result will be a valid angle between 0 and 359.9999.
-// tests:
-// 0 + 0 = 0
-// 0 + 1 = 1
-// 0 + 360 = 0
-// 0 + 361 = 1
-// 0 + -1 = 359
-// 0 + -361 = 359
-// 0 + -360 = 0
+/**
+ * Add two angles together.
+ * Return a positive number between 0 and 359.9999.
+ */
 export function addAngle(a1 = 0, a2 = 0) {
   const sum = a1 + a2;
-  if (sum > 0)
-    return sum % 360;
-    return 360 + (sum % 360);
+  let result;
+
+  if (sum > 0) {
+    result = sum % 360;
+  } else {
+    result = 360 + (sum % 360);
+  }
+  if (result === 360) result = 0;
+
+  return result;
 }

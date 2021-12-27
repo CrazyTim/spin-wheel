@@ -107,3 +107,15 @@ test('getDistanceBetweenPoints() works', () => {
     {x: 0, y: 0}
   )).toBe(0);
 });
+
+test ('addAngle() works', () => {
+  const f = util.addAngle;
+
+  expect(f(0, 0)).toBe(0);
+  expect(f(0, 1)).toBe(1);
+  expect(f(0, 360)).toBe(0);
+  expect(f(0, 361)).toBe(1);
+  expect(f(0, -1)).toBe(359);
+  expect(f(0, -361)).toBe(359);
+  expect(f(0, -360)).toBe(0);
+});
