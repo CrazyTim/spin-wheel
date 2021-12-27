@@ -225,6 +225,7 @@ export class Wheel {
       ctx.rotate(util.degRad(angle + enums.arcAdjust));
 
       if (this.debug) {
+        // Draw an outline around the label:
         ctx.beginPath();
         ctx.strokeStyle = '#ff00ff';
         ctx.lineWidth = 1;
@@ -887,7 +888,7 @@ export class Wheel {
 
     const p = util.translateXYToElement(point, this.canvas);
 
-    this.isDragging = true; // Bool to indicate we are currently dragging.
+    this.isDragging = true;
 
     this.rotationSpeed = 0; // Stop the wheel from spinning.
 
@@ -906,7 +907,6 @@ export class Wheel {
 
   /**
    * Animate the wheel to follow the pointer while dragging.
-   * Save the drag events for later.
    */
   dragMove(point = {x:0, y:0}) {
 
@@ -923,7 +923,7 @@ export class Wheel {
     // Calc distance:
     const distance = util.getDistanceBetweenPoints(p, this.dragPoint) * direction;
 
-    // Save data for use in dragEnd event.
+    // Save the last n drag events for later in `dragEnd()`.
     this.dragMoves.unshift({
       distance,
       x: p.x,
@@ -931,7 +931,7 @@ export class Wheel {
       now:performance.now(),
     });
 
-    this.dragMoves.length = 50; // Truncate array to keep it small.
+    this.dragMoves.length = 50; // Truncate array.
 
     this.rotation = newRotation; // Snap the rotation to the drag start point.
 
