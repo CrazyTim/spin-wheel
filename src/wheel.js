@@ -225,6 +225,7 @@ export class Wheel {
       ctx.rotate(util.degRad(angle + enums.arcAdjust));
 
       if (this.debug) {
+        // Draw an outline around the label:
         ctx.beginPath();
         ctx.strokeStyle = '#ff00ff';
         ctx.lineWidth = 1;
@@ -268,21 +269,22 @@ export class Wheel {
 
     }
 
-    if (this.debug && this.dragMoves?.length) {
-      // Draw dragMoves:
-      for (const [i, point] of this.dragMoves.entries()) {
-        if (point === undefined) continue;
-        let percentFill = i / this.dragMoves.length;
-        percentFill = (percentFill -1) * -1;
-        percentFill *= 100;
+    // Draw drag events:
+    if (this.debug && this.dragEvents?.length) {
+
+      const dragEventsReversed = [...this.dragEvents].reverse();
+
+      for (const [i, event] of dragEventsReversed.entries()) {
+        const percentFill = (i / this.dragEvents.length) * 100;
         ctx.beginPath();
-        ctx.arc(point.x, point.y, 5, 0, 2 * Math.PI);
+        ctx.arc(event.x, event.y, 5, 0, 2 * Math.PI);
         ctx.fillStyle = `hsl(200,100%,${percentFill}%)`;
         ctx.strokeStyle = '#000';
         ctx.lineWidth = 0.5;
         ctx.fill();
         ctx.stroke();
       }
+
     }
 
     // Wait until next frame.
@@ -323,13 +325,14 @@ export class Wheel {
   }
 
   /**
-   * Increase `rotationSpeed by the value of `speed` (randomised by ±15% to make it realistically chaotic).
+   * Spin the wheel by setting `rotationSpeed`.
+   * Apply a small randomised adjustment to make it realistic and less predictable.
    */
   spin(speed = 0) {
 
-    const newSpeed = this.rotationSpeed + util.getRandomInt(speed * 0.85, speed * 0.15);
+    const adjust = enums.onSpinPlusMinusRandomAdjustment / 2;
 
-    this.rotationSpeed = newSpeed;
+    this.rotationSpeed = util.getRandomInt(speed * (1 - adjust), speed * (1 + adjust));
 
     this.onSpin?.({
       event: 'spin',
@@ -749,9 +752,9 @@ export class Wheel {
   }
 
   /**
-   * The rotation speed of the wheel.
+   * How far (angle in degrees) the wheel should spin every 1 second.
+   * Any number other than 0 will spin the wheel.
    * Pass a positive number to spin clockwise, or a negative number to spin antiClockwise.
-   * The further away from 0 the faster it will spin.
    */
   get rotationSpeed () {
     return this._rotationSpeed;
@@ -883,19 +886,20 @@ export class Wheel {
   dragStart(point = {x:0, y:0}) {
 
     const p = util.translateXYToElement(point, this.canvas);
+    const a = -this.getAngleFromCenter(p);
 
-    this.isDragging = true; // Bool to indicate we are currently dragging.
+    this.isDragging = true;
 
     this.rotationSpeed = 0; // Stop the wheel from spinning.
 
-    const a = this.getAngleFromCenter(p);
+    this.dragStartRotation = util.addAngle(a, this.rotation);
 
-    this.dragDelta = util.addAngle(this.rotation, -a); // Used later in dragMove.
-    this.dragMoves = []; // Initalise.
-    this.dragPoint = {
+    this.dragEvents = [{
+      distance: 0,
       x: p.x,
       y: p.y,
-    };
+      now:performance.now(),
+    }];
 
     this.refreshCursor();
 
@@ -903,39 +907,27 @@ export class Wheel {
 
   /**
    * Animate the wheel to follow the pointer while dragging.
-   * Save the drag events for later.
    */
   dragMove(point = {x:0, y:0}) {
 
     const p = util.translateXYToElement(point, this.canvas);
     const a = this.getAngleFromCenter(p);
 
-    // Calc rotation:
-    const newRotation = util.addAngle(a, this.dragDelta);
+    const lastDragPoint = this.dragEvents[0];
+    const lastAngle = this.getAngleFromCenter(lastDragPoint);
+    const angleSinceLastMove = util.diffAngle(lastAngle, a);
 
-    // Calc direction:
-    const angle = util.addAngle(a, -this.getAngleFromCenter(this.dragPoint));
-    const direction = (angle < 180) ? 1 : -1;
-
-    // Calc distance:
-    const distance = util.getDistanceBetweenPoints(p, this.dragPoint) * direction;
-
-    // Save data for use in dragEnd event.
-    this.dragMoves.unshift({
-      distance,
+    this.dragEvents.unshift({
+      distance: angleSinceLastMove,
       x: p.x,
       y: p.y,
       now:performance.now(),
     });
 
-    this.dragMoves.length = 50; // Truncate array to keep it small.
+    // Retain max 40 events when debugging.
+    if (this.debug && this.dragEvents.length >= 40) this.dragEvents.pop();
 
-    this.rotation = newRotation; // Snap the rotation to the drag start point.
-
-    this.dragLastPoint = {
-      x: p.x,
-      y: p.y,
-    };
+    this.rotation = util.addAngle(a, this.dragStartRotation); // Snap the wheel to the new rotation.
 
   }
 
@@ -952,35 +944,40 @@ export class Wheel {
     // Calc the drag distance:
     let dragDistance = 0;
     const now = performance.now();
-    this.dragMoves = this.dragMoves.filter(i => {
 
-      // Remove old events.
-      // This allows the user to cancel the spin by holding the wheel still immediately before ending the drag.
-      if (i !== undefined && now - i.now < 250) {
-        dragDistance += i.distance * 1.5;
-        return true;
+    for (const [i, event] of this.dragEvents.entries()) {
+
+      if (!this.isDragEventTooOld(now, event)) {
+        dragDistance += event.distance;
+        continue;
       }
 
-      return false;
+      // Exclude old events:
+      this.dragEvents.length = i;
+      break;
 
-    });
+    }
 
     // Spin the wheel:
     if (dragDistance !== 0) {
 
-      this.rotationSpeed = dragDistance;
+      this.rotationSpeed = dragDistance * (1000 / enums.dragCapturePeriod);
 
       this.onSpin?.({
         event: 'spin',
-        direction: this.rotationDirection,
+        rotationDirection: this.rotationDirection,
         rotationSpeed: this.rotationSpeed,
-        dragMoves: this.dragMoves,
+        dragEvents: [...this.dragEvents],
       });
 
     }
 
     this.refreshCursor();
 
+  }
+
+  isDragEventTooOld(now, event = {}) {
+    return (now - event.now) > enums.dragCapturePeriod;
   }
 
 }

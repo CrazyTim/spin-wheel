@@ -5,6 +5,12 @@ export const arcAdjust = -90;
 
 export const fontScale = 500; // 500 seemed to be a good base value for this.
 
+// This capture period allows us to calculate how fast the wheel should spin per period.
+// Also the user can cancel the drag by holding the wheel still for the entire period before ending the drag.
+export const dragCapturePeriod = 250; // Milliseconds.
+
+export const onSpinPlusMinusRandomAdjustment = 0.30; // Percent.
+
 /**
  * Text alignment
  */

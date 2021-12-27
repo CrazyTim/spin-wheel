@@ -77,7 +77,7 @@ For example configurations see [./examples/themes/js/props.js](https://github.co
 Method                                       | Description
 -------------------------------------------- | ---------------------------
 `init(props = {})`                           | Initialise the instance with the given properties (see Properties below). If any properties are omitted, then default values will be applied.
-`spin(speed = 0)`                            | Spin the wheel and raise the `onSpin` event. `speed` is added to `rotationSpeed` ±30% (randomised to make it realistic and less predictable).
+`spin(speed = 0)`                            | Spin the wheel by setting `rotationSpeed`. Apply a small randomised adjustment to make it realistic and less predictable.
 `getCurrentIndex()`                          | Get the index of the item that the `pointer` is pointing at.
 
 ## Properties for `Wheel`
@@ -102,7 +102,7 @@ Name                            | Default Value     | Description
 `radius`                        | `0.95`            | The radius of the wheel as a percent of the container's smallest dimension.
 `rotation`                      | `0`               | The rotation (angle in degrees) of the wheel. `0` is north. `item[0]` will be drawn clockwise from this point.
 `rotationResistance`            | `-35`             | How much to reduce `rotationSpeed` by every second.
-`rotationSpeed`                 | `0`               | The rotation speed of the wheel. Pass a positive number to spin clockwise, or a negative number to spin antiClockwise. The further away from 0 the faster it will spin.
+`rotationSpeed`                 | `0`               | How far (angle in degrees) the wheel should spin every 1 second. Any number other than 0 will spin the wheel. Pass a positive number to spin clockwise, or a negative number to spin antiClockwise.
 `rotationSpeedMax`              | `250`             | The maximum value for `rotationSpeed`. The wheel will not spin faster than this value.
 `offset`                        | `{w: 0, h: 0}`    | The offset of the wheel relative to it's center as a percent of the wheels diameter, where `1` = 100%. This allows for simple positioning considering the wheel is always centered anyway.
 `onCurrentIndexChange`          | `null`            | The callback for the `onCurrentIndexChange` event.
