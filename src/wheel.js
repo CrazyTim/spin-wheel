@@ -269,16 +269,15 @@ export class Wheel {
 
     }
 
-    // Draw drag move points:
-    if (this.debug && this.dragMoves?.length) {
+    // Draw drag events:
+    if (this.debug && this.dragEvents?.length) {
 
-      const dragMovesReversed = [...this.dragMoves].reverse();
+      const dragEventsReversed = [...this.dragEvents].reverse();
 
-      for (const [i, point] of dragMovesReversed.entries()) {
-        if (point === undefined) continue;
-        const percentFill = (i / this.dragMoves.length) * 100;
+      for (const [i, event] of dragEventsReversed.entries()) {
+        const percentFill = (i / this.dragEvents.length) * 100;
         ctx.beginPath();
-        ctx.arc(point.x, point.y, 5, 0, 2 * Math.PI);
+        ctx.arc(event.x, event.y, 5, 0, 2 * Math.PI);
         ctx.fillStyle = `hsl(200,100%,${percentFill}%)`;
         ctx.strokeStyle = '#000';
         ctx.lineWidth = 0.5;
@@ -887,19 +886,20 @@ export class Wheel {
   dragStart(point = {x:0, y:0}) {
 
     const p = util.translateXYToElement(point, this.canvas);
+    const a = -this.getAngleFromCenter(p);
 
     this.isDragging = true;
 
     this.rotationSpeed = 0; // Stop the wheel from spinning.
 
-    const a = this.getAngleFromCenter(p);
+    this.dragStartRotation = util.addAngle(a, this.rotation);
 
-    this.dragDelta = util.addAngle(this.rotation, -a); // Used later in dragMove.
-    this.dragMoves = []; // Initalise.
-    this.dragPoint = {
+    this.dragEvents = [{
+      distance: 0,
       x: p.x,
       y: p.y,
-    };
+      now:performance.now(),
+    }];
 
     this.refreshCursor();
 
@@ -913,32 +913,21 @@ export class Wheel {
     const p = util.translateXYToElement(point, this.canvas);
     const a = this.getAngleFromCenter(p);
 
-    // Calc rotation:
-    const newRotation = util.addAngle(a, this.dragDelta);
+    const lastDragPoint = this.dragEvents[0];
+    const lastAngle = this.getAngleFromCenter(lastDragPoint);
+    const angleSinceLastMove = util.diffAngle(lastAngle, a);
 
-    // Calc direction:
-    const angle = util.addAngle(a, -this.getAngleFromCenter(this.dragPoint));
-    const direction = (angle < 180) ? 1 : -1;
-
-    // Calc distance:
-    const distance = util.getDistanceBetweenPoints(p, this.dragPoint) * direction;
-
-    // Save the last n drag events for later in `dragEnd()`.
-    this.dragMoves.unshift({
-      distance,
+    this.dragEvents.unshift({
+      distance: angleSinceLastMove,
       x: p.x,
       y: p.y,
       now:performance.now(),
     });
 
-    this.dragMoves.length = 50; // Truncate array.
+    // Retain max 40 events when debugging.
+    if (this.debug && this.dragEvents.length >= 40) this.dragEvents.pop();
 
-    this.rotation = newRotation; // Snap the rotation to the drag start point.
-
-    this.dragLastPoint = {
-      x: p.x,
-      y: p.y,
-    };
+    this.rotation = util.addAngle(a, this.dragStartRotation); // Snap the wheel to the new rotation.
 
   }
 
@@ -955,29 +944,30 @@ export class Wheel {
     // Calc the drag distance:
     let dragDistance = 0;
     const now = performance.now();
-    this.dragMoves = this.dragMoves.filter(i => {
 
-      // Remove old events.
-      // This allows the user to cancel the spin by holding the wheel still immediately before ending the drag.
-      if (i !== undefined && !this.isDragEventTooOld(now, i)) {
-        dragDistance += i.distance * 1.5;
-        return true;
+    for (const [i, event] of this.dragEvents.entries()) {
+
+      if (!this.isDragEventTooOld(now, event)) {
+        dragDistance += event.distance;
+        continue;
       }
 
-      return false;
+      // Exclude old events:
+      this.dragEvents.length = i;
+      break;
 
-    });
+    }
 
     // Spin the wheel:
     if (dragDistance !== 0) {
 
-      this.rotationSpeed = dragDistance;
+      this.rotationSpeed = dragDistance * (1000 / enums.dragCapturePeriod);
 
       this.onSpin?.({
         event: 'spin',
-        direction: this.rotationDirection,
+        rotationDirection: this.rotationDirection,
         rotationSpeed: this.rotationSpeed,
-        dragMoves: this.dragMoves,
+        dragEvents: [...this.dragEvents],
       });
 
     }

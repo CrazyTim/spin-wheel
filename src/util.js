@@ -138,3 +138,13 @@ export function addAngle(a1 = 0, a2 = 0) {
 
   return result;
 }
+
+/**
+ * Return the shortest difference between two angles.
+ * Only accept angles between 0 and 360.
+ */
+export function diffAngle(a = 0, b = 0) {
+  const offsetFrom180 = 180 - b;
+  const aWithOffset = addAngle(a, offsetFrom180);
+  return 180 - aWithOffset;
+}
