@@ -18,7 +18,7 @@ export function degRad(degrees = 0) {
  * Sum the given property for each object in `array`.
  * Only operate on truthy values.
  * Truthy values that are not Numbers count as 1.
- * An empty array will return 0.
+ * Return 0 if the array is empty.
  */
 export function sumObjArray(array, property) {
   let sum = 0;
@@ -44,7 +44,7 @@ export function isAngleBetween(angle, arcStart, arcEnd) {
  * Average the values in `array`.
  * Only operate on truthy values.
  * Truthy values that are not Numbers count as 1.
- * An empty array will return 0.
+ * Return 0 if the array is empty.
  */
 export function aveArray(array = []) {
   let sum = 0;
@@ -67,17 +67,17 @@ export function getFontSizeToFit(text, fontFamily, maxWidth, canvasContext) {
 }
 
 /**
- * Return true if the given x/y point is inside a circle.
+ * Return true if the given point is inside a circle.
  * cx, cy is circle center.
  * radius is circle radius.
  */
 export function isPointInCircle(point = {x: 0, y: 0}, cx, cy, radius) {
-  const distancesquared = (point.x - cx) * (point.x - cx) + (point.y - cy) * (point.y - cy);
-  return distancesquared <= radius * radius;
+  const distanceSquared = ((point.x - cx) ** 2) + ((point.y - cy) ** 2);
+  return distanceSquared <= (radius ** 2);
 }
 
 /**
- * Translate the given x/y point from the viewport's coordinate space to the element's coordinate space.
+ * Translate the given point from the viewport's coordinate space to the element's coordinate space.
  */
 export function translateXYToElement(point = {x: 0, y: 0}, element = {}) {
   const rect = element.getBoundingClientRect();
@@ -91,25 +91,16 @@ export function getMouseButtonsPressed(event = {}) {
   return [1, 2, 4, 8, 16].filter(i => event.buttons & i);
 }
 
+/**
+ * Source: https://stackoverflow.com/a/47653643/737393
+ */
 export function getAngle(originX, originY, targetX, targetY) {
     const dx = originX - targetX;
     const dy = originY - targetY;
 
-    // var theta = Math.atan2(dy, dx);  // [0, Ⲡ] then [-Ⲡ, 0]; clockwise; 0° = west
-    // theta *= 180 / Math.PI;          // [0, 180] then [-180, 0]; clockwise; 0° = west
-    // if (theta < 0) theta += 360;     // [0, 360]; clockwise; 0° = west
-
-    // var theta = Math.atan2(-dy, dx); // [0, Ⲡ] then [-Ⲡ, 0]; anticlockwise; 0° = west
-    // theta *= 180 / Math.PI;          // [0, 180] then [-180, 0]; anticlockwise; 0° = west
-    // if (theta < 0) theta += 360;     // [0, 360]; anticlockwise; 0° = west
-
-    // var theta = Math.atan2(dy, -dx); // [0, Ⲡ] then [-Ⲡ, 0]; anticlockwise; 0° = east
-    // theta *= 180 / Math.PI;          // [0, 180] then [-180, 0]; anticlockwise; 0° = east
-    // if (theta < 0) theta += 360;     // [0, 360]; anticlockwise; 0° = east
-
-    let theta = Math.atan2(-dy, -dx); // [0, Ⲡ] then [-Ⲡ, 0]; clockwise; 0° = east
-    theta *= 180 / Math.PI; // [0, 180] then [-180, 0]; clockwise; 0° = east
-    if (theta < 0) theta += 360; // [0, 360]; clockwise; 0° = east
+    let theta = Math.atan2(-dy, -dx);
+    theta *= 180 / Math.PI;
+    if (theta < 0) theta += 360;
 
     return theta;
 }
@@ -125,8 +116,8 @@ export function getDistanceBetweenPoints(point1 = {x: 0, y: 0}, point2 = {x: 0, 
  * Add two angles together.
  * Return a positive number between 0 and 359.9999.
  */
-export function addAngle(a1 = 0, a2 = 0) {
-  const sum = a1 + a2;
+export function addAngle(a = 0, b = 0) {
+  const sum = a + b;
   let result;
 
   if (sum > 0) {
