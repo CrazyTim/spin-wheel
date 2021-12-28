@@ -1,7 +1,7 @@
 {
   "name": "spin-wheel",
   "displayName": "Spin Wheel",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
   "scripts": {
     "start": "node scripts/build.js -entryPoint=src/wheel.js -serve",
