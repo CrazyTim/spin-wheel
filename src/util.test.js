@@ -19,6 +19,7 @@ test('sumObjArray() works', () => {
     {b: 64},
   ];
 
+  expect(f([], 'a')).toBe(0); // empty array.
   expect(f(arr, 'a')).toBe(42);
   expect(f(arr, 'b')).toBe(84);
 });
@@ -26,36 +27,40 @@ test('sumObjArray() works', () => {
 test('sumObjArray() handles truthy/falsy values', () => {
   const f = util.sumObjArray;
 
-  const arr = [
-    // Truthy values:
-    {a: 1},
-    {a: true},
-    {a: {}},
-    {a: []},
-    {a: i => {}},
-    {a: new Set()},
-    {a: new Map()},
-    {a: new Date()},
-    // Falsy values:
-    {a: 0},
-    {a: -0},
-    {a: 0n},
-    {a: ''},
-    {a: false},
-    {a: null},
-    {a: undefined},
-    {a: NaN},
-  ];
+  // Truthy values:
+  expect(f([{ a: 1 }], 'a')).toBe(1);
+  expect(f([{ a: true }], 'a')).toBe(1);
+  expect(f([{ a: {} }], 'a')).toBe(1);
+  expect(f([{ a: [] }], 'a')).toBe(1);
+  expect(f([{ a: i => {} }], 'a')).toBe(1);
+  expect(f([{ a: new Set() }], 'a')).toBe(1);
+  expect(f([{ a: new Map() }], 'a')).toBe(1);
+  expect(f([{ a: new Date() }], 'a')).toBe(1);
 
-  expect(f(arr, 'a')).toBe(8);
+  // Falsy values:
+  expect(f([{ a: 0 }], 'a')).toBe(0);
+  expect(f([{ a: -0 }], 'a')).toBe(0);
+  expect(f([{ a: 0n }], 'a')).toBe(0);
+  expect(f([{ a: '' }], 'a')).toBe(0);
+  expect(f([{ a: false }], 'a')).toBe(0);
+  expect(f([{ a: null }], 'a')).toBe(0);
+  expect(f([{ a: undefined }], 'a')).toBe(0);
+  expect(f([{ a: NaN }], 'a')).toBe(0);
+
+});
+
+test ('isAngleBetween() works', () => {
+  const f = util.isAngleBetween;
+
+  expect(f(0, 359, 1)).toBe(true);
+  expect(f(0, 1, 2)).toBe(false);
 });
 
 test('aveArray() works', () => {
   const f = util.aveArray;
 
-  const arr = [0, 2, 4, 8];
-
-  expect(f(arr)).toBe(3.5);
+  expect(f([0, 2, 4, 8])).toBe(3.5);
+  expect(f([])).toBe(0); // Empty array.
 });
 
 test('aveArray() handles truthy/falsy values', () => {
@@ -108,6 +113,14 @@ test('getDistanceBetweenPoints() works', () => {
   )).toBe(0);
 });
 
+test('isPointInCircle() works', () => {
+  const f = util.isPointInCircle;
+
+  expect(f({x:0, y:0}, 0, 0, 0)).toBe(true);
+  expect(f({x:1, y:1}, 0, 0, 0)).toBe(false);
+  expect(f({x:1, y:1}, 0, 0, 5)).toBe(true);
+});
+
 test ('addAngle() works', () => {
   const f = util.addAngle;
 
@@ -118,4 +131,19 @@ test ('addAngle() works', () => {
   expect(f(0, -1)).toBe(359);
   expect(f(0, -361)).toBe(359);
   expect(f(0, -360)).toBe(0);
+});
+
+test ('diffAngle() works', () => {
+  const f = util.diffAngle;
+
+  expect(f(0, 360)).toBe(0);
+  expect(f(0, 0)).toBe(0);
+  expect(f(350, 0)).toBe(10);
+  expect(f(0, 350)).toBe(-10);
+  expect(f(0, 10)).toBe(10);
+  expect(f(10, 0)).toBe(-10);
+  expect(f(350, 10)).toBe(20);
+  expect(f(180, 180)).toBe(0);
+  expect(f(180, 170)).toBe(-10);
+  expect(f(180, 190)).toBe(10);
 });
