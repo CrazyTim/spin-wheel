@@ -148,7 +148,6 @@ export class Wheel {
    */
   draw(now = 0) {
 
-    const angles = this.getItemAngles();
     const ctx = this.context;
 
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clear canvas.
@@ -163,6 +162,8 @@ export class Wheel {
       this.rotation = this.rotation % 360;
     }
     this.lastFrame = now;
+
+    const angles = this.getItemAngles(this.rotation);
 
     // Draw wedges:
     for (const [i, a] of angles.entries()) {
@@ -457,11 +458,11 @@ export class Wheel {
   /**
    * Return an array of objects which represents the current start/end angles for each item.
    */
-  getItemAngles() {
+  getItemAngles(initialRotation = 0) {
 
     const angles = [];
     let itemAngle;
-    let lastItemAngle = this.rotation;
+    let lastItemAngle = initialRotation;
 
     for (const item of this.actualItems) {
       itemAngle = item.weight * this.weightedItemAngle;
