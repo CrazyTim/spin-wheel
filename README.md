@@ -148,8 +148,9 @@ Raised when the wheel has been spun by the user (via click-drag/touch-flick), or
 Key                         | Value
 --------------------------- | --------------------------- 
 `event`                     | `'spin'`
-`direction`                 | The direction that the wheel was spinning; `1` for clockwise, `-1` for anticlockwise.
+`rotationDirection`         | The direction that the wheel was spinning; `1` for clockwise, `-1` for anticlockwise.
 `rotationSpeed`             | The rotation speed of the wheel.
+`dragEvents`                | Array of drag events that occurred during the drag that was used to determine the outcome of the spin event.
 
 ## Acknowledgements
 
