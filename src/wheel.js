@@ -217,7 +217,7 @@ export class Wheel {
 
       ctx.fillStyle = this.actualItems[i].labelColor;
 
-      const angle = a.start + ((a.start - a.end) / 2);
+      const angle = a.start + ((a.end - a.start) / 2);
 
       ctx.translate(
         this.center.x + Math.cos(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * this.itemLabelRadius),
