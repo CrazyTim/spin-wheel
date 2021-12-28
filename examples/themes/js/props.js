@@ -1,4 +1,4 @@
-import * as enums from '../../../src/enums.js';
+import {AlignText} from '../../../src/constants.js';
 
 export default [
 
@@ -8,7 +8,7 @@ export default [
     itemLabelRadius: 0.93,
     itemLabelRadiusMax: 0.35,
     itemLabelRotation: 180,
-    itemLabelAlign: enums.AlignText.left,
+    itemLabelAlign: AlignText.left,
     itemLabelColors: ['#fff'],
     itemLabelBaselineOffset: -0.07,
     itemLabelFont: 'Amatic SC',
@@ -72,7 +72,7 @@ export default [
     itemLabelRadius: 0.92,
     itemLabelRadiusMax: 0.37,
     itemLabelRotation: 0,
-    itemLabelAlign: enums.AlignText.right,
+    itemLabelAlign: AlignText.right,
     itemLabelColors: ['#000'],
     itemLabelBaselineOffset: -0.06,
     itemLabelFont: 'Rubik',
@@ -154,7 +154,7 @@ export default [
     itemLabelRadius: 0.92,
     itemLabelRadiusMax: 0.4,
     itemLabelRotation: 0,
-    itemLabelAlign: enums.AlignText.right,
+    itemLabelAlign: AlignText.right,
     itemLabelBaselineOffset: -0.13,
     itemLabelFont: 'Pragati Narrow',
     lineWidth: 0,
@@ -218,7 +218,7 @@ export default [
     radius: 0.88,
     itemLabelRadius: 0.93,
     itemLabelRotation: 180,
-    itemLabelAlign: enums.AlignText.left,
+    itemLabelAlign: AlignText.left,
     itemLabelColors: ['#000'],
     itemLabelBaselineOffset: -0.06,
     itemLabelFont: 'Arial',

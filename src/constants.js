@@ -5,14 +5,20 @@ export const arcAdjust = -90;
 
 export const fontScale = 500; // 500 seemed to be a good base value for this.
 
-// This capture period allows us to calculate how fast the wheel should spin per period.
-// Also the user can cancel the drag by holding the wheel still for the entire period before ending the drag.
-export const dragCapturePeriod = 250; // Milliseconds.
-
-export const onSpinPlusMinusRandomAdjustment = 0.30; // Percent.
+/**
+ * The period in milliseconds that we record drag events.
+ * Used to calculate how fast the wheel should spin after the drag ends.
+ * For example, if the wheel was dragged 20 degrees over the last 250ms, then it should continue at that rotation speed after the drag ends.
+ */
+export const dragCapturePeriod = 250;
 
 /**
- * Text alignment
+ * The range (as a percent) to randomly adjust the rotation speed when calling `spin()`.
+ */
+export const onSpinPlusMinusRandomAdjustment = 0.30;
+
+/**
+ * Text alignment enum.
  */
 export const AlignText = Object.freeze({
   left: 'left',
@@ -21,7 +27,7 @@ export const AlignText = Object.freeze({
 });
 
 /**
- * Wheel property defaults
+ * Wheel property defaults.
  */
 export const Defaults = Object.freeze({
   debug: false,
