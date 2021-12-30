@@ -16,8 +16,8 @@ export default [
     lineWidth: 1,
     lineColor: '#fff',
     itemBackgroundColors: ['#ffc93c', '#66bfbf', '#a2d5f2', '#515070', '#43658b', '#ed6663', '#d54062' ],
-    image: './img/example-image-0.svg',
-    overlayImage: './img/example-overlay-0.svg',
+    image: './img/example-0-image.svg',
+    overlayImage: './img/example-0-overlay.svg',
     items: [
       {
         label: 'TWISTS',
@@ -78,7 +78,7 @@ export default [
     itemLabelFont: 'Rubik',
     lineWidth: 0,
     itemBackgroundColors: ['#fbf8c4', '#e4f1aa', '#c0d26e', '#ff7d7d'],
-    overlayImage: './img/example-overlay-1.svg',
+    overlayImage: './img/example-1-overlay.svg',
     items: [
       {
         label: 'Japanese',
@@ -160,7 +160,7 @@ export default [
     lineWidth: 0,
     itemBackgroundColors: ['#c7160c', '#fff'],
     itemLabelColors: ['#fff', '#000'],
-    overlayImage: './img/example-overlay-2.svg',
+    overlayImage: './img/example-2-overlay.svg',
     items: [
       {
         label: 'Action',
@@ -225,7 +225,7 @@ export default [
     itemLabelFontSizeMax: 22,
     lineWidth: 1,
     lineColor: '#000',
-    overlayImage: './img/example-overlay-3.svg',
+    overlayImage: './img/example-3-overlay.svg',
     items: [
       {
         label: '$ 50',
