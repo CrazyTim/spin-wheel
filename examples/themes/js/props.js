@@ -300,6 +300,41 @@ export default [
   },
 
   {
+    name: 'King of Nerds',
+    itemLabelRadius: 0.92,
+    itemLabelRadiusMax: 0.3,
+    itemLabelColors: ['hsl(0, 0%, 20%)'],
+    itemLabelFont: 'Gloria Hallelujah',
+    itemLabelBaselineOffset: -0.2,
+    image: './img/example-4-image.svg',
+    lineWidth: 0,
+    items: [
+      {
+        label: 'SHELDON',
+        weight: 2.9,
+      },
+      {
+        label: 'PENNY',
+      },
+      {
+        label: 'LEONARD',
+      },
+      {
+        label: 'HOWARD',
+      },
+      {
+        label: 'BERNADETTE',
+      },
+      {
+        label: 'RAJ',
+      },
+      {
+        label: 'AMY',
+      },
+    ]
+  },
+
+  {
     name: 'Basic',
     items: [
       {
