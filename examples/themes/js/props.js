@@ -300,7 +300,7 @@ export default [
   },
 
   {
-    name: 'Default',
+    name: 'Basic',
     items: [
       {
         label: 'one',
@@ -312,7 +312,6 @@ export default [
         label: 'three',
       },
     ]
-
   },
 
 ];
