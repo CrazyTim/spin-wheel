@@ -34,7 +34,7 @@ export class Wheel {
     this._onRest = Defaults.onRest;
     this._onSpin = Defaults.onSpin;
     this._overlayImage = Defaults.overlayImage;
-    this._pointerRotation = Defaults.items;
+    this._pointerRotation = Defaults.pointerRotation;
 
     if (props) this.init(props);
   }
@@ -85,7 +85,7 @@ export class Wheel {
     this.onRest = props.onRest;
     this.onSpin = props.onSpin;
     this.overlayImage = props.overlayImage;
-    this.pointerRotation = props.items;
+    this.pointerRotation = props.pointerRotation;
 
     this.resize(); // This will start the animation loop.
 
