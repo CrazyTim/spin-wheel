@@ -336,11 +336,13 @@ export class Wheel {
     const adjust = randomAdjustmentPercent / 2;
     this.rotationSpeed = util.getRandomInt(speed * (1 - adjust), speed * (1 + adjust));
 
-    this.onSpin?.({
-      event: 'spin',
-      direction: this.rotationDirection,
-      rotationSpeed: this.rotationSpeed,
-    });
+    if (this.rotationSpeed !== 0) {
+      this.onSpin?.({
+        event: 'spin',
+        direction: this.rotationDirection,
+        rotationSpeed: this.rotationSpeed,
+      });
+    }
 
   }
 
