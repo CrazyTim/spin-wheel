@@ -74,11 +74,11 @@ For example configurations see [./examples/themes/js/props.js](https://github.co
 
 ## Methods for `Wheel`
 
-Method                                       | Description
--------------------------------------------- | ---------------------------
-`init(props = {})`                           | Initialise the instance with the given properties (see Properties below). If any properties are omitted, then default values will be applied.
-`spin(speed = 0)`                            | Spin the wheel by setting `rotationSpeed`. Apply a small randomised adjustment to make it realistic and less predictable.
-`getCurrentIndex()`                          | Get the index of the item that the `pointer` is pointing at.
+Method                                             | Description
+-------------------------------------------------- | ---------------------------
+`init(props = {})`                                 | Initialise the instance with the given properties (see Properties below). If any properties are omitted, then default values will be applied.
+`spin(speed = 0, randomAdjustmentPercent = 0.0)`   | Spin the wheel by setting `rotationSpeed` and raise the onSpin event. Optionally apply a random adjustment to the speed within a range (percent), which can make the spin less predictable.
+`getCurrentIndex()`                                | Get the index of the item that the `pointer` is pointing at.
 
 ## Properties for `Wheel`
 

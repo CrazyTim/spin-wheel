@@ -13,11 +13,6 @@ export const fontScale = 500; // 500 seemed to be a good base value for this.
 export const dragCapturePeriod = 250;
 
 /**
- * The range (as a percent) to randomly adjust the rotation speed when calling `spin()`.
- */
-export const onSpinPlusMinusRandomAdjustment = 0.30;
-
-/**
  * Text alignment enum.
  */
 export const AlignText = Object.freeze({

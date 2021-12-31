@@ -327,13 +327,13 @@ export class Wheel {
   }
 
   /**
-   * Spin the wheel by setting `rotationSpeed`.
-   * Apply a small randomised adjustment to make it realistic and less predictable.
+   * Set `rotationSpeed` and raise the onSpin event.
+   * Optionally apply a random adjustment to the speed within a range (percent),
+   * which can make the spin less predictable.
    */
-  spin(speed = 0) {
+  spin(speed = 0, randomAdjustmentPercent = 0.0) {
 
-    const adjust = Constants.onSpinPlusMinusRandomAdjustment / 2;
-
+    const adjust = randomAdjustmentPercent / 2;
     this.rotationSpeed = util.getRandomInt(speed * (1 - adjust), speed * (1 + adjust));
 
     this.onSpin?.({
