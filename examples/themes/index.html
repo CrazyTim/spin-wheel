@@ -9,22 +9,12 @@
 
   <script type='module'>
     import {Wheel} from '../../dist/spin-wheel-esm.js';
+    import {loadFonts} from '../../scripts/util.js';
     import props from './js/props.js';
 
-    window.onload = () => {
-
-      // Check browser supports `document.fonts`.
-      if (!'fonts' in document) {
-        init(); return;
-      }
-
-      // Force load fonts, then init.
-      Promise.all([
-        document.fonts.load('1em Rubik'),
-        document.fonts.load('1em Amatic SC'),
-        document.fonts.load('1em Pragati Narrow'),
-      ]).then(() => init());
-
+    window.onload = async () => {
+      await loadFonts(props.map(i => i.itemLabelFont));
+      init();
     }
 
     function init() {
