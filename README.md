@@ -19,7 +19,7 @@
   - Items can have their own weight and be resized proportionally.
 - Callbacks for events like `onSpin` and `onRest`.
 - Clockwise and anticlockwise spinning.
-- The wheel resizes dynamically to fit inside its container element.
+- Responsive layout (resizes automatically to fit inside it's container).
 
 ## How to make your own spinner
 
@@ -57,7 +57,7 @@ npm start
 
 ## Configuration
 
-Some numeric properties are specified as a percent. For example, instead of setting `wheel.radius` to an absolute value of `400px` you set it to `1.0` or 100%, meaning it will fill the available space in the container. This makes sense because the wheel always resizes itself to fit inside the container. This makes things easier because when the size of the container changes you don't have to worry about updating fiddly things like the font size - it happens automatically :grin:.
+Because the wheel resizes automatically to fit inside it's container, many numeric properties are specified as a percent. For example, instead of setting `wheel.radius` to an absolute value of `400px` you can set it as `1.0` or 100%. This makes things easier because when the size of the container changes you don't have to worry about updating fiddly things like the font size - it happens automatically :grin:.
 
 The same goes for `wheel.offset` which is measured as a percent from the center of the container. Setting `offset.w` to `-0.5` will move the wheel 50% off the left edge of the container.
 
