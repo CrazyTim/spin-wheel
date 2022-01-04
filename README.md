@@ -119,6 +119,15 @@ Name                            | Default Value     | Description
 
 ## Events for `Wheel`
 
+#### `onClick(event = {})`
+
+Raised when the user clicks on the wheel.
+
+Key                         | Value
+--------------------------- | ---------------------------
+`event`                     | `'click'`
+`targetIndex`               | The index of the item that the user clicked on.
+
 #### `onCurrentIndexChange(event = {})`
 
 Raised when a new item is pointed at. This can be used to change the color of the current item, or play a 'ticking' sound. 

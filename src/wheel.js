@@ -96,6 +96,32 @@ export class Wheel {
   registerEvents() {
     window.addEventListener('resize', () => this.resize());
     drag.registerEvents(this);
+    this.canvas.addEventListener('click', e => this.click(e));
+  }
+
+  click(e = {}) {
+
+    // TODO: prevent raising click event if user is dragging?
+
+    let point;
+
+    if ('PointerEvent' in window) {
+      point = {
+        x: e.clientX,
+        y: e.clientY,
+      };
+    } else {
+      // TODO: test
+      point = {
+        x: e.targetTouches[0].clientX,
+        y: e.targetTouches[0].clientY,
+      };
+    }
+
+    if (!this.wheelHitTest(point)) return;
+
+    console.log(point);
+
   }
 
   /**
