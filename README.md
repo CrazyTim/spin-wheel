@@ -46,14 +46,11 @@ const container = document.querySelector('.wheel-container');
 const wheel = new Wheel(container, props);
 ```
 
-See below for more detail. Also see the [examples](https://github.com/CrazyTim/spin-wheel/blob/master/examples).
+## Examples
 
-To run the example, host the files on a web server, or if you have Node.js run:
-
-```shell
-npm install
-npm start
-```
+- [Basic ESM usage](https://crazytim.github.io/spin-wheel/examples/esm)
+- [Basic IIFE usage](https://crazytim.github.io/spin-wheel/examples/iife)
+- [Themes](https://crazytim.github.io/spin-wheel/examples/themes)
 
 ## Configuration
 
