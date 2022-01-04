@@ -92,7 +92,7 @@ export class Wheel {
   }
 
   registerEvents() {
-    window.onresize = () => this.resize();
+    window.addEventListener('resize', () => this.resize());
     drag.registerEvents(this);
   }
 
