@@ -13,7 +13,6 @@
     window.onload = () => {
 
       const props = {
-        name: 'Default',
         items: [
           {
             label: 'one',
@@ -27,10 +26,9 @@
         ]
       };
 
-      window.w = new Wheel(
-        document.querySelector('.wheel-wrapper'),
-        props,
-      );
+      const container = document.querySelector('.wheel-wrapper');
+
+      window.wheel = new Wheel(container, props);
 
     }
   </script>

@@ -26,7 +26,6 @@
 ```JavaScript
 // 1. Define the wheel's properties. The only required property is `items`.
 const props = {
-  pointerRotation: 90,
   items: [
     {
       label: 'one',
