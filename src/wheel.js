@@ -227,9 +227,9 @@ export class Wheel {
       ctx.rotate(util.degRad(angle + Constants.arcAdjust));
 
       if (this.debug) {
-        // Draw an outline around the label:
+        // Draw the outline of the label:
         ctx.beginPath();
-        ctx.strokeStyle = '#ff00ff';
+        ctx.strokeStyle = Constants.Debugging.labelOutlineColor;
         ctx.lineWidth = 1;
         ctx.moveTo(0, 0);
         ctx.lineTo(-this.labelMaxWidth, 0);
@@ -249,6 +249,7 @@ export class Wheel {
 
     this.drawImage(this.image, false);
     this.drawImage(this.overlayImage, true);
+    this.drawPointerLine();
 
     if (this.rotationSpeed !== 0) {
 
@@ -280,7 +281,7 @@ export class Wheel {
         const percentFill = (i / this.dragEvents.length) * 100;
         ctx.beginPath();
         ctx.arc(event.x, event.y, 5, 0, 2 * Math.PI);
-        ctx.fillStyle = `hsl(200,100%,${percentFill}%)`;
+        ctx.fillStyle = `hsl(${Constants.Debugging.dragEventHue},100%,${percentFill}%)`;
         ctx.strokeStyle = '#000';
         ctx.lineWidth = 0.5;
         ctx.fill();
@@ -321,6 +322,32 @@ export class Wheel {
       size,
       size,
     );
+
+    ctx.restore();
+
+  }
+
+  drawPointerLine(image, isOverlay = false) {
+
+    if (!this.debug) return;
+
+    const ctx = this.context;
+
+    ctx.save();
+
+    ctx.translate(
+      this.center.x,
+      this.center.y,
+    );
+
+    ctx.rotate(util.degRad(this.pointerRotation + Constants.arcAdjust));
+
+    ctx.beginPath();
+    ctx.strokeStyle = Constants.Debugging.pointerLineColor;
+    ctx.lineWidth = 2;
+    ctx.moveTo(0, 0);
+    ctx.lineTo(this.actualRadius * 2, 0);
+    ctx.stroke();
 
     ctx.restore();
 

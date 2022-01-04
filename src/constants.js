@@ -52,3 +52,9 @@ export const Defaults = Object.freeze({
   overlayImage: '',
   pointerRotation: 0,
 });
+
+export const Debugging = Object.freeze({
+  pointerLineColor: '#ff00ff',
+  labelOutlineColor: '#ff00ff',
+  dragEventHue: 200,
+});
