@@ -478,7 +478,9 @@ export class Wheel {
   }
 
   /**
-   * Get the index of the item that the `pointer` is pointing at.
+   * Get the index of the item that the Pointer is pointing at.
+   * An item is considered "current" if the `pointerRotation` is between
+   * it's start angle (inclusive) and it's end angle (exclusive).
    */
   getCurrentIndex() {
     return this._currentIndex;
