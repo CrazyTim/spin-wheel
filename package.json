@@ -18,6 +18,9 @@
   "author": "CrazyTim",
   "license": "MIT",
   "homepage": "https://github.com/CrazyTim/spin-wheel#readme",
+  "engines": {
+    "node": ">=14.8.0"
+  },
   "devDependencies": {
     "browser-sync": "^2.27.5",
     "esbuild": "^0.13.11",
