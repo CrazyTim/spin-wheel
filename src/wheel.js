@@ -212,10 +212,14 @@ export class Wheel {
     // Draw item labels:
     for (const [i, a] of angles.entries()) {
 
+      const item = this.actualItems[i];
+
+      if (!item.label) continue;
+
       ctx.save();
       ctx.beginPath();
 
-      ctx.fillStyle = this.actualItems[i].labelColor;
+      ctx.fillStyle = item.labelColor;
 
       const angle = a.start + ((a.end - a.start) / 2);
 
@@ -238,10 +242,7 @@ export class Wheel {
       }
 
       ctx.rotate(util.degRad(this.itemLabelRotation));
-
-      if (this.actualItems[i].label !== undefined) {
-        ctx.fillText(this.actualItems[i].label, 0, itemLabelBaselineOffset);
-      }
+      ctx.fillText(item.label, 0, itemLabelBaselineOffset);
 
       ctx.restore();
 
