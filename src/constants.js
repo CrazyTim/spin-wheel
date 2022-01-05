@@ -26,7 +26,7 @@ export const AlignText = Object.freeze({
  */
 export const Defaults = Object.freeze({
   debug: false,
-  image: '',
+  image: null,
   isInteractive: true,
   itemBackgroundColors: [],
   itemLabelAlign: AlignText.right,
@@ -49,7 +49,7 @@ export const Defaults = Object.freeze({
   onCurrentIndexChange: null,
   onRest: null,
   onSpin: null,
-  overlayImage: '',
+  overlayImage: null,
   pointerRotation: 0,
 });
 
