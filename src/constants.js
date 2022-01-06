@@ -3,7 +3,7 @@
  */
 export const arcAdjust = -90;
 
-export const fontScale = 500; // 500 seemed to be a good base value for this.
+export const baseCanvasSize = 500; // 500 seemed to be a good value for this.
 
 /**
  * The period in milliseconds that we record drag events.
@@ -39,7 +39,7 @@ export const Defaults = Object.freeze({
   itemLabelColor: '#000',
   itemLabelColors: [],
   itemLabelFont: 'sans-serif',
-  itemLabelFontSizeMax: 100,
+  itemLabelFontSizeMax: baseCanvasSize,
   itemLabelRadius: 0.85,
   itemLabelRadiusMax: 0.2,
   itemLabelRotation: 0,

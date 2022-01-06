@@ -135,7 +135,7 @@ export class Wheel {
     this.actualRadius = (this.size / 2) * this.radius;
 
     // Adjust the font size of labels so they all fit inside `wheelRadius`:
-    this.itemLabelFontSize = this.itemLabelFontSizeMax * (this.size / Constants.fontScale);
+    this.itemLabelFontSize = this.itemLabelFontSizeMax * (this.size / Constants.baseCanvasSize);
     this.labelMaxWidth = this.actualRadius * (this.itemLabelRadius - this.itemLabelRadiusMax);
     for (const item of this.actualItems) {
       this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(item.label, this.itemLabelFont, this.labelMaxWidth, this.context));
@@ -167,6 +167,8 @@ export class Wheel {
 
     const angles = this.getItemAngles(this.rotation);
 
+    const lineWidth = (this.lineWidth / Constants.baseCanvasSize) * this.size;
+
     // Draw wedges:
     for (const [i, a] of angles.entries()) {
 
@@ -175,7 +177,7 @@ export class Wheel {
       ctx.arc(
         this.center.x,
         this.center.y,
-        this.actualRadius - (this.lineWidth / 2),
+        this.actualRadius - (lineWidth / 2),
         util.degRad(a.start + Constants.arcAdjust),
         util.degRad(a.end + Constants.arcAdjust)
       );
@@ -184,9 +186,9 @@ export class Wheel {
       ctx.fillStyle = this.actualItems[i].backgroundColor;
       ctx.fill();
 
-      if (this.lineWidth > 0) {
+      if (lineWidth > 0) {
         ctx.strokeStyle = this.lineColor;
-        ctx.lineWidth = this.lineWidth;
+        ctx.lineWidth = lineWidth;
         ctx.lineJoin = 'bevel';
         ctx.stroke();
       }
@@ -704,8 +706,9 @@ export class Wheel {
   }
 
   /**
-   * The maximum font size to draw each `item.label`.
-   * The actual font size will be calculated dynamically so that the longest label of all
+   * The maximum font size (in pixels) to draw each `item.label`.
+   * Scaled to a canvas size of 500px.
+   * The actual font size will be calculated automatically so that the longest label of all
    * the items fits within `itemLabelRadiusMax` and the font size is below `itemLabelFontSizeMax`.
    */
   get itemLabelFontSizeMax () {
@@ -794,7 +797,8 @@ export class Wheel {
   }
 
   /**
-   * The width of the lines between each item.
+   * The width (in pixles) of the lines between each item.
+   * Scaled to a canvas size of 500px.
    */
   get lineWidth () {
     return this._lineWidth;
