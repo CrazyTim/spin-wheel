@@ -173,7 +173,7 @@ export class Wheel {
       ctx.arc(
         this.center.x,
         this.center.y,
-        this.actualRadius,
+        this.actualRadius - (this.lineWidth / 2),
         util.degRad(a.start + Constants.arcAdjust),
         util.degRad(a.end + Constants.arcAdjust)
       );
