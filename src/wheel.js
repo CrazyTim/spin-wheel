@@ -220,9 +220,6 @@ export class Wheel {
       if (!item.label) continue;
 
       ctx.save();
-      ctx.beginPath();
-
-      ctx.fillStyle = item.labelColor;
 
       const angle = a.start + ((a.end - a.start) / 2);
 
@@ -236,15 +233,19 @@ export class Wheel {
       if (this.debug) {
         // Draw the outline of the label:
         ctx.beginPath();
-        ctx.strokeStyle = Constants.Debugging.labelOutlineColor;
-        ctx.lineWidth = 1;
         ctx.moveTo(0, 0);
         ctx.lineTo(-this.labelMaxWidth, 0);
+
+        ctx.strokeStyle = Constants.Debugging.labelOutlineColor;
+        ctx.lineWidth = 1;
         ctx.stroke();
+
         ctx.strokeRect(0, -this.itemLabelFontSize / 2, -this.labelMaxWidth, this.itemLabelFontSize);
       }
 
       ctx.rotate(util.degRad(this.itemLabelRotation));
+
+      ctx.fillStyle = item.labelColor;
       ctx.fillText(item.label, 0, itemLabelBaselineOffset);
 
       ctx.restore();
@@ -347,10 +348,11 @@ export class Wheel {
     ctx.rotate(util.degRad(this.pointerRotation + Constants.arcAdjust));
 
     ctx.beginPath();
-    ctx.strokeStyle = Constants.Debugging.pointerLineColor;
-    ctx.lineWidth = 2;
     ctx.moveTo(0, 0);
     ctx.lineTo(this.actualRadius * 2, 0);
+
+    ctx.strokeStyle = Constants.Debugging.pointerLineColor;
+    ctx.lineWidth = 2;
     ctx.stroke();
 
     ctx.restore();
