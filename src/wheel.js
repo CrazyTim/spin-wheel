@@ -190,19 +190,9 @@ export class Wheel {
       ctx.fillStyle = this.actualItems[i].backgroundColor;
       ctx.fill();
 
-      if (util.isAngleBetween(this.pointerRotation, a.start % 360, a.end % 360)) {
-        if (this._currentIndex !== i) {
-          this._currentIndex = i;
-
-          this.onCurrentIndexChange?.({
-            event: 'CurrentIndexChange',
-            currentIndex: this._currentIndex,
-          });
-        }
-      }
-
     }
 
+    this.refreshCurrentIndex(angles);
     this.drawItemLines(ctx, angles);
     this.drawBorder(ctx);
 
@@ -589,6 +579,26 @@ export class Wheel {
    */
   getCurrentIndex() {
     return this._currentIndex;
+  }
+
+  /**
+   * Calculate and set `currentIndex`
+   */
+  refreshCurrentIndex(angles = []) {
+    for (const [i, a] of angles.entries()) {
+
+      if (!util.isAngleBetween(this.pointerRotation, a.start % 360, a.end % 360)) continue;
+
+      if (this._currentIndex === i) break;
+
+      this._currentIndex = i;
+
+      this.onCurrentIndexChange?.({
+        event: 'CurrentIndexChange',
+        currentIndex: this._currentIndex,
+      });
+
+    }
   }
 
   /**
