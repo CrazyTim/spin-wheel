@@ -249,26 +249,7 @@ export class Wheel {
     this.drawImage(ctx, this.overlayImage, true);
     this.drawPointerLine(ctx);
 
-    if (this.rotationSpeed !== 0) {
-
-      // Simulate drag:
-      let newSpeed = this.rotationSpeed + (this.rotationResistance * delta) * this.rotationDirection;
-
-      // Prevent wheel from rotating in the oposite direction:
-      if (this.rotationDirection === 1 && newSpeed < 0 || this.rotationDirection === -1 && newSpeed >= 0) {
-        newSpeed = 0;
-      }
-
-      this.rotationSpeed = newSpeed;
-
-      if (this.rotationSpeed === 0) {
-        this.onRest?.({
-          event: 'rest',
-          currentIndex: this._currentIndex,
-        });
-      }
-
-    }
+    this.applyDrag(delta);
 
     // Draw drag events:
     if (this.debug && this.dragEvents?.length) {
@@ -420,6 +401,27 @@ export class Wheel {
 
     ctx.restore();
 
+  }
+
+  applyDrag (delta = 0) {
+    if (this.rotationSpeed === 0) return;
+
+    // Simulate drag:
+    let newSpeed = this.rotationSpeed + (this.rotationResistance * delta) * this.rotationDirection;
+
+    // Prevent wheel from rotating in the oposite direction:
+    if (this.rotationDirection === 1 && newSpeed < 0 || this.rotationDirection === -1 && newSpeed >= 0) {
+      newSpeed = 0;
+    }
+
+    this.rotationSpeed = newSpeed;
+
+    if (this.rotationSpeed === 0) {
+      this.onRest?.({
+        event: 'rest',
+        currentIndex: this._currentIndex,
+      });
+    }
   }
 
   /**
