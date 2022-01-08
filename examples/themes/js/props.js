@@ -335,6 +335,42 @@ export default [
   },
 
   {
+    name: 'Rock Paper Scissors',
+    itemBackgroundColors: ['hsl(310, 100%, 95%)'],
+    lineColor: 'hsl(350, 20%, 40%)',
+    lineWidth: 2,
+    borderColor: 'hsl(350, 20%, 40%)',
+    borderWidth: 4,
+    items: [
+      {
+        image: './img/example-5-item-0.svg',
+        imageRadius: 0.6,
+        imageSize: 1.2,
+      },
+      {
+        image: './img/example-5-item-1.svg',
+        imageRadius: 0.6,
+        imageSize: 1.2,
+      },
+      {
+        image: './img/example-5-item-2.svg',
+        imageRadius: 0.6,
+        imageSize: 1.2,
+      },
+      {
+        image: './img/example-5-item-3.svg',
+        imageRadius: 0.6,
+        imageSize: 1.2,
+      },
+      {
+        image: './img/example-5-item-4.svg',
+        imageRadius: 0.6,
+        imageSize: 1.2,
+      },
+    ]
+  },
+
+  {
     name: 'Basic',
     items: [
       {
