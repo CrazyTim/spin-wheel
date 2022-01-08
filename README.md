@@ -82,6 +82,8 @@ Method                                             | Description
 
 Name                            | Default Value     | Description
 ------------------------------- | ------------------| ---------------------------
+`borderColor`                   | `#000`            | The color of the line around the circumference of the wheel.
+`borderWidth`                   | `0`               | The width (in pixels) of the line around the circumference of the wheel. Scaled to a canvas size of 500px.
 `debug`                         | `false`           | Show debugging info. This is particularly helpful when fine-tuning labels.
 `image`                         | `''`              | The url of an image that will be drawn over the center of the wheel which will rotate with the wheel. It will be scaled to fit `radius`.
 `isInteractive`                 | `true`            | Allow the user to spin the wheel using click-drag/touch-flick.

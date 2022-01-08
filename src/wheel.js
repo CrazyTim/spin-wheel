@@ -10,6 +10,8 @@ export class Wheel {
     this.initCanvas();
 
     // Set property defaults:
+    this._borderColor = Defaults.borderColor;
+    this._borderWidth = Defaults.borderWidth;
     this._debug = Defaults.debug;
     this._image = Defaults.image;
     this._isInteractive = Defaults.isInteractive;
@@ -62,6 +64,8 @@ export class Wheel {
    */
   init(props = {}) {
 
+    this.borderColor = props.borderColor;
+    this.borderWidth = props.borderWidth;
     this.debug = props.debug;
     this.image = props.image;
     this.isInteractive = props.isInteractive;
@@ -205,6 +209,8 @@ export class Wheel {
       }
 
     }
+
+    this.drawBorder(ctx);
 
     // Set font:
     ctx.textBaseline = 'middle';
@@ -396,6 +402,15 @@ export class Wheel {
 
   }
 
+  drawBorder(ctx) {
+    const borderWidth = (this.borderWidth / Constants.baseCanvasSize) * this.size;
+    ctx.beginPath();
+    ctx.strokeStyle = this.borderColor;
+    ctx.lineWidth = borderWidth;
+    ctx.arc(this.center.x, this.center.y, this.actualRadius - (borderWidth / 2), 0, 2 * Math.PI);
+    ctx.stroke();
+  }
+
   /**
    * Set `rotationSpeed` and raise the onSpin event.
    * Optionally apply a random adjustment to the speed within a range (percent),
@@ -575,6 +590,35 @@ export class Wheel {
 
     return angles;
 
+  }
+
+  /**
+   * The color of the line around the circumference of the wheel.
+   */
+  get borderColor () {
+    return this._borderColor;
+  }
+  set borderColor(val) {
+    if (typeof val === 'string') {
+      this._borderColor = val;
+    } else {
+      this._borderColor = Defaults.borderColor;
+    }
+  }
+
+  /**
+   * The width (in pixels) of the line around the circumference of the wheel.
+   * Scaled to a canvas size of 500px.
+   */
+  get borderWidth () {
+    return this._borderWidth;
+  }
+  set borderWidth(val) {
+    if (typeof val === 'number') {
+      this._borderWidth = val;
+    } else {
+      this._borderWidth = Defaults.borderWidth;
+    }
   }
 
   /**
