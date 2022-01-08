@@ -31,6 +31,7 @@ export class Wheel {
     this._rotationResistance = Defaults.rotationResistance;
     this._rotationSpeed = Defaults.rotationSpeed;
     this._offset = Defaults.offset;
+    this._onCurrentIndexChange = Defaults.onCurrentIndexChange;
     this._onRest = Defaults.onRest;
     this._onSpin = Defaults.onSpin;
     this._overlayImage = Defaults.overlayImage;
@@ -82,6 +83,7 @@ export class Wheel {
     this.rotationResistance =props.rotationResistance;
     this.rotationSpeed = props.rotationSpeed;
     this.offset = props.offset;
+    this.onCurrentIndexChange = props.onCurrentIndexChange;
     this.onRest = props.onRest;
     this.onSpin = props.onSpin;
     this.overlayImage = props.overlayImage;
@@ -194,6 +196,7 @@ export class Wheel {
           this._currentIndex = i;
 
           this.onCurrentIndexChange?.({
+            event: 'CurrentIndexChange',
             currentIndex: this._currentIndex,
           });
         }
