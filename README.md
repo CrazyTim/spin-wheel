@@ -21,7 +21,7 @@
 - Clockwise and anticlockwise spinning.
 - Responsive layout - the wheel resizes automatically to fit it's container, making it easy to adjust.
 
-## How to make your own spinner
+## How to make your own wheel
 
 ```JavaScript
 // 1. Define the wheel's properties. The only required property is `items`.
@@ -54,13 +54,13 @@ const wheel = new Wheel(container, props);
 
 ## Configuration
 
-Because the wheel resizes automatically to fit inside it's container, numeric properties are specified either as a percent of the canvas size or as pixels scaled to a canvas size of 500px. Its much faster to build a wheel this way using relative values because when the size of the container changes you don't have to worry about updating fiddly widths and positions - it happens automatically :grin:.
+Some numeric properties need to be specified using relative values because the wheel is responsive and resizes automatically to fit inside it's container. In some cases we need to specify a value that is a percent of the canvas size, and other times we specify pixels that will be scaled to a canvas size of `500px`. This makes it much faster to make a wheel because if the size of the container changes you don't have to worry about updating fiddly things like widths and positions.
 
-For example, `wheel.radius` is a percent of the size of the canvas. So `0.9` means the wheel will fill 90% of the canvas. 
+For example, `wheel.radius` is expressed as a percent of the size of the canvas. So `0.9` means the wheel will fill 90% of the canvas. 
 
-Another example is LineWidth, which is expressed in pixels and scaled to a canvas size of 500px. In other words, a line width of `10` will be exactly 10px when the canvas size is 500px.
+Another example is `LineWidth`, which is expressed in pixels and scaled to a canvas size of `500px`. Meaning a line width of `10` will be exactly 10px when the canvas size is 500px.
 
-Label font size is calculated automatically to fit in the available space. You simply set the `itemLabelFont` (example `'Arial'`), and `itemLabelRadiusMax` (as a percent of the radius), and optionally `itemLabelFontSizeMax` (scaled to a canvas size of 500px).
+Labels are easy to configure because the font size is calculated automatically. You can optionally set `itemLabelFontSizeMax` (scaled to a canvas size of `500px`), but otherwise the font size of all the labels will be based on the largest label resized to fit between `itemLabelRadius` and  `itemLabelRadiusMax`.
 
 For example configurations see [./examples/themes/js/props.js](https://github.com/CrazyTim/spin-wheel/blob/master/examples/themes/js/props.js).
 
@@ -94,7 +94,7 @@ Name                            | Default Value     | Description
 `itemLabelFont`                 | `'sans-serif'`    | The font family of each `item.labelFont`. Is overridden by `item.labelFont`. Example: `'sans-serif'`.
 `itemLabelFontSizeMax`          | `100`             | The maximum font size (in pixels) to draw each `item.label`. Scaled to a canvas size of 500px. The actual font size will be calculated automatically so that the longest label of all the items fits within `itemLabelRadiusMax` and the font size is below `itemLabelFontSizeMax`.
 `itemLabelRadius`               | `0.85`            | The point along the radius (as a percent, starting from the inside of the circle) to start drawing each `item.label`.
-`itemLabelRadiusMax`            | `0.2`             | The point along the radius (as a percent, starting from the inside of the circle) to resize each `item.label` (to fit) if it is too wide. Scaled to a canvas size of 500px.
+`itemLabelRadiusMax`            | `0.2`             | The point along the radius (as a percent, starting from the inside of the circle) to calculate the font size of each `item.label` so that the largest label fits between it and `itemLabelRadius`.
 `itemLabelRotation`             | `0`               | The rotation of each `item.label`. Use this to flip the labels `180°` when changing `itemLabelAlign`.
 `items`                         | `[]`              | The `items` to show on the wheel.
 `lineColor`                     | `'#000'`          | The color of the lines between each item.
