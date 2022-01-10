@@ -248,26 +248,9 @@ export class Wheel {
     this.drawImage(ctx, this.image, false);
     this.drawImage(ctx, this.overlayImage, true);
     this.drawPointerLine(ctx);
+    this.drawDragEvents(ctx);
 
     this.applyDrag(delta);
-
-    // Draw drag events:
-    if (this.debug && this.dragEvents?.length) {
-
-      const dragEventsReversed = [...this.dragEvents].reverse();
-
-      for (const [i, event] of dragEventsReversed.entries()) {
-        const percentFill = (i / this.dragEvents.length) * 100;
-        ctx.beginPath();
-        ctx.arc(event.x, event.y, 5, 0, 2 * Math.PI);
-        ctx.fillStyle = `hsl(${Constants.Debugging.dragEventHue},100%,${percentFill}%)`;
-        ctx.strokeStyle = '#000';
-        ctx.lineWidth = 0.5;
-        ctx.fill();
-        ctx.stroke();
-      }
-
-    }
 
     // Wait until next frame.
     this.frameRequestId = window.requestAnimationFrame(this.draw.bind(this));
@@ -400,6 +383,25 @@ export class Wheel {
     }
 
     ctx.restore();
+
+  }
+
+  drawDragEvents() {
+
+    if (!this.debug || !this.dragEvents?.length) return;
+
+    const dragEventsReversed = [...this.dragEvents].reverse();
+
+    for (const [i, event] of dragEventsReversed.entries()) {
+      const percent = (i / this.dragEvents.length) * 100;
+      ctx.beginPath();
+      ctx.arc(event.x, event.y, 5, 0, 2 * Math.PI);
+      ctx.fillStyle = `hsl(${Constants.Debugging.dragEventHue},100%,${percent}%)`;
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 0.5;
+      ctx.fill();
+      ctx.stroke();
+    }
 
   }
 
