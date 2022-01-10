@@ -2,104 +2,54 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="100%" height="100%" viewBox="0 0 615 350" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-miterlimit:10;">
     <g>
-        <g>
-            <g id="Layer_1">
-                <g transform="matrix(0.77943,0,0,1,94.117,0)">
-                    <rect x="426.7" y="-45" width="258" height="426" style="fill:rgb(217,217,217);"/>
-                </g>
-                <g>
-                    <path d="M485.5,335.5C391.3,492.2 219.7,597 23.5,597C-274,597 -515.2,355.8 -515.2,58.3C-515.2,-239.2 -274,-480.4 23.5,-480.4C321,-480.4 562.2,-239.2 562.2,58.3C562.2,159.7 534.2,254.5 485.5,335.5Z" style="fill:white;fill-rule:nonzero;stroke:rgb(51,51,51);stroke-width:3px;"/>
-                    <path d="M562.2,58.3L23.5,58.3L485.5,335.5" style="fill:none;fill-rule:nonzero;stroke:rgb(51,51,51);stroke-width:3px;"/>
-                </g>
-                <g>
-                    <g>
-                        <path d="M282.7,130.6L284.2,131" style="fill:none;fill-rule:nonzero;stroke:rgb(8,181,0);stroke-width:2px;"/>
-                        <path d="M287.1,131.8L512.8,195.2" style="fill:none;fill-rule:nonzero;stroke:rgb(8,181,0);stroke-width:2px;stroke-dasharray:3.02,3.02;"/>
-                        <path d="M514.2,195.6L515.7,196" style="fill:none;fill-rule:nonzero;stroke:rgb(8,181,0);stroke-width:2px;"/>
-                    </g>
-                </g>
-                <g>
-                    <path d="M461.7,321.2C507.9,244.4 534.4,154.5 534.4,58.3" style="fill:none;fill-rule:nonzero;stroke:rgb(211,0,232);stroke-width:2px;stroke-dasharray:3,3;"/>
-                    <path d="M292.5,58.3C292.5,109 278.5,156.4 254.1,196.9" style="fill:none;fill-rule:nonzero;stroke:rgb(19,113,255);stroke-width:2px;stroke-dasharray:3,3;"/>
-                </g>
-                <g>
-                    <path d="M398.9,163C403.1,143.4 408.1,132.6 422.2,118.5L515.6,195.9" style="fill:none;fill-rule:nonzero;stroke:rgb(255,153,51);stroke-width:2px;stroke-dasharray:3,3;"/>
-                </g>
-                <g transform="matrix(0.96241,0.271597,-0.271597,0.96241,322.112,154.395)">
-                    <text x="0px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:45.195px;">item.label</text>
-                </g>
+        <g id="Background">
+            <rect x="426.7" y="-45" width="201.093" height="426" style="fill:#d9d9d9;"/>
+            <path d="M485.5,335.5C391.3,492.2 219.7,597 23.5,597C-274,597 -515.2,355.8 -515.2,58.3C-515.2,-239.2 -274,-480.4 23.5,-480.4C321,-480.4 562.2,-239.2 562.2,58.3C562.2,159.7 534.2,254.5 485.5,335.5Z" style="fill:#fff;fill-rule:nonzero;stroke:#333;stroke-width:3px;"/>
+            <path d="M562.2,58.3L23.5,58.3L485.5,335.5" style="fill:none;fill-rule:nonzero;stroke:#333;stroke-width:3px;"/>
+            <path d="M287.1,131.8L512.8,195.2" style="fill:none;fill-rule:nonzero;stroke:#08b500;stroke-width:2px;stroke-dasharray:3.02,3.02;"/>
+            <path d="M292.5,58.3C292.5,109 279.687,157.166 254.5,196.9" style="fill:none;fill-rule:nonzero;stroke:#1371ff;stroke-width:2px;stroke-dasharray:3,3;"/>
+            <path d="M398.9,163C403.1,143.4 408.1,132.6 422.2,118.5L515.6,195.9" style="fill:none;fill-rule:nonzero;stroke:#f93;stroke-width:2px;stroke-dasharray:3,3;"/>
+            <g transform="matrix(0.962411,0.271597,-0.271597,0.962411,54.0411,-81.6812)">
+                <text x="322.112px" y="154.395px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:45.195px;">item.label</text>
             </g>
-            <g id="Annotations">
-                <g transform="matrix(1,0,0,1,368.513,34.1416)">
-                    <text x="10.378px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:17px;">lineWidth</text>
-                </g>
-                <path d="M438.012,39.285L454.8,53.9" style="fill:none;fill-rule:nonzero;stroke:black;stroke-width:1px;"/>
-                <g transform="matrix(1,0,0,1,483.502,34.248)">
-                    <text x="7.229px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:17px;">radius</text>
-                </g>
-                <path d="M555.3,35.8L541.28,30.418" style="fill:none;fill-rule:nonzero;stroke:black;stroke-width:1px;"/>
-                <g transform="matrix(1,0,0,1,588.51,64.1274)">
-                    <text x="0px" y="0px" style="font-family:'Monaco';font-size:14.867px;">0°</text>
-                </g>
-                <path d="M568.9,58.3L584.8,58.3" style="fill:none;fill-rule:nonzero;stroke:black;stroke-width:1px;"/>
-                <g transform="matrix(1,0,0,1,122.904,81.6514)">
-                    <text x="1.847px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:17px;">itemLabelMaxRadius</text>
-                </g>
-                <g transform="matrix(1,0,0,1,284.073,189.604)">
-                    <text x="0px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:17px;">itemLabel</text>
-                    <text x="0px" y="17px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:17px;">BaselineOf<tspan x="82.85px 87.573px " y="17px 17px ">fs</tspan>et</text>
-                </g>
-                <g transform="matrix(1,0,0,1,287.272,322.182)">
-                    <text x="7.197px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:17px;">itemLabelRadius</text>
-                </g>
-                <g transform="matrix(1,0,0,1,359.128,246.984)">
-                    <text x="13.391px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:17px;">itemLabelAlign</text>
-                </g>
-                <path d="M466.532,231.522L490,211.9" style="fill:none;fill-rule:nonzero;stroke:black;stroke-width:1px;"/>
-                <g transform="matrix(1,0,0,1,-169.419,-64.2049)">
-                    <path d="M467.233,240.306L467.219,204.052L479.43,202.18" style="fill:none;fill-rule:nonzero;stroke:black;stroke-width:1px;"/>
-                </g>
-                <g transform="matrix(1,0,0,1,2,0)">
-                    <path d="M461.9,307.9L424,316.7" style="fill:none;fill-rule:nonzero;stroke:black;stroke-width:1px;"/>
-                </g>
-                <path d="M283,95.5L271.2,87" style="fill:none;fill-rule:nonzero;stroke:black;stroke-width:1px;"/>
-                <g transform="matrix(0.968381,0.249474,-0.249474,0.968381,33.4056,-55.2719)">
-                    <g transform="matrix(-0.584486,-0.811404,0.811404,-0.584486,403.99,396.305)">
-                        <path d="M284.186,96.354L269.643,85.878" style="fill:none;fill-rule:nonzero;stroke:black;stroke-width:1px;"/>
-                    </g>
-                    <g transform="matrix(0.370555,-0.370555,0.370555,0.370555,155.382,188.75)">
-                        <path d="M323.892,117.675L323.892,109.748L315.964,109.748" style="fill:none;stroke:black;stroke-width:1.91px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1.5;"/>
-                    </g>
-                    <g transform="matrix(-0.370555,0.370555,-0.370555,-0.370555,476.757,47.8437)">
-                        <path d="M324.061,117.507L324.061,109.579L316.133,109.579" style="fill:none;stroke:black;stroke-width:1.91px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1.5;"/>
-                    </g>
-                </g>
-                <g transform="matrix(0.9943,-0.1067,0.1067,0.9943,-8.9709,31.3706)">
-                    <circle cx="288.6" cy="99.5" r="6.8" style="fill:none;stroke:black;stroke-width:1px;"/>
-                </g>
-                <g transform="matrix(0.9943,-0.1067,0.1067,0.9943,-27.9621,51.7348)">
-                    <circle cx="468.3" cy="305.8" r="6.8" style="fill:none;stroke:black;stroke-width:1px;"/>
-                </g>
-                <g transform="matrix(0.9943,-0.1067,0.1067,0.9943,-3.5927,49.4704)">
-                    <circle cx="460.4" cy="58.3" r="6.8" style="fill:none;stroke:black;stroke-width:1px;"/>
-                </g>
-                <g transform="matrix(0.9943,-0.1067,0.1067,0.9943,-0.7912,60.1915)">
-                    <circle cx="561.9" cy="37.5" r="6.8" style="fill:none;stroke:black;stroke-width:1px;"/>
-                </g>
-                <g transform="matrix(1,0,0,1,338.231,96.48)">
-                    <text x="7.32px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:17px;">itemLabelRotation</text>
-                </g>
-                <path d="M418.1,113L408.5,101.3" style="fill:none;fill-rule:nonzero;stroke:black;stroke-width:1px;"/>
-                <g transform="matrix(0.9943,-0.1067,0.1067,0.9943,-10.2428,45.723)">
-                    <circle cx="422" cy="118.5" r="6.8" style="fill:none;stroke:black;stroke-width:1px;"/>
-                </g>
+            <path d="M461.918,321.351C467.007,312.773 473.49,300.762 478.078,291.863C514.085,222.032 534.4,142.615 534.4,58.3" style="fill:none;fill-rule:nonzero;stroke:#d300e8;stroke-width:1.96px;stroke-dasharray:2.94,2.94;"/>
+        </g>
+        <g id="Annotations">
+            <text x="351.565px" y="34.164px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:17px;">lineWidth</text>
+            <path d="M410.686,39.308L427.474,53.923" style="fill:none;fill-rule:nonzero;stroke:#000;stroke-width:1px;"/>
+            <path d="M555.3,36.8L541.28,31.418" style="fill:none;fill-rule:nonzero;stroke:#000;stroke-width:1px;"/>
+            <text x="588.51px" y="64.127px" style="font-family:'Monaco';font-size:14.867px;">0°</text>
+            <path d="M568.9,58.3L584.8,58.3" style="fill:none;fill-rule:nonzero;stroke:#000;stroke-width:1px;"/>
+            <text x="108.494px" y="86.309px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:17px;">itemLabelRadiusMax</text>
+            <text x="109.163px" y="244.796px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:17px;">itemLabelBaselineOf<tspan x="265.724px 270.447px " y="244.796px 244.796px ">fs</tspan>et</text>
+            <text x="295.604px" y="321.152px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:17px;">itemLabelRadius</text>
+            <text x="461.014px" y="26.409px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:17px;">borderWidth</text>
+            <text x="528.706px" y="292.594px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:17px;">radius</text>
+            <text x="372.519px" y="246.984px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:17px;">itemLabelAlign</text>
+            <path d="M466.532,231.522L490,211.9" style="fill:none;fill-rule:nonzero;stroke:#000;stroke-width:1px;"/>
+            <path d="M279.038,227.433L297.8,139.847L310.011,137.975" style="fill:none;fill-rule:nonzero;stroke:#000;stroke-width:1px;"/>
+            <path d="M464.94,306.367L427.04,315.167" style="fill:none;fill-rule:nonzero;stroke:#000;stroke-width:1px;"/>
+            <path d="M284.094,87.591L270.161,83.426" style="fill:none;fill-rule:nonzero;stroke:#000;stroke-width:1px;"/>
+            <g>
+                <path d="M312.189,129.518L307.718,146.874" style="fill:none;fill-rule:nonzero;stroke:#000;stroke-width:1px;"/>
+                <path d="M314.301,133.095L312.189,129.518L308.612,131.63" style="fill:none;stroke:#000;stroke-width:1px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1.5;"/>
+                <path d="M305.606,143.297L307.718,146.875L311.296,144.763" style="fill:none;stroke:#000;stroke-width:1px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1.5;"/>
+            </g>
+            <path d="M287.799,83.395C291.193,81.794 295.249,83.25 296.85,86.645C298.45,90.039 296.994,94.095 293.6,95.696C290.205,97.297 286.149,95.84 284.549,92.446C282.948,89.051 284.404,84.996 287.799,83.395Z" style="fill:none;stroke:#000;stroke-width:1px;"/>
+            <path d="M470.612,297.53C474.344,297.129 477.698,299.834 478.099,303.565C478.499,307.297 475.795,310.652 472.063,311.052C468.332,311.453 464.977,308.748 464.576,305.017C464.176,301.285 466.88,297.93 470.612,297.53Z" style="fill:none;stroke:#000;stroke-width:1px;"/>
+            <path d="M432.352,51.575C436.084,51.174 439.439,53.879 439.839,57.611C440.24,61.342 437.535,64.697 433.804,65.097C430.072,65.498 426.717,62.793 426.317,59.062C425.916,55.33 428.621,51.975 432.352,51.575Z" style="fill:none;stroke:#000;stroke-width:1px;"/>
+            <path d="M561.182,31.762C564.913,31.361 568.268,34.066 568.668,37.797C569.069,41.529 566.364,44.884 562.633,45.284C558.901,45.685 555.546,42.98 555.146,39.249C554.746,35.517 557.45,32.162 561.182,31.762Z" style="fill:none;stroke:#000;stroke-width:1px;"/>
+            <path d="M526.194,270.205L538.048,279.425" style="fill:none;fill-rule:nonzero;stroke:#000;stroke-width:1px;"/>
+            <path d="M519.103,273.319C515.416,272.619 512.991,269.057 513.691,265.37C514.39,261.683 517.952,259.258 521.64,259.958C525.327,260.658 527.752,264.219 527.052,267.907C526.352,271.594 522.79,274.019 519.103,273.319Z" style="fill:none;stroke:#000;stroke-width:1px;"/>
+            <g>
+                <text x="345.551px" y="96.48px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:17px;">itemLabelRotation</text>
+            </g>
+            <path d="M418.1,113L408.5,101.3" style="fill:none;fill-rule:nonzero;stroke:#000;stroke-width:1px;"/>
+            <path d="M421.27,111.759C425.002,111.358 428.357,114.063 428.757,117.795C429.157,121.526 426.453,124.881 422.721,125.281C418.99,125.682 415.635,122.977 415.235,119.246C414.834,115.514 417.539,112.159 421.27,111.759Z" style="fill:none;stroke:#000;stroke-width:1px;"/>
+            <g>
+                <path d="M529,166.1L514.1,218.7L451.2,201" style="fill:none;fill-rule:nonzero;stroke:#000;stroke-width:1px;"/>
                 <g>
-                    <g>
-                        <path d="M529,166.1L514.1,218.7L451.2,201" style="fill:none;fill-rule:nonzero;stroke:black;stroke-width:1px;"/>
-                        <g>
-                            <path d="M455.5,198L455.9,198.9L451.6,201.1L454.1,205.3L453.3,205.9L450.2,200.7L455.5,198Z" style="fill-rule:nonzero;"/>
-                        </g>
-                    </g>
+                    <path d="M455.5,198L455.9,198.9L451.6,201.1L454.1,205.3L453.3,205.9L450.2,200.7L455.5,198Z" style="fill-rule:nonzero;"/>
                 </g>
             </g>
         </g>
