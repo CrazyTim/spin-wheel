@@ -3,7 +3,7 @@
  */
 export const arcAdjust = -90;
 
-export const fontScale = 500; // 500 seemed to be a good base value for this.
+export const baseCanvasSize = 500; // 500 seemed to be a good value for this.
 
 /**
  * The period in milliseconds that we record drag events.
@@ -25,18 +25,27 @@ export const AlignText = Object.freeze({
  * Wheel property defaults.
  */
 export const Defaults = Object.freeze({
+  borderColor: '#000',
+  borderWidth: 0,
   debug: false,
   image: null,
   isInteractive: true,
+  itemBackgroundColor: '#fff',
   itemBackgroundColors: [],
+  itemImage: null,
+  itemImageSize: 1,
+  itemImageRadius: 0.5,
+  itemLabel: '',
   itemLabelAlign: AlignText.right,
   itemLabelBaselineOffset: 0,
+  itemLabelColor: '#000',
   itemLabelColors: [],
   itemLabelFont: 'sans-serif',
-  itemLabelFontSizeMax: 100,
+  itemLabelFontSizeMax: baseCanvasSize,
   itemLabelRadius: 0.85,
   itemLabelRadiusMax: 0.2,
   itemLabelRotation: 0,
+  itemWeight: 1,
   items: [],
   lineColor: '#000',
   lineWidth: 1,

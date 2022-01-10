@@ -13,13 +13,13 @@
 - Realistic wheel rotation (no easing, just momentum and drag).
 - Interactive - spin the wheel using click-drag/touch-flick, or you can manually call `spin()`.
 - [Easily themeable](https://crazytim.github.io/spin-wheel/examples/themes):
-  - Adjust fonts and colors.
-  - Draw an image over the wheel and canvas.
-  - Apply repeating colour sets.
-  - Items can have their own weight and be resized proportionally.
+  - Items can have different sizes, fonts and colors.
+  - Labels can be rotated and aligned.
+  - Draw images on each item, the wheel, and the canvas.
+  - Repeating colour sets.
 - Callbacks for events like `onSpin` and `onRest`.
 - Clockwise and anticlockwise spinning.
-- Responsive layout (resizes automatically to fit inside it's container).
+- Responsive layout - the wheel resizes automatically to fit it's container, making it easy to adjust.
 
 ## How to make your own spinner
 
@@ -54,11 +54,13 @@ const wheel = new Wheel(container, props);
 
 ## Configuration
 
-Because the wheel resizes automatically to fit inside it's container, many numeric properties are specified as a percent. For example, instead of setting `wheel.radius` to an absolute value of `400px` you can set it as `1.0` or 100%. This makes things easier because when the size of the container changes you don't have to worry about updating fiddly things like the font size - it happens automatically :grin:.
+Because the wheel resizes automatically to fit inside it's container, numeric properties are specified either as a percent of the canvas size or as pixels scaled to a canvas size of 500px. Its much faster to build a wheel this way using relative values because when the size of the container changes you don't have to worry about updating fiddly widths and positions - it happens automatically :grin:.
 
-The same goes for `wheel.offset` which is measured as a percent from the center of the container. Setting `offset.w` to `-0.5` will move the wheel 50% off the left edge of the container.
+For example, `wheel.radius` is a percent of the size of the canvas. So `0.9` means the wheel will fill 90% of the canvas. 
 
-Labels are not given an absolute size either. Instead you set `itemLabelFont` (example `'Arial'`), `itemLabelFontSizeMax` (this is a relative size), and `itemLabelRadiusMax` (as a percent of the radius), and the actual size of the font is calculated automatically to fit in the available space.
+Another example is LineWidth, which is expressed in pixels and scaled to a canvas size of 500px. In other words, a line width of `10` will be exactly 10px when the canvas size is 500px.
+
+Label font size is calculated automatically to fit in the available space. You simply set the `itemLabelFont` (example `'Arial'`), and `itemLabelRadiusMax` (as a percent of the radius), and optionally `itemLabelFontSizeMax` (scaled to a canvas size of 500px).
 
 For example configurations see [./examples/themes/js/props.js](https://github.com/CrazyTim/spin-wheel/blob/master/examples/themes/js/props.js).
 
@@ -80,6 +82,8 @@ Method                                             | Description
 
 Name                            | Default Value     | Description
 ------------------------------- | ------------------| ---------------------------
+`borderColor`                   | `#000`            | The color of the line around the circumference of the wheel.
+`borderWidth`                   | `0`               | The width (in pixels) of the line around the circumference of the wheel. Scaled to a canvas size of 500px.
 `debug`                         | `false`           | Show debugging info. This is particularly helpful when fine-tuning labels.
 `image`                         | `''`              | The url of an image that will be drawn over the center of the wheel which will rotate with the wheel. It will be scaled to fit `radius`.
 `isInteractive`                 | `true`            | Allow the user to spin the wheel using click-drag/touch-flick.
@@ -88,13 +92,13 @@ Name                            | Default Value     | Description
 `itemLabelBaselineOffset`       | `0`               | The offset of the baseline (or line height) of each `item.label` as a percentage of the label's height.
 `itemLabelColors`               | `['#000']`        | The repeating pattern of colors that will be used for each `item.labelColor`. Is overridden by `item.labelColor`. Example: `['#fff','#000']`.
 `itemLabelFont`                 | `'sans-serif'`    | The font family of each `item.labelFont`. Is overridden by `item.labelFont`. Example: `'sans-serif'`.
-`itemLabelFontSizeMax`          | `100`             | The maximum font size to draw each `item.label`. The actual font size will be calculated dynamically so that the longest label of all the items fits within `itemLabelRadiusMax` and the font size is below `itemLabelFontSizeMax`.
+`itemLabelFontSizeMax`          | `100`             | The maximum font size (in pixels) to draw each `item.label`. Scaled to a canvas size of 500px. The actual font size will be calculated automatically so that the longest label of all the items fits within `itemLabelRadiusMax` and the font size is below `itemLabelFontSizeMax`.
 `itemLabelRadius`               | `0.85`            | The point along the radius (as a percent, starting from the inside of the circle) to start drawing each `item.label`.
-`itemLabelRadiusMax`            | `0.2`             | The point along the radius (as a percent, starting from the inside of the circle) to resize each `item.label` (to fit) if it is too wide.
+`itemLabelRadiusMax`            | `0.2`             | The point along the radius (as a percent, starting from the inside of the circle) to resize each `item.label` (to fit) if it is too wide. Scaled to a canvas size of 500px.
 `itemLabelRotation`             | `0`               | The rotation of each `item.label`. Use this to flip the labels `180°` when changing `itemLabelAlign`.
 `items`                         | `[]`              | The `items` to show on the wheel.
 `lineColor`                     | `'#000'`          | The color of the lines between each item.
-`lineWidth`                     | `1`               | The width of the lines between each item.
+`lineWidth`                     | `1`               | The width (in pixels) of the lines between each item. Scaled to a canvas size of 500px.
 `radius`                        | `0.95`            | The radius of the wheel as a percent of the container's smallest dimension.
 `rotation`                      | `0`               | The rotation (angle in degrees) of the wheel. `0` is north. `item[0]` will be drawn clockwise from this point.
 `rotationResistance`            | `-35`             | How much to reduce `rotationSpeed` by every second.

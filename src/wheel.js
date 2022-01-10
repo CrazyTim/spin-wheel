@@ -10,6 +10,8 @@ export class Wheel {
     this.initCanvas();
 
     // Set property defaults:
+    this._borderColor = Defaults.borderColor;
+    this._borderWidth = Defaults.borderWidth;
     this._debug = Defaults.debug;
     this._image = Defaults.image;
     this._isInteractive = Defaults.isInteractive;
@@ -62,6 +64,8 @@ export class Wheel {
    */
   init(props = {}) {
 
+    this.borderColor = props.borderColor;
+    this.borderWidth = props.borderWidth;
     this.debug = props.debug;
     this.image = props.image;
     this.isInteractive = props.isInteractive;
@@ -135,7 +139,7 @@ export class Wheel {
     this.actualRadius = (this.size / 2) * this.radius;
 
     // Adjust the font size of labels so they all fit inside `wheelRadius`:
-    this.itemLabelFontSize = this.itemLabelFontSizeMax * (this.size / Constants.fontScale);
+    this.itemLabelFontSize = this.itemLabelFontSizeMax * (this.size / Constants.baseCanvasSize);
     this.labelMaxWidth = this.actualRadius * (this.itemLabelRadius - this.itemLabelRadiusMax);
     for (const item of this.actualItems) {
       this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(item.label, this.itemLabelFont, this.labelMaxWidth, this.context));
@@ -167,6 +171,8 @@ export class Wheel {
 
     const angles = this.getItemAngles(this.rotation);
 
+    const borderWidth = (this.borderWidth / Constants.baseCanvasSize) * this.size;
+
     // Draw wedges:
     for (const [i, a] of angles.entries()) {
 
@@ -175,7 +181,7 @@ export class Wheel {
       ctx.arc(
         this.center.x,
         this.center.y,
-        this.actualRadius - (this.lineWidth / 2),
+        this.actualRadius - (borderWidth / 2),
         util.degRad(a.start + Constants.arcAdjust),
         util.degRad(a.end + Constants.arcAdjust)
       );
@@ -184,25 +190,11 @@ export class Wheel {
       ctx.fillStyle = this.actualItems[i].backgroundColor;
       ctx.fill();
 
-      if (this.lineWidth > 0) {
-        ctx.strokeStyle = this.lineColor;
-        ctx.lineWidth = this.lineWidth;
-        ctx.lineJoin = 'bevel';
-        ctx.stroke();
-      }
-
-      if (util.isAngleBetween(this.pointerRotation, a.start % 360, a.end % 360)) {
-        if (this._currentIndex !== i) {
-          this._currentIndex = i;
-
-          this.onCurrentIndexChange?.({
-            event: 'CurrentIndexChange',
-            currentIndex: this._currentIndex,
-          });
-        }
-      }
-
     }
+
+    this.refreshCurrentIndex(angles);
+    this.drawItemLines(ctx, angles);
+    this.drawBorder(ctx);
 
     // Set font:
     ctx.textBaseline = 'middle';
@@ -220,9 +212,6 @@ export class Wheel {
       if (!item.label) continue;
 
       ctx.save();
-      ctx.beginPath();
-
-      ctx.fillStyle = item.labelColor;
 
       const angle = a.start + ((a.end - a.start) / 2);
 
@@ -236,74 +225,79 @@ export class Wheel {
       if (this.debug) {
         // Draw the outline of the label:
         ctx.beginPath();
-        ctx.strokeStyle = Constants.Debugging.labelOutlineColor;
-        ctx.lineWidth = 1;
         ctx.moveTo(0, 0);
         ctx.lineTo(-this.labelMaxWidth, 0);
+
+        ctx.strokeStyle = Constants.Debugging.labelOutlineColor;
+        ctx.lineWidth = 1;
         ctx.stroke();
+
         ctx.strokeRect(0, -this.itemLabelFontSize / 2, -this.labelMaxWidth, this.itemLabelFontSize);
       }
 
       ctx.rotate(util.degRad(this.itemLabelRotation));
+
+      ctx.fillStyle = item.labelColor;
       ctx.fillText(item.label, 0, itemLabelBaselineOffset);
 
       ctx.restore();
 
     }
 
-    this.drawImage(this.image, false);
-    this.drawImage(this.overlayImage, true);
-    this.drawPointerLine();
+    this.drawItemImages(ctx, angles);
+    this.drawImage(ctx, this.image, false);
+    this.drawImage(ctx, this.overlayImage, true);
+    this.drawPointerLine(ctx);
+    this.drawDragEvents(ctx);
 
-    if (this.rotationSpeed !== 0) {
-
-      // Simulate drag:
-      let newSpeed = this.rotationSpeed + (this.rotationResistance * delta) * this.rotationDirection;
-
-      // Prevent wheel from rotating in the oposite direction:
-      if (this.rotationDirection === 1 && newSpeed < 0 || this.rotationDirection === -1 && newSpeed >= 0) {
-        newSpeed = 0;
-      }
-
-      this.rotationSpeed = newSpeed;
-
-      if (this.rotationSpeed === 0) {
-        this.onRest?.({
-          event: 'rest',
-          currentIndex: this._currentIndex,
-        });
-      }
-
-    }
-
-    // Draw drag events:
-    if (this.debug && this.dragEvents?.length) {
-
-      const dragEventsReversed = [...this.dragEvents].reverse();
-
-      for (const [i, event] of dragEventsReversed.entries()) {
-        const percentFill = (i / this.dragEvents.length) * 100;
-        ctx.beginPath();
-        ctx.arc(event.x, event.y, 5, 0, 2 * Math.PI);
-        ctx.fillStyle = `hsl(${Constants.Debugging.dragEventHue},100%,${percentFill}%)`;
-        ctx.strokeStyle = '#000';
-        ctx.lineWidth = 0.5;
-        ctx.fill();
-        ctx.stroke();
-      }
-
-    }
+    this.applyDrag(delta);
 
     // Wait until next frame.
     this.frameRequestId = window.requestAnimationFrame(this.draw.bind(this));
 
   }
 
-  drawImage(image, isOverlay = false) {
+  drawItemImages(ctx, angles = []) {
+
+    for (const [i, a] of angles.entries()) {
+
+      const item = this.actualItems[i];
+
+      if (!item.image || !item.image.complete || item.image.error) continue;
+
+      ctx.save();
+
+      const angle = a.start + ((a.end - a.start) / 2);
+
+      ctx.translate(
+        this.center.x + Math.cos(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * item.imageRadius),
+        this.center.y + Math.sin(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * item.imageRadius)
+      );
+
+      ctx.rotate(util.degRad(angle));
+
+      const width = (this.size / 500) * item.image.width * item.imageSize;
+      const height = (this.size / 500) * item.image.height * item.imageSize;
+      const widthHalf = -width / 2;
+      const heightHalf = -height / 2;
+
+      ctx.drawImage(
+        item.image,
+        widthHalf,
+        heightHalf,
+        width,
+        height,
+      );
+
+      ctx.restore();
+
+    }
+
+  }
+
+  drawImage(ctx, image, isOverlay = false) {
 
     if (!image) return;
-
-    const ctx = this.context;
 
     ctx.save();
 
@@ -331,11 +325,9 @@ export class Wheel {
 
   }
 
-  drawPointerLine(image, isOverlay = false) {
+  drawPointerLine(ctx, image, isOverlay = false) {
 
     if (!this.debug) return;
-
-    const ctx = this.context;
 
     ctx.save();
 
@@ -347,14 +339,91 @@ export class Wheel {
     ctx.rotate(util.degRad(this.pointerRotation + Constants.arcAdjust));
 
     ctx.beginPath();
-    ctx.strokeStyle = Constants.Debugging.pointerLineColor;
-    ctx.lineWidth = 2;
     ctx.moveTo(0, 0);
     ctx.lineTo(this.actualRadius * 2, 0);
+
+    ctx.strokeStyle = Constants.Debugging.pointerLineColor;
+    ctx.lineWidth = 2;
     ctx.stroke();
 
     ctx.restore();
 
+  }
+
+  drawBorder(ctx) {
+    const borderWidth = (this.borderWidth / Constants.baseCanvasSize) * this.size;
+    ctx.beginPath();
+    ctx.strokeStyle = this.borderColor;
+    ctx.lineWidth = borderWidth;
+    ctx.arc(this.center.x, this.center.y, this.actualRadius - (borderWidth / 2), 0, 2 * Math.PI);
+    ctx.stroke();
+  }
+
+  drawItemLines(ctx, angles = []) {
+
+    if (this.lineWidth <= 0) return;
+
+    const actualLineWidth = (this.lineWidth / Constants.baseCanvasSize) * this.size;
+
+    ctx.save();
+    ctx.translate(this.center.x, this.center.y);
+
+    for (const [i, a] of angles.entries()) {
+      ctx.rotate(util.degRad(a.start + Constants.arcAdjust));
+
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(this.actualRadius - actualLineWidth, 0);
+
+      ctx.strokeStyle = this.lineColor;
+      ctx.lineWidth = actualLineWidth;
+      ctx.stroke();
+
+      ctx.rotate(-util.degRad(a.start + Constants.arcAdjust));
+    }
+
+    ctx.restore();
+
+  }
+
+  drawDragEvents() {
+
+    if (!this.debug || !this.dragEvents?.length) return;
+
+    const dragEventsReversed = [...this.dragEvents].reverse();
+
+    for (const [i, event] of dragEventsReversed.entries()) {
+      const percent = (i / this.dragEvents.length) * 100;
+      ctx.beginPath();
+      ctx.arc(event.x, event.y, 5, 0, 2 * Math.PI);
+      ctx.fillStyle = `hsl(${Constants.Debugging.dragEventHue},100%,${percent}%)`;
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 0.5;
+      ctx.fill();
+      ctx.stroke();
+    }
+
+  }
+
+  applyDrag (delta = 0) {
+    if (this.rotationSpeed === 0) return;
+
+    // Simulate drag:
+    let newSpeed = this.rotationSpeed + (this.rotationResistance * delta) * this.rotationDirection;
+
+    // Prevent wheel from rotating in the oposite direction:
+    if (this.rotationDirection === 1 && newSpeed < 0 || this.rotationDirection === -1 && newSpeed >= 0) {
+      newSpeed = 0;
+    }
+
+    this.rotationSpeed = newSpeed;
+
+    if (this.rotationSpeed === 0) {
+      this.onRest?.({
+        event: 'rest',
+        currentIndex: this._currentIndex,
+      });
+    }
   }
 
   /**
@@ -427,14 +496,14 @@ export class Wheel {
         // Use a value from the repeating set:
         newItem.backgroundColor = this.itemBackgroundColors[i % this.itemBackgroundColors.length];
       } else {
-        newItem.backgroundColor = '#fff'; // Default.
+        newItem.backgroundColor = Defaults.itemBackgroundColor;
       }
 
       // Label:
       if (typeof item.label === 'string') {
         newItem.label = item.label;
       } else {
-        newItem.label = ''; // Default.
+        newItem.label = Defaults.itemLabel;
       }
 
       // Label Font:
@@ -451,15 +520,41 @@ export class Wheel {
         // Use a value from the repeating set:
         newItem.labelColor = this.itemLabelColors[i % this.itemLabelColors.length];
       } else {
-        newItem.labelColor = '#000'; // Default.
+        newItem.labelColor = Defaults.itemLabelColor;
       }
 
       // Weight:
       if (typeof item.weight === 'number') {
         newItem.weight = item.weight;
       } else {
-        newItem.weight = 1; // Default.
+        newItem.weight = Defaults.itemWeight;
       };
+
+      // Image:
+      if (typeof item.image === 'string') {
+        newItem.image = new Image();
+        newItem.image.src = item.image;
+        newItem.image.onerror = e => {
+          newItem.image.error = true;
+          return true; // Don't fire default event handler.
+        };
+      } else {
+        newItem.image = Defaults.itemImage;
+      }
+
+      // Image Size:
+      if (typeof item.imageSize === 'number') {
+        newItem.imageSize = item.imageSize;
+      } else {
+        newItem.imageSize = Defaults.itemImageSize;
+      }
+
+      // Image Radius:
+      if (typeof item.imageRadius === 'number') {
+        newItem.imageRadius = item.imageRadius;
+      } else {
+        newItem.imageRadius = Defaults.itemImageRadius;
+      }
 
       this.actualItems.push(newItem);
 
@@ -491,6 +586,26 @@ export class Wheel {
   }
 
   /**
+   * Calculate and set `currentIndex`
+   */
+  refreshCurrentIndex(angles = []) {
+    for (const [i, a] of angles.entries()) {
+
+      if (!util.isAngleBetween(this.pointerRotation, a.start % 360, a.end % 360)) continue;
+
+      if (this._currentIndex === i) break;
+
+      this._currentIndex = i;
+
+      this.onCurrentIndexChange?.({
+        event: 'CurrentIndexChange',
+        currentIndex: this._currentIndex,
+      });
+
+    }
+  }
+
+  /**
    * Return an array of objects which represents the current start/end angles for each item.
    */
   getItemAngles(initialRotation = 0) {
@@ -510,6 +625,35 @@ export class Wheel {
 
     return angles;
 
+  }
+
+  /**
+   * The color of the line around the circumference of the wheel.
+   */
+  get borderColor () {
+    return this._borderColor;
+  }
+  set borderColor(val) {
+    if (typeof val === 'string') {
+      this._borderColor = val;
+    } else {
+      this._borderColor = Defaults.borderColor;
+    }
+  }
+
+  /**
+   * The width (in pixels) of the line around the circumference of the wheel.
+   * Scaled to a canvas size of 500px.
+   */
+  get borderWidth () {
+    return this._borderWidth;
+  }
+  set borderWidth(val) {
+    if (typeof val === 'number') {
+      this._borderWidth = val;
+    } else {
+      this._borderWidth = Defaults.borderWidth;
+    }
   }
 
   /**
@@ -641,8 +785,9 @@ export class Wheel {
   }
 
   /**
-   * The maximum font size to draw each `item.label`.
-   * The actual font size will be calculated dynamically so that the longest label of all
+   * The maximum font size (in pixels) to draw each `item.label`.
+   * Scaled to a canvas size of 500px.
+   * The actual font size will be calculated automatically so that the longest label of all
    * the items fits within `itemLabelRadiusMax` and the font size is below `itemLabelFontSizeMax`.
    */
   get itemLabelFontSizeMax () {
@@ -731,7 +876,8 @@ export class Wheel {
   }
 
   /**
-   * The width of the lines between each item.
+   * The width (in pixles) of the lines between each item.
+   * Scaled to a canvas size of 500px.
    */
   get lineWidth () {
     return this._lineWidth;
