@@ -252,9 +252,10 @@ export class Wheel {
 
     }
 
-    this.drawImage(this.image, false);
-    this.drawImage(this.overlayImage, true);
-    this.drawPointerLine();
+    this.drawItemImages(ctx, angles);
+    this.drawImage(ctx, this.image, false);
+    this.drawImage(ctx, this.overlayImage, true);
+    this.drawPointerLine(ctx);
 
     if (this.rotationSpeed !== 0) {
 
@@ -300,11 +301,47 @@ export class Wheel {
 
   }
 
-  drawImage(image, isOverlay = false) {
+  drawItemImages(ctx, angles = []) {
+
+    for (const [i, a] of angles.entries()) {
+
+      const item = this.actualItems[i];
+
+      if (!item.image || !item.image.complete || item.image.error) continue;
+
+      ctx.save();
+
+      const angle = a.start + ((a.end - a.start) / 2);
+
+      ctx.translate(
+        this.center.x + Math.cos(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * item.imageRadius),
+        this.center.y + Math.sin(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * item.imageRadius)
+      );
+
+      ctx.rotate(util.degRad(angle));
+
+      const width = (this.size / 500) * item.image.width * item.imageSize;
+      const height = (this.size / 500) * item.image.height * item.imageSize;
+      const widthHalf = -width / 2;
+      const heightHalf = -height / 2;
+
+      ctx.drawImage(
+        item.image,
+        widthHalf,
+        heightHalf,
+        width,
+        height,
+      );
+
+      ctx.restore();
+
+    }
+
+  }
+
+  drawImage(ctx, image, isOverlay = false) {
 
     if (!image) return;
-
-    const ctx = this.context;
 
     ctx.save();
 
@@ -332,11 +369,9 @@ export class Wheel {
 
   }
 
-  drawPointerLine(image, isOverlay = false) {
+  drawPointerLine(ctx, image, isOverlay = false) {
 
     if (!this.debug) return;
-
-    const ctx = this.context;
 
     ctx.save();
 
@@ -429,14 +464,14 @@ export class Wheel {
         // Use a value from the repeating set:
         newItem.backgroundColor = this.itemBackgroundColors[i % this.itemBackgroundColors.length];
       } else {
-        newItem.backgroundColor = '#fff'; // Default.
+        newItem.backgroundColor = Defaults.itemBackgroundColor;
       }
 
       // Label:
       if (typeof item.label === 'string') {
         newItem.label = item.label;
       } else {
-        newItem.label = ''; // Default.
+        newItem.label = Defaults.itemLabel;
       }
 
       // Label Font:
@@ -453,15 +488,41 @@ export class Wheel {
         // Use a value from the repeating set:
         newItem.labelColor = this.itemLabelColors[i % this.itemLabelColors.length];
       } else {
-        newItem.labelColor = '#000'; // Default.
+        newItem.labelColor = Defaults.itemLabelColor;
       }
 
       // Weight:
       if (typeof item.weight === 'number') {
         newItem.weight = item.weight;
       } else {
-        newItem.weight = 1; // Default.
+        newItem.weight = Defaults.itemWeight;
       };
+
+      // Image:
+      if (typeof item.image === 'string') {
+        newItem.image = new Image();
+        newItem.image.src = item.image;
+        newItem.image.onerror = e => {
+          newItem.image.error = true;
+          return true; // Don't fire default event handler.
+        };
+      } else {
+        newItem.image = Defaults.itemImage;
+      }
+
+      // Image Size:
+      if (typeof item.imageSize === 'number') {
+        newItem.imageSize = item.imageSize;
+      } else {
+        newItem.imageSize = Defaults.itemImageSize;
+      }
+
+      // Image Radius:
+      if (typeof item.imageRadius === 'number') {
+        newItem.imageRadius = item.imageRadius;
+      } else {
+        newItem.imageRadius = Defaults.itemImageRadius;
+      }
 
       this.actualItems.push(newItem);
 
