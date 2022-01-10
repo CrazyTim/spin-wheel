@@ -171,7 +171,7 @@ export class Wheel {
 
     const angles = this.getItemAngles(this.rotation);
 
-    const lineWidth = (this.lineWidth / Constants.baseCanvasSize) * this.size;
+    const borderWidth = (this.borderWidth / Constants.baseCanvasSize) * this.size;
 
     // Draw wedges:
     for (const [i, a] of angles.entries()) {
@@ -181,7 +181,7 @@ export class Wheel {
       ctx.arc(
         this.center.x,
         this.center.y,
-        this.actualRadius - (lineWidth / 2),
+        this.actualRadius - (borderWidth / 2),
         util.degRad(a.start + Constants.arcAdjust),
         util.degRad(a.end + Constants.arcAdjust)
       );
@@ -189,13 +189,6 @@ export class Wheel {
 
       ctx.fillStyle = this.actualItems[i].backgroundColor;
       ctx.fill();
-
-      if (lineWidth > 0) {
-        ctx.strokeStyle = this.lineColor;
-        ctx.lineWidth = lineWidth;
-        ctx.lineJoin = 'bevel';
-        ctx.stroke();
-      }
 
       if (util.isAngleBetween(this.pointerRotation, a.start % 360, a.end % 360)) {
         if (this._currentIndex !== i) {
@@ -210,6 +203,7 @@ export class Wheel {
 
     }
 
+    this.drawItemLines(ctx, angles);
     this.drawBorder(ctx);
 
     // Set font:
@@ -409,6 +403,33 @@ export class Wheel {
     ctx.lineWidth = borderWidth;
     ctx.arc(this.center.x, this.center.y, this.actualRadius - (borderWidth / 2), 0, 2 * Math.PI);
     ctx.stroke();
+  }
+
+  drawItemLines(ctx, angles = []) {
+
+    if (this.lineWidth <= 0) return;
+
+    const actualLineWidth = (this.lineWidth / Constants.baseCanvasSize) * this.size;
+
+    ctx.save();
+    ctx.translate(this.center.x, this.center.y);
+
+    for (const [i, a] of angles.entries()) {
+      ctx.rotate(util.degRad(a.start + Constants.arcAdjust));
+
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(this.actualRadius - actualLineWidth, 0);
+
+      ctx.strokeStyle = this.lineColor;
+      ctx.lineWidth = actualLineWidth;
+      ctx.stroke();
+
+      ctx.rotate(-util.degRad(a.start + Constants.arcAdjust));
+    }
+
+    ctx.restore();
+
   }
 
   /**
