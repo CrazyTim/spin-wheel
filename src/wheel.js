@@ -61,8 +61,6 @@ export class Wheel {
     this.onSpin = props.onSpin;
     this.overlayImage = props.overlayImage;
     this.pointerRotation = props.pointerRotation;
-
-    this.resize(); // This will start the animation loop.
   }
 
   addCanvas() {
