@@ -14,37 +14,12 @@ export class Wheel {
     this.canvasContainer = container;
     this.initCanvas();
 
-    // Set property defaults:
-    this._borderColor = Defaults.borderColor;
-    this._borderWidth = Defaults.borderWidth;
-    this._debug = Defaults.debug;
-    this._image = Defaults.image;
-    this._isInteractive = Defaults.isInteractive;
-    this._itemBackgroundColors = Defaults.itemBackgroundColors;
-    this._itemLabelAlign = Defaults.itemLabelAlign;
-    this._itemLabelBaselineOffset = Defaults.itemLabelBaselineOffset;
-    this._itemLabelColors = Defaults.itemLabelColors;
-    this._itemLabelFont = Defaults.itemLabelFont;
-    this._itemLabelFontSizeMax = Defaults.itemLabelFontSizeMax;
-    this._itemLabelRadius = Defaults.itemLabelRadius;
-    this._itemLabelRadiusMax = Defaults.itemLabelRadiusMax;
-    this._itemLabelRotation = Defaults.itemLabelRotation;
-    this._items = Defaults.items;
-    this._lineColor = Defaults.lineColor;
-    this._lineWidth = Defaults.lineWidth;
-    this._rotationSpeedMax = Defaults.rotationSpeedMax;
-    this._radius = Defaults.radius;
-    this._rotation = Defaults.rotation;
-    this._rotationResistance = Defaults.rotationResistance;
-    this._rotationSpeed = Defaults.rotationSpeed;
-    this._offset = Defaults.offset;
-    this._onCurrentIndexChange = Defaults.onCurrentIndexChange;
-    this._onRest = Defaults.onRest;
-    this._onSpin = Defaults.onSpin;
-    this._overlayImage = Defaults.overlayImage;
-    this._pointerRotation = Defaults.pointerRotation;
+    // Assign default values to the coresponding properties on the wheel:
+    for (const i of Object.keys(Defaults.wheel)) {
+      this['_' + i] = Defaults.wheel[i];
+    }
 
-    if (props) this.init(props);
+    if (props) this.init(Defaults.wheel);
   }
 
   initCanvas() {
@@ -501,14 +476,14 @@ export class Wheel {
         // Use a value from the repeating set:
         newItem.backgroundColor = this.itemBackgroundColors[i % this.itemBackgroundColors.length];
       } else {
-        newItem.backgroundColor = Defaults.itemBackgroundColor;
+        newItem.backgroundColor = Defaults.item.backgroundColor;
       }
 
       // Label:
       if (typeof item.label === 'string') {
         newItem.label = item.label;
       } else {
-        newItem.label = Defaults.itemLabel;
+        newItem.label = Defaults.item.label;
       }
 
       // Label Font:
@@ -525,14 +500,14 @@ export class Wheel {
         // Use a value from the repeating set:
         newItem.labelColor = this.itemLabelColors[i % this.itemLabelColors.length];
       } else {
-        newItem.labelColor = Defaults.itemLabelColor;
+        newItem.labelColor = Defaults.item.labelColor;
       }
 
       // Weight:
       if (typeof item.weight === 'number') {
         newItem.weight = item.weight;
       } else {
-        newItem.weight = Defaults.itemWeight;
+        newItem.weight = Defaults.item.weight;
       };
 
       // Image:
@@ -544,21 +519,21 @@ export class Wheel {
           return true; // Don't fire default event handler.
         };
       } else {
-        newItem.image = Defaults.itemImage;
+        newItem.image = Defaults.item.image;
       }
 
       // Image Size:
       if (typeof item.imageSize === 'number') {
         newItem.imageSize = item.imageSize;
       } else {
-        newItem.imageSize = Defaults.itemImageSize;
+        newItem.imageSize = Defaults.item.imageSize;
       }
 
       // Image Radius:
       if (typeof item.imageRadius === 'number') {
         newItem.imageRadius = item.imageRadius;
       } else {
-        newItem.imageRadius = Defaults.itemImageRadius;
+        newItem.imageRadius = Defaults.item.imageRadius;
       }
 
       this.actualItems.push(newItem);
@@ -644,7 +619,7 @@ export class Wheel {
     if (typeof val === 'string') {
       this._borderColor = val;
     } else {
-      this._borderColor = Defaults.borderColor;
+      this._borderColor = Defaults.wheel.borderColor;
     }
   }
 
@@ -659,7 +634,7 @@ export class Wheel {
     if (typeof val === 'number') {
       this._borderWidth = val;
     } else {
-      this._borderWidth = Defaults.borderWidth;
+      this._borderWidth = Defaults.wheel.borderWidth;
     }
   }
 
@@ -674,7 +649,7 @@ export class Wheel {
     if (typeof val === 'boolean') {
       this._debug = val;
     } else {
-      this._debug = Defaults.debug;
+      this._debug = Defaults.wheel.debug;
     }
   }
 
@@ -690,7 +665,7 @@ export class Wheel {
       this._image = new Image();
       this._image.src = val;
     } else {
-      this._image = Defaults.image;
+      this._image = Defaults.wheel.image;
     }
   }
 
@@ -704,7 +679,7 @@ export class Wheel {
     if (typeof val === 'boolean') {
       this._isInteractive = val;
     } else {
-      this._isInteractive = Defaults.isInteractive;
+      this._isInteractive = Defaults.wheel.isInteractive;
     }
   }
 
@@ -720,7 +695,7 @@ export class Wheel {
     if (Array.isArray(val)) {
       this._itemBackgroundColors = val;
     } else {
-      this._itemBackgroundColors = Defaults.itemBackgroundColors;
+      this._itemBackgroundColors = Defaults.wheel.itemBackgroundColors;
     }
     this.processItems();
   }
@@ -738,7 +713,7 @@ export class Wheel {
     if (typeof val === 'string') {
       this._itemLabelAlign = val;
     } else {
-      this._itemLabelAlign = Defaults.itemLabelAlign;
+      this._itemLabelAlign = Defaults.wheel.itemLabelAlign;
     }
   }
 
@@ -752,7 +727,7 @@ export class Wheel {
     if (typeof val === 'number') {
       this._itemLabelBaselineOffset = val;
     } else {
-      this._itemLabelBaselineOffset = Defaults.itemLabelBaselineOffset;
+      this._itemLabelBaselineOffset = Defaults.wheel.itemLabelBaselineOffset;
     }
     this.resize();
   }
@@ -769,7 +744,7 @@ export class Wheel {
     if (Array.isArray(val)) {
       this._itemLabelColors = val;
     } else {
-      this._itemLabelColors = Defaults.itemLabelColors;
+      this._itemLabelColors = Defaults.wheel.itemLabelColors;
     }
     this.processItems();
   }
@@ -786,7 +761,7 @@ export class Wheel {
     if (typeof val === 'string') {
       this._itemLabelFont = val;
     } else {
-      this._itemLabelFont = Defaults.itemLabelFont;
+      this._itemLabelFont = Defaults.wheel.itemLabelFont;
     }
     this.resize();
   }
@@ -804,7 +779,7 @@ export class Wheel {
     if (typeof val === 'number') {
       this._itemLabelFontSizeMax = val;
     } else {
-      this._itemLabelFontSizeMax = Defaults.itemLabelFontSizeMax;
+      this._itemLabelFontSizeMax = Defaults.wheel.itemLabelFontSizeMax;
     }
   }
 
@@ -819,7 +794,7 @@ export class Wheel {
     if (typeof val === 'number') {
       this._itemLabelRadius = val;
     } else {
-      this._itemLabelRadius = Defaults.itemLabelRadius;
+      this._itemLabelRadius = Defaults.wheel.itemLabelRadius;
     }
   }
 
@@ -834,7 +809,7 @@ export class Wheel {
     if (typeof val === 'number') {
       this._itemLabelRadiusMax = val;
     } else {
-      this._itemLabelRadiusMax = Defaults.itemLabelRadiusMax;
+      this._itemLabelRadiusMax = Defaults.wheel.itemLabelRadiusMax;
     }
   }
 
@@ -849,7 +824,7 @@ export class Wheel {
     if (typeof val === 'number') {
       this._itemLabelRotation = val;
     } else {
-      this._itemLabelRotation = Defaults.itemLabelRotation;
+      this._itemLabelRotation = Defaults.wheel.itemLabelRotation;
     }
   }
 
@@ -863,7 +838,7 @@ export class Wheel {
     if (Array.isArray(val)) {
       this._items = val;
     } else {
-      this._items = Defaults.items;
+      this._items = Defaults.wheel.items;
     }
     this.processItems();
   }
@@ -878,7 +853,7 @@ export class Wheel {
     if (typeof val === 'string') {
       this._lineColor = val;
     } else {
-      this._lineColor = Defaults.lineColor;
+      this._lineColor = Defaults.wheel.lineColor;
     }
   }
 
@@ -893,7 +868,7 @@ export class Wheel {
     if (typeof val === 'number') {
       this._lineWidth = val;
     } else {
-      this._lineWidth = Defaults.lineWidth;
+      this._lineWidth = Defaults.wheel.lineWidth;
     }
   }
 
@@ -907,7 +882,7 @@ export class Wheel {
     if (typeof val === 'number') {
       this._radius = val;
     } else {
-      this._radius = Defaults.radius;
+      this._radius = Defaults.wheel.radius;
     }
     this.resize();
   }
@@ -923,7 +898,7 @@ export class Wheel {
     if (typeof val === 'number') {
       this._rotation = val;
     } else {
-      this._rotation = Defaults.rotation;
+      this._rotation = Defaults.wheel.rotation;
     }
   }
 
@@ -937,7 +912,7 @@ export class Wheel {
     if (typeof val === 'number') {
       this._rotationResistance = val;
     } else {
-      this._rotationResistance = Defaults.rotationResistance;
+      this._rotationResistance = Defaults.wheel.rotationResistance;
     }
   }
 
@@ -961,7 +936,7 @@ export class Wheel {
 
     } else {
       this.rotationDirection = 0;
-      this._rotationSpeed = Defaults.rotationSpeed;
+      this._rotationSpeed = Defaults.wheel.rotationSpeed;
     }
   }
 
@@ -976,7 +951,7 @@ export class Wheel {
     if (typeof val === 'number') {
       this._rotationSpeedMax = val;
     } else {
-      this._rotationSpeedMax = Defaults.rotationSpeedMax;
+      this._rotationSpeedMax = Defaults.wheel.rotationSpeedMax;
     }
   }
 
@@ -991,7 +966,7 @@ export class Wheel {
     if (val) {
       this._offset = val;
     } else {
-      this._offset = Defaults.offset;
+      this._offset = Defaults.wheel.offset;
     }
     this.resize();
   }
@@ -1006,7 +981,7 @@ export class Wheel {
     if (typeof val === 'function') {
       this._onCurrentIndexChange = val;
     } else {
-      this._onCurrentIndexChange = Defaults.onCurrentIndexChange;
+      this._onCurrentIndexChange = Defaults.wheel.onCurrentIndexChange;
     }
   }
 
@@ -1020,7 +995,7 @@ export class Wheel {
     if (typeof val === 'function') {
       this._onRest = val;
     } else {
-      this._onRest = Defaults.onRest;
+      this._onRest = Defaults.wheel.onRest;
     }
   }
 
@@ -1034,7 +1009,7 @@ export class Wheel {
     if (typeof val === 'function') {
       this._onSpin = val;
     } else {
-      this._onSpin = Defaults.onSpin;
+      this._onSpin = Defaults.wheel.onSpin;
     }
   }
 
@@ -1051,7 +1026,7 @@ export class Wheel {
       this._overlayImage = new Image();
       this._overlayImage.src = val;
     } else {
-      this._overlayImage = Defaults.overlayImage;
+      this._overlayImage = Defaults.wheel.overlayImage;
     }
   }
 
@@ -1066,7 +1041,7 @@ export class Wheel {
     if (typeof val === 'number') {
       this._pointerRotation = val;
     } else {
-      this._pointerRotation = Defaults.pointerRotation;
+      this._pointerRotation = Defaults.wheel.pointerRotation;
     }
   }
 
