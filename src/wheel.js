@@ -594,6 +594,8 @@ export class Wheel {
    * Calculate and set `currentIndex`
    */
   refreshCurrentIndex(angles = []) {
+    if (this.actualItems.length === 0) this._currentIndex = -1;
+
     for (const [i, a] of angles.entries()) {
 
       if (!util.isAngleBetween(this.pointerRotation, a.start % 360, a.end % 360)) continue;
