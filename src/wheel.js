@@ -1,7 +1,7 @@
 import * as util from './util.js';
 import * as Constants from './constants.js';
 import {Defaults} from './constants.js';
-import * as drag from './drag.js';
+import * as events from './events.js';
 
 export class Wheel {
 
@@ -12,7 +12,11 @@ export class Wheel {
     if (!util.isObject(props)) throw 'props parameter must be an Object';
 
     this.canvasContainer = container;
-    this.initCanvas();
+    this.canvas = document.createElement('canvas');
+    this.context = this.canvas.getContext('2d');
+
+    this.addCanvas();
+    events.register(this);
 
     // Assign default values to the coresponding properties on the wheel:
     for (const i of Object.keys(Defaults.wheel)) {
@@ -20,20 +24,6 @@ export class Wheel {
     }
 
     if (props) this.init(Defaults.wheel);
-  }
-
-  initCanvas() {
-
-    // Remove any existing children:
-    while (this.canvasContainer.firstChild) {
-       this.canvasContainer.removeChild(this.canvasContainer.firstChild);
-    }
-
-    this.canvas = document.createElement('canvas');
-    this.canvasContainer.appendChild(this.canvas);
-    this.context = this.canvas.getContext('2d');
-
-    this.registerEvents();
 
   }
 
@@ -43,7 +33,6 @@ export class Wheel {
    * See README.md for property descriptions.
    */
   init(props = {}) {
-
     this.borderColor = props.borderColor;
     this.borderWidth = props.borderWidth;
     this.debug = props.debug;
@@ -74,12 +63,20 @@ export class Wheel {
     this.pointerRotation = props.pointerRotation;
 
     this.resize(); // This will start the animation loop.
-
   }
 
-  registerEvents() {
-    window.addEventListener('resize', () => this.resize());
-    drag.registerEvents(this);
+  addCanvas() {
+    this.canvasContainer.appendChild(this.canvas);
+  }
+
+  removeCanvas() {
+    this.canvasContainer.removeChild(this.canvas);
+  }
+
+  remove() {
+    window.cancelAnimationFrame(this.frameRequestId);
+    events.unregister(this);
+    this.removeCanvas();
   }
 
   /**

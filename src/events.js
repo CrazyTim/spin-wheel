@@ -1,39 +1,29 @@
-/**
- * Register drag events for the wheel.
- * Adapted from https://glitch.com/~jake-in-the-box
- */
-export function registerEvents(wheel = {}) {
+export function register(wheel = {}) {
 
   const canvas = wheel.canvas;
 
-  if ('PointerEvent' in window) {
-    canvas.addEventListener('pointerdown', onPointerDown);
-    canvas.addEventListener('pointermove', onPointerMoveRefreshCursor);
-  } else {
-    canvas.addEventListener('touchstart', onTouchStart);
-    canvas.addEventListener('mousedown', onMouseDown);
-    canvas.addEventListener('mousemove', onMouseMoveRefreshCursor);
-  }
+  // Register canvas pointer events:
+  // Adapted from https://glitch.com/~jake-in-the-box
 
-  function onPointerMoveRefreshCursor(e = {}) {
+  wheel._handler_onPointerMoveRefreshCursor = (e = {}) => {
     const point = {
       x: e.clientX,
       y: e.clientY,
     };
     wheel.isCursorOverWheel = wheel.wheelHitTest(point);
     wheel.refreshCursor();
-  }
+  };
 
-  function onMouseMoveRefreshCursor(e = {}) {
+  wheel._handler_onMouseMoveRefreshCursor = (e = {}) => {
     const point = {
       x: e.clientX,
       y: e.clientY,
     };
     wheel.isCursorOverWheel = wheel.wheelHitTest(point);
     wheel.refreshCursor();
-  }
+  };
 
-  function onPointerDown(e = {}) {
+  wheel._handler_onPointerDown = (e = {}) => {
 
     const point = {
       x: e.clientX,
@@ -67,9 +57,9 @@ export function registerEvents(wheel = {}) {
       wheel.dragEnd();
     }
 
-  }
+  };
 
-  function onMouseDown(e = {}) {
+  wheel._handler_onMouseDown = (e = {}) => {
 
     const point = {
       x: e.clientX,
@@ -98,9 +88,9 @@ export function registerEvents(wheel = {}) {
       wheel.dragEnd();
     }
 
-  }
+  };
 
-  function onTouchStart(e = {}) {
+  wheel._handler_onTouchStart = (e = {}) => {
 
     const point = {
       x: e.targetTouches[0].clientX,
@@ -132,6 +122,36 @@ export function registerEvents(wheel = {}) {
       wheel.dragEnd();
     }
 
+  };
+
+  if ('PointerEvent' in window) {
+    canvas.addEventListener('pointerdown', wheel._handler_onPointerDown);
+    canvas.addEventListener('pointermove', wheel._handler_onPointerMoveRefreshCursor);
+  } else {
+    canvas.addEventListener('touchstart', wheel._handler_onTouchStart);
+    canvas.addEventListener('mousedown', wheel._handler_onMouseDown);
+    canvas.addEventListener('mousemove', wheel._handler_onMouseMoveRefreshCursor);
   }
+
+  // Register window resize event:
+  wheel._handler_onResize = wheel.resize.bind(wheel);
+  window.addEventListener('resize', wheel._handler_onResize);
+
+}
+
+export function unregister(wheel = {}) {
+
+  const canvas = wheel.canvas;
+
+  if ('PointerEvent' in window) {
+    canvas.removeEventListener('pointerdown', wheel._handler_onPointerDown);
+    canvas.removeEventListener('pointermove', wheel._handler_onPointerMoveRefreshCursor);
+  } else {
+    canvas.removeEventListener('touchstart', wheel._handler_onTouchStart);
+    canvas.removeEventListener('mousedown', wheel._handler_onMouseDown);
+    canvas.removeEventListener('mousemove', wheel._handler_onMouseMoveRefreshCursor);
+  }
+
+  window.removeEventListener('resize', wheel._handler_onResize);
 
 }
