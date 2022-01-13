@@ -31,3 +31,28 @@ export async function loadFonts(fontNames = []) {
 
   await Promise.all(fontLoading);
 }
+
+/**
+ * Return an array of getters and setters on the instance
+ */
+export function getInstanceProperties (instance) {
+  return {
+    getters:
+      Object.entries(
+        Object.getOwnPropertyDescriptors(
+          Reflect.getPrototypeOf(instance)
+        )
+      )
+      .filter(e => typeof e[1]['get'] === 'function' && e[0] !== '__proto__')
+      .map(e => e[0]),
+
+    setters:
+      Object.entries(
+        Object.getOwnPropertyDescriptors(
+          Reflect.getPrototypeOf(instance)
+        )
+      )
+      .filter(e => typeof e[1]['set'] === 'function' && e[0] !== '__proto__')
+      .map(e => e[0]),
+  }
+}

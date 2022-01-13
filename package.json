@@ -11,6 +11,14 @@
     "build-esm": "node scripts/build.js -entryPoint=src/wheel.js -esm",
     "build-iife": "node scripts/build.js -entryPoint=src/wheel.js -iife"
   },
+  "jest": {
+    "verbose": true,
+    "silent": false,
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": [
+      "./scripts/test-setup.js"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CrazyTim/spin-wheel.git"
@@ -23,6 +31,7 @@
   },
   "devDependencies": {
     "browser-sync": "^2.27.5",
+    "canvas": "^2.8.0",
     "esbuild": "^0.13.11",
     "eslint": "^7.32.0",
     "jest": "^27.4.3"
