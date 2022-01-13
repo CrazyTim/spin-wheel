@@ -139,3 +139,7 @@ export function diffAngle(a = 0, b = 0) {
   const aWithOffset = addAngle(a, offsetFrom180);
   return 180 - aWithOffset;
 }
+
+export function isObject(v) {
+  return typeof v === 'object' && !Array.isArray(v) && v !== null;
+}

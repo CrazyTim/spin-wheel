@@ -6,6 +6,11 @@ import * as drag from './drag.js';
 export class Wheel {
 
   constructor(container, props = {}) {
+
+    // Validate params.
+    if (!(container instanceof Element)) throw 'container parameter must be an Element';
+    if (!util.isObject(props)) throw 'props parameter must be an Object';
+
     this.canvasContainer = container;
     this.initCanvas();
 

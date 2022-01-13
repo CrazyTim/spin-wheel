@@ -147,3 +147,12 @@ test ('diffAngle() works', () => {
   expect(f(180, 170)).toBe(-10);
   expect(f(180, 190)).toBe(10);
 });
+
+test ('isObject() works', () => {
+  const f = util.isObject;
+
+  expect(f({})).toBe(true);
+  expect(f(1)).toBe(false);
+  expect(f([])).toBe(false);
+  expect(f(null)).toBe(false);
+});
