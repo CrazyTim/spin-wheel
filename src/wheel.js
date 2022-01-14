@@ -33,6 +33,8 @@ export class Wheel {
    * See README.md for property descriptions.
    */
   init(props = {}) {
+    this._isInitialising = true;
+
     this.borderColor = props.borderColor;
     this.borderWidth = props.borderWidth;
     this.debug = props.debug;
@@ -167,7 +169,6 @@ export class Wheel {
 
     }
 
-    this.refreshCurrentIndex(angles);
     this.drawItemLines(ctx, angles);
     this.drawBorder(ctx);
 
@@ -226,6 +227,8 @@ export class Wheel {
     this.drawDragEvents(ctx);
 
     this.applyDrag(delta);
+
+    this._isInitialising = false;
 
     // Wait until next frame.
     this.frameRequestId = window.requestAnimationFrame(this.draw.bind(this));
@@ -577,10 +580,14 @@ export class Wheel {
 
       this._currentIndex = i;
 
-      this.onCurrentIndexChange?.({
-        event: 'CurrentIndexChange',
-        currentIndex: this._currentIndex,
-      });
+      if (!this._isInitialising) {
+        this.onCurrentIndexChange?.({
+          event: 'currentIndexChange',
+          currentIndex: this._currentIndex,
+        });
+      }
+
+      break;
 
     }
   }
@@ -846,6 +853,7 @@ export class Wheel {
       this._items = Defaults.wheel.items;
     }
     this.processItems();
+    this.refreshCurrentIndex(this.getItemAngles(this.rotation));
   }
 
   /**
@@ -905,6 +913,7 @@ export class Wheel {
     } else {
       this._rotation = Defaults.wheel.rotation;
     }
+    this.refreshCurrentIndex(this.getItemAngles(this.rotation));
   }
 
   /**
