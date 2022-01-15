@@ -24,7 +24,7 @@
 ## How to make your own wheel
 
 ```JavaScript
-// 1. Define the wheel's properties. The only required property is `items`.
+// 1. Define the wheel's properties:
 const props = {
   items: [
     {
