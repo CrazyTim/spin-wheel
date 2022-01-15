@@ -52,8 +52,10 @@ test('sumObjArray() handles truthy/falsy values', () => {
 test ('isAngleBetween() works', () => {
   const f = util.isAngleBetween;
 
-  expect(f(0, 359, 1)).toBe(true);
   expect(f(0, 1, 2)).toBe(false);
+  expect(f(0, 359, 1)).toBe(true); // angleStart and angleEnd can be either side of 0 degrees
+  expect(f(0, 0, 1)).toBe(true); // angleStart should be inclusive
+  expect(f(1, 0, 1)).toBe(false); // angleEnd should be exclusive
 });
 
 test('aveArray() works', () => {
@@ -94,6 +96,7 @@ test('aveArray() handles truthy/falsy values', () => {
 
 test('getMouseButtonsPressed() works', () => {
   const f = util.getMouseButtonsPressed;
+
   expect(f({buttons: 3})).toStrictEqual([1, 2]);
   expect(f({buttons: 12})).toStrictEqual([4, 8]);
   expect(f({buttons: 9})).toStrictEqual([1, 8]);
