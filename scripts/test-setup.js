@@ -11,6 +11,22 @@ export default {
     window.wheel = new Wheel(container);
 
     return this;
-  }
+
+  },
+
+  // Add n items:
+  addBlankItems: (numberOfItems) => {
+
+    const items = [];
+
+    for (let i = 0; i < numberOfItems; i++) {
+      items.push({});
+    }
+
+    window.wheel.items = items;
+
+    return this;
+
+  },
 
 }

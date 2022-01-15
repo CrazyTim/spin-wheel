@@ -603,6 +603,13 @@ export class Wheel {
       lastItemAngle += itemAngle;
     }
 
+    // Ensure the difference between last angle.end and first angle.start is exactly 360 degrees.
+    // Sometimes floating point arithmetic pushes the end value past 360 degrees by
+    // a very small amount, which causes issues when calculating `currentIndex`.
+    if (this.actualItems.length > 1) {
+      angles[angles.length - 1].end = angles[0].start + 360;
+    }
+
     return angles;
 
   }
