@@ -411,11 +411,14 @@ export class Wheel {
     const adjust = randomAdjustmentPercent / 2;
     this.rotationSpeed = util.getRandomInt(speed * (1 - adjust), speed * (1 + adjust));
 
+    this.dragEvents = []; // Clear old drag events.
+
     if (this.rotationSpeed !== 0) {
       this.onSpin?.({
         event: 'spin',
         direction: this.rotationDirection,
         rotationSpeed: this.rotationSpeed,
+        dragEvents: [...this.dragEvents],
       });
     }
 
@@ -1120,16 +1123,7 @@ export class Wheel {
 
     // Spin the wheel:
     if (dragDistance !== 0) {
-
-      this.rotationSpeed = dragDistance * (1000 / Constants.dragCapturePeriod);
-
-      this.onSpin?.({
-        event: 'spin',
-        rotationDirection: this.rotationDirection,
-        rotationSpeed: this.rotationSpeed,
-        dragEvents: [...this.dragEvents],
-      });
-
+      this.spin(dragDistance * (1000 / Constants.dragCapturePeriod));
     }
 
     this.refreshCursor();
