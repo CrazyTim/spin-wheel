@@ -13,6 +13,7 @@
   },
   "jest": {
     "verbose": true,
+    "injectGlobals": false,
     "silent": false,
     "testEnvironment": "jsdom",
     "setupFilesAfterEnv": [

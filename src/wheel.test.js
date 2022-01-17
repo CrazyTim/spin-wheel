@@ -1,3 +1,4 @@
+import {beforeAll, test, expect} from '@jest/globals';
 import * as util from './util.js';
 import {Defaults} from './constants.js';
 import {Wheel} from './wheel.js';
