@@ -399,12 +399,8 @@ export class Wheel {
 
     this.rotationSpeed = newSpeed;
 
-    if (this.rotationSpeed === 0) {
-      this.onRest?.({
-        event: 'rest',
-        currentIndex: this._currentIndex,
-      });
-    }
+    if (this.rotationSpeed === 0) this.raiseEvent_onRest();
+
   }
 
   /**
@@ -417,16 +413,7 @@ export class Wheel {
     const adjust = randomAdjustmentPercent / 2;
     this.rotationSpeed = util.getRandomInt(speed * (1 - adjust), speed * (1 + adjust));
 
-    this.dragEvents = []; // Clear old drag events.
-
-    if (this.rotationSpeed !== 0) {
-      this.onSpin?.({
-        event: 'spin',
-        direction: this.rotationDirection,
-        rotationSpeed: this.rotationSpeed,
-        dragEvents: [...this.dragEvents],
-      });
-    }
+    if (this.rotationSpeed !== 0) this.raiseEvent_onSpin();
 
   }
 
@@ -583,12 +570,7 @@ export class Wheel {
 
       this._currentIndex = i;
 
-      if (!this._isInitialising) {
-        this.onCurrentIndexChange?.({
-          event: 'currentIndexChange',
-          currentIndex: this._currentIndex,
-        });
-      }
+      if (!this._isInitialising) this.raiseEvent_onCurrentIndexChange();
 
       break;
 
@@ -1140,17 +1122,43 @@ export class Wheel {
 
     }
 
-    // Spin the wheel:
-    if (dragDistance !== 0) {
-      this.spin(dragDistance * (1000 / Constants.dragCapturePeriod));
-    }
-
     this.refreshCursor();
+
+    if (dragDistance === 0) return;
+
+    this.rotationSpeed = dragDistance * (1000 / Constants.dragCapturePeriod);
+
+    this.raiseEvent_onSpin({dragEvents: this.dragEvents});
 
   }
 
   isDragEventTooOld(now = 0, event = {}) {
     return (now - event.now) > Constants.dragCapturePeriod;
+  }
+
+  raiseEvent_onCurrentIndexChange(data = {}) {
+    this.onCurrentIndexChange?.({
+      event: 'currentIndexChange',
+      currentIndex: this._currentIndex,
+      ...data,
+    });
+  }
+
+  raiseEvent_onRest(data = {}) {
+    this.onRest?.({
+      event: 'rest',
+      currentIndex: this._currentIndex,
+      ...data,
+    });
+  }
+
+  raiseEvent_onSpin(data = {}) {
+    this.onSpin?.({
+      event: 'spin',
+      direction: this.rotationDirection,
+      rotationSpeed: this.rotationSpeed,
+      ...data,
+    });
   }
 
 }
