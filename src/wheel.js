@@ -329,12 +329,14 @@ export class Wheel {
   }
 
   drawBorder(ctx) {
+
     const borderWidth = (this.borderWidth / Constants.baseCanvasSize) * this.size;
     ctx.beginPath();
     ctx.strokeStyle = this.borderColor;
     ctx.lineWidth = borderWidth;
     ctx.arc(this.center.x, this.center.y, this.actualRadius - (borderWidth / 2), 0, 2 * Math.PI);
     ctx.stroke();
+
   }
 
   drawItemLines(ctx, angles = []) {
@@ -384,6 +386,7 @@ export class Wheel {
   }
 
   applyDrag (delta = 0) {
+
     if (this.rotationSpeed === 0) return;
 
     // Simulate drag:
@@ -1146,7 +1149,7 @@ export class Wheel {
 
   }
 
-  isDragEventTooOld(now, event = {}) {
+  isDragEventTooOld(now = 0, event = {}) {
     return (now - event.now) > Constants.dragCapturePeriod;
   }
 
