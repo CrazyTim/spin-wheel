@@ -59,7 +59,7 @@ export const Defaults = Object.freeze({
     backgroundColor: '#fff',
     image: null,
     imageRadius: 0.5,
-    imageSize: 1,
+    imageScale: 1,
     label: '',
     labelColor: '#000',
     weight: 1,

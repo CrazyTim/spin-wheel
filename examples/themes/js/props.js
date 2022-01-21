@@ -345,27 +345,27 @@ export default [
       {
         image: './img/example-5-item-0.svg',
         imageRadius: 0.6,
-        imageSize: 1.2,
+        imageScale: 1.2,
       },
       {
         image: './img/example-5-item-1.svg',
         imageRadius: 0.6,
-        imageSize: 1.2,
+        imageScale: 1.2,
       },
       {
         image: './img/example-5-item-2.svg',
         imageRadius: 0.6,
-        imageSize: 1.2,
+        imageScale: 1.2,
       },
       {
         image: './img/example-5-item-3.svg',
         imageRadius: 0.6,
-        imageSize: 1.2,
+        imageScale: 1.2,
       },
       {
         image: './img/example-5-item-4.svg',
         imageRadius: 0.6,
-        imageSize: 1.2,
+        imageScale: 1.2,
       },
     ]
   },

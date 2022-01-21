@@ -93,10 +93,10 @@ Name                            | Default Value     | Description
 `itemLabelColors`               | `['#000']`        | The repeating pattern of colors that will be used for each `item.labelColor`. Is overridden by `item.labelColor`. Example: `['#fff','#000']`.
 `itemLabelFont`                 | `'sans-serif'`    | The font family of each `item.labelFont`. Is overridden by `item.labelFont`. Example: `'sans-serif'`.
 `itemLabelFontSizeMax`          | `100`             | The maximum font size (in pixels) to draw each `item.label`. Scaled to a canvas size of 500px. The actual font size will be calculated automatically so that the longest label of all the items fits within `itemLabelRadiusMax` and the font size is below `itemLabelFontSizeMax`.
-`itemLabelRadius`               | `0.85`            | The point along the radius (as a percent, starting from the inside of the circle) to start drawing each `item.label`.
-`itemLabelRadiusMax`            | `0.2`             | The point along the radius (as a percent, starting from the inside of the circle) to calculate the font size of each `item.label` so that the largest label fits between it and `itemLabelRadius`.
+`itemLabelRadius`               | `0.85`            | The point along the radius (as a percent, starting from the center of the wheel) to start drawing each `item.label`.
+`itemLabelRadiusMax`            | `0.2`             | The point along the radius (as a percent, starting from the center of the wheel) to calculate the font size of each `item.label` so that the largest label fits between it and `itemLabelRadius`.
 `itemLabelRotation`             | `0`               | The rotation of each `item.label`. Use this to flip the labels `180°` when changing `itemLabelAlign`.
-`items`                         | `[]`              | The `items` to show on the wheel.
+`items`                         | `[]`              | The items to show on the wheel.
 `lineColor`                     | `'#000'`          | The color of the lines between each item.
 `lineWidth`                     | `1`               | The width (in pixels) of the lines between each item. Scaled to a canvas size of 500px.
 `radius`                        | `0.95`            | The radius of the wheel as a percent of the container's smallest dimension.
@@ -116,7 +116,10 @@ Name                            | Default Value     | Description
 Name                            | Default Value     | Description
 ------------------------------- | ----------------- | ---------------------------
 `backgroundColor`               | `null`            | The background color of the item. Example: `'#fff'`.
-`label`                         | `''`              | The text you want to show in the item.
+`image`                         | `null`            | The url of an image that will be drawn on the item.
+`imageRadius`                   | `0.5`             | The point along the radius (as a percent, starting from the center of the wheel) to draw the center of `item.image`.
+`imageScale`                    | `1`               | The scale (as a percent) to resize `item.image`.
+`label`                         | `''`              | The text that will be drawn on the item.
 `labelColor`                    | `null`            | The color of the label. Example: `'#000'`.
 `labelFont`                     | `null`            | The font of the label. Example: `'sans-serif'`.
 `weight`                        | `1`               | The proportional size of the item. For example say you have 2 items, where `item[0]` has a weight of `1` and `item[1]` has a weight of `2`. This means `item[0]` will take up 1/3 of the space on the wheel and `item[1]` will take up 2/3 of the space.

@@ -254,8 +254,8 @@ export class Wheel {
 
       ctx.rotate(util.degRad(angle));
 
-      const width = (this.size / 500) * item.image.width * item.imageSize;
-      const height = (this.size / 500) * item.image.height * item.imageSize;
+      const width = (this.size / 500) * item.image.width * item.imageScale;
+      const height = (this.size / 500) * item.image.height * item.imageScale;
       const widthHalf = -width / 2;
       const heightHalf = -height / 2;
 
@@ -513,18 +513,18 @@ export class Wheel {
         newItem.image = Defaults.item.image;
       }
 
-      // Image Size:
-      if (typeof item.imageSize === 'number') {
-        newItem.imageSize = item.imageSize;
-      } else {
-        newItem.imageSize = Defaults.item.imageSize;
-      }
-
       // Image Radius:
       if (typeof item.imageRadius === 'number') {
         newItem.imageRadius = item.imageRadius;
       } else {
         newItem.imageRadius = Defaults.item.imageRadius;
+      }
+
+      // Image Scale:
+      if (typeof item.imageScale === 'number') {
+        newItem.imageScale = item.imageScale;
+      } else {
+        newItem.imageScale = Defaults.item.imageScale;
       }
 
       this.actualItems.push(newItem);
