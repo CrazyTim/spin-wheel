@@ -53,7 +53,7 @@ export const Defaults = Object.freeze({
     onRest: null,
     onSpin: null,
     overlayImage: null,
-    pointerRotation: 0,
+    pointerAngle: 0,
   },
   item: {
     backgroundColor: '#fff',

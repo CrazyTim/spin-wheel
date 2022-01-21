@@ -68,7 +68,7 @@ export default [
   {
     name: 'Takeaway',
     radius: 0.89,
-    pointerRotation: 90,
+    pointerAngle: 90,
     itemLabelRadius: 0.92,
     itemLabelRadiusMax: 0.37,
     itemLabelRotation: 0,

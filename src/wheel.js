@@ -62,7 +62,7 @@ export class Wheel {
     this.onRest = props.onRest;
     this.onSpin = props.onSpin;
     this.overlayImage = props.overlayImage;
-    this.pointerRotation = props.pointerRotation;
+    this.pointerAngle = props.pointerAngle;
   }
 
   addCanvas() {
@@ -314,7 +314,7 @@ export class Wheel {
       this.center.y,
     );
 
-    ctx.rotate(util.degRad(this.pointerRotation + Constants.arcAdjust));
+    ctx.rotate(util.degRad(this.pointerAngle + Constants.arcAdjust));
 
     ctx.beginPath();
     ctx.moveTo(0, 0);
@@ -549,7 +549,7 @@ export class Wheel {
 
   /**
    * Get the index of the item that the Pointer is pointing at.
-   * An item is considered "current" if the `pointerRotation` is between
+   * An item is considered "current" if the `pointerAngle` is between
    * it's start angle (inclusive) and it's end angle (exclusive).
    */
   getCurrentIndex() {
@@ -564,7 +564,7 @@ export class Wheel {
 
     for (const [i, a] of angles.entries()) {
 
-      if (!util.isAngleBetween(this.pointerRotation, a.start % 360, a.end % 360)) continue;
+      if (!util.isAngleBetween(this.pointerAngle, a.start % 360, a.end % 360)) continue;
 
       if (this._currentIndex === i) break;
 
@@ -1033,14 +1033,14 @@ export class Wheel {
    * The angle of the pointer which is used to determine the "winning" item.
    * 0 is north.
    */
-  get pointerRotation () {
-    return this._pointerRotation;
+  get pointerAngle () {
+    return this._pointerAngle;
   }
-  set pointerRotation(val) {
+  set pointerAngle(val) {
     if (typeof val === 'number') {
-      this._pointerRotation = val;
+      this._pointerAngle = val;
     } else {
-      this._pointerRotation = Defaults.wheel.pointerRotation;
+      this._pointerAngle = Defaults.wheel.pointerAngle;
     }
   }
 

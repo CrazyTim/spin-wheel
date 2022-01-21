@@ -76,7 +76,7 @@ Method                                             | Description
 -------------------------------------------------- | ---------------------------
 `init(props = {})`                                 | Initialise the instance with the given properties (see Properties below). If any properties are omitted, then default values will be applied.
 `spin(speed = 0, randomAdjustmentPercent = 0.0)`   | Spin the wheel by setting `rotationSpeed` and raise the onSpin event. Optionally apply a random adjustment to the speed within a range (percent), which can make the spin less predictable.
-`getCurrentIndex()`                                | Get the index of the item that the Pointer is pointing at. An item is considered "current" if the `pointerRotation` is between it's start angle (inclusive) and it's end angle (exclusive).
+`getCurrentIndex()`                                | Get the index of the item that the Pointer is pointing at. An item is considered "current" if the `pointerAngle` is between it's start angle (inclusive) and it's end angle (exclusive).
 
 ## Properties for `Wheel`
 
@@ -109,7 +109,7 @@ Name                            | Default Value     | Description
 `onRest`                        | `null`            | The callback for the `onRest` event.
 `onSpin`                        | `null`            | The callback for the `onSpin` event.
 `overlayImage`                  | `''`              | The url of an image that will be drawn over the center of the wheel which will not rotate with the wheel. It will be scaled to fit a radius of 100%. Use this to draw decorations around the wheel, such as a stand or pointer.
-`pointerRotation`               | `0`               | The angle of the Pointer which is used to determine the `currentIndex` (or the "winning" item). 0 is north.
+`pointerAngle`                  | `0`               | The angle of the Pointer which is used to determine the `currentIndex` (or the "winning" item). 0 is north.
 
 ## Properties for items
 
@@ -133,7 +133,7 @@ Raised when a new item is pointed at. This can be used to change the color of th
 Key                         | Value
 --------------------------- | ---------------------------
 `event`                     | `'currentIndexChange'`
-`currentIndex`              | The index of the item that the Pointer was pointing at (see `pointerRotation`).
+`currentIndex`              | The index of the item that the Pointer was pointing at (see `pointerAngle`).
 
 #### `onRest(event = {})`
 
@@ -142,7 +142,7 @@ Raised when the wheel comes to a rest after spinning.
 Key                         | Value
 --------------------------- | ---------------------------
 `event`                     | `'rest'`
-`currentIndex`              | The index of the item that the Pointer was pointing at (see `pointerRotation`).
+`currentIndex`              | The index of the item that the Pointer was pointing at (see `pointerAngle`).
 
 #### `onSpin(event = {})`
 
