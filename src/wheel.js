@@ -28,9 +28,8 @@ export class Wheel {
   }
 
   /**
-   * Initialise the instance with the given properties.
-   * If any properties are omitted, then default values will be applied.
-   * See README.md for property descriptions.
+   * Initialise all properties.
+   * If a value is not provided for a property then it will be given a default value.
    */
   init(props = {}) {
     this._isInitialising = true;
@@ -404,7 +403,7 @@ export class Wheel {
   }
 
   /**
-   * Set `rotationSpeed` and raise the onSpin event.
+   * Spin the wheel by setting `rotationSpeed` and raise the `onSpin` event.
    * Optionally apply a random adjustment to the speed within a range (percent),
    * which can make the spin less predictable.
    */
@@ -549,8 +548,8 @@ export class Wheel {
 
   /**
    * Get the index of the item that the Pointer is pointing at.
-   * An item is considered "current" if the `pointerAngle` is between
-   * it's start angle (inclusive) and it's end angle (exclusive).
+   * An item is considered "current" if `pointerAngle` is between it's start angle (inclusive)
+   * and it's end angle (exclusive).
    */
   getCurrentIndex() {
     return this._currentIndex;
@@ -622,7 +621,6 @@ export class Wheel {
 
   /**
    * The width (in pixels) of the line around the circumference of the wheel.
-   * Scaled to a canvas size of 500px.
    */
   get borderWidth () {
     return this._borderWidth;
@@ -651,8 +649,8 @@ export class Wheel {
   }
 
   /**
-   * The url of an image that will be drawn over the centre of the wheel which will rotate with the wheel.
-   * It will be scaled to fit `radius`.
+   * The url of an image that will be drawn over the center of the wheel which will rotate with the wheel.
+   * It will be automatically scaled to fit `radius`.
    */
   get image () {
     return this._image;
@@ -681,8 +679,8 @@ export class Wheel {
   }
 
   /**
-   * The repeating pattern of colors that will be used for each item's `backgroundColor`.
-   * Is overridden by `item.backgroundColor`.
+   * The repeating pattern of background colors for all items.
+   * Overridden by `Item.backgroundColor`.
    * Example: `['#fff','#000']`.
    */
   get itemBackgroundColors () {
@@ -698,10 +696,9 @@ export class Wheel {
   }
 
   /**
-   * The alignment of each `item.label`.
-   * Is overridden by `item.labelColor`.
-   * Accepted vlaues: `'left'`|`'center'`|`'right'`.
-   * If you change this to `'left'`, you will also need to set `itemLabelRotation` to `180°`.
+   * The alignment of all item labels.
+   * Accepted values: `'left'`|`'center'`|`'right'`.
+   * You may need to set `itemLabelRotation` in combination with this.
    */
   get itemLabelAlign () {
     return this._itemLabelAlign;
@@ -715,7 +712,7 @@ export class Wheel {
   }
 
   /**
-   * Offset the baseline (or line height) of each `item.label` as a percentage of the label's height.
+   * The offset of the baseline (or line height) of all item labels (as a percent of the label's height).
    */
   get itemLabelBaselineOffset () {
     return this._itemLabelBaselineOffset;
@@ -730,8 +727,8 @@ export class Wheel {
   }
 
   /**
-   * The repeating pattern of colors that will be used for each item's `labelColor`.
-   * Is overridden by `item.labelColor`.
+   * The repeating pattern of colors for all item labels.
+   * Overridden by `Item.labelColor`.
    * Example: `['#fff','#000']`.
    */
   get itemLabelColors () {
@@ -747,8 +744,8 @@ export class Wheel {
   }
 
   /**
-   * The font family of each `item.labelFont`.
-   * Is overridden by `item.labelFont`.
+   * The font family for all item labels.
+   * Overridden by `Item.labelFont`.
    * Example: `'sans-serif'`.
    */
   get itemLabelFont () {
@@ -764,10 +761,7 @@ export class Wheel {
   }
 
   /**
-   * The maximum font size (in pixels) to draw each `item.label`.
-   * Scaled to a canvas size of 500px.
-   * The actual font size will be calculated automatically so that the longest label of all
-   * the items fits within `itemLabelRadiusMax` and the font size is below `itemLabelFontSizeMax`.
+   * The maximum font size (in pixels) for all item labels.
    */
   get itemLabelFontSizeMax () {
     return this._itemLabelFontSizeMax;
@@ -781,8 +775,8 @@ export class Wheel {
   }
 
   /**
-   * The point along the radius (as a percent, starting from the inside of the circle) to
-   * start drawing each `item.label`.
+   * The point along the radius (as a percent, starting from the center of the wheel)
+   * to start drawing all item labels.
    */
   get itemLabelRadius () {
     return this._itemLabelRadius;
@@ -796,8 +790,8 @@ export class Wheel {
   }
 
   /**
-   * The point along the radius (as a percent, starting from the inside of the circle) to
-   * resize each `item.label` (to fit) if it is too wide.
+   * The point along the radius (as a percent, starting from the center of the wheel)
+   * to calculate the maximum font size for all item labels.
    */
   get itemLabelRadiusMax () {
     return this._itemLabelRadiusMax;
@@ -811,8 +805,8 @@ export class Wheel {
   }
 
   /**
-   * The rotation of each `item.label`.
-   * Use this to flip the labels `180°` when changing `itemLabelAlign`.
+   * The rotation of all item labels.
+   * Use this to flip the labels `180°` in combination with `itemLabelAlign`.
    */
   get itemLabelRotation () {
     return this._itemLabelRotation;
@@ -826,7 +820,7 @@ export class Wheel {
   }
 
   /**
-   * The `items` to show on the wheel.
+   * The items to show on the wheel.
    */
   get items () {
     return this._items;
@@ -842,7 +836,7 @@ export class Wheel {
   }
 
   /**
-   * The color of the lines between each item.
+   * The color of the lines between the items.
    */
   get lineColor () {
     return this._lineColor;
@@ -856,8 +850,7 @@ export class Wheel {
   }
 
   /**
-   * The width (in pixles) of the lines between each item.
-   * Scaled to a canvas size of 500px.
+   * The width (in pixels) of the lines between the items.
    */
   get lineWidth () {
     return this._lineWidth;
@@ -871,7 +864,7 @@ export class Wheel {
   }
 
   /**
-   * The radius of the wheel as a percent of the container's smallest dimension.
+   * The radius of the wheel (as a percent of the container's smallest dimension).
    */
   get radius () {
     return this._radius;
@@ -887,7 +880,8 @@ export class Wheel {
 
   /**
    * The rotation (angle in degrees) of the wheel.
-   * 0 is north. `item[0]` will be drawn clockwise from this point.
+   * `0` is north.
+   * The first item will be drawn clockwise from this point.
    */
   get rotation () {
     return this._rotation;
@@ -918,7 +912,7 @@ export class Wheel {
   /**
    * How far (angle in degrees) the wheel should spin every 1 second.
    * Any number other than 0 will spin the wheel.
-   * Pass a positive number to spin clockwise, or a negative number to spin antiClockwise.
+   * A positive number will spin clockwise, a negative number will spin antiClockwise.
    */
   get rotationSpeed () {
     return this._rotationSpeed;
@@ -941,7 +935,7 @@ export class Wheel {
 
   /**
    * The maximum value for `rotationSpeed`.
-   * The wheel will not spin faster than this.
+   * The wheel will not spin faster than this value.
    */
   get rotationSpeedMax () {
     return this._rotationSpeedMax;
@@ -955,8 +949,7 @@ export class Wheel {
   }
 
   /**
-   * The offset of the wheel relative to it's centre as a percent of the wheels diameter, where `1` = 100%.
-   * This allows for simple positioning considering the wheel is always centred anyway.
+   * The offset of the wheel relative to it's center (as a percent of the wheel's diameter).
    */
   get offset () {
     return this._offset;
@@ -1013,8 +1006,8 @@ export class Wheel {
   }
 
   /**
-   * The url of an image that will be drawn over the centre of the wheel which will not rotate with the wheel.
-   * It will be scaled to fit a radius of 100%.
+   * The url of an image that will be drawn over the center of the wheel which will not rotate with the wheel.
+   * It will be automatically scaled to fit the container's smallest dimension.
    * Use this to draw decorations around the wheel, such as a stand or pointer.
    */
   get overlayImage () {
@@ -1030,8 +1023,7 @@ export class Wheel {
   }
 
   /**
-   * The angle of the pointer which is used to determine the "winning" item.
-   * 0 is north.
+   * The angle of the Pointer which is used to determine the `currentIndex` (or the "winning" item).
    */
   get pointerAngle () {
     return this._pointerAngle;

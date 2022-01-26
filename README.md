@@ -54,15 +54,15 @@ const wheel = new Wheel(container, props);
 
 ## Configuration
 
-Some numeric properties need to be specified using relative values because the wheel is responsive and resizes automatically to fit inside it's container. In some cases we need to specify a value that is a percent of the canvas size, and other times we specify pixels that will be scaled to a canvas size of `500px`. This makes it much faster to make a wheel because if the size of the container changes you don't have to worry about updating fiddly things like widths and positions.
+Everything is easy to configure. The wheel is responsive and resizes automatically to fit it's container, so when the size of the container changes you don't have to worry about updating fiddly things like widths and font sizes. For that reason, some numeric properties need to be expressed as percentages, while others are expressed as scaled pixels.
 
-For example, `wheel.radius` is expressed as a percent of the size of the canvas. So `0.9` means the wheel will fill 90% of the canvas. 
+* **Percentages**: For example, `Wheel.radius` is expressed as a percent of the size of the canvas, so `0.9` means the wheel will fill `90%` of the canvas. 
 
-Another example is `LineWidth`, which is expressed in pixels and scaled to a canvas size of `500px`. Meaning a line width of `10` will be exactly 10px when the canvas size is 500px.
+* **Pixels**: All pixel values are scaled to a canvas size of `500px`. For example, `Wheel.LineWidth` is expressed in pixels, so a line width of `1` will be exactly `1px` when the canvas size is `500px`.
 
-Labels are easy to configure because the font size is calculated automatically. You can optionally set `itemLabelFontSizeMax` (scaled to a canvas size of `500px`), but otherwise the font size of all the labels will be based on the largest label resized to fit between `itemLabelRadius` and  `itemLabelRadiusMax`.
+Labels are simple to configure because the font size is also calculated automatically. You can optionally set `Wheel.itemLabelFontSizeMax` (in pixels), but otherwise the largest item label will be sized to fit between `Wheel.itemLabelRadius` (percent) and  `Wheel.itemLabelRadiusMax` (percent).
 
-For example configurations see [./examples/themes/js/props.js](https://github.com/CrazyTim/spin-wheel/blob/master/examples/themes/js/props.js).
+Here's a handy diagram:
 
 <div>
   <img alt="diagram of props" src="https://crazytim.github.io/spin-wheel/props-diagram.svg" width="615px" />
@@ -70,89 +70,91 @@ For example configurations see [./examples/themes/js/props.js](https://github.co
   <br>
 </div>
 
+For example configurations see [./examples/themes/js/props.js](https://github.com/CrazyTim/spin-wheel/blob/master/examples/themes/js/props.js).
+
 ## Methods for `Wheel`
 
 Method                                             | Description
 -------------------------------------------------- | ---------------------------
-`init(props = {})`                                 | Initialise the instance with the given properties (see Properties below). If any properties are omitted, then default values will be applied.
-`spin(speed = 0, randomAdjustmentPercent = 0.0)`   | Spin the wheel by setting `rotationSpeed` and raise the onSpin event. Optionally apply a random adjustment to the speed within a range (percent), which can make the spin less predictable.
-`getCurrentIndex()`                                | Get the index of the item that the Pointer is pointing at. An item is considered "current" if the `pointerAngle` is between it's start angle (inclusive) and it's end angle (exclusive).
+`init(props = {})`                                 | Initialise all properties.<br>If a value is not provided for a property then it will be given a default value.
+`spin(speed = 0, randomAdjustmentPercent = 0.0)`   | Spin the wheel by setting `rotationSpeed` and raise the `onSpin` event.<br>Optionally apply a random adjustment to the speed within a range (percent), which can make the spin less predictable.
+`getCurrentIndex()`                                | Get the index of the item that the Pointer is pointing at.<br>An item is considered "current" if `pointerAngle` is between it's start angle (inclusive) and it's end angle (exclusive).
 
 ## Properties for `Wheel`
 
 Name                            | Default Value     | Description
 ------------------------------- | ------------------| ---------------------------
 `borderColor`                   | `#000`            | The color of the line around the circumference of the wheel.
-`borderWidth`                   | `0`               | The width (in pixels) of the line around the circumference of the wheel. Scaled to a canvas size of 500px.
-`debug`                         | `false`           | Show debugging info. This is particularly helpful when fine-tuning labels.
-`image`                         | `''`              | The url of an image that will be drawn over the center of the wheel which will rotate with the wheel. It will be scaled to fit `radius`.
+`borderWidth`                   | `0`               | The width (in pixels) of the line around the circumference of the wheel.
+`debug`                         | `false`           | Show debugging info.<br>This is particularly helpful when fine-tuning labels.
+`image`                         | `''`              | The url of an image that will be drawn over the center of the wheel which will rotate with the wheel.<br>It will be automatically scaled to fit `radius`.
 `isInteractive`                 | `true`            | Allow the user to spin the wheel using click-drag/touch-flick.
-`itemBackgroundColors`          | `['#fff']`        | The repeating pattern of colors that will be used for each `item.backgroundColor`. Is overridden by `item.backgroundColor`. Example: `['#fff','#000']`.
-`itemLabelAlign`                | `'right'`         | The alignment of each `item.label`. Is overridden by `item.labelColor`. Accepted vlaues: `'left'`|`'center'`|`'right'`. If you change this to `'left'`, you will also need to set `itemLabelRotation` to `180°`.
-`itemLabelBaselineOffset`       | `0`               | The offset of the baseline (or line height) of each `item.label` as a percentage of the label's height.
-`itemLabelColors`               | `['#000']`        | The repeating pattern of colors that will be used for each `item.labelColor`. Is overridden by `item.labelColor`. Example: `['#fff','#000']`.
-`itemLabelFont`                 | `'sans-serif'`    | The font family of each `item.labelFont`. Is overridden by `item.labelFont`. Example: `'sans-serif'`.
-`itemLabelFontSizeMax`          | `100`             | The maximum font size (in pixels) to draw each `item.label`. Scaled to a canvas size of 500px. The actual font size will be calculated automatically so that the longest label of all the items fits within `itemLabelRadiusMax` and the font size is below `itemLabelFontSizeMax`.
-`itemLabelRadius`               | `0.85`            | The point along the radius (as a percent, starting from the center of the wheel) to start drawing each `item.label`.
-`itemLabelRadiusMax`            | `0.2`             | The point along the radius (as a percent, starting from the center of the wheel) to calculate the font size of each `item.label` so that the largest label fits between it and `itemLabelRadius`.
-`itemLabelRotation`             | `0`               | The rotation of each `item.label`. Use this to flip the labels `180°` when changing `itemLabelAlign`.
+`itemBackgroundColors`          | `['#fff']`        | The repeating pattern of background colors for all items.<br>Overridden by `Item.backgroundColor`.<br>Example: `['#fff','#000']`.
+`itemLabelAlign`                | `'right'`         | The alignment of all item labels.<br>Accepted values: `'left'`|`'center'`|`'right'`.<br>You may need to set `itemLabelRotation` in combination with this.
+`itemLabelBaselineOffset`       | `0`               | The offset of the baseline (or line height) of all item labels (as a percent of the label's height).
+`itemLabelColors`               | `['#000']`        | The repeating pattern of colors for all item labels.<br>Overridden by `Item.labelColor`.<br>Example: `['#fff','#000']`.
+`itemLabelFont`                 | `'sans-serif'`    | The font family for all item labels.<br>Overridden by `Item.labelFont`.<br>Example: `'sans-serif'`.
+`itemLabelFontSizeMax`          | `100`             | The maximum font size (in pixels) for all item labels.
+`itemLabelRadius`               | `0.85`            | The point along the radius (as a percent, starting from the center of the wheel) to start drawing all item labels.
+`itemLabelRadiusMax`            | `0.2`             | The point along the radius (as a percent, starting from the center of the wheel) to calculate the maximum font size for all item labels.
+`itemLabelRotation`             | `0`               | The rotation of all item labels.<b>Use this to flip the labels `180°` in combination with `itemLabelAlign`.
 `items`                         | `[]`              | The items to show on the wheel.
-`lineColor`                     | `'#000'`          | The color of the lines between each item.
-`lineWidth`                     | `1`               | The width (in pixels) of the lines between each item. Scaled to a canvas size of 500px.
-`radius`                        | `0.95`            | The radius of the wheel as a percent of the container's smallest dimension.
-`rotation`                      | `0`               | The rotation (angle in degrees) of the wheel. `0` is north. `item[0]` will be drawn clockwise from this point.
+`lineColor`                     | `'#000'`          | The color of the lines between the items.
+`lineWidth`                     | `1`               | The width (in pixels) of the lines between the items.
+`radius`                        | `0.95`            | The radius of the wheel (as a percent of the container's smallest dimension).
+`rotation`                      | `0`               | The rotation (angle in degrees) of the wheel.<br>The first item will be drawn clockwise from this point.
 `rotationResistance`            | `-35`             | How much to reduce `rotationSpeed` by every second.
-`rotationSpeed`                 | `0`               | How far (angle in degrees) the wheel should spin every 1 second. Any number other than 0 will spin the wheel. Pass a positive number to spin clockwise, or a negative number to spin antiClockwise.
-`rotationSpeedMax`              | `250`             | The maximum value for `rotationSpeed`. The wheel will not spin faster than this value.
-`offset`                        | `{w: 0, h: 0}`    | The offset of the wheel relative to it's center as a percent of the wheels diameter, where `1` = 100%. This allows for simple positioning considering the wheel is always centered anyway.
+`rotationSpeed`                 | `0`               | How far (angle in degrees) the wheel should spin every 1 second.<br>Any number other than 0 will spin the wheel.<br>A positive number will spin clockwise, a negative number will spin antiClockwise.
+`rotationSpeedMax`              | `250`             | The maximum value for `rotationSpeed`.<br>The wheel will not spin faster than this value.
+`offset`                        | `{w: 0, h: 0}`    | The offset of the wheel relative to it's center (as a percent of the wheel's diameter).
 `onCurrentIndexChange`          | `null`            | The callback for the `onCurrentIndexChange` event.
 `onRest`                        | `null`            | The callback for the `onRest` event.
 `onSpin`                        | `null`            | The callback for the `onSpin` event.
-`overlayImage`                  | `''`              | The url of an image that will be drawn over the center of the wheel which will not rotate with the wheel. It will be scaled to fit a radius of 100%. Use this to draw decorations around the wheel, such as a stand or pointer.
-`pointerAngle`                  | `0`               | The angle of the Pointer which is used to determine the `currentIndex` (or the "winning" item). 0 is north.
+`overlayImage`                  | `''`              | The url of an image that will be drawn over the center of the wheel which will not rotate with the wheel.<br>It will be automatically scaled to fit the container's smallest dimension.<br>Use this to draw decorations around the wheel, such as a stand or pointer.
+`pointerAngle`                  | `0`               | The angle of the Pointer which is used to determine the `currentIndex` (or the "winning" item).
 
-## Properties for items
+## Properties for `Item`
 
 Name                            | Default Value     | Description
 ------------------------------- | ----------------- | ---------------------------
-`backgroundColor`               | `null`            | The background color of the item. Example: `'#fff'`.
+`backgroundColor`               | `null`            | The background color of the item.<br>Example: `'#fff'`.
 `image`                         | `null`            | The url of an image that will be drawn on the item.
-`imageRadius`                   | `0.5`             | The point along the radius (as a percent, starting from the center of the wheel) to draw the center of `item.image`.
-`imageScale`                    | `1`               | The scale (as a percent) to resize `item.image`.
+`imageRadius`                   | `0.5`             | The point along the radius (as a percent, starting from the center of the wheel) to draw the center of `Item.image`.
+`imageScale`                    | `1`               | The scale (as a percent) to resize `Item.image`.
 `label`                         | `''`              | The text that will be drawn on the item.
-`labelColor`                    | `null`            | The color of the label. Example: `'#000'`.
-`labelFont`                     | `null`            | The font of the label. Example: `'sans-serif'`.
-`weight`                        | `1`               | The proportional size of the item. For example say you have 2 items, where `item[0]` has a weight of `1` and `item[1]` has a weight of `2`. This means `item[0]` will take up 1/3 of the space on the wheel and `item[1]` will take up 2/3 of the space.
+`labelColor`                    | `null`            | The color of the label.<br>Example: `'#000'`.
+`labelFont`                     | `null`            | The font of the label.<br>Example: `'sans-serif'`.
+`weight`                        | `1`               | The proportional size of the item relative to other items on the wheel.<br>For example, if you have 2 items where `item[0]` has a weight of `1` and `item[1]` has a weight of `2`, then `item[0]` will take up 1/3 of the space on the wheel.
 
 ## Events for `Wheel`
 
-#### `onCurrentIndexChange(event = {})`
+### `onCurrentIndexChange(event = {})`
 
 Raised when a new item is pointed at. This can be used to change the color of the current item, or play a 'ticking' sound. 
 
 Key                         | Value
 --------------------------- | ---------------------------
 `event`                     | `'currentIndexChange'`
-`currentIndex`              | The index of the item that the Pointer was pointing at (see `pointerAngle`).
+`currentIndex`              | The index of the item that the Pointer was pointing at.<br>See `Wheel.pointerAngle`.
 
-#### `onRest(event = {})`
+### `onRest(event = {})`
 
 Raised when the wheel comes to a rest after spinning. 
 
 Key                         | Value
 --------------------------- | ---------------------------
 `event`                     | `'rest'`
-`currentIndex`              | The index of the item that the Pointer was pointing at (see `pointerAngle`).
+`currentIndex`              | The index of the item that the Pointer was pointing at.<br>See `Wheel.pointerAngle`.
 
-#### `onSpin(event = {})`
+### `onSpin(event = {})`
 
-Raised when the wheel has been spun by the user (via click-drag/touch-flick), or after calling `spin()`.
+Raised when the wheel has been spun by the user (via click-drag/touch-flick), or after calling `Wheel.spin()`.
 
 Key                         | Value
 --------------------------- | --------------------------- 
 `event`                     | `'spin'`
-`rotationSpeed`             | The rotation speed of the wheel.
-`dragEvents`                | Array of drag events that occurred during the drag that was used to determine the outcome of the spin event.
+`rotationSpeed`             | The rotation speed of the wheel.<br>See `Wheel.rotationSpeed`.
+`dragEvents`                | An array of events that occurred during the interactive spin that was used to raise `onSpin`.<br>If the spin was not interactive then this will be an empty array.
 
 ## Acknowledgements
 
