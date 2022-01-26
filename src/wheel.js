@@ -1155,7 +1155,6 @@ export class Wheel {
   raiseEvent_onSpin(data = {}) {
     this.onSpin?.({
       event: 'spin',
-      direction: this.rotationDirection,
       rotationSpeed: this.rotationSpeed,
       ...data,
     });
