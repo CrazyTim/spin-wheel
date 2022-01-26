@@ -113,19 +113,6 @@ Name                            | Default Value     | Description
 `overlayImage`                  | `''`              | The url of an image that will be drawn over the center of the wheel which will not rotate with the wheel.<br>It will be automatically scaled to fit the container's smallest dimension.<br>Use this to draw decorations around the wheel, such as a stand or pointer.
 `pointerAngle`                  | `0`               | The angle of the Pointer which is used to determine the `currentIndex` (or the "winning" item).
 
-## Properties for `Item`
-
-Name                            | Default Value     | Description
-------------------------------- | ----------------- | ---------------------------
-`backgroundColor`               | `null`            | The background color of the item.<br>Example: `'#fff'`.
-`image`                         | `null`            | The url of an image that will be drawn on the item.
-`imageRadius`                   | `0.5`             | The point along the radius (as a percent, starting from the center of the wheel) to draw the center of `Item.image`.
-`imageScale`                    | `1`               | The scale (as a percent) to resize `Item.image`.
-`label`                         | `''`              | The text that will be drawn on the item.
-`labelColor`                    | `null`            | The color of the label.<br>Example: `'#000'`.
-`labelFont`                     | `null`            | The font of the label.<br>Example: `'sans-serif'`.
-`weight`                        | `1`               | The proportional size of the item relative to other items on the wheel.<br>For example, if you have 2 items where `item[0]` has a weight of `1` and `item[1]` has a weight of `2`, then `item[0]` will take up 1/3 of the space on the wheel.
-
 ## Events for `Wheel`
 
 ### `onCurrentIndexChange(event = {})`
@@ -155,6 +142,19 @@ Key                         | Value
 `event`                     | `'spin'`
 `rotationSpeed`             | The rotation speed of the wheel.<br>See `Wheel.rotationSpeed`.
 `dragEvents`                | An array of events that occurred during the interactive spin that was used to raise `onSpin`.<br>If the spin was not interactive then this will be an empty array.
+
+## Properties for `Item`
+
+Name                            | Default Value     | Description
+------------------------------- | ----------------- | ---------------------------
+`backgroundColor`               | `null`            | The background color of the item.<br>Example: `'#fff'`.
+`image`                         | `null`            | The url of an image that will be drawn on the item.
+`imageRadius`                   | `0.5`             | The point along the radius (as a percent, starting from the center of the wheel) to draw the center of `Item.image`.
+`imageScale`                    | `1`               | The scale (as a percent) to resize `Item.image`.
+`label`                         | `''`              | The text that will be drawn on the item.
+`labelColor`                    | `null`            | The color of the label.<br>Example: `'#000'`.
+`labelFont`                     | `null`            | The font of the label.<br>Example: `'sans-serif'`.
+`weight`                        | `1`               | The proportional size of the item relative to other items on the wheel.<br>For example, if you have 2 items where `item[0]` has a weight of `1` and `item[1]` has a weight of `2`, then `item[0]` will take up 1/3 of the space on the wheel.
 
 ## Acknowledgements
 
