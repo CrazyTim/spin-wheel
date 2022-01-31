@@ -168,6 +168,7 @@ export class Wheel {
 
     }
 
+    this.drawItemImages(ctx, angles);
     this.drawItemLines(ctx, angles);
     this.drawBorder(ctx);
 
@@ -219,7 +220,6 @@ export class Wheel {
 
     }
 
-    this.drawItemImages(ctx, angles);
     this.drawImage(ctx, this.image, false);
     this.drawImage(ctx, this.overlayImage, true);
     this.drawPointerLine(ctx);
