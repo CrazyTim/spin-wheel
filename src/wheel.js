@@ -147,7 +147,7 @@ export class Wheel {
 
     const angles = this.getItemAngles(this.rotation);
 
-    const borderWidth = (this.borderWidth / Constants.baseCanvasSize) * this.size;
+    const borderWidth = this.getActualBorderWidth();
 
     // Draw wedges:
     for (const [i, a] of angles.entries()) {
@@ -329,7 +329,7 @@ export class Wheel {
 
   drawBorder(ctx) {
 
-    const borderWidth = (this.borderWidth / Constants.baseCanvasSize) * this.size;
+    const borderWidth = this.getActualBorderWidth();
     ctx.beginPath();
     ctx.strokeStyle = this.borderColor;
     ctx.lineWidth = borderWidth;
@@ -421,6 +421,13 @@ export class Wheel {
    */
   getRotationDirection(speed = 0) {
      return (speed > 0) ? 1 : -1;
+  }
+
+  /**
+   * Return the scaled border size.
+   */
+  getActualBorderWidth() {
+     return (this.borderWidth / Constants.baseCanvasSize) * this.size;
   }
 
   /**
