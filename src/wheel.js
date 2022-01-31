@@ -149,22 +149,30 @@ export class Wheel {
 
     const borderWidth = this.getActualBorderWidth();
 
-    // Draw wedges:
+    // Build paths:
     for (const [i, a] of angles.entries()) {
 
-      ctx.beginPath();
-      ctx.moveTo(this.center.x, this.center.y);
-      ctx.arc(
+      const path = new Path2D();
+      path.moveTo(this.center.x, this.center.y);
+      path.arc(
         this.center.x,
         this.center.y,
         this.actualRadius - (borderWidth / 2),
         util.degRad(a.start + Constants.arcAdjust),
         util.degRad(a.end + Constants.arcAdjust)
       );
-      ctx.closePath();
 
-      ctx.fillStyle = this.actualItems[i].backgroundColor;
-      ctx.fill();
+      this.actualItems[i].path = path;
+
+    }
+
+    // Draw item backgrounds:
+    for (const [i, a] of angles.entries()) {
+
+      const item = this.actualItems[i];
+
+      ctx.fillStyle = item.backgroundColor;
+      ctx.fill(item.path);
 
     }
 
@@ -188,6 +196,8 @@ export class Wheel {
       if (!item.label) continue;
 
       ctx.save();
+
+      ctx.clip(item.path);
 
       const angle = a.start + ((a.end - a.start) / 2);
 
@@ -243,6 +253,8 @@ export class Wheel {
       if (!item.image || !item.image.complete || item.image.error) continue;
 
       ctx.save();
+
+      ctx.clip(item.path);
 
       const angle = a.start + ((a.end - a.start) / 2);
 

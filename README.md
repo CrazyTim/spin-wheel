@@ -148,7 +148,7 @@ Key                         | Value
 Name                            | Default Value     | Description
 ------------------------------- | ----------------- | ---------------------------
 `backgroundColor`               | `null`            | The background color of the item.<br>Example: `'#fff'`.
-`image`                         | `null`            | The url of an image that will be drawn on the item.
+`image`                         | `null`            | The url of an image that will be drawn on the item. The image will be clipped.
 `imageRadius`                   | `0.5`             | The point along the radius (as a percent, starting from the center of the wheel) to draw the center of `Item.image`.
 `imageScale`                    | `1`               | The scale (as a percent) to resize `Item.image`.
 `label`                         | `''`              | The text that will be drawn on the item.
