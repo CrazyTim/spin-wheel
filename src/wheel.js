@@ -79,7 +79,7 @@ export class Wheel {
   }
 
   /**
-   * Resize the wheel to fit (contain) inside it's container.
+   * Resize the wheel to fit inside it's container.
    * Call this after changing any property of the wheel that relates to it's size or position.
    */
   resize() {
@@ -132,7 +132,8 @@ export class Wheel {
 
     const ctx = this.context;
 
-    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clear canvas.
+    // Clear canvas.
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     // Calculate delta since last frame:
     if (this.lastFrame === undefined) {
@@ -1075,9 +1076,6 @@ export class Wheel {
 
   }
 
-  /**
-   * Animate the wheel to follow the pointer while dragging.
-   */
   dragMove(point = {x:0, y:0}) {
 
     const p = util.translateXYToElement(point, this.canvas);
@@ -1097,7 +1095,8 @@ export class Wheel {
     // Retain max 40 events when debugging.
     if (this.debug && this.dragEvents.length >= 40) this.dragEvents.pop();
 
-    this.rotation = util.addAngle(a, this.dragStartRotation); // Snap the wheel to the new rotation.
+    // Snap the wheel to the new rotation.
+    this.rotation = util.addAngle(a, this.dragStartRotation);
 
   }
 
