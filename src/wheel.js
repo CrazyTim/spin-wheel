@@ -7,6 +7,8 @@ export class Wheel {
 
   constructor(container, props = {}) {
 
+    this.frameRequestId = null; // Init.
+
     // Validate params.
     if (!(container instanceof Element)) throw 'container parameter must be an Element';
     if (!util.isObject(props)) throw 'props parameter must be an Object';
@@ -84,9 +86,6 @@ export class Wheel {
    */
   resize() {
 
-    // Reset the animation loop:
-    window.cancelAnimationFrame(this.frameRequestId); // Cancel previous animation loop.
-
     // Get the smallest dimension of `canvasContainer`:
     const [w, h] = [this.canvasContainer.clientWidth, this.canvasContainer.clientHeight];
 
@@ -121,7 +120,7 @@ export class Wheel {
       this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(item.label, this.itemLabelFont, this.labelMaxWidth, this.context));
     }
 
-    this.frameRequestId = window.requestAnimationFrame(this.draw.bind(this));
+    this.refresh();
 
   }
 
@@ -130,21 +129,14 @@ export class Wheel {
    */
   draw(now = 0) {
 
+    this.frameRequestId = null;
+
     const ctx = this.context;
 
     // Clear canvas.
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // Calculate delta since last frame:
-    if (this.lastFrame === undefined) {
-      this.lastFrame = now;
-    }
-    const delta = (now - this.lastFrame) / 1000;
-    if (delta > 0) {
-      this.rotation += delta * this.rotationSpeed;
-      this.rotation = this.rotation % 360;
-    }
-    this.lastFrame = now;
+    this.animateRotation(now);
 
     const angles = this.getItemAngles(this.rotation);
 
@@ -236,12 +228,7 @@ export class Wheel {
     this.drawPointerLine(ctx);
     this.drawDragEvents(ctx);
 
-    this.applyDrag(delta);
-
     this._isInitialising = false;
-
-    // Wait until next frame.
-    this.frameRequestId = window.requestAnimationFrame(this.draw.bind(this));
 
   }
 
@@ -397,21 +384,45 @@ export class Wheel {
 
   }
 
-  applyDrag (delta = 0) {
+  animateRotation (now = 0) {
 
-    if (this.rotationSpeed === 0) return;
+    if (this.rotationSpeed !== 0) {
 
-    // Simulate drag:
-    let newSpeed = this.rotationSpeed + (this.rotationResistance * delta) * this._rotationDirection;
+      this.refresh(); // Ensure the animation loop is active while rotating.
 
-    // Prevent wheel from rotating in the oposite direction:
-    if (this._rotationDirection === 1 && newSpeed < 0 || this._rotationDirection === -1 && newSpeed >= 0) {
-      newSpeed = 0;
+      if (this.lastRotationFrame === undefined) this.lastRotationFrame = now;
+
+      const delta = now - this.lastRotationFrame;
+
+      if (delta > 0) {
+
+        this.rotation += ((delta / 1000) * this.rotationSpeed) % 360;
+        this.rotationSpeed = this.getRotationSpeedPlusDrag(delta);
+        if (this.rotationSpeed === 0) this.raiseEvent_onRest();
+        this.lastRotationFrame = now;
+
+      }
+
+      return;
+
     }
 
-    this.rotationSpeed = newSpeed;
+    this.lastRotationFrame = undefined;
 
-    if (this.rotationSpeed === 0) this.raiseEvent_onRest();
+  }
+
+  getRotationSpeedPlusDrag (delta = 0) {
+
+    // Simulate drag:
+    const newRotationSpeed = this.rotationSpeed + (this.rotationResistance * (delta / 1000)) * this._rotationDirection;
+
+    // Stop rotation once speed reaches 0.
+    // Otherwise the wheel could rotate in the opposite direction next frame.
+    if ((this._rotationDirection === 1 && newRotationSpeed < 0) || (this._rotationDirection === -1 && newRotationSpeed >= 0)) {
+      return 0;
+    }
+
+    return newRotationSpeed;
 
   }
 
@@ -517,6 +528,7 @@ export class Wheel {
       if (typeof item.image === 'string') {
         newItem.image = new Image();
         newItem.image.src = item.image;
+        newItem.image.onload = e => this.refresh();
         newItem.image.onerror = e => {
           newItem.image.error = true;
           return true; // Don't fire default event handler.
@@ -619,6 +631,16 @@ export class Wheel {
   }
 
   /**
+   * Schedule a redraw of the wheel on the canvas.
+   * Call this after changing any property of the wheel that relates to it's appearance.
+   */
+  refresh() {
+    if (this.frameRequestId === null) {
+      this.frameRequestId = window.requestAnimationFrame(this.draw.bind(this));
+    }
+  }
+
+  /**
    * The color of the line around the circumference of the wheel.
    */
   get borderColor () {
@@ -630,6 +652,7 @@ export class Wheel {
     } else {
       this._borderColor = Defaults.wheel.borderColor;
     }
+    this.refresh();
   }
 
   /**
@@ -644,6 +667,7 @@ export class Wheel {
     } else {
       this._borderWidth = Defaults.wheel.borderWidth;
     }
+    this.refresh();
   }
 
   /**
@@ -659,6 +683,7 @@ export class Wheel {
     } else {
       this._debug = Defaults.wheel.debug;
     }
+    this.refresh();
   }
 
   /**
@@ -672,9 +697,11 @@ export class Wheel {
     if (typeof val === 'string') {
       this._image = new Image();
       this._image.src = val;
+      this._image.onload = e => this.refresh();
     } else {
       this._image = Defaults.wheel.image;
     }
+    this.refresh();
   }
 
   /**
@@ -689,6 +716,7 @@ export class Wheel {
     } else {
       this._isInteractive = Defaults.wheel.isInteractive;
     }
+    this.refresh();
   }
 
   /**
@@ -722,6 +750,7 @@ export class Wheel {
     } else {
       this._itemLabelAlign = Defaults.wheel.itemLabelAlign;
     }
+    this.refresh();
   }
 
   /**
@@ -785,6 +814,7 @@ export class Wheel {
     } else {
       this._itemLabelFontSizeMax = Defaults.wheel.itemLabelFontSizeMax;
     }
+    this.refresh();
   }
 
   /**
@@ -800,6 +830,7 @@ export class Wheel {
     } else {
       this._itemLabelRadius = Defaults.wheel.itemLabelRadius;
     }
+    this.refresh();
   }
 
   /**
@@ -815,6 +846,7 @@ export class Wheel {
     } else {
       this._itemLabelRadiusMax = Defaults.wheel.itemLabelRadiusMax;
     }
+    this.refresh();
   }
 
   /**
@@ -830,6 +862,7 @@ export class Wheel {
     } else {
       this._itemLabelRotation = Defaults.wheel.itemLabelRotation;
     }
+    this.refresh();
   }
 
   /**
@@ -860,6 +893,7 @@ export class Wheel {
     } else {
       this._lineColor = Defaults.wheel.lineColor;
     }
+    this.refresh();
   }
 
   /**
@@ -874,6 +908,7 @@ export class Wheel {
     } else {
       this._lineWidth = Defaults.wheel.lineWidth;
     }
+    this.refresh();
   }
 
   /**
@@ -906,6 +941,7 @@ export class Wheel {
       this._rotation = Defaults.wheel.rotation;
     }
     this.refreshCurrentIndex(this.getItemAngles(this.rotation));
+    this.refresh();
   }
 
   /**
@@ -946,6 +982,7 @@ export class Wheel {
       this._rotationDirection = 0;
       this._rotationSpeed = Defaults.wheel.rotationSpeed;
     }
+    this.refresh();
   }
 
   /**
@@ -1032,9 +1069,11 @@ export class Wheel {
     if (typeof val === 'string') {
       this._overlayImage = new Image();
       this._overlayImage.src = val;
+      this._overlayImage.onload = e => this.refresh();
     } else {
       this._overlayImage = Defaults.wheel.overlayImage;
     }
+    this.refresh();
   }
 
   /**
