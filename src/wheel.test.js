@@ -36,8 +36,8 @@ test ('getItemAngles() works', () => {
 
   const angles = window.wheel.getItemAngles();
 
-  expect(angles[0].start).toBe(0); // first start angle should be 0
-  expect(angles[3].end).toBe(angles[0].start + 360); // last angle.end must be the same as first angle.start
+  expect(angles[0].start).toBe(0); // First start angle should be 0.
+  expect(angles[3].end).toBe(angles[0].start + 360); // Last angle.end must be the same as first angle.start.
 
   expect(angles[0].end).toBe(90);
   expect(angles[1].start).toBe(90);
