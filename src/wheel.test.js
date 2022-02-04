@@ -61,3 +61,14 @@ test ('getItemAngles() works when weighted', () => {
   expect(angles[1].end).toBe(270);
 
 });
+
+test ('getRotationSpeedPlusDrag() works', () => {
+
+  window.wheel.rotationSpeed = 100;
+  window.wheel.rotationResistance = -5;
+  window.wheel.lastRotationFrame = 0;
+  const newRotationSpeed = window.wheel.getRotationSpeedPlusDrag(1000);
+
+  expect(newRotationSpeed).toBe(95);
+
+});
