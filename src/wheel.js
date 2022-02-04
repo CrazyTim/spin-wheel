@@ -1114,8 +1114,6 @@ export class Wheel {
 
     this.isDragging = false;
 
-    clearInterval(this.dragClearOldDistances);
-
     // Calc the drag distance:
     let dragDistance = 0;
     const now = performance.now();
