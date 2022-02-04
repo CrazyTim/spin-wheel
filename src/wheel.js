@@ -401,10 +401,10 @@ export class Wheel {
     if (this.rotationSpeed === 0) return;
 
     // Simulate drag:
-    let newSpeed = this.rotationSpeed + (this.rotationResistance * delta) * this.rotationDirection;
+    let newSpeed = this.rotationSpeed + (this.rotationResistance * delta) * this._rotationDirection;
 
     // Prevent wheel from rotating in the oposite direction:
-    if (this.rotationDirection === 1 && newSpeed < 0 || this.rotationDirection === -1 && newSpeed >= 0) {
+    if (this._rotationDirection === 1 && newSpeed < 0 || this._rotationDirection === -1 && newSpeed >= 0) {
       newSpeed = 0;
     }
 
@@ -426,13 +426,6 @@ export class Wheel {
 
     if (this.rotationSpeed !== 0) this.raiseEvent_onSpin();
 
-  }
-
-  /**
-   * Return 1 for clockwise, -1 for antiClockwise.
-   */
-  getRotationDirection(speed = 0) {
-     return (speed > 0) ? 1 : -1;
   }
 
   /**
@@ -943,11 +936,13 @@ export class Wheel {
       let newSpeed = Math.min(val, this.rotationSpeedMax);
       newSpeed = Math.max(newSpeed, -this.rotationSpeedMax);
 
-      this.rotationDirection = this.getRotationDirection(newSpeed);
+      // 1 for clockwise, -1 for antiClockwise.
+      this._rotationDirection = (newSpeed > 0) ? 1 : -1;
+
       this._rotationSpeed = newSpeed;
 
     } else {
-      this.rotationDirection = 0;
+      this._rotationDirection = 0;
       this._rotationSpeed = Defaults.wheel.rotationSpeed;
     }
   }
