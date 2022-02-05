@@ -179,7 +179,6 @@ export class Wheel {
 
     this.drawItemImages(ctx, angles);
     this.drawItemLines(ctx, angles);
-    this.drawBorder(ctx);
 
     // Set font:
     ctx.textBaseline = 'middle';
@@ -231,6 +230,7 @@ export class Wheel {
 
     }
 
+    this.drawBorder(ctx);
     this.drawImage(ctx, this.image, false);
     this.drawImage(ctx, this.overlayImage, true);
     this.drawPointerLine(ctx);
