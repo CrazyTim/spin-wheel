@@ -159,16 +159,7 @@ export class Wheel {
 
     }
 
-    // Draw item backgrounds:
-    for (const [i, a] of angles.entries()) {
-
-      const item = this.actualItems[i];
-
-      ctx.fillStyle = item.backgroundColor;
-      ctx.fill(item.path);
-
-    }
-
+    this.drawItembackgrounds(ctx, angles);
     this.drawItemImages(ctx, angles);
     this.drawItemLines(ctx, angles);
 
@@ -229,6 +220,19 @@ export class Wheel {
     this.drawDragEvents(ctx);
 
     this._isInitialising = false;
+
+  }
+
+  drawItembackgrounds(ctx, angles = []) {
+
+    for (const [i, a] of angles.entries()) {
+
+      const item = this.actualItems[i];
+
+      ctx.fillStyle = item.backgroundColor;
+      ctx.fill(item.path);
+
+    }
 
   }
 
