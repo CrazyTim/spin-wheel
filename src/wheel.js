@@ -142,6 +142,13 @@ export class Wheel {
 
     const borderWidth = this.getActualBorderWidth();
 
+    // Set font:
+    ctx.textBaseline = 'middle';
+    ctx.textAlign = this.itemLabelAlign;
+    ctx.font = this.itemLabelFontSize + 'px ' + this.itemLabelFont;
+
+    ctx.save();
+
     // Build paths:
     for (const [i, a] of angles.entries()) {
 
@@ -162,57 +169,7 @@ export class Wheel {
     this.drawItembackgrounds(ctx, angles);
     this.drawItemImages(ctx, angles);
     this.drawItemLines(ctx, angles);
-
-    // Set font:
-    ctx.textBaseline = 'middle';
-    ctx.textAlign = this.itemLabelAlign;
-    ctx.font = this.itemLabelFontSize + 'px ' + this.itemLabelFont;
-    const itemLabelBaselineOffset = this.itemLabelFontSize * -this.itemLabelBaselineOffset;
-
-    ctx.save();
-
-    // Draw item labels:
-    for (const [i, a] of angles.entries()) {
-
-      const item = this.actualItems[i];
-
-      if (!item.label) continue;
-
-      ctx.save();
-
-      ctx.clip(item.path);
-
-      const angle = a.start + ((a.end - a.start) / 2);
-
-      ctx.translate(
-        this.center.x + Math.cos(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * this.itemLabelRadius),
-        this.center.y + Math.sin(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * this.itemLabelRadius)
-      );
-
-      ctx.rotate(util.degRad(angle + Constants.arcAdjust));
-
-      ctx.rotate(util.degRad(this.itemLabelRotation));
-
-      if (this.debug) {
-        // Draw the outline of the label:
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(-this.labelMaxWidth, 0);
-
-        ctx.strokeStyle = Constants.Debugging.labelOutlineColor;
-        ctx.lineWidth = 1;
-        ctx.stroke();
-
-        ctx.strokeRect(0, -this.itemLabelFontSize / 2, -this.labelMaxWidth, this.itemLabelFontSize);
-      }
-
-      ctx.fillStyle = item.labelColor;
-      ctx.fillText(item.label, 0, itemLabelBaselineOffset);
-
-      ctx.restore();
-
-    }
-
+    this.drawItemlabels(ctx, angles);
     this.drawBorder(ctx);
     this.drawImage(ctx, this.image, false);
     this.drawImage(ctx, this.overlayImage, true);
@@ -364,6 +321,53 @@ export class Wheel {
     }
 
     ctx.resetTransform();
+
+  }
+
+  drawItemlabels(ctx, angles = []) {
+
+    const actualItemLabelBaselineOffset = this.itemLabelFontSize * -this.itemLabelBaselineOffset;
+
+    for (const [i, a] of angles.entries()) {
+
+      const item = this.actualItems[i];
+
+      if (!item.label) continue;
+
+      ctx.save();
+
+      ctx.clip(item.path);
+
+      const angle = a.start + ((a.end - a.start) / 2);
+
+      ctx.translate(
+        this.center.x + Math.cos(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * this.itemLabelRadius),
+        this.center.y + Math.sin(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * this.itemLabelRadius)
+      );
+
+      ctx.rotate(util.degRad(angle + Constants.arcAdjust));
+
+      ctx.rotate(util.degRad(this.itemLabelRotation));
+
+      if (this.debug) {
+        // Draw the outline of the label:
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(-this.labelMaxWidth, 0);
+
+        ctx.strokeStyle = Constants.Debugging.labelOutlineColor;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        ctx.strokeRect(0, -this.itemLabelFontSize / 2, -this.labelMaxWidth, this.itemLabelFontSize);
+      }
+
+      ctx.fillStyle = item.labelColor;
+      ctx.fillText(item.label, 0, actualItemLabelBaselineOffset);
+
+      ctx.restore();
+
+    }
 
   }
 
