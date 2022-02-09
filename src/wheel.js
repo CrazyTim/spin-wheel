@@ -280,8 +280,6 @@ export class Wheel {
 
     if (!image) return;
 
-    ctx.save();
-
     ctx.translate(
       this.center.x,
       this.center.y,
@@ -302,15 +300,13 @@ export class Wheel {
       size,
     );
 
-    ctx.restore();
+    ctx.resetTransform();
 
   }
 
   drawPointerLine(ctx, image, isOverlay = false) {
 
     if (!this.debug) return;
-
-    ctx.save();
 
     ctx.translate(
       this.center.x,
@@ -327,7 +323,7 @@ export class Wheel {
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    ctx.restore();
+    ctx.resetTransform();
 
   }
 
@@ -348,8 +344,10 @@ export class Wheel {
 
     const actualLineWidth = (this.lineWidth / Constants.baseCanvasSize) * this.size;
 
-    ctx.save();
-    ctx.translate(this.center.x, this.center.y);
+    ctx.translate(
+      this.center.x,
+      this.center.y
+    );
 
     for (const [i, a] of angles.entries()) {
       ctx.rotate(util.degRad(a.start + Constants.arcAdjust));
@@ -365,7 +363,7 @@ export class Wheel {
       ctx.rotate(-util.degRad(a.start + Constants.arcAdjust));
     }
 
-    ctx.restore();
+    ctx.resetTransform();
 
   }
 
