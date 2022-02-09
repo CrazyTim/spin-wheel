@@ -200,6 +200,8 @@ export class Wheel {
 
       ctx.rotate(util.degRad(angle + Constants.arcAdjust));
 
+      ctx.rotate(util.degRad(this.itemLabelRotation));
+
       if (this.debug) {
         // Draw the outline of the label:
         ctx.beginPath();
@@ -212,8 +214,6 @@ export class Wheel {
 
         ctx.strokeRect(0, -this.itemLabelFontSize / 2, -this.labelMaxWidth, this.itemLabelFontSize);
       }
-
-      ctx.rotate(util.degRad(this.itemLabelRotation));
 
       ctx.fillStyle = item.labelColor;
       ctx.fillText(item.label, 0, itemLabelBaselineOffset);
