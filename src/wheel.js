@@ -367,7 +367,7 @@ export class Wheel {
 
   }
 
-  drawDragEvents() {
+  drawDragEvents(ctx) {
 
     if (!this.debug || !this.dragEvents?.length) return;
 
