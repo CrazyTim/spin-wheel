@@ -286,11 +286,12 @@ export class Wheel {
 
   drawBorder(ctx) {
 
-    const borderWidth = this.getActualBorderWidth();
+    const actualBorderWidth = this.getActualBorderWidth();
+
     ctx.beginPath();
     ctx.strokeStyle = this.borderColor;
-    ctx.lineWidth = borderWidth;
-    ctx.arc(this.center.x, this.center.y, this.actualRadius - (borderWidth / 2), 0, 2 * Math.PI);
+    ctx.lineWidth = actualBorderWidth;
+    ctx.arc(this.center.x, this.center.y, this.actualRadius - (actualBorderWidth / 2), 0, 2 * Math.PI);
     ctx.stroke();
 
   }
