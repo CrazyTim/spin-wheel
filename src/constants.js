@@ -43,6 +43,7 @@ export const Defaults = Object.freeze({
     items: [],
     lineColor: '#000',
     lineWidth: 1,
+    pixelRatio: 1,
     radius: 0.95,
     rotation: 0,
     rotationResistance: -35,

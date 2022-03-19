@@ -53,10 +53,11 @@ export class Wheel {
     this.items = props.items;
     this.lineColor = props.lineColor;
     this.lineWidth = props.lineWidth;
+    this.pixelRatio = props.pixelRatio;
     this.rotationSpeedMax = props.rotationSpeedMax;
     this.radius = props.radius;
     this.rotation = props.rotation;
-    this.rotationResistance =props.rotationResistance;
+    this.rotationResistance = props.rotationResistance;
     this.rotationSpeed = props.rotationSpeed;
     this.offset = props.offset;
     this.onCurrentIndexChange = props.onCurrentIndexChange;
@@ -85,10 +86,13 @@ export class Wheel {
    * Call this after changing any property of the wheel that relates to it's size or position.
    */
   resize() {
-
+    
     // Get the smallest dimension of `canvasContainer`:
-    const [w, h] = [this.canvasContainer.clientWidth, this.canvasContainer.clientHeight];
-
+    const [w, h] = [
+      this.canvasContainer.clientWidth * this._pixelRatio, 
+      this.canvasContainer.clientHeight * this._pixelRatio,
+    ];
+    
     // Calc the size that the wheel needs to be to fit in it's container:
     const minSize = Math.min(w, h);
     const wheelSize = {
@@ -99,8 +103,8 @@ export class Wheel {
     this.size = Math.max(wheelSize.w * scale, wheelSize.h * scale);
 
     // Resize canvas element:
-    this.canvas.style.width = w + 'px';
-    this.canvas.style.height = h + 'px';
+    this.canvas.style.width = this.canvasContainer.clientWidth + 'px';
+    this.canvas.style.height = this.canvasContainer.clientHeight + 'px';
     this.canvas.width = w;
     this.canvas.height = h;
 
@@ -458,7 +462,7 @@ export class Wheel {
    * Return true if the given point is inside the wheel.
    */
   wheelHitTest(point = {x:0, y:0}) {
-    const p = util.translateXYToElement(point, this.canvas);
+    const p = util.translateXYToElement(point, this.canvas, this._pixelRatio);
     return util.isPointInCircle(p, this.center.x, this.center.y, this.actualRadius);
   }
 
@@ -966,6 +970,23 @@ export class Wheel {
   }
 
   /**
+   * The pixel ratio used to render the wheel.
+   * This defaults to 1, but ideally you can make it the same as `window.devicePixelRatio`.
+   * A smaller value will give better performance.
+   */
+   get pixelRatio () {
+    return this._pixelRatio;
+  }
+  set pixelRatio(val) {
+    if (typeof val === 'number') {
+      this._pixelRatio = val;
+    } else {
+      this._pixelRatio = Defaults.wheel.pixelRatio;
+    }
+    this.resize();
+  }
+
+  /**
    * How far (angle in degrees) the wheel should spin every 1 second.
    * Any number other than 0 will spin the wheel.
    * A positive number will spin clockwise, a negative number will spin antiClockwise.
@@ -1102,7 +1123,7 @@ export class Wheel {
    */
   dragStart(point = {x:0, y:0}) {
 
-    const p = util.translateXYToElement(point, this.canvas);
+    const p = util.translateXYToElement(point, this.canvas, this._pixelRatio);
     const a = -this.getAngleFromCenter(p);
 
     this.isDragging = true;
@@ -1124,7 +1145,7 @@ export class Wheel {
 
   dragMove(point = {x:0, y:0}) {
 
-    const p = util.translateXYToElement(point, this.canvas);
+    const p = util.translateXYToElement(point, this.canvas, this._pixelRatio);
     const a = this.getAngleFromCenter(p);
 
     const lastDragPoint = this.dragEvents[0];
