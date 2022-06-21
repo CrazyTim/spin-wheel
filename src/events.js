@@ -137,6 +137,14 @@ export function register(wheel = {}) {
   wheel._handler_onResize = wheel.resize.bind(wheel);
   window.addEventListener('resize', wheel._handler_onResize);
 
+  // Monitor when the device resolution (devicePixelRatio) changes:
+  // See https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio
+  const updatePixelRatio = () => {
+    wheel.resize();
+    matchMedia(`(resolution: ${pr}dppx)`)
+      .addEventListener('change', updatePixelRatio, { once: true });
+  };
+
 }
 
 export function unregister(wheel = {}) {

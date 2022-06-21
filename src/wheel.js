@@ -86,11 +86,11 @@ export class Wheel {
    * Call this after changing any property of the wheel that relates to it's size or position.
    */
   resize() {
-    
+
     // Get the smallest dimension of `canvasContainer`:
     const [w, h] = [
-      this.canvasContainer.clientWidth * this._pixelRatio, 
-      this.canvasContainer.clientHeight * this._pixelRatio,
+      this.canvasContainer.clientWidth * this.getActualPixelRatio(), 
+      this.canvasContainer.clientHeight * this.getActualPixelRatio(),
     ];
     
     // Calc the size that the wheel needs to be to fit in it's container:
@@ -458,11 +458,15 @@ export class Wheel {
      return (this.borderWidth / Constants.baseCanvasSize) * this.size;
   }
 
+  getActualPixelRatio() {
+    return this._pixelRatio ?? window.devicePixelRatio;
+  }
+
   /**
    * Return true if the given point is inside the wheel.
    */
   wheelHitTest(point = {x:0, y:0}) {
-    const p = util.translateXYToElement(point, this.canvas, this._pixelRatio);
+    const p = util.translateXYToElement(point, this.canvas, this.getActualPixelRatio());
     return util.isPointInCircle(p, this.center.x, this.center.y, this.actualRadius);
   }
 
@@ -970,15 +974,15 @@ export class Wheel {
   }
 
   /**
-   * The pixel ratio used to render the wheel.
-   * This defaults to 1, but ideally you can make it the same as `window.devicePixelRatio`.
-   * A smaller value will give better performance.
+   * The pixel ratio used to render the wheel. A value of 1 or higher will produce a sharper image.
+   * By default this property is null, meaning the pixel ratio is automatically determined using `window.devicePixelRatio`.
+   * However you could manually adjust this to improve performance.
    */
    get pixelRatio () {
     return this._pixelRatio;
   }
   set pixelRatio(val) {
-    if (typeof val === 'number') {
+    if (typeof val === 'number' || val === null) {
       this._pixelRatio = val;
     } else {
       this._pixelRatio = Defaults.wheel.pixelRatio;
@@ -1123,7 +1127,7 @@ export class Wheel {
    */
   dragStart(point = {x:0, y:0}) {
 
-    const p = util.translateXYToElement(point, this.canvas, this._pixelRatio);
+    const p = util.translateXYToElement(point, this.canvas, this.getActualPixelRatio());
     const a = -this.getAngleFromCenter(p);
 
     this.isDragging = true;
@@ -1145,7 +1149,7 @@ export class Wheel {
 
   dragMove(point = {x:0, y:0}) {
 
-    const p = util.translateXYToElement(point, this.canvas, this._pixelRatio);
+    const p = util.translateXYToElement(point, this.canvas, this.getActualPixelRatio());
     const a = this.getAngleFromCenter(p);
 
     const lastDragPoint = this.dragEvents[0];
