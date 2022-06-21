@@ -79,11 +79,11 @@ export function isPointInCircle(point = {x: 0, y: 0}, cx, cy, radius) {
 /**
  * Translate the given point from the viewport's coordinate space to the element's coordinate space.
  */
-export function translateXYToElement(point = {x: 0, y: 0}, element = {}) {
+export function translateXYToElement(point = {x: 0, y: 0}, element = {}, devicePixelRatio = 1) {
   const rect = element.getBoundingClientRect();
   return {
-    x: point.x - rect.left,
-    y: point.y - rect.top,
+    x: (point.x - rect.left) * devicePixelRatio,
+    y: (point.y - rect.top) * devicePixelRatio,
   };
 }
 
