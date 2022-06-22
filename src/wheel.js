@@ -20,12 +20,17 @@ export class Wheel {
     this.addCanvas();
     events.register(this);
 
-    // Assign default values to the coresponding properties on the wheel:
+    // Assign default values to the wheel.
+    // This avoids null exceptions when we initalise each property one-by-one in `wheel.init`.
     for (const i of Object.keys(Defaults.wheel)) {
       this['_' + i] = Defaults.wheel[i];
     }
 
-    if (props) this.init(Defaults.wheel);
+    if (props) {
+      this.init(props);
+    } else {
+      this.init(Defaults.wheel);
+    }
 
   }
 
