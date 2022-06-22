@@ -11,7 +11,7 @@ export class Wheel {
 
     // Validate params.
     if (!(container instanceof Element)) throw 'container parameter must be an Element';
-    if (!util.isObject(props)) throw 'props parameter must be an Object';
+    if (!util.isObject(props) && props !== null) throw 'props parameter must be an Object';
 
     this.canvasContainer = container;
     this.canvas = document.createElement('canvas');
