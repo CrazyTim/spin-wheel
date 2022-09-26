@@ -175,10 +175,10 @@ export class Wheel {
 
     }
 
-    this.drawItembackgrounds(ctx, angles);
+    this.drawItemBackgrounds(ctx, angles);
     this.drawItemImages(ctx, angles);
     this.drawItemLines(ctx, angles);
-    this.drawItemlabels(ctx, angles);
+    this.drawItemLabels(ctx, angles);
     this.drawBorder(ctx);
     this.drawImage(ctx, this.image, false);
     this.drawImage(ctx, this.overlayImage, true);
@@ -189,7 +189,7 @@ export class Wheel {
 
   }
 
-  drawItembackgrounds(ctx, angles = []) {
+  drawItemBackgrounds(ctx, angles = []) {
 
     for (const [i, a] of angles.entries()) {
 
@@ -334,7 +334,7 @@ export class Wheel {
 
   }
 
-  drawItemlabels(ctx, angles = []) {
+  drawItemLabels(ctx, angles = []) {
 
     const actualItemLabelBaselineOffset = this.itemLabelFontSize * -this.itemLabelBaselineOffset;
 
