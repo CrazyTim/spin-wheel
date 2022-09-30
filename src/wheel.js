@@ -835,7 +835,6 @@ export class Wheel {
           imageScale: item.imageScale,
           label: item.label,
           labelColor: item.labelColor,
-          labelFont: item.labelFont,
           weight: item.weight,
         }));
       }

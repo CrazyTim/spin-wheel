@@ -39,7 +39,6 @@ export class Item {
     this.imageScale = props.imageScale;
     this.label = props.label;
     this.labelColor = props.labelColor;
-    this.labelFont = props.labelFont;
     this.weight = props.weight;
   }
 
@@ -155,22 +154,6 @@ export class Item {
       this._labelColor = val;
     } else {
       this._labelColor = Defaults.item.labelColor; 
-    }
-    this._wheel.refresh();
-  }
-
-  /**
-   * The font of the label.
-   * Example: `'sans-serif'`.
-   */
-  get labelFont () {
-    return this._labelFont;
-  }
-  set labelFont(val) {
-    if (typeof val === 'string') {
-      this._labelFont = val;
-    } else {
-      this._labelFont = Defaults.item.labelFont; 
     }
     this._wheel.refresh();
   }

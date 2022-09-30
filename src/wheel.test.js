@@ -96,15 +96,3 @@ test ('Default value works for itemLabelColors', () => {
   expect(window.wheel.items[1].labelColor).toBe('bar');
   
 });
-
-test ('Default value works for itemLabelFont', () => {
-
-  window.wheel.items = [
-    {},
-    {labelFont: 'bar'},
-  ];
-
-  expect(window.wheel.items[0].labelFont).toBe(Defaults.item.labelFont);
-  expect(window.wheel.items[1].labelFont).toBe('bar');
-
-});

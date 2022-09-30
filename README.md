@@ -94,7 +94,7 @@ Name                            | Default Value     | Description
 `itemLabelAlign`                | `'right'`         | The alignment of all item labels.<br>Accepted values: `'left'`|`'center'`|`'right'`.<br>You may need to set `itemLabelRotation` in combination with this.
 `itemLabelBaselineOffset`       | `0`               | The offset of the baseline (or line height) of all item labels (as a percent of the label's height).
 `itemLabelColors`               | `['#000']`        | The repeating pattern of colors for all item labels.<br>Overridden by `Item.labelColor`.<br>Example: `['#fff','#000']`.
-`itemLabelFont`                 | `'sans-serif'`    | The font family for all item labels.<br>Overridden by `Item.labelFont`.<br>Example: `'sans-serif'`.
+`itemLabelFont`                 | `'sans-serif'`    | The font family for all item labels.<br>Example: `'sans-serif'`.
 `itemLabelFontSizeMax`          | `100`             | The maximum font size (in pixels) for all item labels.
 `itemLabelRadius`               | `0.85`            | The point along the radius (as a percent, starting from the center of the wheel) to start drawing all item labels.
 `itemLabelRadiusMax`            | `0.2`             | The point along the radius (as a percent, starting from the center of the wheel) to calculate the maximum font size for all item labels.
@@ -156,7 +156,6 @@ Name                            | Default Value     | Description
 `imageScale`                    | `1`               | The scale (as a percent) to resize `Item.image`.
 `label`                         | `''`              | The text that will be drawn on the item.
 `labelColor`                    | `null`            | The color of the label.<br>Falls back to `Wheel.itemLabelColors` when `null`.<br>Example: `'#000'`.
-`labelFont`                     | `null`            | The font of the label.<br>Example: `'sans-serif'`.
 `weight`                        | `1`               | The proportional size of the item relative to other items on the wheel.<br>For example, if you have 2 items where `item[0]` has a weight of `1` and `item[1]` has a weight of `2`, then `item[0]` will take up 1/3 of the space on the wheel.
 
 ## Acknowledgements
