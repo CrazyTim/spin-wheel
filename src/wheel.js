@@ -2,6 +2,7 @@ import * as util from './util.js';
 import * as Constants from './constants.js';
 import {Defaults} from './constants.js';
 import * as events from './events.js';
+import {Item} from './item.js';
 
 export class Wheel {
 
@@ -36,7 +37,7 @@ export class Wheel {
 
   /**
    * Initialise all properties.
-   * If a value is not provided for a property then it will be given a default value.
+   * If a value is undefined or invalid then that property will fall back to a default value.
    */
   init(props = {}) {
     this._isInitialising = true;
@@ -125,7 +126,7 @@ export class Wheel {
     // Adjust the font size of labels so they all fit inside `wheelRadius`:
     this.itemLabelFontSize = this.itemLabelFontSizeMax * (this.size / Constants.baseCanvasSize);
     this.labelMaxWidth = this.actualRadius * (this.itemLabelRadius - this.itemLabelRadiusMax);
-    for (const item of this.actualItems) {
+    for (const item of this._items) {
       this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(item.label, this.itemLabelFont, this.labelMaxWidth, this.context));
     }
 
@@ -171,7 +172,7 @@ export class Wheel {
         util.degRad(a.end + Constants.arcAdjust)
       );
 
-      this.actualItems[i].path = path;
+      this._items[i].path = path;
 
     }
 
@@ -193,9 +194,13 @@ export class Wheel {
 
     for (const [i, a] of angles.entries()) {
 
-      const item = this.actualItems[i];
+      const item = this._items[i];
 
-      ctx.fillStyle = item.backgroundColor;
+      ctx.fillStyle = item.backgroundColor ?? (
+        // Fall back to a value from the repeating set:
+        this.itemBackgroundColors[i % this.itemBackgroundColors.length]
+      );
+      
       ctx.fill(item.path);
 
     }
@@ -206,7 +211,7 @@ export class Wheel {
 
     for (const [i, a] of angles.entries()) {
 
-      const item = this.actualItems[i];
+      const item = this._items[i];
 
       if (!item.image || !item.image.complete || item.image.error) continue;
 
@@ -340,7 +345,7 @@ export class Wheel {
 
     for (const [i, a] of angles.entries()) {
 
-      const item = this.actualItems[i];
+      const item = this._items[i];
 
       if (!item.label) continue;
 
@@ -372,7 +377,11 @@ export class Wheel {
         ctx.strokeRect(0, -this.itemLabelFontSize / 2, -this.labelMaxWidth, this.itemLabelFontSize);
       }
 
-      ctx.fillStyle = item.labelColor;
+      ctx.fillStyle = item.labelColor ?? (
+        // Fall back to a value from the repeating set:
+        this.itemLabelColors[i % this.itemLabelColors.length]
+      );
+
       ctx.fillText(item.label, 0, actualItemLabelBaselineOffset);
 
       ctx.restore();
@@ -495,101 +504,6 @@ export class Wheel {
 
   }
 
-  processItems() {
-
-    this.actualItems = [];
-
-    for (const [i, item] of this.items.entries()) {
-
-      const newItem = {};
-
-      // Background color:
-      if (typeof item.backgroundColor === 'string') {
-        newItem.backgroundColor = item.backgroundColor;
-      } else if (this.itemBackgroundColors.length) {
-        // Use a value from the repeating set:
-        newItem.backgroundColor = this.itemBackgroundColors[i % this.itemBackgroundColors.length];
-      } else {
-        newItem.backgroundColor = Defaults.item.backgroundColor;
-      }
-
-      // Label:
-      if (typeof item.label === 'string') {
-        newItem.label = item.label;
-      } else {
-        newItem.label = Defaults.item.label;
-      }
-
-      // Label Font:
-      if (typeof item.labelFont === 'string') {
-        newItem.labelFont = item.labelFont;
-      } else {
-        newItem.labelFont = this.itemLabelFont;
-      }
-
-      // Label Color:
-      if (typeof item.labelColor === 'string') {
-        newItem.labelColor = item.labelColor;
-      } else if (this.itemLabelColors.length) {
-        // Use a value from the repeating set:
-        newItem.labelColor = this.itemLabelColors[i % this.itemLabelColors.length];
-      } else {
-        newItem.labelColor = Defaults.item.labelColor;
-      }
-
-      // Weight:
-      if (typeof item.weight === 'number') {
-        newItem.weight = item.weight;
-      } else {
-        newItem.weight = Defaults.item.weight;
-      };
-
-      // Image:
-      if (typeof item.image === 'string') {
-        newItem.image = new Image();
-        newItem.image.src = item.image;
-        newItem.image.onload = e => this.refresh();
-        newItem.image.onerror = e => {
-          newItem.image.error = true;
-          return true; // Don't fire default event handler.
-        };
-      } else {
-        newItem.image = Defaults.item.image;
-      }
-
-      // Image Radius:
-      if (typeof item.imageRadius === 'number') {
-        newItem.imageRadius = item.imageRadius;
-      } else {
-        newItem.imageRadius = Defaults.item.imageRadius;
-      }
-
-      // Image Rotation:
-      if (typeof item.imageRotation === 'number') {
-        newItem.imageRotation = item.imageRotation;
-      } else {
-        newItem.imageRotation = Defaults.item.imageRotation;
-      }
-
-      // Image Scale:
-      if (typeof item.imageScale === 'number') {
-        newItem.imageScale = item.imageScale;
-      } else {
-        newItem.imageScale = Defaults.item.imageScale;
-      }
-
-      this.actualItems.push(newItem);
-
-    }
-
-    if (this.actualItems.length) {
-      this.weightedItemAngle = 360 / util.sumObjArray(this.actualItems, 'weight');
-    } else {
-      this.weightedItemAngle = 0;
-    }
-
-  }
-
   /**
    * Get the angle (in degrees) of the given point from the center of the wheel.
    * 0 is north.
@@ -611,7 +525,7 @@ export class Wheel {
    * Calculate and set `currentIndex`
    */
   refreshCurrentIndex(angles = []) {
-    if (this.actualItems.length === 0) this._currentIndex = -1;
+    if (this._items.length === 0) this._currentIndex = -1;
 
     for (const [i, a] of angles.entries()) {
 
@@ -628,6 +542,15 @@ export class Wheel {
     }
   }
 
+  refreshItemWeight() {
+    if (this._items.length) {
+      this.weightedItemAngle = 360 / util.sumObjArray(this._items, 'weight');
+    } else {
+      this.weightedItemAngle = 0;
+    }
+    this.refresh();
+  }
+
   /**
    * Return an array of objects which represents the current start/end angles for each item.
    */
@@ -637,7 +560,7 @@ export class Wheel {
     let itemAngle;
     let lastItemAngle = initialRotation;
 
-    for (const item of this.actualItems) {
+    for (const item of this._items) {
       itemAngle = item.weight * this.weightedItemAngle;
       angles.push({
         start: lastItemAngle,
@@ -649,7 +572,7 @@ export class Wheel {
     // Ensure the difference between last angle.end and first angle.start is exactly 360 degrees.
     // Sometimes floating point arithmetic pushes the end value past 360 degrees by
     // a very small amount, which causes issues when calculating `currentIndex`.
-    if (this.actualItems.length > 1) {
+    if (this._items.length > 1) {
       angles[angles.length - 1].end = angles[0].start + 360;
     }
 
@@ -760,7 +683,6 @@ export class Wheel {
     } else {
       this._itemBackgroundColors = Defaults.wheel.itemBackgroundColors;
     }
-    this.processItems();
   }
 
   /**
@@ -809,7 +731,6 @@ export class Wheel {
     } else {
       this._itemLabelColors = Defaults.wheel.itemLabelColors;
     }
-    this.processItems();
   }
 
   /**
@@ -900,11 +821,28 @@ export class Wheel {
   }
   set items(val) {
     if (Array.isArray(val)) {
-      this._items = val;
+
+      this._items = [];
+
+      for (const item of val) {
+        this._items.push(new Item(this, {
+          backgroundColor: item.backgroundColor,
+          image: item.image,
+          imageRadius: item.imageRadius,
+          imageRotation: item.imageRotation,
+          imageScale: item.imageScale,
+          label: item.label,
+          labelColor: item.labelColor,
+          labelFont: item.labelFont,
+          weight: item.weight,
+        }));
+      }
+        
     } else {
       this._items = Defaults.wheel.items;
     }
-    this.processItems();
+
+    this.refreshItemWeight(); // We need to recalc weight again now that the last item has been added to the array.
     this.refreshCurrentIndex(this.getItemAngles(this.rotation));
   }
 

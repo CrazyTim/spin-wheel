@@ -31,10 +31,10 @@ export const Defaults = Object.freeze({
     debug: false,
     image: null,
     isInteractive: true,
-    itemBackgroundColors: [],
+    itemBackgroundColors: ['#fff'],
     itemLabelAlign: AlignText.right,
     itemLabelBaselineOffset: 0,
-    itemLabelColors: [],
+    itemLabelColors: ['#000'],
     itemLabelFont: 'sans-serif',
     itemLabelFontSizeMax: baseCanvasSize,
     itemLabelRadius: 0.85,
@@ -57,13 +57,14 @@ export const Defaults = Object.freeze({
     pointerAngle: 0,
   },
   item: {
-    backgroundColor: '#fff',
+    backgroundColor: null, // A value of null causes this to fall back to `Wheel.itemBackgroundColors`
     image: null,
     imageRadius: 0.5,
     imageRotation: 0,
     imageScale: 1,
     label: '',
-    labelColor: '#000',
+    labelColor: null, // A value of null causes this to fall back to `Wheel.itemLabelColors`
+    labelFont: null, // A value of null causes this to fall back to `Wheel.itemLabelFont`
     weight: 1,
   },
 });
