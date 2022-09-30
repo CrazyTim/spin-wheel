@@ -9,7 +9,7 @@
 
 - Vanilla JavaScript (ES6).
 - No dependencies.
-- Simple, easy to read API.
+- Simple, easy to use API.
 - Realistic wheel rotation (no easing, just momentum and drag).
 - Interactive - spin the wheel using click-drag/touch-flick, or you can manually call `spin()`.
 - [Easily themeable](https://crazytim.github.io/spin-wheel/examples/themes):
@@ -76,6 +76,7 @@ For example configurations see [./examples/themes/js/props.js](https://github.co
 
 Method                                             | Description
 -------------------------------------------------- | ---------------------------
+`constructor(container, props = {})`               | `container` parameter must be an Element.<br>`props` parameter must be an Object or null.
 `init(props = {})`                                 | Initialise all properties.<br>If a value is not provided for a property then it will be given a default value.
 `spin(speed = 0, randomAdjustmentPercent = 0.0)`   | Spin the wheel by setting `rotationSpeed` and raise the `onSpin` event.<br>Optionally apply a random adjustment to the speed within a range (percent), which can make the spin less predictable.
 `getCurrentIndex()`                                | Get the index of the item that the Pointer is pointing at.<br>An item is considered "current" if `pointerAngle` is between it's start angle (inclusive) and it's end angle (exclusive).
@@ -93,7 +94,7 @@ Name                            | Default Value     | Description
 `itemLabelAlign`                | `'right'`         | The alignment of all item labels.<br>Accepted values: `'left'`|`'center'`|`'right'`.<br>You may need to set `itemLabelRotation` in combination with this.
 `itemLabelBaselineOffset`       | `0`               | The offset of the baseline (or line height) of all item labels (as a percent of the label's height).
 `itemLabelColors`               | `['#000']`        | The repeating pattern of colors for all item labels.<br>Overridden by `Item.labelColor`.<br>Example: `['#fff','#000']`.
-`itemLabelFont`                 | `'sans-serif'`    | The font family for all item labels.<br>Overridden by `Item.labelFont`.<br>Example: `'sans-serif'`.
+`itemLabelFont`                 | `'sans-serif'`    | The font family for all item labels.<br>Example: `'sans-serif'`.
 `itemLabelFontSizeMax`          | `100`             | The maximum font size (in pixels) for all item labels.
 `itemLabelRadius`               | `0.85`            | The point along the radius (as a percent, starting from the center of the wheel) to start drawing all item labels.
 `itemLabelRadiusMax`            | `0.2`             | The point along the radius (as a percent, starting from the center of the wheel) to calculate the maximum font size for all item labels.
@@ -148,13 +149,13 @@ Key                         | Value
 
 Name                            | Default Value     | Description
 ------------------------------- | ----------------- | ---------------------------
-`backgroundColor`               | `null`            | The background color of the item.<br>Example: `'#fff'`.
-`image`                         | `null`            | The url of an image that will be drawn on the item. The image will be clipped.
+`backgroundColor`               | `null`            | The background color of the item.<br>Falls back to `Wheel.itemBackgroundColors` when `null`.<br>Example: `'#fff'`.
+`image`                         | `null`            | The url of an image that will be drawn on the item. Any part of the image that extends outside the item will be clipped.
 `imageRadius`                   | `0.5`             | The point along the radius (as a percent, starting from the center of the wheel) to draw the center of `Item.image`.
+`imageRotation`                 | `0`               | The rotation (angle in degrees) of `Item.image`.
 `imageScale`                    | `1`               | The scale (as a percent) to resize `Item.image`.
 `label`                         | `''`              | The text that will be drawn on the item.
-`labelColor`                    | `null`            | The color of the label.<br>Example: `'#000'`.
-`labelFont`                     | `null`            | The font of the label.<br>Example: `'sans-serif'`.
+`labelColor`                    | `null`            | The color of the label.<br>Falls back to `Wheel.itemLabelColors` when `null`.<br>Example: `'#000'`.
 `weight`                        | `1`               | The proportional size of the item relative to other items on the wheel.<br>For example, if you have 2 items where `item[0]` has a weight of `1` and `item[1]` has a weight of `2`, then `item[0]` will take up 1/3 of the space on the wheel.
 
 ## Acknowledgements

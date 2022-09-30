@@ -72,3 +72,27 @@ test ('getRotationSpeedPlusDrag() works', () => {
   expect(newRotationSpeed).toBe(95);
 
 });
+
+test ('Default value works for itemBackgroundColors', () => {
+
+  window.wheel.items = [
+    {},
+    {backgroundColor: 'bar'},
+  ];
+
+  expect(window.wheel.items[0].backgroundColor).toBe(Defaults.item.backgroundColor);
+  expect(window.wheel.items[1].backgroundColor).toBe('bar');
+
+});
+
+test ('Default value works for itemLabelColors', () => {
+
+  window.wheel.items = [
+    {},
+    {labelColor: 'bar'},
+  ];
+  
+  expect(window.wheel.items[0].labelColor).toBe(Defaults.item.labelColor);
+  expect(window.wheel.items[1].labelColor).toBe('bar');
+  
+});
