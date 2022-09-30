@@ -683,6 +683,7 @@ export class Wheel {
     } else {
       this._itemBackgroundColors = Defaults.wheel.itemBackgroundColors;
     }
+    this.refresh();
   }
 
   /**
@@ -731,6 +732,7 @@ export class Wheel {
     } else {
       this._itemLabelColors = Defaults.wheel.itemLabelColors;
     }
+    this.refresh();
   }
 
   /**
