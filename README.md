@@ -9,7 +9,7 @@
 
 - Vanilla JavaScript (ES6).
 - No dependencies.
-- Simple, easy to read API.
+- Simple, easy to use API.
 - Realistic wheel rotation (no easing, just momentum and drag).
 - Interactive - spin the wheel using click-drag/touch-flick, or you can manually call `spin()`.
 - [Easily themeable](https://crazytim.github.io/spin-wheel/examples/themes):
@@ -76,6 +76,7 @@ For example configurations see [./examples/themes/js/props.js](https://github.co
 
 Method                                             | Description
 -------------------------------------------------- | ---------------------------
+`constructor(container, props = {})`               | `container` parameter must be an Element.<br>`props` parameter must be an Object or null.
 `init(props = {})`                                 | Initialise all properties.<br>If a value is not provided for a property then it will be given a default value.
 `spin(speed = 0, randomAdjustmentPercent = 0.0)`   | Spin the wheel by setting `rotationSpeed` and raise the `onSpin` event.<br>Optionally apply a random adjustment to the speed within a range (percent), which can make the spin less predictable.
 `getCurrentIndex()`                                | Get the index of the item that the Pointer is pointing at.<br>An item is considered "current" if `pointerAngle` is between it's start angle (inclusive) and it's end angle (exclusive).

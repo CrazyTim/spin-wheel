@@ -11,7 +11,7 @@ export class Wheel {
 
     // Validate params.
     if (!(container instanceof Element)) throw 'container parameter must be an Element';
-    if (!util.isObject(props) && props !== null) throw 'props parameter must be an Object';
+    if (!util.isObject(props) && props !== null) throw 'props parameter must be an Object or null';
 
     this.canvasContainer = container;
     this.canvas = document.createElement('canvas');
@@ -20,8 +20,8 @@ export class Wheel {
     this.addCanvas();
     events.register(this);
 
-    // Assign default values to the wheel.
-    // This avoids null exceptions when we initalise each property one-by-one in `wheel.init`.
+    // Assign default values.
+    // This avoids null exceptions when we initalise each property one-by-one in `init()`.
     for (const i of Object.keys(Defaults.wheel)) {
       this['_' + i] = Defaults.wheel[i];
     }
