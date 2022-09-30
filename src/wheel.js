@@ -221,7 +221,7 @@ export class Wheel {
         this.center.y + Math.sin(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * item.imageRadius)
       );
 
-      ctx.rotate(util.degRad(angle));
+      ctx.rotate(util.degRad(angle + item.imageRotation));
 
       const width = (this.size / 500) * item.image.width * item.imageScale;
       const height = (this.size / 500) * item.image.height * item.imageScale;
@@ -562,6 +562,13 @@ export class Wheel {
         newItem.imageRadius = item.imageRadius;
       } else {
         newItem.imageRadius = Defaults.item.imageRadius;
+      }
+
+      // Image Rotation:
+      if (typeof item.imageRotation === 'number') {
+        newItem.imageRotation = item.imageRotation;
+      } else {
+        newItem.imageRotation = Defaults.item.imageRotation;
       }
 
       // Image Scale:
