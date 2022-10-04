@@ -15,10 +15,7 @@
     "verbose": true,
     "injectGlobals": false,
     "silent": false,
-    "testEnvironment": "jsdom",
-    "setupFilesAfterEnv": [
-      "./scripts/test-fixture.js"
-    ]
+    "testEnvironment": "jsdom"
   },
   "repository": {
     "type": "git",

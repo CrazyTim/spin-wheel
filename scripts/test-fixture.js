@@ -1,32 +1,29 @@
 import {Wheel} from '../src/wheel.js';
 
-export const fixture = {
+export let wheel = null;
 
-  useWheel: () => {
+export function initWheel() {
 
-    document.body.innerHTML = '<div class="wheel-wrapper"></div>';
+  document.body.innerHTML = '<div class="wheel-wrapper"></div>';
 
-    const container = document.querySelector('.wheel-wrapper');
+  const container = document.querySelector('.wheel-wrapper');
 
-    window.wheel = new Wheel(container);
+  wheel = new Wheel(container);
 
-    return this;
+  return this;
 
-  },
+}
 
-  // Add n items:
-  addBlankItems: (numberOfItems) => {
+export function addBlankItems (numberOfItems) {
 
-    const items = [];
+  const newItems = [];
 
-    for (let i = 0; i < numberOfItems; i++) {
-      items.push({});
-    }
+  for (let i = 0; i < numberOfItems; i++) {
+    newItems.push({});
+  }
 
-    window.wheel.items = items;
+  wheel.items = wheel.items.concat(newItems);
 
-    return this;
-
-  },
+  return this;
 
 }
