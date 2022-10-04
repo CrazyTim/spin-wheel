@@ -1,6 +1,6 @@
 import {Wheel} from '../src/wheel.js';
 
-export default {
+export const fixture = {
 
   useWheel: () => {
 

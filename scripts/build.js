@@ -1,9 +1,25 @@
 #!/usr/bin/env node
 import esbuild from 'esbuild';
-
-import { readFile } from 'fs/promises';
+import {readFile} from 'fs/promises';
 import * as util from './util.js';
-import startWebServer from './serve.js';
+import * as browsersync from 'browser-sync';
+
+function startWebServer (startPath) {
+
+  browsersync.create();
+
+  browsersync.init({
+    server: '.',
+    startPath: startPath,
+    watch: true,
+    notify: false,
+    ignore: [
+      './bin/*.*',
+      './src/*.*', // esbuild is monitoring this folder.
+      ],
+  });
+
+}
 
 const p = JSON.parse(
   await readFile(

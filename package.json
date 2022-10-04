@@ -17,7 +17,7 @@
     "silent": false,
     "testEnvironment": "jsdom",
     "setupFilesAfterEnv": [
-      "./scripts/test-setup.js"
+      "./scripts/test-fixture.js"
     ]
   },
   "repository": {

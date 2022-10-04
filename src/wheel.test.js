@@ -2,11 +2,11 @@ import {beforeAll, test, expect} from '@jest/globals';
 import * as util from './util.js';
 import {Defaults} from './constants.js';
 import {Wheel} from './wheel.js';
-import setup from '../scripts/test-setup.js';
+import {fixture} from '../scripts/test-fixture.js';
 import {getInstanceProperties} from '../scripts/util.js';
 
 beforeAll(() => {
-  setup.useWheel();
+  fixture.useWheel();
 });
 
 test('Each Wheel property has a coresponding default value', () => {
@@ -31,7 +31,7 @@ test('Each Wheel property is given a Default value when the Wheel is initalised'
 
 test ('getItemAngles() works', () => {
 
-  setup.addBlankItems(4);
+  fixture.addBlankItems(4);
   window.wheel.rotation = 90;
 
   const angles = window.wheel.getItemAngles();
