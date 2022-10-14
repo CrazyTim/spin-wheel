@@ -16,7 +16,7 @@ export class Wheel {
 
     this.canvasContainer = container;
     this.canvas = document.createElement('canvas');
-    this.context = this.canvas.getContext('2d');
+    this._context = this.canvas.getContext('2d');
 
     this.addCanvas();
     events.register(this);
@@ -127,7 +127,7 @@ export class Wheel {
     this.itemLabelFontSize = this.itemLabelFontSizeMax * (this.size / Constants.baseCanvasSize);
     this.labelMaxWidth = this.actualRadius * (this.itemLabelRadius - this.itemLabelRadiusMax);
     for (const item of this._items) {
-      this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(item.label, this.itemLabelFont, this.labelMaxWidth, this.context));
+      this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(item.label, this.itemLabelFont, this.labelMaxWidth, this._context));
     }
 
     this.refresh();
@@ -141,7 +141,7 @@ export class Wheel {
 
     this.frameRequestId = null;
 
-    const ctx = this.context;
+    const ctx = this._context;
 
     // Clear canvas.
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
