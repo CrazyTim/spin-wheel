@@ -115,7 +115,7 @@ export class Wheel {
     this.canvas.height = h;
 
     // Re-calculate the center of the wheel:
-    this.center = {
+    this._center = {
       x: w / 2 + (w * this.offset.w),
       y: h / 2 + (h * this.offset.h),
     };
@@ -163,10 +163,10 @@ export class Wheel {
     for (const [i, a] of angles.entries()) {
 
       const path = new Path2D();
-      path.moveTo(this.center.x, this.center.y);
+      path.moveTo(this._center.x, this._center.y);
       path.arc(
-        this.center.x,
-        this.center.y,
+        this._center.x,
+        this._center.y,
         this.actualRadius - (borderWidth / 2),
         util.degRad(a.start + Constants.arcAdjust),
         util.degRad(a.end + Constants.arcAdjust)
@@ -222,8 +222,8 @@ export class Wheel {
       const angle = a.start + ((a.end - a.start) / 2);
 
       ctx.translate(
-        this.center.x + Math.cos(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * item.imageRadius),
-        this.center.y + Math.sin(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * item.imageRadius)
+        this._center.x + Math.cos(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * item.imageRadius),
+        this._center.y + Math.sin(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * item.imageRadius)
       );
 
       ctx.rotate(util.degRad(angle + item.imageRotation));
@@ -252,8 +252,8 @@ export class Wheel {
     if (!image) return;
 
     ctx.translate(
-      this.center.x,
-      this.center.y,
+      this._center.x,
+      this._center.y,
     );
 
     if (!isOverlay) ctx.rotate(util.degRad(this.rotation));
@@ -280,8 +280,8 @@ export class Wheel {
     if (!this.debug) return;
 
     ctx.translate(
-      this.center.x,
-      this.center.y,
+      this._center.x,
+      this._center.y,
     );
 
     ctx.rotate(util.degRad(this.pointerAngle + Constants.arcAdjust));
@@ -305,7 +305,7 @@ export class Wheel {
     ctx.beginPath();
     ctx.strokeStyle = this.borderColor;
     ctx.lineWidth = actualBorderWidth;
-    ctx.arc(this.center.x, this.center.y, this.actualRadius - (actualBorderWidth / 2), 0, 2 * Math.PI);
+    ctx.arc(this._center.x, this._center.y, this.actualRadius - (actualBorderWidth / 2), 0, 2 * Math.PI);
     ctx.stroke();
 
   }
@@ -317,8 +317,8 @@ export class Wheel {
     const actualLineWidth = (this.lineWidth / Constants.baseCanvasSize) * this._size;
 
     ctx.translate(
-      this.center.x,
-      this.center.y
+      this._center.x,
+      this._center.y
     );
 
     for (const [i, a] of angles.entries()) {
@@ -356,8 +356,8 @@ export class Wheel {
       const angle = a.start + ((a.end - a.start) / 2);
 
       ctx.translate(
-        this.center.x + Math.cos(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * this.itemLabelRadius),
-        this.center.y + Math.sin(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * this.itemLabelRadius)
+        this._center.x + Math.cos(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * this.itemLabelRadius),
+        this._center.y + Math.sin(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * this.itemLabelRadius)
       );
 
       ctx.rotate(util.degRad(angle + Constants.arcAdjust));
@@ -481,7 +481,7 @@ export class Wheel {
    */
   wheelHitTest(point = {x:0, y:0}) {
     const p = util.translateXYToElement(point, this.canvas, this.getActualPixelRatio());
-    return util.isPointInCircle(p, this.center.x, this.center.y, this.actualRadius);
+    return util.isPointInCircle(p, this._center.x, this._center.y, this.actualRadius);
   }
 
   /**
@@ -509,7 +509,7 @@ export class Wheel {
    * 0 is north.
    */
   getAngleFromCenter(point = {x:0, y:0}) {
-    return (util.getAngle(this.center.x, this.center.y, point.x, point.y) + 90) % 360;
+    return (util.getAngle(this._center.x, this._center.y, point.x, point.y) + 90) % 360;
   }
 
   /**
