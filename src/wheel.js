@@ -121,11 +121,11 @@ export class Wheel {
     };
 
     // Recalculate the wheel radius:
-    this.actualRadius = (this._size / 2) * this.radius;
+    this._actualRadius = (this._size / 2) * this.radius;
 
     // Adjust the font size of labels so they all fit inside `wheelRadius`:
     this.itemLabelFontSize = this.itemLabelFontSizeMax * (this._size / Constants.baseCanvasSize);
-    this.labelMaxWidth = this.actualRadius * (this.itemLabelRadius - this.itemLabelRadiusMax);
+    this.labelMaxWidth = this._actualRadius * (this.itemLabelRadius - this.itemLabelRadiusMax);
     for (const item of this._items) {
       this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(item.label, this.itemLabelFont, this.labelMaxWidth, this._context));
     }
@@ -167,7 +167,7 @@ export class Wheel {
       path.arc(
         this._center.x,
         this._center.y,
-        this.actualRadius - (borderWidth / 2),
+        this._actualRadius - (borderWidth / 2),
         util.degRad(a.start + Constants.arcAdjust),
         util.degRad(a.end + Constants.arcAdjust)
       );
@@ -222,8 +222,8 @@ export class Wheel {
       const angle = a.start + ((a.end - a.start) / 2);
 
       ctx.translate(
-        this._center.x + Math.cos(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * item.imageRadius),
-        this._center.y + Math.sin(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * item.imageRadius)
+        this._center.x + Math.cos(util.degRad(angle + Constants.arcAdjust)) * (this._actualRadius * item.imageRadius),
+        this._center.y + Math.sin(util.degRad(angle + Constants.arcAdjust)) * (this._actualRadius * item.imageRadius)
       );
 
       ctx.rotate(util.degRad(angle + item.imageRotation));
@@ -288,7 +288,7 @@ export class Wheel {
 
     ctx.beginPath();
     ctx.moveTo(0, 0);
-    ctx.lineTo(this.actualRadius * 2, 0);
+    ctx.lineTo(this._actualRadius * 2, 0);
 
     ctx.strokeStyle = Constants.Debugging.pointerLineColor;
     ctx.lineWidth = 2;
@@ -305,7 +305,7 @@ export class Wheel {
     ctx.beginPath();
     ctx.strokeStyle = this.borderColor;
     ctx.lineWidth = actualBorderWidth;
-    ctx.arc(this._center.x, this._center.y, this.actualRadius - (actualBorderWidth / 2), 0, 2 * Math.PI);
+    ctx.arc(this._center.x, this._center.y, this._actualRadius - (actualBorderWidth / 2), 0, 2 * Math.PI);
     ctx.stroke();
 
   }
@@ -326,7 +326,7 @@ export class Wheel {
 
       ctx.beginPath();
       ctx.moveTo(0, 0);
-      ctx.lineTo(this.actualRadius - actualLineWidth, 0);
+      ctx.lineTo(this._actualRadius - actualLineWidth, 0);
 
       ctx.strokeStyle = this.lineColor;
       ctx.lineWidth = actualLineWidth;
@@ -356,8 +356,8 @@ export class Wheel {
       const angle = a.start + ((a.end - a.start) / 2);
 
       ctx.translate(
-        this._center.x + Math.cos(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * this.itemLabelRadius),
-        this._center.y + Math.sin(util.degRad(angle + Constants.arcAdjust)) * (this.actualRadius * this.itemLabelRadius)
+        this._center.x + Math.cos(util.degRad(angle + Constants.arcAdjust)) * (this._actualRadius * this.itemLabelRadius),
+        this._center.y + Math.sin(util.degRad(angle + Constants.arcAdjust)) * (this._actualRadius * this.itemLabelRadius)
       );
 
       ctx.rotate(util.degRad(angle + Constants.arcAdjust));
@@ -481,7 +481,7 @@ export class Wheel {
    */
   wheelHitTest(point = {x:0, y:0}) {
     const p = util.translateXYToElement(point, this.canvas, this.getActualPixelRatio());
-    return util.isPointInCircle(p, this._center.x, this._center.y, this.actualRadius);
+    return util.isPointInCircle(p, this._center.x, this._center.y, this._actualRadius);
   }
 
   /**
