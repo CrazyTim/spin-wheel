@@ -14,7 +14,7 @@ export class Wheel {
     if (!(container instanceof Element)) throw 'container parameter must be an Element';
     if (!util.isObject(props) && props !== null) throw 'props parameter must be an Object or null';
 
-    this.canvasContainer = container;
+    this._canvasContainer = container;
     this.canvas = document.createElement('canvas');
     this._context = this.canvas.getContext('2d');
 
@@ -74,11 +74,11 @@ export class Wheel {
   }
 
   addCanvas() {
-    this.canvasContainer.appendChild(this.canvas);
+    this._canvasContainer.appendChild(this.canvas);
   }
 
   removeCanvas() {
-    this.canvasContainer.removeChild(this.canvas);
+    this._canvasContainer.removeChild(this.canvas);
   }
 
   remove() {
@@ -95,8 +95,8 @@ export class Wheel {
 
     // Get the smallest dimension of `canvasContainer`:
     const [w, h] = [
-      this.canvasContainer.clientWidth * this.getActualPixelRatio(), 
-      this.canvasContainer.clientHeight * this.getActualPixelRatio(),
+      this._canvasContainer.clientWidth * this.getActualPixelRatio(), 
+      this._canvasContainer.clientHeight * this.getActualPixelRatio(),
     ];
     
     // Calc the size that the wheel needs to be to fit in it's container:
@@ -109,8 +109,8 @@ export class Wheel {
     this.size = Math.max(wheelSize.w * scale, wheelSize.h * scale);
 
     // Resize canvas element:
-    this.canvas.style.width = this.canvasContainer.clientWidth + 'px';
-    this.canvas.style.height = this.canvasContainer.clientHeight + 'px';
+    this.canvas.style.width = this._canvasContainer.clientWidth + 'px';
+    this.canvas.style.height = this._canvasContainer.clientHeight + 'px';
     this.canvas.width = w;
     this.canvas.height = h;
 
