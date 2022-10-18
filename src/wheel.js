@@ -8,7 +8,7 @@ export class Wheel {
 
   constructor(container, props = {}) {
 
-    this.frameRequestId = null; // Init.
+    this._frameRequestId = null; // Init.
 
     // Validate params.
     if (!(container instanceof Element)) throw 'container parameter must be an Element';
@@ -82,7 +82,7 @@ export class Wheel {
   }
 
   remove() {
-    window.cancelAnimationFrame(this.frameRequestId);
+    window.cancelAnimationFrame(this._frameRequestId);
     events.unregister(this);
     this.removeCanvas();
   }
@@ -139,7 +139,7 @@ export class Wheel {
    */
   draw(now = 0) {
 
-    this.frameRequestId = null;
+    this._frameRequestId = null;
 
     const ctx = this._context;
 
@@ -585,8 +585,8 @@ export class Wheel {
    * Call this after changing any property of the wheel that relates to it's appearance.
    */
   refresh() {
-    if (this.frameRequestId === null) {
-      this.frameRequestId = window.requestAnimationFrame(this.draw.bind(this));
+    if (this._frameRequestId === null) {
+      this._frameRequestId = window.requestAnimationFrame(this.draw.bind(this));
     }
   }
 
