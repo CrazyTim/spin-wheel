@@ -1,9 +1,9 @@
-import {beforeAll, test, expect} from '@jest/globals';
+import {beforeEach, test, expect} from '@jest/globals';
 import {Defaults} from './constants.js';
 import * as fixture from '../scripts/test-fixture.js';
 import {getInstanceProperties} from '../scripts/util.js';
 
-beforeAll(() => {
+beforeEach(() => {
   fixture.initWheel();
 });
 
