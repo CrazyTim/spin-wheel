@@ -1,12 +1,14 @@
 import {Wheel} from '../src/wheel.js';
+import {jest} from '@jest/globals';
 
 export let wheel = null;
 
 export function initWheel() {
 
-  document.body.innerHTML = '<div class="wheel-wrapper"></div>';
+  const container = document.createElement('div');
 
-  const container = document.querySelector('.wheel-wrapper');
+  jest.spyOn(container, 'clientWidth', 'get').mockReturnValue(500);
+  jest.spyOn(container, 'clientHeight', 'get').mockReturnValue(500);
 
   wheel = new Wheel(container);
 

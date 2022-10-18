@@ -7,6 +7,10 @@ beforeEach(() => {
   fixture.initWheel();
 });
 
+test ('Wheel can be initiated', () => {
+  expect(fixture.wheel).toMatchSnapshot();
+});
+
 test('Each Wheel property has a coresponding default value', () => {
 
   const wheelGetters = getInstanceProperties(fixture.wheel).getters;
