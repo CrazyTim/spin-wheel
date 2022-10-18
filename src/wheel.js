@@ -106,7 +106,7 @@ export class Wheel {
       h: minSize - (minSize * this.offset.h),
     };
     const scale = Math.min(w / wheelSize.w, h / wheelSize.h);
-    this.size = Math.max(wheelSize.w * scale, wheelSize.h * scale);
+    this._size = Math.max(wheelSize.w * scale, wheelSize.h * scale);
 
     // Resize canvas element:
     this.canvas.style.width = this._canvasContainer.clientWidth + 'px';
@@ -121,10 +121,10 @@ export class Wheel {
     };
 
     // Recalculate the wheel radius:
-    this.actualRadius = (this.size / 2) * this.radius;
+    this.actualRadius = (this._size / 2) * this.radius;
 
     // Adjust the font size of labels so they all fit inside `wheelRadius`:
-    this.itemLabelFontSize = this.itemLabelFontSizeMax * (this.size / Constants.baseCanvasSize);
+    this.itemLabelFontSize = this.itemLabelFontSizeMax * (this._size / Constants.baseCanvasSize);
     this.labelMaxWidth = this.actualRadius * (this.itemLabelRadius - this.itemLabelRadiusMax);
     for (const item of this._items) {
       this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(item.label, this.itemLabelFont, this.labelMaxWidth, this._context));
@@ -228,8 +228,8 @@ export class Wheel {
 
       ctx.rotate(util.degRad(angle + item.imageRotation));
 
-      const width = (this.size / 500) * item.image.width * item.imageScale;
-      const height = (this.size / 500) * item.image.height * item.imageScale;
+      const width = (this._size / 500) * item.image.width * item.imageScale;
+      const height = (this._size / 500) * item.image.height * item.imageScale;
       const widthHalf = -width / 2;
       const heightHalf = -height / 2;
 
@@ -261,7 +261,7 @@ export class Wheel {
     // Draw the image centered and scaled to fit the wheel's container:
     // For convenience, scale the 'normal' image to the size of the wheel radius
     // (so a change in the wheel radius won't require the image to also be updated).
-    const size = isOverlay ? this.size : this.size * this.radius;
+    const size = isOverlay ? this._size : this._size * this.radius;
     const sizeHalf = -(size / 2);
     ctx.drawImage(
       image,
@@ -314,7 +314,7 @@ export class Wheel {
 
     if (this.lineWidth <= 0) return;
 
-    const actualLineWidth = (this.lineWidth / Constants.baseCanvasSize) * this.size;
+    const actualLineWidth = (this.lineWidth / Constants.baseCanvasSize) * this._size;
 
     ctx.translate(
       this.center.x,
@@ -469,7 +469,7 @@ export class Wheel {
    * Return the scaled border size.
    */
   getActualBorderWidth() {
-     return (this.borderWidth / Constants.baseCanvasSize) * this.size;
+     return (this.borderWidth / Constants.baseCanvasSize) * this._size;
   }
 
   getActualPixelRatio() {
