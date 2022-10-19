@@ -8,7 +8,8 @@ export const baseCanvasSize = 500; // 500 seemed to be a good value for this.
 /**
  * The period in milliseconds that we record drag events.
  * Used to calculate how fast the wheel should spin after the drag ends.
- * For example, if the wheel was dragged 20 degrees over the last 250ms, then it should continue at that rotation speed after the drag ends.
+ * For example, if the wheel was dragged 20 degrees over the last 250ms,
+ * then it should continue rotating at a speed of 20 degrees every 250ms after the drag ends.
  */
 export const dragCapturePeriod = 250;
 

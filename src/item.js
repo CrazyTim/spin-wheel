@@ -165,7 +165,6 @@ export class Item {
     return this._weight;
   }
   set weight(val) {
-    //console.log('refresgh');
     if (typeof val === 'number') {
       this._weight = val;
     } else {
