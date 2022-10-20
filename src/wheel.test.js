@@ -3,6 +3,7 @@ import {Defaults} from './constants.js';
 import * as fixture from '../scripts/test-fixture.js';
 import {getInstanceProperties} from '../scripts/util.js';
 import {Wheel} from '../src/wheel.js';
+import * as easing from 'easing-utils';
 
 beforeEach(() => {
   fixture.initWheel();
@@ -110,3 +111,11 @@ test('Default value works for itemLabelColors', () => {
   expect(fixture.wheel.items[1].labelColor).toBe('bar');
 
 });
+
+test ('Goto angle works', () => {
+
+  fixture.addBlankItems(3);
+
+});
+
+// TODO: add tests for item.angles to ensure they are inclusive/exclusive

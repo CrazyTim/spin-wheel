@@ -9,8 +9,9 @@ An easy to use, themeable component for randomising choices and prizes.
 - Vanilla JavaScript (ES6).
 - No dependencies.
 - Simple, easy to use API.
-- Realistic wheel rotation (no easing, just momentum and drag).
-- Interactive - spin the wheel using click-drag/touch-flick, or you can manually call `spin()`.
+- Interactable with click-drag or touch-flick.
+- Spin by applying momentum and drag, or animate to a specific angle with easing.
+- Responsive layout - the wheel resizes automatically to fit it's container, making it easy to adjust.
 - Easily themeable:
   - Give items their own color and weight.
   - Rotate labels and change alignment.
@@ -18,7 +19,6 @@ An easy to use, themeable component for randomising choices and prizes.
   - Apply repeating colour sets.
 - Callbacks for events like `onSpin` and `onRest`.
 - Clockwise and anticlockwise spinning.
-- Responsive layout - the wheel resizes automatically to fit it's container, making it easy to adjust.
 
 ## How to make your own wheel
 
@@ -50,6 +50,7 @@ const wheel = new Wheel(container, props);
 - [Basic ESM usage](https://crazytim.github.io/spin-wheel/examples/esm)
 - [Basic IIFE usage](https://crazytim.github.io/spin-wheel/examples/iife)
 - [Themes](https://crazytim.github.io/spin-wheel/examples/themes)
+- [Spin to a specific item](https://crazytim.github.io/spin-wheel/examples/spin-to-item)
 
 ## Configuration
 
@@ -67,14 +68,36 @@ Here's a handy diagram:
 
 <img alt="diagram of props" src="https://crazytim.github.io/spin-wheel/props-diagram.svg" width="615px" />
 
+## Spinning the wheel
+
+There are three ways to spin the wheel
+
+1. When `Wheel.isInteractive == true`, the user can interact with the wheel by clicking and dragging (or flicking on touch screens) within the bounds of `Wheel.radius`.
+
+2. By calling `Wheel.spin()`. The wheel will animate based on the properties `Wheel.rotationSpeed` and `Wheel.rotationResistance` (these properties can also be changed directly).
+
+3. By calling `Wheel.spinToAngle()`. The wheel will animate for the specified duration, finishing at the specified angle.
+
+## Calculating the winning item
+
+For non-trivial applications (such as multiplayer games, or awarding prizes with actual value) you should always calculate the winning item on the back-end and only use the front-end to display the result. Use `Wheel.spinToAngle()` for this purpose. For example:
+
+```JavaScript
+const winningItemIndex = 2; // TODO: calculate the winning item on the back-end.
+const winningAngle = wheel.items[winningItemIndex].getRandomAngle();
+wheel.spinToAngle(winningAngle, 5500);
+```
+
 ## Methods for `Wheel`
 
-Method                                             | Description
--------------------------------------------------- | ---------------------------
-`constructor(container, props = {})`               | `container` parameter must be an Element.<br>`props` parameter must be an Object or null.
-`init(props = {})`                                 | Initialise all properties.<br>If a value is not provided for a property then it will be given a default value.
-`spin(speed = 0, randomAdjustmentPercent = 0.0)`   | Spin the wheel by setting `rotationSpeed` and raise the `onSpin` event.<br>Optionally apply a random adjustment to the speed within a range (percent), which can make the spin less predictable.
-`getCurrentIndex()`                                | Get the index of the item that the Pointer is pointing at.<br>An item is considered "current" if `pointerAngle` is between it's start angle (inclusive) and it's end angle (exclusive).
+Method                                                              | Description
+------------------------------------------------------------------- | ---------------------------
+`constructor(container, props = {})`                                | `container` parameter must be an Element.<br>`props` parameter must be an Object or null.
+`init(props = {})`                                                  | Initialise all properties.<br>If a value is not provided for a property then it will be given a default value.
+`spin(speed = 0, randomAdjustmentPercent = 0.0)`                    | Spin the wheel by setting `rotationSpeed` and raise the `onSpin` event.<br>Optionally apply a random adjustment to the speed within a range (percent), which can make the spin less predictable.
+`spinToAngle(angle = 0, duration = 0, easingFunction = null)`       | Spin the wheel to a particular `angle` (in degrees).<br>The animation will occur over the provided `duration` (milliseconds).<br>`rotationSpeed` will be ignored during the animation.<br>The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.<br>For example easing functions see [d3-ease](https://github.com/d3/d3-ease) or [easing-utils](https://github.com/AndrewRayCode/easing-utils).
+`stop()`                                                            | Stop the wheel from spinning.
+`getCurrentIndex()`                                                 | Get the index of the item that the Pointer is pointing at.<br>An item is considered "current" if `pointerAngle` is between it's start angle (inclusive) and it's end angle (exclusive).
 
 ## Properties for `Wheel`
 
@@ -140,6 +163,14 @@ Key                         | Value
 `type`                      | `'spin'`
 `dragEvents`                | An array of events that occurred during the interactive spin that was used to raise `onSpin`.<br>If the spin was not interactive then this will be an empty array.
 `rotationSpeed`             | The rotation speed of the wheel.<br>See `Wheel.rotationSpeed`.
+
+## Methods for `Item`
+
+Name                            | Description
+------------------------------- | ---------------------------
+`getEndAngle()`                 |
+`getRandomAngle()`              |
+`getStartAngle()`               |
 
 ## Properties for `Item`
 

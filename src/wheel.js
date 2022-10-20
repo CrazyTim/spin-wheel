@@ -3,6 +3,7 @@ import * as Constants from './constants.js';
 import {Defaults} from './constants.js';
 import * as events from './events.js';
 import {Item} from './item.js';
+import { easeOutBounce as ease} from 'easing-utils';
 
 export class Wheel {
 
@@ -428,20 +429,46 @@ export class Wheel {
 
   animateRotation(now = 0) {
 
+    // For spinToAngle()
+    if (this._spinToTimeEnd) {
+
+      // Check if we should end the animation.
+      if (now >= this._spinToTimeEnd) {
+        this.rotation = this._spinToAngleEnd;
+        this._spinToTimeEnd = undefined;
+        this.raiseEvent_onRest();
+        return;
+      }
+
+      this.rotationSpeed = 0; // `spinToAngle()` should override `spin()`
+
+      this.refresh(); // Ensure the animation loop is active.
+
+      const duration = this._spinToTimeEnd - this._spinToTimeStart;
+      const delta = (now - this._spinToTimeStart) / duration;
+      const distance = this._spinToAngleEnd - this._spinToAngleStart;
+
+      this.rotation = this._spinToAngleStart + distance * this._spinToEasingFunction(delta);
+
+      return;
+
+    }
+
+    // For spin()
     if (this.rotationSpeed !== 0) {
 
-      this.refresh(); // Ensure the animation loop is active while rotating.
+      this.refresh(); // Ensure the animation loop is active.
 
-      if (this.lastRotationFrame === undefined) this.lastRotationFrame = now;
+      if (this._lastFrameTime === undefined) this._lastFrameTime = now;
 
-      const delta = now - this.lastRotationFrame;
+      const delta = now - this._lastFrameTime;
 
       if (delta > 0) {
 
-        this.rotation += ((delta / 1000) * this.rotationSpeed) % 360;
+        this.rotation += ((delta / 1000) * this.rotationSpeed) % 360; // TODO: very small rounding errors can accumulative here.
         this.rotationSpeed = this.getRotationSpeedPlusDrag(delta);
         if (this.rotationSpeed === 0) this.raiseEvent_onRest();
-        this.lastRotationFrame = now;
+        this._lastFrameTime = now;
 
       }
 
@@ -449,7 +476,7 @@ export class Wheel {
 
     }
 
-    this.lastRotationFrame = undefined;
+    this._lastFrameTime = undefined;
 
   }
 
@@ -480,6 +507,33 @@ export class Wheel {
 
     if (this.rotationSpeed !== 0) this.raiseEvent_onSpin();
 
+  }
+
+  /**
+   * Spin the wheel to a particular `angle` (in degrees).
+   * The animation will occur over the provided `duration` (milliseconds).
+   * `rotationSpeed` will be ignored during the animation.
+   * The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.
+   * For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
+   */
+  spinToAngle(angle = 0, duration = 0, easingFunction = null) {
+    this._spinToAngleStart = this.rotation;
+    this._spinToAngleEnd = angle;
+    this._spinToTimeStart = performance.now();
+    this._spinToTimeEnd = this._spinToTimeStart + duration;
+    this._spinToEasingFunction = easingFunction || util.easeSinOut;
+    this.refresh();
+  }
+
+  /**
+   * Immediately stop the wheel from spinning.
+   */
+  stopSpin() {
+    // Stop the wheel if it was spun via `spin()`.
+    this.rotationSpeed = 0;
+
+    // Stop the wheel if it was spun via `spinToAngle()`.
+    this._spinToTimeEnd = undefined;
   }
 
   /**
@@ -560,15 +614,19 @@ export class Wheel {
   }
 
   /**
-   * Return an array of objects which represents the current start/end angles for each item.
+   * Return an array of objects containing the start angle (inclusive) and end angle (exclusive) of each item.
    */
   getItemAngles(initialRotation = 0) {
 
-    const angles = [];
-    const weightedItemAngle = 360 / this.items.reduce((a, i) => a + i.weight, 0);
+    let weightSum = 0;
+    for (const i of this.items) {
+      weightSum += i.weight;
+    }
+    const weightedItemAngle = 360 / weightSum;
 
     let itemAngle;
     let lastItemAngle = initialRotation;
+    const angles = [];
 
     for (const item of this._items) {
       itemAngle = item.weight * weightedItemAngle;
@@ -1093,7 +1151,7 @@ export class Wheel {
 
     this.isDragging = true;
 
-    this.rotationSpeed = 0; // Stop the wheel from spinning.
+    this.stopSpin(); // Interrupt `spinToAngle()`
 
     this.dragEvents = [{
       distance: 0,

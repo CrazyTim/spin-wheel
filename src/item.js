@@ -184,4 +184,34 @@ export class Item {
     }
   }
 
+  /**
+   * Get the index of this item.
+   */
+  getIndex() {
+    return this._wheel.items.findIndex(i => i === this);
+  }
+
+  /**
+   * Get the angle (in degrees) that this item starts at (inclusive).
+   */
+  getStartAngle() {
+    const angles = this._wheel.getItemAngles();
+    return angles[this.getIndex()].start;
+  }
+
+  /**
+   * Get the angle (in degrees) that this item ends at (exclusive).
+   */
+  getEndAngle() {
+    const angles = this._wheel.getItemAngles();
+    return angles[this.getIndex()].end;
+  }
+
+  /**
+   * Return a random angle (in degrees) between the start (inclusive) and the end (exclusive) of this item.
+   */
+  getRandomAngle() {
+    return util.getRandomFloat(this.getStartAngle(), this.getEndAngle());
+  }
+
 }

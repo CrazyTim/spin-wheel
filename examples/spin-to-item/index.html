@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Spin Wheel Example - Spin to a specific item</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="icon" href="data:image/x-icon;," type="image/x-icon">
+  <link rel="stylesheet" href="./css/index.css"/>
+
+  <script type='module'>
+    import {Wheel} from '../../dist/spin-wheel-esm.js';
+    import * as easing from "https://cdn.skypack.dev/d3-ease@3";
+
+    window.onload = () => {
+
+      const container = document.querySelector('.wheel-wrapper');
+      const dropdownWinningItem = document.querySelector('select.winning-item');
+      const dropdownEasingFunction = document.querySelector('select.easing-function');
+      const btnSpin = document.querySelector('.gui-wrapper button');
+
+      const props = {
+        items: [
+          {
+            label: 'Dog',
+            weight: 6,
+          },
+          {
+            label: 'Cat',
+            weight: 4.9,
+          },
+          {
+            label: 'Fish',
+            weight: 4.1,
+          },
+          {
+            label: 'Rabbit',
+            weight: 3.7,
+          },
+          {
+            label: 'Bird',
+            weight: 3,
+          },
+          {
+            label: 'Chicken',
+            weight: 2.8,
+          },
+          {
+            label: 'Lizard',
+            weight: 2.5,
+          },
+          {
+            label: 'Turtle',
+            weight: 1,
+          },
+        ],
+        itemLabelRadiusMax: .5,
+      };
+
+      const easingFunctions = [
+        {
+          label: 'default (easeSinOut)',
+          function: null,
+          duration: 4300,
+        },
+        {
+          label: 'easeSinInOut',
+          function: easing.easeSinInOut,
+          duration: 2300,
+        },
+        {
+          label: 'easeCubicOut',
+          function: easing.easeCubicOut,
+          duration: 3000,
+        },
+        {
+          label: 'easeCubicInOut',
+          function: easing.easeCubicInOut,
+          duration: 3000,
+        },
+        {
+          label: 'easeElasticOut',
+          function: easing.easeElasticOut,
+          duration: 6500,
+        },
+        {
+          label: 'easeBounceOut',
+          function: easing.easeBounceOut,
+          duration: 3000,
+        },
+      ];
+
+      window.w = new Wheel(container, props);
+
+      // Initalise winning item dropdown:
+      for (const [i, item] of w.items.entries()) {
+        const opt = document.createElement('option');
+        opt.textContent = item.label;
+        opt.value = i;
+        dropdownWinningItem.appendChild(opt);
+      }
+
+      // Initalise easing functions dropdown:
+      for (const [i, item] of easingFunctions.entries()) {
+        const opt = document.createElement('option');
+        opt.textContent = item.label;
+        opt.value = i;
+        dropdownEasingFunction.appendChild(opt);
+      }
+
+      window.addEventListener('click', (e) => {
+
+        // Listen for click event on spin button:
+        if (e.target == btnSpin) {
+          const winningItemIndex = fetchWinningItemIndexFromApi();
+          const numberOfTurns = 2
+          const angle = w.rotation - (w.rotation % 360) + (360 - w.items[winningItemIndex].getRandomAngle() + (360 * numberOfTurns));
+
+          const easing = easingFunctions[dropdownEasingFunction.value];
+          const easingFunction = easing.function;
+          const duration = easing.duration;
+
+          console.log({
+            winningItemIndex,
+            angle,
+            duration,
+            easingFunction,
+          });
+
+          w.spinToAngle(angle, duration, easingFunction);
+        }
+      });
+
+      function fetchWinningItemIndexFromApi() {
+        // Simulate a call to the back-end
+        return dropdownWinningItem.value;
+      }
+
+    }
+  </script>
+
+</head>
+
+<body>
+
+  <div class="gui-wrapper">
+    <p><label>Choose the winning item:</label><select class="winning-item"></select></p>
+    <p><label>Choose the easing function:</label><select class="easing-function"></select></p>
+    <button>Spin the wheel!</button>
+  </div>
+
+  <div class="wheel-wrapper"></div>
+
+</body>
+</html>
