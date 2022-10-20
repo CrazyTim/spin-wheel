@@ -1162,6 +1162,7 @@ export class Wheel {
     this.onRest?.({
       event: 'rest',
       currentIndex: this._currentIndex,
+      rotation: this._rotation,
       ...data,
     });
   }
