@@ -8,6 +8,14 @@ export function getRandomInt(min = 0, max = 0) {
 }
 
 /**
+ * Get a random number between `min` (inclusive) and `max` (inclusive).
+ * Control the number of decimal places with `round`.
+ */
+ export function getRandomFloat(min = 0, max = 0, round = 14) {
+  return parseFloat((Math.random() * (max - min) + min).toFixed(round));
+}
+
+/**
  * Convert degrees to radians.
  */
 export function degRad(degrees = 0) {
@@ -127,4 +135,8 @@ export function diffAngle(a = 0, b = 0) {
 
 export function isObject(v) {
   return typeof v === 'object' && !Array.isArray(v) && v !== null;
+}
+
+export function easeSinOut(n) {
+  return Math.sin((n * Math.PI) / 2);
 }
