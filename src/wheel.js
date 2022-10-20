@@ -1071,13 +1071,10 @@ export class Wheel {
   dragStart(point = {x:0, y:0}) {
 
     const p = util.translateXYToElement(point, this.canvas, this.getActualPixelRatio());
-    const a = -this.getAngleFromCenter(p);
 
     this.isDragging = true;
 
     this.rotationSpeed = 0; // Stop the wheel from spinning.
-
-    this.dragStartRotation = util.addAngle(a, this.rotation);
 
     this.dragEvents = [{
       distance: 0,
@@ -1110,7 +1107,7 @@ export class Wheel {
     if (this.debug && this.dragEvents.length >= 40) this.dragEvents.pop();
 
     // Snap the wheel to the new rotation.
-    this.rotation = util.addAngle(a, this.dragStartRotation);
+    this.rotation += angleSinceLastMove; // TODO: can we apply easing here so it looks nicer?
 
   }
 
