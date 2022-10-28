@@ -9,9 +9,9 @@ An easy to use, themeable component for randomising choices and prizes.
 - Vanilla JavaScript (ES6).
 - No dependencies.
 - Simple, easy to use API.
-- Interactable with click-drag or touch-flick.
 - Spin by applying momentum and drag, or animate to a specific angle with easing.
-- Responsive layout - the wheel resizes automatically to fit it's container, making it easy to adjust.
+- Interactable with click-drag or touch-flick.
+- Responsive layout - everything in the wheel resizes automatically to fit it's container.
 - Easily themeable:
   - Give items their own color and weight.
   - Rotate labels and change alignment.
@@ -22,7 +22,13 @@ An easy to use, themeable component for randomising choices and prizes.
 
 ## How to make your own wheel
 
+```
+npm install spin-wheel
+```
+
 ```JavaScript
+import {Wheel} from '../node_modules/spin-wheel/dist/spin-wheel-esm.js';
+
 // 1. Configure the wheel's properties:
 const props = {
   items: [
