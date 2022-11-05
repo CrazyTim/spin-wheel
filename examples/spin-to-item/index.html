@@ -10,8 +10,10 @@
   <script type='module'>
     import {Wheel} from '../../dist/spin-wheel-esm.js';
     import * as easing from "https://cdn.skypack.dev/d3-ease@3";
+    import * as util from "../../src/util.js";
 
     window.onload = () => {
+      const numberOfRevolutions = 1;
 
       const container = document.querySelector('.wheel-wrapper');
       const dropdownWinningItem = document.querySelector('select.winning-item');
@@ -112,21 +114,11 @@
         // Listen for click event on spin button:
         if (e.target == btnSpin) {
           const winningItemIndex = fetchWinningItemIndexFromApi();
-          const numberOfTurns = 2
-          const angle = w.rotation - (w.rotation % 360) + (360 - w.items[winningItemIndex].getRandomAngle() + (360 * numberOfTurns));
-
           const easing = easingFunctions[dropdownEasingFunction.value];
           const easingFunction = easing.function;
           const duration = easing.duration;
 
-          console.log({
-            winningItemIndex,
-            angle,
-            duration,
-            easingFunction,
-          });
-
-          w.spinToAngle(angle, duration, easingFunction);
+          w.spinToItem(winningItemIndex, duration, true, numberOfRevolutions, easingFunction);
         }
       });
 

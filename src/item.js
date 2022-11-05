@@ -185,14 +185,22 @@ export class Item {
   }
 
   /**
-   * Get the index of this item.
+   * Get the angle (in degrees) that this item ends at (exclusive), ignoring the current `rotation` of the wheel.
+   */
+  getCenterAngle() {
+    const thisAngles = this._wheel.getItemAngles()[this.getIndex()];
+    return thisAngles.start + ((thisAngles.end - thisAngles.start) / 2);
+  }
+
+  /**
+   * Get the 0-based index of this item.
    */
   getIndex() {
     return this._wheel.items.findIndex(i => i === this);
   }
 
   /**
-   * Get the angle (in degrees) that this item starts at (inclusive).
+   * Get the angle (in degrees) that this item starts at (inclusive), ignoring the current `rotation` of the wheel.
    */
   getStartAngle() {
     const angles = this._wheel.getItemAngles();
@@ -200,7 +208,7 @@ export class Item {
   }
 
   /**
-   * Get the angle (in degrees) that this item ends at (exclusive).
+   * Get the angle (in degrees) that this item ends at (exclusive), ignoring the current `rotation` of the wheel.
    */
   getEndAngle() {
     const angles = this._wheel.getItemAngles();
@@ -208,7 +216,7 @@ export class Item {
   }
 
   /**
-   * Return a random angle (in degrees) between the start (inclusive) and the end (exclusive) of this item.
+   * Return a random angle (in degrees) between this item's start angle (inclusive) and end angle (exclusive).
    */
   getRandomAngle() {
     return util.getRandomFloat(this.getStartAngle(), this.getEndAngle());

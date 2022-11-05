@@ -101,7 +101,9 @@ Method                                                              | Descriptio
 `constructor(container, props = {})`                                | `container` parameter must be an Element.<br>`props` parameter must be an Object or null.
 `init(props = {})`                                                  | Initialise all properties.<br>If a value is not provided for a property then it will be given a default value.
 `spin(speed = 0, randomAdjustmentPercent = 0.0)`                    | Spin the wheel by setting `rotationSpeed` and raise the `onSpin` event.<br>Optionally apply a random adjustment to the speed within a range (percent), which can make the spin less predictable.
-`spinToAngle(angle = 0, duration = 0, easingFunction = null)`       | Spin the wheel to a particular `angle` (in degrees).<br>The animation will occur over the provided `duration` (milliseconds).<br>`rotationSpeed` will be ignored during the animation.<br>The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.<br>For example easing functions see [d3-ease](https://github.com/d3/d3-ease) or [easing-utils](https://github.com/AndrewRayCode/easing-utils).
+`spinToAngle(angle = 0, duration = 0, easingFunction = null)`       | Spin the wheel to a particular `angle` (in degrees).<br>The animation will occur over the `provided `duration` (milliseconds).<br>`rotationSpeed` will be ignored during the animation.<br>The animation can be adjusted by providing an optional
+`easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.<br>For example easing functions see [d3-ease](https://github.com/d3/d3-ease) or [easing-utils](https://github.com/AndrewRayCode/easing-utils).
+`spinToItem(itemIndex = 0, duration = 0, spinToCenter = true, numberOfRevolutions = 1, easingFunction = null)` |
 `stop()`                                                            | Stop the wheel from spinning.
 `getCurrentIndex()`                                                 | Get the index of the item that the Pointer is pointing at.<br>An item is considered "current" if `pointerAngle` is between it's start angle (inclusive) and it's end angle (exclusive).
 
@@ -174,9 +176,10 @@ Key                         | Value
 
 Name                            | Description
 ------------------------------- | ---------------------------
-`getEndAngle()`                 |
-`getRandomAngle()`              |
-`getStartAngle()`               |
+`getEndAngle()`                 | Get the angle (in degrees) that this item ends at (exclusive), ignoring the current `rotation` of the wheel.
+`getIndex()`                    | Get the 0-based index of this item.
+`getRandomAngle()`              | Return a random angle (in degrees) between this item's start angle (inclusive) and end angle (exclusive).
+`getStartAngle()`               | Get the angle (in degrees) that this item starts at (inclusive), ignoring the current `rotation` of the wheel.
 
 ## Properties for `Item`
 

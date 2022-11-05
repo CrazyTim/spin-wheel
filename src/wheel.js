@@ -445,11 +445,11 @@ export class Wheel {
       this.refresh(); // Ensure the animation loop is active.
 
       const duration = this._spinToTimeEnd - this._spinToTimeStart;
-      const delta = (now - this._spinToTimeStart) / duration;
+      let delta = (now - this._spinToTimeStart) / duration;
+      delta = (delta < 0)? 0 : delta; // Frame time may be before the start time.
       const distance = this._spinToAngleEnd - this._spinToAngleStart;
 
       this.rotation = this._spinToAngleStart + distance * this._spinToEasingFunction(delta);
-
       return;
 
     }
@@ -523,6 +523,36 @@ export class Wheel {
     this._spinToTimeEnd = this._spinToTimeStart + duration;
     this._spinToEasingFunction = easingFunction || util.easeSinOut;
     this.refresh();
+  }
+
+  /**
+   * Spin the wheel to a particular `item` (in degrees).
+   * The animation will occur over the provided `duration` (milliseconds).
+   * `rotationSpeed` will be ignored during the animation.
+   * If `spinToCenter` is false, the wheel will spin to a random angle inside the item.
+   * `numberOfRevolutions` controls the aproximate number of times the wheel will rotate 360 degrees before resting on the item.
+   * The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.
+   * For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
+   */
+  spinToItem(itemIndex = 0, duration = 0, spinToCenter = true, numberOfRevolutions = 1, easingFunction = null) {
+
+    let itemAngle;
+    if (spinToCenter) {
+      itemAngle = w.items[itemIndex].getCenterAngle();
+    } else {
+      itemAngle = w.items[itemIndex].getRandomAngle();
+    }
+
+    const newAngle = this.calcSpinToAngle(itemAngle, this.rotation, numberOfRevolutions);
+
+    this.spinToAngle(newAngle, duration, easingFunction);
+  }
+
+  calcSpinToAngle (targetAngle, rotation, numberOfRevolutions) {
+    let angle = (360 - (((rotation % 360) + targetAngle) % 360)) % 360;
+    if (angle >= 270) --numberOfRevolutions; // Make the spin speed feel more natural if it is close to a full rotation.
+    angle += rotation + (numberOfRevolutions * 360);
+    return angle;
   }
 
   /**
