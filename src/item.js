@@ -171,7 +171,6 @@ export class Item {
     } else {
       this._weight = Defaults.item.weight;
     }
-    this._wheel.refreshItemWeight();
   }
 
 }

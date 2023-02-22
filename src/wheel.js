@@ -542,26 +542,19 @@ export class Wheel {
     }
   }
 
-  refreshItemWeight() {
-    if (this._items.length) {
-      this.weightedItemAngle = 360 / util.sumObjArray(this._items, 'weight');
-    } else {
-      this.weightedItemAngle = 0;
-    }
-    this.refresh();
-  }
-
   /**
    * Return an array of objects which represents the current start/end angles for each item.
    */
   getItemAngles(initialRotation = 0) {
 
     const angles = [];
+    const weightedItemAngle = 360 / this.items.reduce((a, i) => a + i.weight, 0);
+
     let itemAngle;
     let lastItemAngle = initialRotation;
 
     for (const item of this._items) {
-      itemAngle = item.weight * this.weightedItemAngle;
+      itemAngle = item.weight * weightedItemAngle;
       angles.push({
         start: lastItemAngle,
         end: lastItemAngle + itemAngle,
@@ -843,7 +836,6 @@ export class Wheel {
       this._items = Defaults.wheel.items;
     }
 
-    this.refreshItemWeight(); // We need to recalc weight again now that the last item has been added to the array.
     this.refreshCurrentIndex(this.getItemAngles(this.rotation));
   }
 

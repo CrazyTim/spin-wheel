@@ -10,46 +10,6 @@ test('degRad() works', () => {
   expect(f(360)).toBe(6.283185307179586);
 });
 
-test('sumObjArray() works', () => {
-  const f = util.sumObjArray;
-
-  const arr = [
-    {a: 2, b: 4},
-    {a: 8, b: 16},
-    {a: 32},
-    {b: 64},
-  ];
-
-  expect(f([], 'a')).toBe(0); // Empty array.
-  expect(f(arr, 'a')).toBe(42);
-  expect(f(arr, 'b')).toBe(84);
-});
-
-test('sumObjArray() handles truthy/falsy values', () => {
-  const f = util.sumObjArray;
-
-  // Truthy values:
-  expect(f([{ a: 1 }], 'a')).toBe(1);
-  expect(f([{ a: true }], 'a')).toBe(1);
-  expect(f([{ a: {} }], 'a')).toBe(1);
-  expect(f([{ a: [] }], 'a')).toBe(1);
-  expect(f([{ a: i => {} }], 'a')).toBe(1);
-  expect(f([{ a: new Set() }], 'a')).toBe(1);
-  expect(f([{ a: new Map() }], 'a')).toBe(1);
-  expect(f([{ a: new Date() }], 'a')).toBe(1);
-
-  // Falsy values:
-  expect(f([{ a: 0 }], 'a')).toBe(0);
-  expect(f([{ a: -0 }], 'a')).toBe(0);
-  expect(f([{ a: 0n }], 'a')).toBe(0);
-  expect(f([{ a: '' }], 'a')).toBe(0);
-  expect(f([{ a: false }], 'a')).toBe(0);
-  expect(f([{ a: null }], 'a')).toBe(0);
-  expect(f([{ a: undefined }], 'a')).toBe(0);
-  expect(f([{ a: NaN }], 'a')).toBe(0);
-
-});
-
 test ('isAngleBetween() works', () => {
   const f = util.isAngleBetween;
 
