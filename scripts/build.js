@@ -56,4 +56,4 @@ await esbuild.build({
   process.exit(1);
 });
 
-if (serveFlag) startWebServer('examples/themes');
+if (serveFlag) startWebServer('examples/spin-to-item');
