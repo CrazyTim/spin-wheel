@@ -47,16 +47,16 @@ test('Each Wheel property is given a Default value when the Wheel is initalised'
 test('getItemAngles() works', () => {
 
   fixture.addBlankItems(4);
-  fixture.wheel.rotation = 90;
+  fixture.wheel.rotation = 90; // rotation should not affect start/end angles
 
-  const angles = fixture.wheel.getItemAngles();
+  const items = fixture.wheel.items;
 
-  expect(angles[0].start).toBe(0); // First start angle should be 0.
-  expect(angles[3].end).toBe(360); // Last end angle should be 360.
+  expect(items[0].getStartAngle()).toBe(0); // First start angle should be 0.
+  expect(items[3].getEndAngle()).toBe(360); // Last end angle should be 360.
 
-  expect(angles[0].end).toBe(90);
-  expect(angles[1].start).toBe(90);
-  expect(angles[1].end).toBe(180);
+  expect(items[0].getEndAngle()).toBe(90);
+  expect(items[1].getStartAngle()).toBe(90);
+  expect(items[1].getEndAngle()).toBe(180);
 
 });
 
@@ -115,6 +115,42 @@ test('Default value works for itemLabelColors', () => {
 test ('Goto angle works', () => {
 
   fixture.addBlankItems(3);
+
+});
+
+test ('Goto item works', () => {
+
+  expect(fixture.wheel.calcSpinToAngle(0, 0, 0)).toBe(0);
+  expect(fixture.wheel.calcSpinToAngle(0, 90, 0)).toBe(360);
+  expect(fixture.wheel.calcSpinToAngle(0, 180, 0)).toBe(360);
+  expect(fixture.wheel.calcSpinToAngle(0, 270, 0)).toBe(360);
+
+  expect(fixture.wheel.calcSpinToAngle(90, 0, 0)).toBe(270);
+  expect(fixture.wheel.calcSpinToAngle(90, 90, 0)).toBe(270);
+  expect(fixture.wheel.calcSpinToAngle(90, 180, 0)).toBe(270);
+  expect(fixture.wheel.calcSpinToAngle(90, 270, 0)).toBe(270);
+
+  expect(fixture.wheel.calcSpinToAngle(180, 0, 0)).toBe(180);
+  expect(fixture.wheel.calcSpinToAngle(180, 90, 0)).toBe(180);
+  expect(fixture.wheel.calcSpinToAngle(180, 180, 0)).toBe(180);
+  expect(fixture.wheel.calcSpinToAngle(180, 270, 0)).toBe(540);
+
+  expect(fixture.wheel.calcSpinToAngle(270, 0, 0)).toBe(90);
+  expect(fixture.wheel.calcSpinToAngle(270, 90, 0)).toBe(90);
+  expect(fixture.wheel.calcSpinToAngle(270, 180, 0)).toBe(450);
+  expect(fixture.wheel.calcSpinToAngle(270, 270, 0)).toBe(450);
+
+  // handles negative angles
+  expect(fixture.wheel.calcSpinToAngle(0, 0, 0)).toBe(0);
+  expect(fixture.wheel.calcSpinToAngle(0, -90, 0)).toBe(0);
+  expect(fixture.wheel.calcSpinToAngle(0, -180, 0)).toBe(0);
+  expect(fixture.wheel.calcSpinToAngle(0, -270, 0)).toBe(0);
+
+  // -90 is same as 270
+  expect(fixture.wheel.calcSpinToAngle(-90, 0, 0)).toBe(90);
+  expect(fixture.wheel.calcSpinToAngle(-90, 90, 0)).toBe(90);
+  expect(fixture.wheel.calcSpinToAngle(-90, 180, 0)).toBe(450);
+  expect(fixture.wheel.calcSpinToAngle(-90, 270, 0)).toBe(450);
 
 });
 

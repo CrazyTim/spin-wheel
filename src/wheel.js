@@ -534,25 +534,26 @@ export class Wheel {
    * The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.
    * For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
    */
-  spinToItem(itemIndex = 0, duration = 0, spinToCenter = true, numberOfRevolutions = 1, easingFunction = null) {
+  spinToItem(itemIndex = 0, duration = 0, spinToCenter = true, numberOfRevolutions = 1, direction = 1, easingFunction = null) {
 
     let itemAngle;
     if (spinToCenter) {
-      itemAngle = w.items[itemIndex].getCenterAngle();
+      itemAngle = w.items[itemIndex].getStartAngle();
     } else {
       itemAngle = w.items[itemIndex].getRandomAngle();
     }
 
-    const newAngle = this.calcSpinToAngle(itemAngle, this.rotation, numberOfRevolutions);
+    const newAngle = this.calcSpinToAngle(itemAngle, this.rotation, numberOfRevolutions, direction);
 
     this.spinToAngle(newAngle, duration, easingFunction);
   }
 
-  calcSpinToAngle (targetAngle, rotation, numberOfRevolutions) {
+  calcSpinToAngle (targetAngle = 0, rotation = 0, numberOfRevolutions = 0, direction) {
     let angle = (360 - (((rotation % 360) + targetAngle) % 360)) % 360;
-    if (angle >= 270) --numberOfRevolutions; // Make the spin speed feel more natural if it is close to a full rotation.
-    angle += rotation + (numberOfRevolutions * 360);
-    return angle;
+    angle += (numberOfRevolutions * 360);
+    //if (angle >= 270) --numberOfRevolutions; // Make the spin speed feel more natural if it is close to a full rotation.
+    angle *= direction;
+    return angle + rotation;
   }
 
   /**
