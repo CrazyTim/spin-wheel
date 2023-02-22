@@ -1,12 +1,17 @@
 {
   "name": "spin-wheel",
-  "displayName": "Spin Wheel",
   "version": "3.3.0",
+  "description": "An easy to use, themeable component for randomising choices and prizes.",
+  "keywords": [
+    "spinner",
+    "wheel",
+    "random"
+  ],
   "type": "module",
   "scripts": {
     "start": "node scripts/build.js -entryPoint=src/wheel.js -serve",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
-    "lint": "eslint src/** --fix",
+    "lint": "eslint src --fix",
     "build": "npm run lint && npm run test && npm run build-esm && npm run build-iife",
     "build-esm": "node scripts/build.js -entryPoint=src/wheel.js -esm",
     "build-iife": "node scripts/build.js -entryPoint=src/wheel.js -iife"
@@ -15,10 +20,7 @@
     "verbose": true,
     "injectGlobals": false,
     "silent": false,
-    "testEnvironment": "jsdom",
-    "setupFilesAfterEnv": [
-      "./scripts/test-setup.js"
-    ]
+    "testEnvironment": "jsdom"
   },
   "repository": {
     "type": "git",
@@ -33,8 +35,8 @@
   "devDependencies": {
     "browser-sync": "^2.27.5",
     "canvas": "^2.8.0",
-    "esbuild": "^0.13.11",
-    "eslint": "^7.32.0",
+    "esbuild": "^0.15.11",
+    "eslint": "^8.25.0",
     "jest": "^27.4.3"
   }
 }

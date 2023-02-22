@@ -1,9 +1,25 @@
 #!/usr/bin/env node
 import esbuild from 'esbuild';
-
-import { readFile } from 'fs/promises';
+import {readFile} from 'fs/promises';
 import * as util from './util.js';
-import startWebServer from './serve.js';
+import * as browsersync from 'browser-sync';
+
+function startWebServer (startPath) {
+
+  browsersync.create();
+
+  browsersync.init({
+    server: '.',
+    startPath: startPath,
+    watch: true,
+    notify: false,
+    ignore: [
+      './bin/*.*',
+      './src/*.*', // esbuild is monitoring this folder.
+      ],
+  });
+
+}
 
 const p = JSON.parse(
   await readFile(
@@ -17,7 +33,7 @@ const format = process.argv.includes('-iife') ? 'iife' : 'esm';
 
 const preamble = [
   `/**\n`,
-  ` * ${p.displayName} (${format.toUpperCase()}) v${p.version}\n`,
+  ` * ${p.name} (${format.toUpperCase()}) v${p.version}\n`,
   ` * ${p.homepage}\n`,
   ` * Copyright (c) ${p.author} ${util.dateFormat (new Date (), '%Y')}.\n`,
   ` * Distributed under the MIT License.\n`,

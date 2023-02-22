@@ -10,7 +10,7 @@
   <script type='module'>
     import {Wheel} from '../../dist/spin-wheel-esm.js';
     import {loadFonts} from '../../scripts/util.js';
-    import props from './js/props.js';
+    import {props} from './js/props.js';
 
     window.onload = async () => {
       await loadFonts(props.map(i => i.itemLabelFont));

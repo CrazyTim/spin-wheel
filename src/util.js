@@ -15,21 +15,6 @@ export function degRad(degrees = 0) {
 }
 
 /**
- * Sum the given property for each object in `array`.
- * Only operate on truthy values.
- * Truthy values that are not Numbers count as 1.
- * Return 0 if the array is empty.
- */
-export function sumObjArray(array, property) {
-  let sum = 0;
-  for (const i of array) {
-    const val = i[property];
-    if (val) sum += ((typeof val === 'number') ? val : 1);
-  }
-  return sum;
-}
-
-/**
  * Return true if `angle` is between `arcStart` (inclusive) and `arcEnd` (exclusive).
  * Example: `(0, 359, 1) == true`
  * Example: `(0, 1, 2) == false`

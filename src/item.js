@@ -1,7 +1,5 @@
 import * as util from './util.js';
-import * as Constants from './constants.js';
 import {Defaults} from './constants.js';
-import * as events from './events.js';
 
 export class Item {
 
@@ -54,13 +52,13 @@ export class Item {
     if (typeof val === 'string') {
       this._backgroundColor = val;
     } else {
-      this._backgroundColor = Defaults.item.backgroundColor; 
+      this._backgroundColor = Defaults.item.backgroundColor;
     }
     this._wheel.refresh();
   }
 
   /**
-   * The url of an image that will be drawn on the item. 
+   * The url of an image that will be drawn on the item.
    * Any part of the image that extends outside the item will be clipped.
    */
   get image () {
@@ -70,7 +68,7 @@ export class Item {
     if (typeof val === 'string') {
       this._image = new Image();
       this._image.src = val;
-      this._image.onload = e => this.refresh();
+      this._image.onload = e => this._wheel.refresh();
       this._image.onerror = e => {
         this._image.error = true;
         return true; // Don't fire default event handler.
@@ -153,7 +151,7 @@ export class Item {
     if (typeof val === 'string') {
       this._labelColor = val;
     } else {
-      this._labelColor = Defaults.item.labelColor; 
+      this._labelColor = Defaults.item.labelColor;
     }
     this._wheel.refresh();
   }
@@ -167,13 +165,11 @@ export class Item {
     return this._weight;
   }
   set weight(val) {
-    //console.log('refresgh');
     if (typeof val === 'number') {
       this._weight = val;
     } else {
       this._weight = Defaults.item.weight;
     }
-    this._wheel.refreshItemWeight();
   }
 
 }

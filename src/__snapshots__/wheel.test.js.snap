@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Wheel can be initiated 1`] = `
+Wheel {
+  "_actualRadius": 237.5,
+  "_borderColor": "#000",
+  "_borderWidth": 0,
+  "_canvasContainer": <div>
+    <canvas
+      height="500"
+      style="width: 500px; height: 500px;"
+      width="500"
+    />
+  </div>,
+  "_center": Object {
+    "x": 250,
+    "y": 250,
+  },
+  "_context": CanvasRenderingContext2D {
+    "canvas": <canvas
+      height="500"
+      style="width: 500px; height: 500px;"
+      width="500"
+    />,
+    "createPattern": [Function],
+    "drawImage": [Function],
+  },
+  "_currentIndex": -1,
+  "_debug": false,
+  "_frameRequestId": 1,
+  "_handler_onMouseDown": [Function],
+  "_handler_onMouseMoveRefreshCursor": [Function],
+  "_handler_onPointerDown": [Function],
+  "_handler_onPointerMoveRefreshCursor": [Function],
+  "_handler_onResize": [Function],
+  "_handler_onTouchStart": [Function],
+  "_image": null,
+  "_isInitialising": true,
+  "_isInteractive": true,
+  "_itemBackgroundColors": Array [
+    "#fff",
+  ],
+  "_itemLabelAlign": "right",
+  "_itemLabelBaselineOffset": 0,
+  "_itemLabelColors": Array [
+    "#000",
+  ],
+  "_itemLabelFont": "sans-serif",
+  "_itemLabelFontSizeMax": 500,
+  "_itemLabelRadius": 0.85,
+  "_itemLabelRadiusMax": 0.2,
+  "_itemLabelRotation": 0,
+  "_items": Array [],
+  "_lineColor": "#000",
+  "_lineWidth": 1,
+  "_offset": Object {
+    "h": 0,
+    "w": 0,
+  },
+  "_onCurrentIndexChange": null,
+  "_onRest": null,
+  "_onSpin": null,
+  "_overlayImage": null,
+  "_pixelRatio": null,
+  "_pointerAngle": 0,
+  "_radius": 0.95,
+  "_rotation": 0,
+  "_rotationDirection": 0,
+  "_rotationResistance": -35,
+  "_rotationSpeed": 0,
+  "_rotationSpeedMax": 250,
+  "_size": 500,
+  "canvas": <canvas
+    height="500"
+    style="width: 500px; height: 500px;"
+    width="500"
+  />,
+  "itemLabelFontSize": 500,
+  "labelMaxWidth": 154.37499999999997,
+}
+`;

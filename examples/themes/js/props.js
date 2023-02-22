@@ -1,6 +1,6 @@
 import {AlignText} from '../../../src/constants.js';
 
-export default [
+export const props = [
 
   {
     name: 'Workout',

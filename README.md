@@ -134,6 +134,7 @@ Key                         | Value
 --------------------------- | ---------------------------
 `event`                     | `'rest'`
 `currentIndex`              | The index of the item that the Pointer was pointing at.<br>See `Wheel.pointerAngle`.
+`rotation`                  | The rotation of the wheel.<br>See `Wheel.rotation`.
 
 ### `onSpin(event = {})`
 
