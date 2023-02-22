@@ -1,7 +1,12 @@
 {
   "name": "spin-wheel",
-  "displayName": "Spin Wheel",
   "version": "3.3.0",
+  "description": "An easy to use, themeable component for randomising choices and prizes.",
+  "keywords": [
+    "spinner",
+    "wheel",
+    "random"
+  ],
   "type": "module",
   "scripts": {
     "start": "node scripts/build.js -entryPoint=src/wheel.js -serve",

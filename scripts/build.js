@@ -33,7 +33,7 @@ const format = process.argv.includes('-iife') ? 'iife' : 'esm';
 
 const preamble = [
   `/**\n`,
-  ` * ${p.displayName} (${format.toUpperCase()}) v${p.version}\n`,
+  ` * ${p.name} (${format.toUpperCase()}) v${p.version}\n`,
   ` * ${p.homepage}\n`,
   ` * Copyright (c) ${p.author} ${util.dateFormat (new Date (), '%Y')}.\n`,
   ` * Distributed under the MIT License.\n`,
