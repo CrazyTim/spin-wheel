@@ -68,7 +68,7 @@ export class Item {
     if (typeof val === 'string') {
       this._image = new Image();
       this._image.src = val;
-      this._image.onload = e => this.refresh();
+      this._image.onload = e => this._wheel.refresh();
       this._image.onerror = e => {
         this._image.error = true;
         return true; // Don't fire default event handler.
