@@ -95,10 +95,10 @@ export class Wheel {
 
     // Get the smallest dimension of `canvasContainer`:
     const [w, h] = [
-      this._canvasContainer.clientWidth * this.getActualPixelRatio(), 
+      this._canvasContainer.clientWidth * this.getActualPixelRatio(),
       this._canvasContainer.clientHeight * this.getActualPixelRatio(),
     ];
-    
+
     // Calc the size that the wheel needs to be to fit in it's container:
     const minSize = Math.min(w, h);
     const wheelSize = {
@@ -200,7 +200,7 @@ export class Wheel {
         // Fall back to a value from the repeating set:
         this.itemBackgroundColors[i % this.itemBackgroundColors.length]
       );
-      
+
       ctx.fill(item.path);
 
     }
@@ -831,7 +831,7 @@ export class Wheel {
           weight: item.weight,
         }));
       }
-        
+
     } else {
       this._items = Defaults.wheel.items;
     }

@@ -93,8 +93,8 @@ test ('Default value works for itemLabelColors', () => {
     {},
     {labelColor: 'bar'},
   ];
-  
+
   expect(fixture.wheel.items[0].labelColor).toBe(Defaults.item.labelColor);
   expect(fixture.wheel.items[1].labelColor).toBe('bar');
-  
+
 });
