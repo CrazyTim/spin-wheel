@@ -152,6 +152,7 @@ Name                            | Default Value     | Description
 `imageScale`                    | `1`               | The scale (as a percent) to resize `Item.image`.
 `label`                         | `''`              | The text that will be drawn on the item.
 `labelColor`                    | `null`            | The color of the label.<br>Falls back to `Wheel.itemLabelColors` when `null`.<br>Example: `'#000'`.
+`value`                         | `null`            | Some value that has meaning to your application. For example, a reference to the object representing the item on the wheel, or a database id.
 `weight`                        | `1`               | The proportional size of the item relative to other items on the wheel.<br>For example, if you have 2 items where `item[0]` has a weight of `1` and `item[1]` has a weight of `2`, then `item[0]` will take up 1/3 of the space on the wheel.
 
 ## Acknowledgements

@@ -37,6 +37,7 @@ export class Item {
     this.imageScale = props.imageScale;
     this.label = props.label;
     this.labelColor = props.labelColor;
+    this.value = props.value;
     this.weight = props.weight;
   }
 
@@ -154,6 +155,17 @@ export class Item {
       this._labelColor = Defaults.item.labelColor;
     }
     this._wheel.refresh();
+  }
+
+  /**
+   * Some value that has meaning to your application.
+   * For example, a reference to the object representing the item on the wheel, or a database id.
+   */
+  get value () {
+    return this._value;
+  }
+  set value(val) {
+    this._value = val;
   }
 
   /**
