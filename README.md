@@ -1,9 +1,8 @@
-<div>
-  <img alt="thumbnail" src="https://crazytim.github.io/spin-wheel/repo-thumbnail.jpg" width="350px" />
-  <br>
-</div>
+<img src="https://crazytim.github.io/spin-wheel/repo-thumbnail.jpg" width="450px" alt="thumbnail">
 
 # Spin Wheel
+
+An easy to use, themeable component for randomising choices and prizes.
 
 ## Features
 
@@ -12,11 +11,11 @@
 - Simple, easy to use API.
 - Realistic wheel rotation (no easing, just momentum and drag).
 - Interactive - spin the wheel using click-drag/touch-flick, or you can manually call `spin()`.
-- [Easily themeable](https://crazytim.github.io/spin-wheel/examples/themes):
-  - Items can have different sizes, fonts and colors.
-  - Labels can be rotated and aligned.
-  - Draw images on each item, the wheel, and the canvas.
-  - Repeating colour sets.
+- Easily themeable:
+  - Give items their own color and weight.
+  - Rotate labels and change alignment.
+  - Draw images on items, the wheel, and the canvas.
+  - Apply repeating colour sets.
 - Callbacks for events like `onSpin` and `onRest`.
 - Clockwise and anticlockwise spinning.
 - Responsive layout - the wheel resizes automatically to fit it's container, making it easy to adjust.
@@ -24,7 +23,7 @@
 ## How to make your own wheel
 
 ```JavaScript
-// 1. Define the wheel's properties:
+// 1. Configure the wheel's properties:
 const props = {
   items: [
     {
@@ -54,23 +53,19 @@ const wheel = new Wheel(container, props);
 
 ## Configuration
 
-Everything is easy to configure. The wheel is responsive and resizes automatically to fit it's container, so when the size of the container changes you don't have to worry about updating fiddly things like widths and font sizes. For that reason, some numeric properties need to be expressed as percentages, while others are expressed as scaled pixels.
+For example configurations see [./examples/themes/js/props.js](https://github.com/CrazyTim/spin-wheel/blob/master/examples/themes/js/props.js).
 
-* **Percentages**: For example, `Wheel.radius` is expressed as a percent of the size of the canvas, so `0.9` means the wheel will fill `90%` of the canvas. 
+Everything is easy to configure. The wheel is responsive and resizes automatically to fit it's container, so when the size of the container changes you don't have to worry about updating fiddly things like widths and font sizes. For that reason, some numeric properties are expressed as percentages, while others are expressed as pixels.
 
-* **Pixels**: All pixel values are scaled to a canvas size of `500px`. For example, `Wheel.LineWidth` is expressed in pixels, so a line width of `1` will be exactly `1px` when the canvas size is `500px`.
+* **Percentage properties** are a percent of the size of the canvas. For example, a `Wheel.radius` of `0.9` means the wheel will fill `90%` of the canvas.
 
-Labels are simple to configure because the font size is also calculated automatically. You can optionally set `Wheel.itemLabelFontSizeMax` (in pixels), but otherwise the largest item label will be sized to fit between `Wheel.itemLabelRadius` (percent) and  `Wheel.itemLabelRadiusMax` (percent).
+* **Pixel properties** are relative to a canvas size of `500px`. For example, a `Wheel.LineWidth` of `1` will be exactly `1px` when the canvas size is `500px`.
+
+Labels are also simple to configure because the font size is calculated automatically. You can optionally set `Wheel.itemLabelFontSizeMax` (in pixels), but otherwise the largest item label will be sized to fit between `Wheel.itemLabelRadius` (percent) and  `Wheel.itemLabelRadiusMax` (percent).
 
 Here's a handy diagram:
 
-<div>
-  <img alt="diagram of props" src="https://crazytim.github.io/spin-wheel/props-diagram.svg" width="615px" />
-  <br>
-  <br>
-</div>
-
-For example configurations see [./examples/themes/js/props.js](https://github.com/CrazyTim/spin-wheel/blob/master/examples/themes/js/props.js).
+<img alt="diagram of props" src="https://crazytim.github.io/spin-wheel/props-diagram.svg" width="615px" />
 
 ## Methods for `Wheel`
 
@@ -119,7 +114,7 @@ Name                            | Default Value     | Description
 
 ### `onCurrentIndexChange(event = {})`
 
-Raised when a new item is pointed at. This can be used to change the color of the current item, or play a 'ticking' sound. 
+Raised when a new item is pointed at. This can be used to change the color of the current item, or play a 'ticking' sound.
 
 Key                         | Value
 --------------------------- | ---------------------------
@@ -128,7 +123,7 @@ Key                         | Value
 
 ### `onRest(event = {})`
 
-Raised when the wheel comes to a rest after spinning. 
+Raised when the wheel comes to a rest after spinning.
 
 Key                         | Value
 --------------------------- | ---------------------------
@@ -141,7 +136,7 @@ Key                         | Value
 Raised when the wheel has been spun by the user (via click-drag/touch-flick), or after calling `Wheel.spin()`.
 
 Key                         | Value
---------------------------- | --------------------------- 
+--------------------------- | ---------------------------
 `event`                     | `'spin'`
 `rotationSpeed`             | The rotation speed of the wheel.<br>See `Wheel.rotationSpeed`.
 `dragEvents`                | An array of events that occurred during the interactive spin that was used to raise `onSpin`.<br>If the spin was not interactive then this will be an empty array.
