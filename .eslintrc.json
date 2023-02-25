@@ -31,6 +31,7 @@
     "no-return-assign": ["error", "always"],
     "no-trailing-spaces": ["error"],
     "no-useless-concat": ["error"],
-    "no-cond-assign": ["error", "always"]
+    "no-cond-assign": ["error", "always"],
+    "space-before-function-paren": ["error", "never"]
   }
 }

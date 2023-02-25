@@ -46,7 +46,7 @@ export class Item {
    * Falls back to `Wheel.itemBackgroundColors` when `null`.
    * Example: `'#fff'`.
    */
-  get backgroundColor () {
+  get backgroundColor() {
     return this._backgroundColor;
   }
   set backgroundColor(val) {
@@ -62,7 +62,7 @@ export class Item {
    * The url of an image that will be drawn on the item.
    * Any part of the image that extends outside the item will be clipped.
    */
-  get image () {
+  get image() {
     return this._image;
   }
   set image(val) {
@@ -83,7 +83,7 @@ export class Item {
   /**
    * The point along the radius (as a percent, starting from the center of the wheel) to draw the center of `Item.image`.
    */
-  get imageRadius () {
+  get imageRadius() {
     return this._imageRadius;
   }
   set imageRadius(val) {
@@ -98,7 +98,7 @@ export class Item {
   /**
    * The rotation (angle in degrees) of `Item.image`.
    */
-  get imageRotation () {
+  get imageRotation() {
     return this._imageRotation;
   }
   set imageRotation(val) {
@@ -113,7 +113,7 @@ export class Item {
   /**
    * The scale (as a percent) to resize `Item.image`.
    */
-  get imageScale () {
+  get imageScale() {
     return this._imageScale;
   }
   set imageScale(val) {
@@ -128,7 +128,7 @@ export class Item {
   /**
    * The text that will be drawn on the item.
    */
-  get label () {
+  get label() {
     return this._label;
   }
   set label(val) {
@@ -145,7 +145,7 @@ export class Item {
    * Falls back to `Wheel.itemLabelColors` when `null`.
    * Example: `'#000'`.
    */
-  get labelColor () {
+  get labelColor() {
     return this._labelColor;
   }
   set labelColor(val) {
@@ -161,7 +161,7 @@ export class Item {
    * Some value that has meaning to your application.
    * For example, a reference to the object representing the item on the wheel, or a database id.
    */
-  get value () {
+  get value() {
     return this._value;
   }
   set value(val) {
@@ -173,7 +173,7 @@ export class Item {
    * For example, if you have 2 items where `item[0]` has a weight of `1` and `item[1]` has a weight of `2`,
    * then `item[0]` will take up 1/3 of the space on the wheel.
    */
-  get weight () {
+  get weight() {
     return this._weight;
   }
   set weight(val) {
