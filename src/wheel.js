@@ -1237,7 +1237,7 @@ export class Wheel {
 
   raiseEvent_onCurrentIndexChange(data = {}) {
     this.onCurrentIndexChange?.({
-      event: 'currentIndexChange',
+      type: 'currentIndexChange',
       currentIndex: this._currentIndex,
       ...data,
     });
@@ -1245,7 +1245,7 @@ export class Wheel {
 
   raiseEvent_onRest(data = {}) {
     this.onRest?.({
-      event: 'rest',
+      type: 'rest',
       currentIndex: this._currentIndex,
       rotation: this._rotation,
       ...data,
@@ -1254,7 +1254,7 @@ export class Wheel {
 
   raiseEvent_onSpin(data = {}) {
     this.onSpin?.({
-      event: 'spin',
+      type: 'spin',
       rotationSpeed: this.rotationSpeed,
       ...data,
     });
