@@ -7,6 +7,7 @@
     "sourceType": "module"
   },
   "rules": {
+    "func-call-spacing": ["error"],
     "no-var": ["error"],
     "no-multiple-empty-lines": ["error"],
     "prefer-const": ["error"],
@@ -31,6 +32,7 @@
     "no-return-assign": ["error", "always"],
     "no-trailing-spaces": ["error"],
     "no-useless-concat": ["error"],
-    "no-cond-assign": ["error", "always"]
+    "no-cond-assign": ["error", "always"],
+    "space-before-function-paren": ["error", "never"]
   }
 }

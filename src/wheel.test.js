@@ -2,13 +2,25 @@ import {beforeEach, test, expect} from '@jest/globals';
 import {Defaults} from './constants.js';
 import * as fixture from '../scripts/test-fixture.js';
 import {getInstanceProperties} from '../scripts/util.js';
+import {Wheel} from '../src/wheel.js';
 
 beforeEach(() => {
   fixture.initWheel();
 });
 
-test ('Wheel can be initiated', () => {
+test('Wheel default state is correct', () => {
   expect(fixture.wheel).toMatchSnapshot();
+});
+
+test('Wheel can be initialised with props', () => {
+  fixture.createWheel(null);
+  fixture.createWheel({});
+});
+
+test('Should throw when initialised without container param', () => {
+  expect(() => {
+    return new Wheel();
+  }).toThrow('container parameter');
 });
 
 test('Each Wheel property has a coresponding default value', () => {
@@ -31,7 +43,7 @@ test('Each Wheel property is given a Default value when the Wheel is initalised'
 
 });
 
-test ('getItemAngles() works', () => {
+test('getItemAngles() works', () => {
 
   fixture.addBlankItems(4);
   fixture.wheel.rotation = 90;
@@ -47,7 +59,7 @@ test ('getItemAngles() works', () => {
 
 });
 
-test ('getItemAngles() works when weighted', () => {
+test('getItemAngles() works when weighted', () => {
 
   fixture.wheel.items = [
     {weight: 2},
@@ -64,7 +76,7 @@ test ('getItemAngles() works when weighted', () => {
 
 });
 
-test ('getRotationSpeedPlusDrag() works', () => {
+test('getRotationSpeedPlusDrag() works', () => {
 
   fixture.wheel.rotationSpeed = 100;
   fixture.wheel.rotationResistance = -5;
@@ -75,7 +87,7 @@ test ('getRotationSpeedPlusDrag() works', () => {
 
 });
 
-test ('Default value works for itemBackgroundColors', () => {
+test('Default value works for itemBackgroundColors', () => {
 
   fixture.wheel.items = [
     {},
@@ -87,7 +99,7 @@ test ('Default value works for itemBackgroundColors', () => {
 
 });
 
-test ('Default value works for itemLabelColors', () => {
+test('Default value works for itemLabelColors', () => {
 
   fixture.wheel.items = [
     {},
