@@ -7,7 +7,7 @@ beforeEach(() => {
   fixture.initWheel();
 });
 
-test ('Wheel can be initiated', () => {
+test('Wheel can be initiated', () => {
   expect(fixture.wheel).toMatchSnapshot();
 });
 
@@ -31,7 +31,7 @@ test('Each Wheel property is given a Default value when the Wheel is initalised'
 
 });
 
-test ('getItemAngles() works', () => {
+test('getItemAngles() works', () => {
 
   fixture.addBlankItems(4);
   fixture.wheel.rotation = 90;
@@ -47,7 +47,7 @@ test ('getItemAngles() works', () => {
 
 });
 
-test ('getItemAngles() works when weighted', () => {
+test('getItemAngles() works when weighted', () => {
 
   fixture.wheel.items = [
     {weight: 2},
@@ -64,7 +64,7 @@ test ('getItemAngles() works when weighted', () => {
 
 });
 
-test ('getRotationSpeedPlusDrag() works', () => {
+test('getRotationSpeedPlusDrag() works', () => {
 
   fixture.wheel.rotationSpeed = 100;
   fixture.wheel.rotationResistance = -5;
@@ -75,7 +75,7 @@ test ('getRotationSpeedPlusDrag() works', () => {
 
 });
 
-test ('Default value works for itemBackgroundColors', () => {
+test('Default value works for itemBackgroundColors', () => {
 
   fixture.wheel.items = [
     {},
@@ -87,7 +87,7 @@ test ('Default value works for itemBackgroundColors', () => {
 
 });
 
-test ('Default value works for itemLabelColors', () => {
+test('Default value works for itemLabelColors', () => {
 
   fixture.wheel.items = [
     {},

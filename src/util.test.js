@@ -10,7 +10,7 @@ test('degRad() works', () => {
   expect(f(360)).toBe(6.283185307179586);
 });
 
-test ('isAngleBetween() works', () => {
+test('isAngleBetween() works', () => {
   const f = util.isAngleBetween;
 
   expect(f(0, 1, 2)).toBe(false);
@@ -85,7 +85,7 @@ test('isPointInCircle() works', () => {
   expect(f({x:1, y:1}, 0, 0, 5)).toBe(true);
 });
 
-test ('addAngle() works', () => {
+test('addAngle() works', () => {
   const f = util.addAngle;
 
   expect(f(0, 0)).toBe(0);
@@ -97,7 +97,7 @@ test ('addAngle() works', () => {
   expect(f(0, -360)).toBe(0);
 });
 
-test ('diffAngle() works', () => {
+test('diffAngle() works', () => {
   const f = util.diffAngle;
 
   expect(f(0, 360)).toBe(0);
@@ -112,7 +112,7 @@ test ('diffAngle() works', () => {
   expect(f(180, 190)).toBe(10);
 });
 
-test ('isObject() works', () => {
+test('isObject() works', () => {
   const f = util.isObject;
 
   expect(f({})).toBe(true);
