@@ -2,13 +2,25 @@ import {beforeEach, test, expect} from '@jest/globals';
 import {Defaults} from './constants.js';
 import * as fixture from '../scripts/test-fixture.js';
 import {getInstanceProperties} from '../scripts/util.js';
+import {Wheel} from '../src/wheel.js';
 
 beforeEach(() => {
   fixture.initWheel();
 });
 
-test('Wheel can be initiated', () => {
+test('Wheel default state is correct', () => {
   expect(fixture.wheel).toMatchSnapshot();
+});
+
+test('Wheel can be initialised with props', () => {
+  fixture.createWheel(null);
+  fixture.createWheel({});
+});
+
+test('Should throw when initialised without container param', () => {
+  expect(() => {
+    return new Wheel();
+  }).toThrow('container parameter');
 });
 
 test('Each Wheel property has a coresponding default value', () => {
