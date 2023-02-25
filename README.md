@@ -118,7 +118,7 @@ Raised when a new item is pointed at. This can be used to change the color of th
 
 Key                         | Value
 --------------------------- | ---------------------------
-`event`                     | `'currentIndexChange'`
+`type`                      | `'currentIndexChange'`
 `currentIndex`              | The index of the item that the Pointer was pointing at.<br>See `Wheel.pointerAngle`.
 
 ### `onRest(event = {})`
@@ -127,7 +127,7 @@ Raised when the wheel comes to a rest after spinning.
 
 Key                         | Value
 --------------------------- | ---------------------------
-`event`                     | `'rest'`
+`type`                      | `'rest'`
 `currentIndex`              | The index of the item that the Pointer was pointing at.<br>See `Wheel.pointerAngle`.
 `rotation`                  | The rotation of the wheel.<br>See `Wheel.rotation`.
 
@@ -137,9 +137,9 @@ Raised when the wheel has been spun by the user (via click-drag/touch-flick), or
 
 Key                         | Value
 --------------------------- | ---------------------------
-`event`                     | `'spin'`
-`rotationSpeed`             | The rotation speed of the wheel.<br>See `Wheel.rotationSpeed`.
+`type`                      | `'spin'`
 `dragEvents`                | An array of events that occurred during the interactive spin that was used to raise `onSpin`.<br>If the spin was not interactive then this will be an empty array.
+`rotationSpeed`             | The rotation speed of the wheel.<br>See `Wheel.rotationSpeed`.
 
 ## Properties for `Item`
 
