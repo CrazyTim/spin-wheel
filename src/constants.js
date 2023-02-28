@@ -28,7 +28,7 @@ export const AlignText = Object.freeze({
 export const Defaults = Object.freeze({
   wheel: {
     borderColor: '#000',
-    borderWidth: 0,
+    borderWidth: 1,
     debug: false,
     image: null,
     isInteractive: true,

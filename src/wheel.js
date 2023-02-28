@@ -300,6 +300,8 @@ export class Wheel {
 
   drawBorder(ctx) {
 
+    if (this.borderWidth <= 0) return;
+
     const actualBorderWidth = this.getActualBorderWidth();
 
     ctx.beginPath();
