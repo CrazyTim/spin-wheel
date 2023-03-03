@@ -1066,6 +1066,7 @@ export class Wheel {
     } else {
       this._pointerAngle = Defaults.wheel.pointerAngle;
     }
+    if (this.debug) this.refresh();
   }
 
   /**
