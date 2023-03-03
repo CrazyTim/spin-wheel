@@ -28,7 +28,7 @@ export const AlignText = Object.freeze({
 export const Defaults = Object.freeze({
   wheel: {
     borderColor: '#000',
-    borderWidth: 0,
+    borderWidth: 1,
     debug: false,
     image: null,
     isInteractive: true,
@@ -44,7 +44,7 @@ export const Defaults = Object.freeze({
     items: [],
     lineColor: '#000',
     lineWidth: 1,
-    pixelRatio: null,
+    pixelRatio: 0,
     radius: 0.95,
     rotation: 0,
     rotationResistance: -35,
@@ -73,5 +73,6 @@ export const Defaults = Object.freeze({
 export const Debugging = Object.freeze({
   pointerLineColor: '#ff00ff',
   labelOutlineColor: '#ff00ff',
+  labelRadiusColor: '#00ff00',
   dragEventHue: 200,
 });

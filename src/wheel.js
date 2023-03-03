@@ -150,7 +150,7 @@ export class Wheel {
 
     const angles = this.getItemAngles(this.rotation);
 
-    const borderWidth = this.getActualBorderWidth();
+    const actualBorderWidth = this.getActualBorderWidth();
 
     // Set font:
     ctx.textBaseline = 'middle';
@@ -167,7 +167,7 @@ export class Wheel {
       path.arc(
         this._center.x,
         this._center.y,
-        this._actualRadius - (borderWidth / 2),
+        this._actualRadius - (actualBorderWidth / 2),
         util.degRad(a.start + Constants.arcAdjust),
         util.degRad(a.end + Constants.arcAdjust)
       );
@@ -300,6 +300,8 @@ export class Wheel {
 
   drawBorder(ctx) {
 
+    if (this.borderWidth <= 0) return;
+
     const actualBorderWidth = this.getActualBorderWidth();
 
     ctx.beginPath();
@@ -308,6 +310,20 @@ export class Wheel {
     ctx.arc(this._center.x, this._center.y, this._actualRadius - (actualBorderWidth / 2), 0, 2 * Math.PI);
     ctx.stroke();
 
+    if (this.debug) {
+      ctx.beginPath();
+      ctx.strokeStyle = ctx.strokeStyle = Constants.Debugging.labelRadiusColor;
+      ctx.lineWidth = 1;
+      ctx.arc(this._center.x, this._center.y, this._actualRadius * this.itemLabelRadius, 0, 2 * Math.PI);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.strokeStyle = ctx.strokeStyle = Constants.Debugging.labelRadiusColor;
+      ctx.lineWidth = 1;
+      ctx.arc(this._center.x, this._center.y, this._actualRadius * this.itemLabelRadiusMax, 0, 2 * Math.PI);
+      ctx.stroke();
+    }
+
   }
 
   drawItemLines(ctx, angles = []) {
@@ -315,24 +331,25 @@ export class Wheel {
     if (this.lineWidth <= 0) return;
 
     const actualLineWidth = (this.lineWidth / Constants.baseCanvasSize) * this._size;
+    const actualBorderWidth = this.getActualBorderWidth();
 
     ctx.translate(
       this._center.x,
       this._center.y
     );
 
-    for (const [i, a] of angles.entries()) {
-      ctx.rotate(util.degRad(a.start + Constants.arcAdjust));
+    for (const angle of angles) {
+      ctx.rotate(util.degRad(angle.start + Constants.arcAdjust));
 
       ctx.beginPath();
       ctx.moveTo(0, 0);
-      ctx.lineTo(this._actualRadius - actualLineWidth, 0);
+      ctx.lineTo(this._actualRadius - actualBorderWidth, 0);
 
       ctx.strokeStyle = this.lineColor;
       ctx.lineWidth = actualLineWidth;
       ctx.stroke();
 
-      ctx.rotate(-util.degRad(a.start + Constants.arcAdjust));
+      ctx.rotate(-util.degRad(angle.start + Constants.arcAdjust));
     }
 
     ctx.resetTransform();
@@ -473,7 +490,7 @@ export class Wheel {
   }
 
   getActualPixelRatio() {
-    return this._pixelRatio ?? window.devicePixelRatio;
+    return (this.pixelRatio !== 0) ? this.pixelRatio : window.devicePixelRatio;
   }
 
   /**
@@ -757,7 +774,7 @@ export class Wheel {
     } else {
       this._itemLabelFontSizeMax = Defaults.wheel.itemLabelFontSizeMax;
     }
-    this.refresh();
+    this.resize();
   }
 
   /**
@@ -773,7 +790,7 @@ export class Wheel {
     } else {
       this._itemLabelRadius = Defaults.wheel.itemLabelRadius;
     }
-    this.refresh();
+    this.resize();
   }
 
   /**
@@ -789,7 +806,7 @@ export class Wheel {
     } else {
       this._itemLabelRadiusMax = Defaults.wheel.itemLabelRadiusMax;
     }
-    this.refresh();
+    this.resize();
   }
 
   /**
@@ -918,15 +935,15 @@ export class Wheel {
   }
 
   /**
-   * The pixel ratio used to render the wheel. A value of 1 or higher will produce a sharper image.
-   * By default this property is null, meaning the pixel ratio is automatically determined using `window.devicePixelRatio`.
-   * However you could manually adjust this to improve performance.
+   * The pixel ratio used to render the wheel.
+   * Values above 0 will produce a sharper image at the cost of performance.
+   * A value of `0` will cause the pixel ratio to be automatically determined using `window.devicePixelRatio`.
    */
    get pixelRatio() {
     return this._pixelRatio;
   }
   set pixelRatio(val) {
-    if (typeof val === 'number' || val === null) {
+    if (typeof val === 'number') {
       this._pixelRatio = val;
     } else {
       this._pixelRatio = Defaults.wheel.pixelRatio;
@@ -1064,6 +1081,7 @@ export class Wheel {
     } else {
       this._pointerAngle = Defaults.wheel.pointerAngle;
     }
+    if (this.debug) this.refresh();
   }
 
   /**
