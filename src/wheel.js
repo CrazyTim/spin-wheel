@@ -310,6 +310,20 @@ export class Wheel {
     ctx.arc(this._center.x, this._center.y, this._actualRadius - (actualBorderWidth / 2), 0, 2 * Math.PI);
     ctx.stroke();
 
+    if (this.debug) {
+      ctx.beginPath();
+      ctx.strokeStyle = ctx.strokeStyle = Constants.Debugging.labelRadiusColor;
+      ctx.lineWidth = 1;
+      ctx.arc(this._center.x, this._center.y, this._actualRadius * this.itemLabelRadius, 0, 2 * Math.PI);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.strokeStyle = ctx.strokeStyle = Constants.Debugging.labelRadiusColor;
+      ctx.lineWidth = 1;
+      ctx.arc(this._center.x, this._center.y, this._actualRadius * this.itemLabelRadiusMax, 0, 2 * Math.PI);
+      ctx.stroke();
+    }
+
   }
 
   drawItemLines(ctx, angles = []) {
@@ -760,7 +774,7 @@ export class Wheel {
     } else {
       this._itemLabelFontSizeMax = Defaults.wheel.itemLabelFontSizeMax;
     }
-    this.refresh();
+    this.resize();
   }
 
   /**
@@ -776,7 +790,7 @@ export class Wheel {
     } else {
       this._itemLabelRadius = Defaults.wheel.itemLabelRadius;
     }
-    this.refresh();
+    this.resize();
   }
 
   /**
@@ -792,7 +806,7 @@ export class Wheel {
     } else {
       this._itemLabelRadiusMax = Defaults.wheel.itemLabelRadiusMax;
     }
-    this.refresh();
+    this.resize();
   }
 
   /**
