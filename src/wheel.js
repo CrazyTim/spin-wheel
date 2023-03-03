@@ -476,7 +476,7 @@ export class Wheel {
   }
 
   getActualPixelRatio() {
-    return this._pixelRatio ?? window.devicePixelRatio;
+    return (this.pixelRatio !== 0) ? this.pixelRatio : window.devicePixelRatio;
   }
 
   /**
@@ -921,15 +921,15 @@ export class Wheel {
   }
 
   /**
-   * The pixel ratio used to render the wheel. A value of 1 or higher will produce a sharper image.
-   * By default this property is null, meaning the pixel ratio is automatically determined using `window.devicePixelRatio`.
-   * However you could manually adjust this to improve performance.
+   * The pixel ratio used to render the wheel.
+   * Values above 0 will produce a sharper image at the cost of performance.
+   * A value of `0` will cause the pixel ratio to be automatically determined using `window.devicePixelRatio`.
    */
    get pixelRatio() {
     return this._pixelRatio;
   }
   set pixelRatio(val) {
-    if (typeof val === 'number' || val === null) {
+    if (typeof val === 'number') {
       this._pixelRatio = val;
     } else {
       this._pixelRatio = Defaults.wheel.pixelRatio;

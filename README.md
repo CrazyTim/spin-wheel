@@ -97,7 +97,7 @@ Name                            | Default Value     | Description
 `items`                         | `[]`              | The items to show on the wheel.
 `lineColor`                     | `'#000'`          | The color of the lines between the items.
 `lineWidth`                     | `1`               | The width (in pixels) of the lines between the items.
-`pixelRatio`                    | `null`            | The pixel ratio used to render the wheel. A value of 1 or higher will produce a sharper image.<br>By default this property is null, meaning the pixel ratio is automatically determined using `window.devicePixelRatio`.<br>However you could manually adjust this to improve performance.
+`pixelRatio`                    | `0`               | The pixel ratio used to render the wheel.<br>Values above 0 will produce a sharper image at the cost of performance.<br>A value of `0` will cause the pixel ratio to be automatically determined using `window.devicePixelRatio`.
 `radius`                        | `0.95`            | The radius of the wheel (as a percent of the container's smallest dimension).
 `rotation`                      | `0`               | The rotation (angle in degrees) of the wheel.<br>The first item will be drawn clockwise from this point.
 `rotationResistance`            | `-35`             | How much to reduce `rotationSpeed` by every second.
