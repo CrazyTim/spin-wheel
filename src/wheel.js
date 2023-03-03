@@ -150,7 +150,7 @@ export class Wheel {
 
     const angles = this.getItemAngles(this.rotation);
 
-    const borderWidth = this.getActualBorderWidth();
+    const actualBorderWidth = this.getActualBorderWidth();
 
     // Set font:
     ctx.textBaseline = 'middle';
@@ -167,7 +167,7 @@ export class Wheel {
       path.arc(
         this._center.x,
         this._center.y,
-        this._actualRadius - (borderWidth / 2),
+        this._actualRadius - (actualBorderWidth / 2),
         util.degRad(a.start + Constants.arcAdjust),
         util.degRad(a.end + Constants.arcAdjust)
       );
@@ -317,24 +317,25 @@ export class Wheel {
     if (this.lineWidth <= 0) return;
 
     const actualLineWidth = (this.lineWidth / Constants.baseCanvasSize) * this._size;
+    const actualBorderWidth = this.getActualBorderWidth();
 
     ctx.translate(
       this._center.x,
       this._center.y
     );
 
-    for (const [i, a] of angles.entries()) {
-      ctx.rotate(util.degRad(a.start + Constants.arcAdjust));
+    for (const angle of angles) {
+      ctx.rotate(util.degRad(angle.start + Constants.arcAdjust));
 
       ctx.beginPath();
       ctx.moveTo(0, 0);
-      ctx.lineTo(this._actualRadius - actualLineWidth, 0);
+      ctx.lineTo(this._actualRadius - actualBorderWidth, 0);
 
       ctx.strokeStyle = this.lineColor;
       ctx.lineWidth = actualLineWidth;
       ctx.stroke();
 
-      ctx.rotate(-util.degRad(a.start + Constants.arcAdjust));
+      ctx.rotate(-util.degRad(angle.start + Constants.arcAdjust));
     }
 
     ctx.resetTransform();
