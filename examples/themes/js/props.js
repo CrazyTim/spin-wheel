@@ -18,6 +18,7 @@ export const props = [
     itemBackgroundColors: ['#ffc93c', '#66bfbf', '#a2d5f2', '#515070', '#43658b', '#ed6663', '#d54062' ],
     image: './img/example-0-image.svg',
     overlayImage: './img/example-0-overlay.svg',
+    minDragDistance: 0,
     items: [
       {
         label: 'TWISTS',
@@ -79,6 +80,7 @@ export const props = [
     lineWidth: 0,
     itemBackgroundColors: ['#fbf8c4', '#e4f1aa', '#c0d26e', '#ff7d7d'],
     overlayImage: './img/example-1-overlay.svg',
+    minDragDistance: 0,
     items: [
       {
         label: 'Japanese',
@@ -161,6 +163,7 @@ export const props = [
     itemBackgroundColors: ['#c7160c', '#fff'],
     itemLabelColors: ['#fff', '#000'],
     overlayImage: './img/example-2-overlay.svg',
+    minDragDistance: 0,
     items: [
       {
         label: 'Action',
@@ -226,6 +229,7 @@ export const props = [
     lineWidth: 1,
     lineColor: '#000',
     overlayImage: './img/example-3-overlay.svg',
+    minDragDistance: 0,
     items: [
       {
         label: '$ 50',
@@ -307,6 +311,7 @@ export const props = [
     itemLabelFont: 'Gloria Hallelujah',
     itemLabelBaselineOffset: -0.2,
     image: './img/example-4-image.svg',
+    minDragDistance: 0,
     lineWidth: 0,
     items: [
       {
@@ -341,6 +346,7 @@ export const props = [
     lineWidth: 2,
     borderColor: 'hsl(350, 20%, 40%)',
     borderWidth: 4,
+    minDragDistance: 0,
     items: [
       {
         image: './img/example-5-item-0.svg',
