@@ -65,6 +65,7 @@ export class Wheel {
     this.rotation = props.rotation;
     this.rotationResistance = props.rotationResistance;
     this.rotationSpeed = props.rotationSpeed;
+    this.minDragDistance = props.minDragDistance;
     this.offset = props.offset;
     this.onCurrentIndexChange = props.onCurrentIndexChange;
     this.onRest = props.onRest;
@@ -1157,7 +1158,10 @@ export class Wheel {
 
     this.refreshCursor();
 
-    if (dragDistance === 0) return;
+    // Drag distance must be greater than minDragDistance to start to spin
+    if (Math.abs(dragDistance) <= this.minDragDistance) {
+      return;
+    }
 
     this.rotationSpeed = dragDistance * (1000 / Constants.dragCapturePeriod);
 

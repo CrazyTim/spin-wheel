@@ -50,6 +50,7 @@ export const Defaults = Object.freeze({
     rotationResistance: -35,
     rotationSpeed: 0,
     rotationSpeedMax: 250,
+    minDragDistance: 0,
     offset: {w: 0, h: 0},
     onCurrentIndexChange: null,
     onRest: null,
