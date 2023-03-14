@@ -70,6 +70,7 @@ export class Wheel {
     this.onCurrentIndexChange = props.onCurrentIndexChange;
     this.onRest = props.onRest;
     this.onSpin = props.onSpin;
+    this.onNotEnoughDrag = props.onNotEnoughDrag;
     this.overlayImage = props.overlayImage;
     this.pointerAngle = props.pointerAngle;
   }
@@ -1052,6 +1053,20 @@ export class Wheel {
   }
 
   /**
+   * The callback for the `onNotEnoughDrag` event.
+   */
+    get onNotEnoughDrag() {
+      return this._onNotEnoughDrag;
+    }
+    set onNotEnoughDrag(val) {
+      if (typeof val === 'function') {
+        this._onNotEnoughDrag = val;
+      } else {
+        this._onNotEnoughDrag = Defaults.wheel.onNotEnoughDrag;
+      }
+    }
+
+  /**
    * The url of an image that will be drawn over the center of the wheel which will not rotate with the wheel.
    * It will be automatically scaled to fit the container's smallest dimension.
    * Use this to draw decorations around the wheel, such as a stand or pointer.
@@ -1158,14 +1173,18 @@ export class Wheel {
 
     this.refreshCursor();
 
-    // Drag distance must be greater than minDragDistance to start to spin
-    if (Math.abs(dragDistance) <= this.minDragDistance) {
-      return;
-    }
-
     this.rotationSpeed = dragDistance * (1000 / Constants.dragCapturePeriod);
 
-    this.raiseEvent_onSpin({dragEvents: this.dragEvents});
+    // Drag distance must be greater than minDragDistance to start to spin
+    if (Math.abs(dragDistance) > this.minDragDistance) {
+      this.raiseEvent_onSpin({dragEvents: this.dragEvents});
+    } else {
+      this.raiseEvent_onNotEnoughDrag({
+        dragDistance,
+        minDragDistance: this.minDragDistance
+      });
+      return;
+    }
 
   }
 
@@ -1198,4 +1217,10 @@ export class Wheel {
     });
   }
 
+  raiseEvent_onNotEnoughDrag(data = {}) {
+    this.onNotEnoughDrag?.({
+      event: 'notEnoughDrag',
+      ...data,
+    });
+  }
 }

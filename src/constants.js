@@ -55,6 +55,7 @@ export const Defaults = Object.freeze({
     onCurrentIndexChange: null,
     onRest: null,
     onSpin: null,
+    onNotEnoughDrag: null,
     overlayImage: null,
     pointerAngle: 0,
   },
