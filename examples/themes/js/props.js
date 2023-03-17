@@ -13,9 +13,11 @@ export const props = [
     itemLabelBaselineOffset: -0.07,
     itemLabelFont: 'Amatic SC',
     itemLabelFontSizeMax: 55,
+    itemBackgroundColors: ['#ffc93c', '#66bfbf', '#a2d5f2', '#515070', '#43658b', '#ed6663', '#d54062' ],
+    rotationSpeedMax: 500,
+    rotationResistance: -100,
     lineWidth: 1,
     lineColor: '#fff',
-    itemBackgroundColors: ['#ffc93c', '#66bfbf', '#a2d5f2', '#515070', '#43658b', '#ed6663', '#d54062' ],
     image: './img/example-0-image.svg',
     overlayImage: './img/example-0-overlay.svg',
     items: [
@@ -76,8 +78,10 @@ export const props = [
     itemLabelColors: ['#000'],
     itemLabelBaselineOffset: -0.06,
     itemLabelFont: 'Rubik',
-    lineWidth: 0,
     itemBackgroundColors: ['#fbf8c4', '#e4f1aa', '#c0d26e', '#ff7d7d'],
+    rotationSpeedMax: 700,
+    rotationResistance: -110,
+    lineWidth: 0,
     overlayImage: './img/example-1-overlay.svg',
     borderWidth: 0,
     items: [
@@ -158,9 +162,11 @@ export const props = [
     itemLabelAlign: AlignText.right,
     itemLabelBaselineOffset: -0.13,
     itemLabelFont: 'Pragati Narrow',
-    lineWidth: 0,
     itemBackgroundColors: ['#c7160c', '#fff'],
     itemLabelColors: ['#fff', '#000'],
+    rotationSpeedMax: 700,
+    rotationResistance: -70,
+    lineWidth: 0,
     overlayImage: './img/example-2-overlay.svg',
     items: [
       {
@@ -307,6 +313,8 @@ export const props = [
     itemLabelColors: ['hsl(0, 0%, 20%)'],
     itemLabelFont: 'Gloria Hallelujah',
     itemLabelBaselineOffset: -0.2,
+    rotationSpeedMax: 400,
+    rotationResistance: -100,
     image: './img/example-4-image.svg',
     lineWidth: 0,
     items: [
