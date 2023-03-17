@@ -101,7 +101,7 @@ Name                            | Default Value     | Description
 `radius`                        | `0.95`            | The radius of the wheel (as a percent of the container's smallest dimension).
 `rotation`                      | `0`               | The rotation (angle in degrees) of the wheel.<br>The first item will be drawn clockwise from this point.
 `rotationResistance`            | `-35`             | How much to reduce `rotationSpeed` by every second.
-`rotationSpeed`                 | `0`               | How far (angle in degrees) the wheel should spin every 1 second.<br>Any number other than 0 will spin the wheel.<br>A positive number will spin clockwise, a negative number will spin antiClockwise.
+`rotationSpeed`                 | `0`               | How far (angle in degrees) the wheel should spin every 1 second.<br>Any number other than `0` will spin the wheel.<br>A positive number will spin clockwise, a negative number will spin antiClockwise.
 `rotationSpeedMax`              | `250`             | The maximum value for `rotationSpeed`.<br>The wheel will not spin faster than this value.
 `offset`                        | `{w: 0, h: 0}`    | The offset of the wheel relative to it's center (as a percent of the wheel's diameter).
 `onCurrentIndexChange`          | `null`            | The callback for the `onCurrentIndexChange` event.
