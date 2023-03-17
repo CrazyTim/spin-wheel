@@ -303,9 +303,10 @@ export class Wheel {
     if (this.borderWidth <= 0) return;
 
     const actualBorderWidth = this.getActualBorderWidth();
+    const actualBorderColor = this._borderColor || 'transparent';
 
     ctx.beginPath();
-    ctx.strokeStyle = this.borderColor;
+    ctx.strokeStyle = actualBorderColor;
     ctx.lineWidth = actualBorderWidth;
     ctx.arc(this._center.x, this._center.y, this._actualRadius - (actualBorderWidth / 2), 0, 2 * Math.PI);
     ctx.stroke();
