@@ -181,8 +181,8 @@ export class Wheel {
     this.drawItemLines(ctx, angles);
     this.drawItemLabels(ctx, angles);
     this.drawBorder(ctx);
-    this.drawImage(ctx, this.image, false);
-    this.drawImage(ctx, this.overlayImage, true);
+    this.drawImage(ctx, this._image, false);
+    this.drawImage(ctx, this._overlayImage, true);
     this.drawPointerLine(ctx);
     this.drawDragEvents(ctx);
 
@@ -213,7 +213,7 @@ export class Wheel {
 
       const item = this._items[i];
 
-      if (!item.image || !item.image.complete || item.image.error) continue;
+      if (!util.isImageLoaded(item.image)) return;
 
       ctx.save();
 
@@ -249,7 +249,7 @@ export class Wheel {
 
   drawImage(ctx, image, isOverlay = false) {
 
-    if (!image) return;
+    if (!util.isImageLoaded(image)) return;
 
     ctx.translate(
       this._center.x,
@@ -263,6 +263,7 @@ export class Wheel {
     // (so a change in the wheel radius won't require the image to also be updated).
     const size = isOverlay ? this._size : this._size * this.radius;
     const sizeHalf = -(size / 2);
+
     ctx.drawImage(
       image,
       sizeHalf,
@@ -303,9 +304,10 @@ export class Wheel {
     if (this.borderWidth <= 0) return;
 
     const actualBorderWidth = this.getActualBorderWidth();
+    const actualBorderColor = this._borderColor || 'transparent';
 
     ctx.beginPath();
-    ctx.strokeStyle = this.borderColor;
+    ctx.strokeStyle = actualBorderColor;
     ctx.lineWidth = actualBorderWidth;
     ctx.arc(this._center.x, this._center.y, this._actualRadius - (actualBorderWidth / 2), 0, 2 * Math.PI);
     ctx.stroke();
@@ -654,13 +656,14 @@ export class Wheel {
     return this._image;
   }
   set image(val) {
+    let img = new Image();
     if (typeof val === 'string') {
-      this._image = new Image();
-      this._image.src = val;
-      this._image.onload = e => this.refresh();
+      img.src = val;
+      img.onload = e => this.refresh();
     } else {
-      this._image = Defaults.wheel.image;
+      img = Defaults.wheel.image;
     }
+    this._image = img;
     this.refresh();
   }
 
@@ -1059,13 +1062,15 @@ export class Wheel {
     return this._overlayImage;
   }
   set overlayImage(val) {
+    let img;
     if (typeof val === 'string') {
-      this._overlayImage = new Image();
-      this._overlayImage.src = val;
-      this._overlayImage.onload = e => this.refresh();
+      img = new Image();
+      img.src = val;
+      img.onload = e => this.refresh();
     } else {
-      this._overlayImage = Defaults.wheel.overlayImage;
+      img = Defaults.wheel.overlayImage;
     }
+    this._overlayImage = img;
     this.refresh();
   }
 

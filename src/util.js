@@ -128,3 +128,11 @@ export function diffAngle(a = 0, b = 0) {
 export function isObject(v) {
   return typeof v === 'object' && !Array.isArray(v) && v !== null;
 }
+
+/**
+ * Return true if image has loaded.
+ */
+export function isImageLoaded(image) {
+  // We can detect a broken image (didn't load) by checking the natural width/height.
+  return image && image.complete && image.naturalWidth !== 0 && image.naturalHeight !== 0;
+}
