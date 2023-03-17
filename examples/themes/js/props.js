@@ -79,6 +79,7 @@ export const props = [
     lineWidth: 0,
     itemBackgroundColors: ['#fbf8c4', '#e4f1aa', '#c0d26e', '#ff7d7d'],
     overlayImage: './img/example-1-overlay.svg',
+    borderWidth: 0,
     items: [
       {
         label: 'Japanese',
