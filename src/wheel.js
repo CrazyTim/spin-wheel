@@ -549,7 +549,7 @@ export class Wheel {
   }
 
   calcSpinToAngle (targetAngle = 0, rotation = 0, numberOfRevolutions = 0, direction) {
-    let angle = (360 - (((rotation % 360) + targetAngle) % 360)) % 360;
+    let angle = (360 - direction * Math.abs(((rotation % 360) + targetAngle) % 360)) % 360;
     angle += (numberOfRevolutions * 360);
     //if (angle >= 270) --numberOfRevolutions; // Make the spin speed feel more natural if it is close to a full rotation.
     angle *= direction;
