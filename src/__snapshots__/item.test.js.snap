@@ -15,7 +15,7 @@ Item {
   "_wheel": Wheel {
     "_actualRadius": 237.5,
     "_borderColor": "#000",
-    "_borderWidth": 0,
+    "_borderWidth": 1,
     "_canvasContainer": <div>
       <canvas
         height="500"
@@ -72,7 +72,7 @@ Item {
     "_onRest": null,
     "_onSpin": null,
     "_overlayImage": null,
-    "_pixelRatio": null,
+    "_pixelRatio": 0,
     "_pointerAngle": 0,
     "_radius": 0.95,
     "_rotation": 0,

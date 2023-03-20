@@ -128,7 +128,7 @@ Name                            | Default Value     | Description
 `items`                         | `[]`              | The items to show on the wheel.
 `lineColor`                     | `'#000'`          | The color of the lines between the items.
 `lineWidth`                     | `1`               | The width (in pixels) of the lines between the items.
-`pixelRatio`                    | `null`            | The pixel ratio used to render the wheel. A value of 1 or higher will produce a sharper image.<br>By default this property is null, meaning the pixel ratio is automatically determined using `window.devicePixelRatio`.<br>However you could manually adjust this to improve performance.
+`pixelRatio`                    | `0`               | The pixel ratio used to render the wheel.<br>Values above 0 will produce a sharper image at the cost of performance.<br>A value of `0` will cause the pixel ratio to be automatically determined using `window.devicePixelRatio`.
 `radius`                        | `0.95`            | The radius of the wheel (as a percent of the container's smallest dimension).
 `rotation`                      | `0`               | The rotation (angle in degrees) of the wheel.<br>The first item will be drawn clockwise from this point.
 `rotationResistance`            | `-35`             | How much to reduce `rotationSpeed` by every second.
@@ -149,7 +149,7 @@ Raised when a new item is pointed at. This can be used to change the color of th
 
 Key                         | Value
 --------------------------- | ---------------------------
-`event`                     | `'currentIndexChange'`
+`type`                      | `'currentIndexChange'`
 `currentIndex`              | The index of the item that the Pointer was pointing at.<br>See `Wheel.pointerAngle`.
 
 ### `onRest(event = {})`
@@ -158,7 +158,7 @@ Raised when the wheel comes to a rest after spinning.
 
 Key                         | Value
 --------------------------- | ---------------------------
-`event`                     | `'rest'`
+`type`                      | `'rest'`
 `currentIndex`              | The index of the item that the Pointer was pointing at.<br>See `Wheel.pointerAngle`.
 `rotation`                  | The rotation of the wheel.<br>See `Wheel.rotation`.
 
@@ -168,9 +168,18 @@ Raised when the wheel has been spun by the user (via click-drag/touch-flick), or
 
 Key                         | Value
 --------------------------- | ---------------------------
-`event`                     | `'spin'`
-`rotationSpeed`             | The rotation speed of the wheel.<br>See `Wheel.rotationSpeed`.
+`type`                      | `'spin'`
 `dragEvents`                | An array of events that occurred during the interactive spin that was used to raise `onSpin`.<br>If the spin was not interactive then this will be an empty array.
+`rotationSpeed`             | The rotation speed of the wheel.<br>See `Wheel.rotationSpeed`.
+
+## Methods for `Item`
+
+Name                            | Description
+------------------------------- | ---------------------------
+`getEndAngle()`                 | Get the angle (in degrees) that this item ends at (exclusive), ignoring the current `rotation` of the wheel.
+`getIndex()`                    | Get the 0-based index of this item.
+`getRandomAngle()`              | Return a random angle (in degrees) between this item's start angle (inclusive) and end angle (exclusive).
+`getStartAngle()`               | Get the angle (in degrees) that this item starts at (inclusive), ignoring the current `rotation` of the wheel.
 
 ## Methods for `Item`
 
