@@ -538,9 +538,9 @@ export class Wheel {
 
     let itemAngle;
     if (spinToCenter) {
-      itemAngle = w.items[itemIndex].getCenterAngle();
+      itemAngle = this.items[itemIndex].getCenterAngle();
     } else {
-      itemAngle = w.items[itemIndex].getRandomAngle();
+      itemAngle = this.items[itemIndex].getRandomAngle();
     }
 
     const newAngle = this.calcSpinToAngle(itemAngle, this.rotation, numberOfRevolutions, direction);
