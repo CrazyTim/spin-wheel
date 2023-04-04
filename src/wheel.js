@@ -969,15 +969,12 @@ export class Wheel {
       let newSpeed = Math.min(val, this.rotationSpeedMax);
       newSpeed = Math.max(newSpeed, -this.rotationSpeedMax);
 
-      // 1 for clockwise, -1 for antiClockwise.
-      this._rotationDirection = (newSpeed > 0) ? 1 : -1;
-
       this._rotationSpeed = newSpeed;
 
     } else {
-      this._rotationDirection = 0;
       this._rotationSpeed = Defaults.wheel.rotationSpeed;
     }
+    this._rotationDirection = (this._rotationSpeed >= 0) ? 1 : -1; // 1 for clockwise (or stationary), -1 for antiClockwise.
     this.refresh();
   }
 
