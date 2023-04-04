@@ -9,7 +9,7 @@
   ],
   "type": "module",
   "scripts": {
-    "start": "node scripts/build.js -entryPoint=src/wheel.js -serve",
+    "start": "node scripts/build.js -entryPoint=src/wheel.js -servePath=examples/themes/",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
     "lint": "eslint src --fix",
     "build": "npm run lint && npm run test && npm run build-esm && npm run build-iife",
