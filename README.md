@@ -50,6 +50,7 @@ const wheel = new Wheel(container, props);
 - [Basic ESM usage](https://crazytim.github.io/spin-wheel/examples/esm)
 - [Basic IIFE usage](https://crazytim.github.io/spin-wheel/examples/iife)
 - [Themes](https://crazytim.github.io/spin-wheel/examples/themes)
+- [Developer playground (for testing and troubleshooting)](https://crazytim.github.io/spin-wheel/examples/playground)
 
 ## Configuration
 

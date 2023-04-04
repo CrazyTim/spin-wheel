@@ -1,0 +1,135 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Lucida Grande', sans-serif;
+  font-size: 15px;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none; /* Prevent selecting ui text when dragging */
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  /* Prevent pull-down-to-refresh gesture */
+  overscroll-behavior-y: contain;
+
+  /* Prevent iOS rubber-band effect */
+  position: fixed;
+  width: 100%;
+
+  /* Prevent browser from handling touch events */
+  touch-action: none;
+
+  display: flex;
+  flex-direction: row;
+  justify-items: stretch;
+  align-items: stretch;
+}
+
+.frame-center {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+.wheel-wrapper {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+.frame-right {
+  background-color: #f0f0ee;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: scroll;
+  width: 440px;
+  border-left: solid 1px #5c5c5c;
+  padding-bottom: 15px;
+}
+
+button.btn, label.btn {
+  padding: 4px 8px;
+  margin: 0px;
+  font-family: inherit;
+  display: inline-block;
+  cursor: pointer;
+  background-color: white;
+  border: solid 1px #767676;
+  border-radius: 4px;
+  align-self: flex-start;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 10px;
+  border-top: solid 1px #5c5c5c;
+}
+
+.input-group h2 {
+  display: block;
+  font-family: monospace;
+  /* background-color: #dfdfdb; */
+  padding: 10px 0px 0px;
+
+  font-weight: normal;
+  break-inside: avoid;
+}
+.input-group h2 span:first-of-type {
+  display: inline-block;
+  font-family: inherit;
+}
+.input-group h2 span:last-of-type {
+  margin-left:7px;
+  font-family: inherit;
+}
+
+.input-group input[type="range"] {
+  cursor: pointer;
+}
+
+.input-group input[type="checkbox"] {
+  height: 22px;
+  width: 22px;
+  cursor: pointer;
+}
+
+.input-group input[type="file"] {
+  display: none;
+}
+
+.input-group input[type="input"] {
+  padding: 4px 8px;
+  font-family: inherit;
+  background-color: white;
+  border: solid 1px #767676;
+  border-radius: 4px;
+}
+
+.input-group button {
+  margin-top: 10px;
+}
+
+select {
+  padding: 2px;
+}
+
+label {
+  margin-right: 5px;
+}
+
+.toolbar {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+}
+
+.btn.clear {
+  display: none;
+}
