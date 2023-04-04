@@ -432,20 +432,46 @@ export class Wheel {
 
   animateRotation(now = 0) {
 
+    // For spinTo()
+    if (this._spinToTimeEnd) {
+
+      // Check if we should end the animation.
+      if (now >= this._spinToTimeEnd) {
+        this.rotation = this._spinToEndRotation;
+        this._spinToTimeEnd = undefined;
+        this.raiseEvent_onRest();
+        return;
+      }
+
+      this.rotationSpeed = 0; // `spinTo()` should override `spin()`
+
+      this.refresh(); // Ensure the animation loop is active.
+
+      const duration = this._spinToTimeEnd - this._spinToTimeStart;
+      let delta = (now - this._spinToTimeStart) / duration;
+      delta = (delta < 0)? 0 : delta; // Frame time may be before the start time.
+      const distance = this._spinToEndRotation - this._spinToStartRotation;
+
+      this.rotation = this._spinToStartRotation + distance * this._spinToEasingFunction(delta);
+      return;
+
+    }
+
+    // For spin()
     if (this.rotationSpeed !== 0) {
 
-      this.refresh(); // Ensure the animation loop is active while rotating.
+      this.refresh(); // Ensure the animation loop is active.
 
-      if (this.lastRotationFrame === undefined) this.lastRotationFrame = now;
+      if (this._lastFrameTime === undefined) this._lastFrameTime = now;
 
-      const delta = now - this.lastRotationFrame;
+      const delta = now - this._lastFrameTime;
 
       if (delta > 0) {
 
-        this.rotation += ((delta / 1000) * this.rotationSpeed) % 360;
+        this.rotation += ((delta / 1000) * this.rotationSpeed) % 360; // TODO: very small rounding errors can accumulative here.
         this.rotationSpeed = this.getRotationSpeedPlusDrag(delta);
         if (this.rotationSpeed === 0) this.raiseEvent_onRest();
-        this.lastRotationFrame = now;
+        this._lastFrameTime = now;
 
       }
 
@@ -453,14 +479,14 @@ export class Wheel {
 
     }
 
-    this.lastRotationFrame = undefined;
+    this._lastFrameTime = undefined;
 
   }
 
   getRotationSpeedPlusDrag(delta = 0) {
 
     // Simulate drag:
-    const newRotationSpeed = this.rotationSpeed + (this.rotationResistance * (delta / 1000)) * this._rotationDirection;
+    const newRotationSpeed = this._rotationSpeed + ((this.rotationResistance * (delta / 1000)) * this._rotationDirection);
 
     // Stop rotation once speed reaches 0.
     // Otherwise the wheel could rotate in the opposite direction next frame.
@@ -473,17 +499,76 @@ export class Wheel {
   }
 
   /**
-   * Spin the wheel by setting `rotationSpeed` and raise the `onSpin` event.
-   * Optionally apply a random adjustment to the speed within a range (percent),
-   * which can make the spin less predictable.
+   * Spin the wheel by setting `rotationSpeed`.
+   * Optionally apply a random adjustment to the new speed, which can make the spin less predictable.
+   * For example a value of 1 will adjust the speed to somewhere between 50% and 150%.
+   * Note: this is mostly just an alias for `rotationSpeed`, except that the `onSpin` event will be raised.
    */
-  spin(speed = 0, randomAdjustmentPercent = 0.0) {
-
+  spin(rotationSpeed = 0, randomAdjustmentPercent = 0.0) {
     const adjust = randomAdjustmentPercent / 2;
-    this.rotationSpeed = util.getRandomInt(speed * (1 - adjust), speed * (1 + adjust));
+    this.rotationSpeed = util.getRandomInt(rotationSpeed * (1 - adjust), rotationSpeed * (1 + adjust));
+    if (this.rotationSpeed !== 0) this.raiseEvent_onSpin({method: 'spin', rotationSpeed: this.rotationSpeed});
+  }
 
-    if (this.rotationSpeed !== 0) this.raiseEvent_onSpin();
+  /**
+   * Spin the wheel to a particular rotation.
+   * The animation will occur over the provided `duration` (milliseconds).
+   * The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.
+   * If no easing function is provided, the default easeSinOut will be used.
+   * For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
+   * Note: the `Wheel.rotationSpeed` property will be ignored during the animation.
+   */
+  spinTo(rotation = 0, duration = 0, easingFunction = null) {
 
+    if (Number.isNaN(rotation)) throw new Error('Error: newRotation parameter is NaN'); // TODO: check is valid number. Same for duration param.
+
+    this.animate(rotation, duration, easingFunction);
+
+    this.raiseEvent_onSpin({method: 'spinto', targetRotation: rotation, duration});
+
+  }
+
+  /**
+   * Spin the wheel to a particular item.
+   * The animation will occur over the provided `duration` (milliseconds).
+   * If `spinToCenter` is true, the wheel will spin to the center of the item, otherwise the wheel will spin to a random angle inside the item.
+   * `numberOfRevolutions` controls how many times the wheel will rotate a full 360 degrees before resting on the item.
+   * The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.
+   * If no easing function is provided, the default easeSinOut will be used.
+   * For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
+   * Note: the `Wheel.rotationSpeed` property will be ignored during the animation.
+   */
+  spinToItem(itemIndex = 0, duration = 0, spinToCenter = true, numberOfRevolutions = 1, direction = 1, easingFunction = null) {
+
+    const itemAngle = spinToCenter ? this.items[itemIndex].getCenterAngle() : this.items[itemIndex].getRandomAngle();
+
+    let newRotation = util.calcWheelRotationForTargetAngle(this.rotation, itemAngle - this._pointerAngle, direction);
+    newRotation += ((numberOfRevolutions * 360) * direction);
+
+    this.animate(newRotation, duration, easingFunction);
+
+    this.raiseEvent_onSpin({method: 'spintoitem', targetItemIndex: itemIndex, targetRotation: newRotation, duration});
+
+  }
+
+  animate(newRotation, duration, easingFunction) {
+    this._spinToStartRotation = this.rotation;
+    this._spinToEndRotation = newRotation;
+    this._spinToTimeStart = performance.now();
+    this._spinToTimeEnd = this._spinToTimeStart + duration;
+    this._spinToEasingFunction = easingFunction || util.easeSinOut;
+    this.refresh();
+  }
+
+  /**
+   * Immediately stop the wheel from spinning, regardless of which method was used to spin it.
+   */
+  stop() {
+    // Stop the wheel if it was spun via `spin()`.
+    this._rotationSpeed = 0;
+
+    // Stop the wheel if it was spun via `spinTo()`.
+    this._spinToTimeEnd = undefined;
   }
 
   /**
@@ -564,15 +649,19 @@ export class Wheel {
   }
 
   /**
-   * Return an array of objects which represents the current start/end angles for each item.
+   * Return an array of objects containing the start angle (inclusive) and end angle (inclusive) of each item.
    */
   getItemAngles(initialRotation = 0) {
 
-    const angles = [];
-    const weightedItemAngle = 360 / this.items.reduce((a, i) => a + i.weight, 0);
+    let weightSum = 0;
+    for (const i of this.items) {
+      weightSum += i.weight;
+    }
+    const weightedItemAngle = 360 / weightSum;
 
     let itemAngle;
     let lastItemAngle = initialRotation;
+    const angles = [];
 
     for (const item of this._items) {
       itemAngle = item.weight * weightedItemAngle;
@@ -683,6 +772,7 @@ export class Wheel {
 
   /**
    * Allow the user to spin the wheel using click-drag/touch-flick.
+   * User interaction will only be detected within the bounds of `Wheel.radius`.
    */
   get isInteractive() {
     return this._isInteractive;
@@ -1159,7 +1249,7 @@ export class Wheel {
 
     this.isDragging = true;
 
-    this.rotationSpeed = 0; // Stop the wheel from spinning.
+    this.stop(); // Interrupt `spinTo()`
 
     this.dragEvents = [{
       distance: 0,
@@ -1227,7 +1317,7 @@ export class Wheel {
 
     this.rotationSpeed = dragDistance * (1000 / Constants.dragCapturePeriod);
 
-    this.raiseEvent_onSpin({dragEvents: this.dragEvents});
+    this.raiseEvent_onSpin({method: 'interact', rotationSpeed: this.rotationSpeed});
 
   }
 
@@ -1255,7 +1345,6 @@ export class Wheel {
   raiseEvent_onSpin(data = {}) {
     this.onSpin?.({
       type: 'spin',
-      rotationSpeed: this.rotationSpeed,
       ...data,
     });
   }

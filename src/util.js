@@ -8,6 +8,14 @@ export function getRandomInt(min = 0, max = 0) {
 }
 
 /**
+ * Get a random number between `min` (inclusive) and `max` (inclusive).
+ * Control the number of decimal places with `round`.
+ */
+export function getRandomFloat(min = 0, max = 0, round = 14) {
+  return parseFloat((Math.random() * (max - min) + min).toFixed(round));
+}
+
+/**
  * Convert degrees to radians.
  */
 export function degRad(degrees = 0) {
@@ -115,13 +123,34 @@ export function addAngle(a = 0, b = 0) {
 }
 
 /**
- * Return the shortest difference between two angles.
+ * Return the shortest difference (in degrees) between two angles.
  * Only accept angles between 0 and 360.
  */
 export function diffAngle(a = 0, b = 0) {
   const offsetFrom180 = 180 - b;
   const aWithOffset = addAngle(a, offsetFrom180);
   return 180 - aWithOffset;
+}
+
+/**
+ * Calculate what the new rotation of a wheel should be, so that the relative angle `targetAngle` will be at 0 degrees (north).
+ * targetAngle = a value between 0 and 360.
+ * direction = the direction the wheel can spin. 1 for clockwise, -1 for antiClockwise.
+ */
+export function calcWheelRotationForTargetAngle(currentRotation = 0, targetAngle = 0, direction = 1) {
+
+  let angle = ((currentRotation % 360) + targetAngle) % 360;
+
+  // Ignore tiny values.
+  // Due to floating point arithmetic, ocassionally the input angles won't add up exactly
+  // and this can push the angle slightly above 360.
+  angle = fixFloat(angle);
+
+  // Apply direction:
+  angle = ((direction === 1) ? (360 - angle) : 360 + angle) % 360;
+  angle *= direction;
+
+  return currentRotation + angle;
 }
 
 export function isObject(v) {
@@ -147,4 +176,15 @@ export function setProp({val, isValid, errorMessage, defaultValue, action = null
 export function isImageLoaded(image) {
   // We can detect a broken image (didn't load) by checking the natural width/height.
   return image && image.complete && image.naturalWidth !== 0 && image.naturalHeight !== 0;
+}
+
+export function fixFloat(f = 0) {
+  return Number(f.toFixed(9));
+}
+
+/**
+ * Easing function.
+ */
+export function easeSinOut(n) {
+  return Math.sin((n * Math.PI) / 2);
 }

@@ -118,3 +118,41 @@ test('isObject() works', () => {
   expect(f([])).toBe(false);
   expect(f(null)).toBe(false);
 });
+
+
+test('calcWheelRotationForTargetAngle() works', () => {
+  const f = util.calcWheelRotationForTargetAngle;
+
+  // Clockwise:
+  expect(f(0, 0, 1)).toBe(0); // No change
+  expect(f(0, 90, 1)).toBe(270);
+  expect(f(0, 180, 1)).toBe(180);
+  expect(f(0, 270, 1)).toBe(90);
+
+  expect(f(90, 0, 1)).toBe(360);
+  expect(f(90, 90, 1)).toBe(270);
+  expect(f(90, 180, 1)).toBe(180);
+  expect(f(90, 270, 1)).toBe(90); // No change
+
+  expect(f(-90, 0, 1)).toBe(0);
+  expect(f(-90, 90, 1)).toBe(-90); // No change
+  expect(f(-90, 180, 1)).toBe(180);
+  expect(f(-90, 270, 1)).toBe(90);
+
+  // Anti-clockwise:
+  expect(f(0, 0, -1)).toBe(0); // No change
+  expect(f(0, 90, -1)).toBe(-90);
+  expect(f(0, 180, -1)).toBe(-180);
+  expect(f(0, 270, -1)).toBe(-270);
+
+  expect(f(90, 0, -1)).toBe(0);
+  expect(f(90, 90, -1)).toBe(-90);
+  expect(f(90, 180, -1)).toBe(-180);
+  expect(f(90, 270, -1)).toBe(90); // No change
+
+  expect(f(-90, 0, -1)).toBe(-360);
+  expect(f(-90, 90, -1)).toBe(-90); // No change
+  expect(f(-90, 180, -1)).toBe(-180);
+  expect(f(-90, 270, -1)).toBe(-270);
+
+});
