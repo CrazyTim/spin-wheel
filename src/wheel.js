@@ -285,7 +285,7 @@ export class Wheel {
       this._center.y,
     );
 
-    ctx.rotate(util.degRad(this.pointerAngle + Constants.arcAdjust));
+    ctx.rotate(util.degRad(this._pointerAngle + Constants.arcAdjust));
 
     ctx.beginPath();
     ctx.moveTo(0, 0);
@@ -492,7 +492,7 @@ export class Wheel {
   }
 
   getActualPixelRatio() {
-    return (this.pixelRatio !== 0) ? this.pixelRatio : window.devicePixelRatio;
+    return (this._pixelRatio !== 0) ? this._pixelRatio : window.devicePixelRatio;
   }
 
   /**
@@ -548,7 +548,7 @@ export class Wheel {
 
     for (const [i, a] of angles.entries()) {
 
-      if (!util.isAngleBetween(this.pointerAngle, a.start % 360, a.end % 360)) continue;
+      if (!util.isAngleBetween(this._pointerAngle, a.start % 360, a.end % 360)) continue;
 
       if (this._currentIndex === i) break;
 

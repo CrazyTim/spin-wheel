@@ -1,5 +1,5 @@
 /**
- * Adjustment when drawing canvas arcs, because it draws from 90° instead of 0°.
+ * Adjustment when drawing arcs to ensure 0° is north (due to canvas drawing arcs from 90°).
  */
 export const arcAdjust = -90;
 
