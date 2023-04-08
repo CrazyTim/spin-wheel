@@ -396,10 +396,9 @@ export class Wheel {
         ctx.strokeRect(0, -this.itemLabelFontSize / 2, -this.labelMaxWidth, this.itemLabelFontSize);
       }
 
-      ctx.fillStyle = item.labelColor ?? (
-        // Fall back to a value from the repeating set:
-        this.itemLabelColors[i % this.itemLabelColors.length]
-      );
+      ctx.fillStyle = item.labelColor
+        || this._itemLabelColors[i % this._itemLabelColors.length] // Fall back to a value from the repeating set.
+        || 'transparent'; // Handle empty string/null.
 
       ctx.fillText(item.label, 0, actualItemLabelBaselineOffset);
 
