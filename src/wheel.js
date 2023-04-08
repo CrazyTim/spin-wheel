@@ -653,7 +653,7 @@ export class Wheel {
    * It will be automatically scaled to fit `radius`.
    */
   get image() {
-    return this._image;
+    return this._image?.src ?? null;
   }
   set image(val) {
     let img = new Image();
@@ -1056,7 +1056,7 @@ export class Wheel {
    * Use this to draw decorations around the wheel, such as a stand or pointer.
    */
   get overlayImage() {
-    return this._overlayImage;
+    return this._overlayImage?.src ?? null;
   }
   set overlayImage(val) {
     let img;
