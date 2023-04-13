@@ -6,8 +6,8 @@ export class Item {
   constructor(wheel, props = {}) {
 
     // Validate params.
-    if (!util.isObject(wheel)) throw 'wheel parameter must be an Object';
-    if (!util.isObject(props) && props !== null) throw 'props parameter must be an Object or null';
+    if (!util.isObject(wheel)) throw new Error('wheel parameter must be an Object');
+    if (!util.isObject(props) && props !== null) throw new Error('props parameter must be an Object or null');
 
     this._wheel = wheel;
 

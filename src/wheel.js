@@ -11,8 +11,8 @@ export class Wheel {
     this._frameRequestId = null; // Init.
 
     // Validate params.
-    if (!(container instanceof Element)) throw 'container parameter must be an Element';
-    if (!util.isObject(props) && props !== null) throw 'props parameter must be an Object or null';
+    if (!(container instanceof Element)) throw new Error('container parameter must be an Element');
+    if (!util.isObject(props) && props !== null) throw new Error('props parameter must be an Object or null');
 
     this._canvasContainer = container;
     this.canvas = document.createElement('canvas');
