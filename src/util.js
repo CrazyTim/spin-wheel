@@ -20,9 +20,8 @@ export function degRad(degrees = 0) {
  * Example: `(0, 1, 2) == false`
  */
 export function isAngleBetween(angle, arcStart, arcEnd) {
-  if (arcStart < arcEnd)
-   return arcStart <= angle && angle < arcEnd;
-   return arcStart <= angle || angle < arcEnd;
+  if (arcStart < arcEnd) return arcStart <= angle && angle < arcEnd;
+  return arcStart <= angle || angle < arcEnd;
 }
 
 /**

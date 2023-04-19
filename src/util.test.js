@@ -50,9 +50,7 @@ test('aveArray() handles truthy/falsy values', () => {
     NaN,
   ];
 
-  expect(
-    f(arr)
-  ).toBe(0.5);
+  expect(f(arr)).toBe(0.5);
 });
 
 test('getMouseButtonsPressed() works', () => {

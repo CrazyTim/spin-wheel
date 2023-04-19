@@ -241,7 +241,7 @@ export class Wheel {
         widthHalf,
         heightHalf,
         width,
-        height,
+        height
       );
 
       ctx.restore();
@@ -256,7 +256,7 @@ export class Wheel {
 
     ctx.translate(
       this._center.x,
-      this._center.y,
+      this._center.y
     );
 
     if (!isOverlay) ctx.rotate(util.degRad(this.rotation));
@@ -272,7 +272,7 @@ export class Wheel {
       sizeHalf,
       sizeHalf,
       size,
-      size,
+      size
     );
 
     ctx.resetTransform();
@@ -285,7 +285,7 @@ export class Wheel {
 
     ctx.translate(
       this._center.x,
-      this._center.y,
+      this._center.y
     );
 
     ctx.rotate(util.degRad(this._pointerAngle + Constants.arcAdjust));
@@ -890,7 +890,7 @@ export class Wheel {
           }));
         }
         return v;
-      }
+      },
     });
 
     this.refreshCurrentIndex(this.getItemAngles(this.rotation));
@@ -1021,7 +1021,7 @@ export class Wheel {
         newSpeed = Math.max(newSpeed, -this.rotationSpeedMax);
 
         return newSpeed;
-      }
+      },
     });
 
     this._rotationDirection = (this._rotationSpeed >= 0) ? 1 : -1; // 1 for clockwise (or stationary), -1 for antiClockwise.
