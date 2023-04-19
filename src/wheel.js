@@ -518,7 +518,7 @@ export class Wheel {
       return;
     }
 
-    this.canvas.style.cursor = null;
+    this.canvas.style.cursor = '';
 
   }
 
