@@ -276,7 +276,7 @@ export class Wheel {
 
   }
 
-  drawPointerLine(ctx, image, isOverlay = false) {
+  drawPointerLine(ctx) {
 
     if (!this.debug) return;
 
