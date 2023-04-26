@@ -6,13 +6,17 @@ import {Item} from './item.js';
 
 export class Wheel {
 
+  /**
+   * `container` must be an Element.
+   * `props` must be an Object or null.
+   */
   constructor(container, props = {}) {
 
     this._frameRequestId = null; // Init.
 
     // Validate params.
-    if (!(container instanceof Element)) throw 'container parameter must be an Element';
-    if (!util.isObject(props) && props !== null) throw 'props parameter must be an Object or null';
+    if (!(container instanceof Element)) throw new Error('container parameter must be an Element');
+    if (!util.isObject(props) && props !== null) throw new Error('props parameter must be an Object or null');
 
     this._canvasContainer = container;
     this.canvas = document.createElement('canvas');
@@ -276,7 +280,7 @@ export class Wheel {
 
   }
 
-  drawPointerLine(ctx, image, isOverlay = false) {
+  drawPointerLine(ctx) {
 
     if (!this.debug) return;
 
@@ -285,7 +289,7 @@ export class Wheel {
       this._center.y,
     );
 
-    ctx.rotate(util.degRad(this.pointerAngle + Constants.arcAdjust));
+    ctx.rotate(util.degRad(this._pointerAngle + Constants.arcAdjust));
 
     ctx.beginPath();
     ctx.moveTo(0, 0);
@@ -396,10 +400,9 @@ export class Wheel {
         ctx.strokeRect(0, -this.itemLabelFontSize / 2, -this.labelMaxWidth, this.itemLabelFontSize);
       }
 
-      ctx.fillStyle = item.labelColor ?? (
-        // Fall back to a value from the repeating set:
-        this.itemLabelColors[i % this.itemLabelColors.length]
-      );
+      ctx.fillStyle = item.labelColor
+        || this._itemLabelColors[i % this._itemLabelColors.length] // Fall back to a value from the repeating set.
+        || 'transparent'; // Handle empty string/null.
 
       ctx.fillText(item.label, 0, actualItemLabelBaselineOffset);
 
@@ -492,7 +495,7 @@ export class Wheel {
   }
 
   getActualPixelRatio() {
-    return (this.pixelRatio !== 0) ? this.pixelRatio : window.devicePixelRatio;
+    return (this._pixelRatio !== 0) ? this._pixelRatio : window.devicePixelRatio;
   }
 
   /**
@@ -519,7 +522,7 @@ export class Wheel {
       return;
     }
 
-    this.canvas.style.cursor = null;
+    this.canvas.style.cursor = '';
 
   }
 
@@ -548,7 +551,7 @@ export class Wheel {
 
     for (const [i, a] of angles.entries()) {
 
-      if (!util.isAngleBetween(this.pointerAngle, a.start % 360, a.end % 360)) continue;
+      if (!util.isAngleBetween(this._pointerAngle, a.start % 360, a.end % 360)) continue;
 
       if (this._currentIndex === i) break;
 
@@ -653,7 +656,7 @@ export class Wheel {
    * It will be automatically scaled to fit `radius`.
    */
   get image() {
-    return this._image;
+    return this._image?.src ?? null;
   }
   set image(val) {
     let img = new Image();
@@ -969,15 +972,12 @@ export class Wheel {
       let newSpeed = Math.min(val, this.rotationSpeedMax);
       newSpeed = Math.max(newSpeed, -this.rotationSpeedMax);
 
-      // 1 for clockwise, -1 for antiClockwise.
-      this._rotationDirection = (newSpeed > 0) ? 1 : -1;
-
       this._rotationSpeed = newSpeed;
 
     } else {
-      this._rotationDirection = 0;
       this._rotationSpeed = Defaults.wheel.rotationSpeed;
     }
+    this._rotationDirection = (this._rotationSpeed >= 0) ? 1 : -1; // 1 for clockwise (or stationary), -1 for antiClockwise.
     this.refresh();
   }
 
@@ -1059,7 +1059,7 @@ export class Wheel {
    * Use this to draw decorations around the wheel, such as a stand or pointer.
    */
   get overlayImage() {
-    return this._overlayImage;
+    return this._overlayImage?.src ?? null;
   }
   set overlayImage(val) {
     let img;

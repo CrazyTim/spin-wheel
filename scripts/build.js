@@ -28,9 +28,11 @@ const p = JSON.parse(
 );
 
 const entryPoint = process.argv.filter(i => i.startsWith('-entryPoint='))[0]?.substring(12);
-const serveFlag = process.argv.includes('-serve');
+const servePath = process.argv.filter(i => i.startsWith('-servePath='))[0]?.substring(11);
+const servePathNpm = process.env.npm_config_servepath;
+const shouldStartWebServer = !!servePathNpm || !!servePath;
 const format = process.argv.includes('-iife') ? 'iife' : 'esm';
-
+console.log(shouldStartWebServer);
 const preamble = [
   `/**\n`,
   ` * ${p.name} (${format.toUpperCase()}) v${p.version}\n`,
@@ -48,7 +50,7 @@ await esbuild.build({
   target: ['es6'],
   format: format,
   globalName: 'wheel', // This setting is only for IIFE format.
-  watch: serveFlag,
+  watch: shouldStartWebServer,
   banner: {'js': preamble.join('')},
 })
 .catch((error) => {
@@ -56,4 +58,4 @@ await esbuild.build({
   process.exit(1);
 });
 
-if (serveFlag) startWebServer('examples/themes');
+if (shouldStartWebServer) startWebServer(servePathNpm || servePath);

@@ -76,7 +76,7 @@ Item {
     "_pointerAngle": 0,
     "_radius": 0.95,
     "_rotation": 0,
-    "_rotationDirection": 0,
+    "_rotationDirection": 1,
     "_rotationResistance": -35,
     "_rotationSpeed": 0,
     "_rotationSpeedMax": 250,
