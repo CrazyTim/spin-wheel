@@ -6,6 +6,10 @@ import {Item} from './item.js';
 
 export class Wheel {
 
+  /**
+   * `container` must be an Element.
+   * `props` must be an Object or null.
+   */
   constructor(container, props = {}) {
 
     this._frameRequestId = null; // Init.

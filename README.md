@@ -71,7 +71,7 @@ Here's a handy diagram:
 
 Method                                             | Description
 -------------------------------------------------- | ---------------------------
-`constructor(container, props = {})`               | `container` parameter must be an Element.</p><p>`props` parameter must be an Object or null.
+`constructor(container, props = {})`               | `container` must be an Element.</p><p>`props` must be an Object or null.
 `init(props = {})`                                 | Initialise all properties.</p><p>If a value is not provided for a property then it will be given a default value.
 `spin(speed = 0, randomAdjustmentPercent = 0.0)`   | Spin the wheel by setting `rotationSpeed` and raise the `onSpin` event.</p><p>Optionally apply a random adjustment to the speed within a range (percent), which can make the spin less predictable.
 `getCurrentIndex()`                                | Get the index of the item that the Pointer is pointing at.</p><p>An item is considered "current" if `pointerAngle` is between it's start angle (inclusive) and it's end angle (exclusive).
