@@ -20,7 +20,7 @@ test('Wheel can be initialised with props', () => {
 test('Should throw when initialised without container param', () => {
   expect(() => {
     return new Wheel();
-  }).toThrow('container parameter');
+  }).toThrow('container must be an instance of Element');
 });
 
 test('Each Wheel property has a coresponding default value', () => {

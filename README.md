@@ -78,6 +78,8 @@ Method                                             | Description
 
 ## Properties for `Wheel`
 
+Note: setting a property to `undefined` will reset it to the default value.
+
 Name                            | Default Value     | Description
 ------------------------------- | ------------------| ---------------------------
 `borderColor`                   | `#000`            | The color of the line around the circumference of the wheel.
@@ -142,6 +144,8 @@ Key                         | Value
 `dragEvents`                | An array of events that occurred during the interactive spin that was used to raise `onSpin`.</p><p>If the spin was not interactive then this will be an empty array.
 
 ## Properties for `Item`
+
+Note: setting a property to `undefined` will reset it to the default value.
 
 Name                            | Default Value     | Description
 ------------------------------- | ----------------- | ---------------------------

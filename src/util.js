@@ -129,6 +129,19 @@ export function isObject(v) {
   return typeof v === 'object' && !Array.isArray(v) && v !== null;
 }
 
+export function isNumber(n) {
+  return typeof n === 'number' && !Number.isNaN(n);
+}
+
+export function setProp({val, isValid, errorMessage, defaultValue, action = null}) {
+  if (isValid) {
+    return (action) ? action() : val;
+  } else if (val === undefined) {
+    return defaultValue;
+  }
+  throw new Error(errorMessage);
+}
+
 /**
  * Return true if image has loaded.
  */
