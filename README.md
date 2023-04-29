@@ -90,7 +90,6 @@ Method                                                              | Descriptio
 ------------------------------------------------------------------- | ---------------------------
 `constructor(container, props = {})`                                | `container` must be an Element.</p><p>`props` must be an Object or null.
 `init(props = {})`                                                  | Initialise all properties.</p><p>If a value is not provided for a property then it will be given a default value.
-`spin(rotationSpeed = 0, randomAdjustmentPercent = 0.0)`            | Spin the wheel by setting `rotationSpeed`.</p><p>Optionally apply a random adjustment to the new speed, which can make the spin less predictable. For example a value of 1 will adjust the speed to somewhere between 50% and 150%.</p><p>Note: this is mostly just an alias for `rotationSpeed`, except that the `onSpin` event will be raised.
 `spinTo(rotation = 0, duration = 0, easingFunction = null)`         | Spin the wheel to a particular rotation.</p><p>The animation will occur over the provided `duration` (milliseconds).</p><p>The `rotationSpeed` property will be ignored during the animation.</p><p>The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.</p><p>For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
 `spinToItem(itemIndex = 0, duration = 0, spinToCenter = true, numberOfRevolutions = 1, easingFunction = null)` | Spin the wheel to a particular item.</p><p>The animation will occur over the provided `duration` (milliseconds).</p><p>If `spinToCenter` is true, the wheel will spin to the center of the item, otherwise the wheel will spin to a random angle inside the item.</p><p>`numberOfRevolutions` controls how many times the wheel will rotate a full 360 degrees before resting on the item.</p><p>The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.</p><p>If no easing function is provided, the default easeSinOut will be used.</p><p>For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).</p><p>Note: the `Wheel.rotationSpeed` property will be ignored during the animation.
 `stop()`                                                            | Immediately stop the wheel from spinning, regardless of which method was used to spin it.
@@ -155,14 +154,14 @@ Key                         | Value
 
 ### `onSpin(event = {})`
 
-Raised when the wheel has been spun by the user (via click-drag/touch-flick), or by calling `Wheel.spin()` or `Wheel.spinTo()` or `Wheel.spinToItem()`.
+Raised when the wheel has been spun by the user (via click-drag/touch-flick), or by calling `Wheel.spinTo()` or `Wheel.spinToItem()`.
 
 Key                         | Value
 --------------------------- | ---------------------------
 `type`                      | `'spin'`
 `duration`                  | the duration of the spin animation. Only set when `method = spinto` or `method = spintoitem`.
-`method`                    | The method that was used to spin the wheel (`interact`, `spin`, `spinto`, `spintoitem`).
-`rotationSpeed`             | The value of `Wheel.rotationSpeed` at the time the event was raised.</p><p>Only set when `method = interact`, `method = spin`.</p><p>See `Wheel.rotationSpeed`.
+`method`                    | The method that was used to spin the wheel (`interact`, `spinto`, `spintoitem`).
+`rotationSpeed`             | The value of `Wheel.rotationSpeed` at the time the event was raised.</p><p>Only set when `method = interact`.</p><p>See `Wheel.rotationSpeed`.
 `targetItemIndex`           | The item that the Pointer will be pointing at once the spin animation has finished.</p><p>Only set when `method = spintoitem`.
 `targetRotation`            | The value that `Wheel.rotation` will have once the spin animation has finished.</p><p>Only set when `method = spinto` or `method = spintoitem`.
 

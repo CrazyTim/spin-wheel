@@ -499,18 +499,6 @@ export class Wheel {
   }
 
   /**
-   * Spin the wheel by setting `rotationSpeed`.
-   * Optionally apply a random adjustment to the new speed, which can make the spin less predictable.
-   * For example a value of 1 will adjust the speed to somewhere between 50% and 150%.
-   * Note: this is mostly just an alias for `rotationSpeed`, except that the `onSpin` event will be raised.
-   */
-  spin(rotationSpeed = 0, randomAdjustmentPercent = 0.0) {
-    const adjust = randomAdjustmentPercent / 2;
-    this.rotationSpeed = util.getRandomInt(rotationSpeed * (1 - adjust), rotationSpeed * (1 + adjust));
-    if (this.rotationSpeed !== 0) this.raiseEvent_onSpin({method: 'spin', rotationSpeed: this.rotationSpeed});
-  }
-
-  /**
    * Spin the wheel to a particular rotation.
    * The animation will occur over the provided `duration` (milliseconds).
    * The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.
