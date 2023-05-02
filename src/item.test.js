@@ -21,5 +21,5 @@ test('Item can be initialised', () => {
 test('Should throw when initialised without wheel param', () => {
   expect(() => {
     return new Item();
-  }).toThrow('wheel parameter');
+  }).toThrow('wheel must be an instance of Wheel');
 });

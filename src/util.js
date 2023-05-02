@@ -20,9 +20,8 @@ export function degRad(degrees = 0) {
  * Example: `(0, 1, 2) == false`
  */
 export function isAngleBetween(angle, arcStart, arcEnd) {
-  if (arcStart < arcEnd)
-   return arcStart <= angle && angle < arcEnd;
-   return arcStart <= angle || angle < arcEnd;
+  if (arcStart < arcEnd) return arcStart <= angle && angle < arcEnd;
+  return arcStart <= angle || angle < arcEnd;
 }
 
 /**
@@ -127,6 +126,19 @@ export function diffAngle(a = 0, b = 0) {
 
 export function isObject(v) {
   return typeof v === 'object' && !Array.isArray(v) && v !== null;
+}
+
+export function isNumber(n) {
+  return typeof n === 'number' && !Number.isNaN(n);
+}
+
+export function setProp({val, isValid, errorMessage, defaultValue, action = null}) {
+  if (isValid) {
+    return (action) ? action() : val;
+  } else if (val === undefined) {
+    return defaultValue;
+  }
+  throw new Error(errorMessage);
 }
 
 /**

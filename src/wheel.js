@@ -15,8 +15,8 @@ export class Wheel {
     this._frameRequestId = null; // Init.
 
     // Validate params.
-    if (!(container instanceof Element)) throw new Error('container parameter must be an Element');
-    if (!util.isObject(props) && props !== null) throw new Error('props parameter must be an Object or null');
+    if (!(container instanceof Element)) throw new Error('container must be an instance of Element');
+    if (!util.isObject(props) && props !== null) throw new Error('props must be an Object or null');
 
     this._canvasContainer = container;
     this.canvas = document.createElement('canvas');
@@ -41,7 +41,6 @@ export class Wheel {
 
   /**
    * Initialise all properties.
-   * If a value is undefined or invalid then that property will fall back to a default value.
    */
   init(props = {}) {
     this._isInitialising = true;
@@ -242,7 +241,7 @@ export class Wheel {
         widthHalf,
         heightHalf,
         width,
-        height,
+        height
       );
 
       ctx.restore();
@@ -257,7 +256,7 @@ export class Wheel {
 
     ctx.translate(
       this._center.x,
-      this._center.y,
+      this._center.y
     );
 
     if (!isOverlay) ctx.rotate(util.degRad(this.rotation));
@@ -273,7 +272,7 @@ export class Wheel {
       sizeHalf,
       sizeHalf,
       size,
-      size,
+      size
     );
 
     ctx.resetTransform();
@@ -286,7 +285,7 @@ export class Wheel {
 
     ctx.translate(
       this._center.x,
-      this._center.y,
+      this._center.y
     );
 
     ctx.rotate(util.degRad(this._pointerAngle + Constants.arcAdjust));
@@ -612,11 +611,13 @@ export class Wheel {
     return this._borderColor;
   }
   set borderColor(val) {
-    if (typeof val === 'string') {
-      this._borderColor = val;
-    } else {
-      this._borderColor = Defaults.wheel.borderColor;
-    }
+    this._borderColor = util.setProp({
+      val,
+      isValid: typeof val === 'string',
+      errorMessage: 'Wheel.borderColor must be a string',
+      defaultValue: Defaults.wheel.borderColor,
+    });
+
     this.refresh();
   }
 
@@ -627,11 +628,13 @@ export class Wheel {
     return this._borderWidth;
   }
   set borderWidth(val) {
-    if (typeof val === 'number') {
-      this._borderWidth = val;
-    } else {
-      this._borderWidth = Defaults.wheel.borderWidth;
-    }
+    this._borderWidth = util.setProp({
+      val,
+      isValid: util.isNumber(val),
+      errorMessage: 'Wheel.borderWidth must be a number',
+      defaultValue: Defaults.wheel.borderWidth,
+    });
+
     this.refresh();
   }
 
@@ -643,11 +646,13 @@ export class Wheel {
     return this._debug;
   }
   set debug(val) {
-    if (typeof val === 'boolean') {
-      this._debug = val;
-    } else {
-      this._debug = Defaults.wheel.debug;
-    }
+    this._debug = util.setProp({
+      val,
+      isValid: typeof val === 'boolean',
+      errorMessage: 'Wheel.debug must be a boolean',
+      defaultValue: Defaults.wheel.debug,
+    });
+
     this.refresh();
   }
 
@@ -659,14 +664,20 @@ export class Wheel {
     return this._image?.src ?? null;
   }
   set image(val) {
-    let img = new Image();
-    if (typeof val === 'string') {
-      img.src = val;
-      img.onload = e => this.refresh();
-    } else {
-      img = Defaults.wheel.image;
-    }
-    this._image = img;
+    this._image = util.setProp({
+      val,
+      isValid: typeof val === 'string' || val === null,
+      errorMessage: 'Wheel.image must be a url (string) or null',
+      defaultValue: Defaults.wheel.image,
+      action: () => {
+        if (val === null) return null;
+        const v = new Image();
+        v.src = val;
+        v.onload = e => this.refresh();
+        return v;
+      },
+    });
+
     this.refresh();
   }
 
@@ -677,11 +688,13 @@ export class Wheel {
     return this._isInteractive;
   }
   set isInteractive(val) {
-    if (typeof val === 'boolean') {
-      this._isInteractive = val;
-    } else {
-      this._isInteractive = Defaults.wheel.isInteractive;
-    }
+    this._isInteractive = util.setProp({
+      val,
+      isValid: typeof val === 'boolean',
+      errorMessage: 'Wheel.isInteractive must be a boolean',
+      defaultValue: Defaults.wheel.isInteractive,
+    });
+
     this.refresh();
   }
 
@@ -694,11 +707,13 @@ export class Wheel {
     return this._itemBackgroundColors;
   }
   set itemBackgroundColors(val) {
-    if (Array.isArray(val)) {
-      this._itemBackgroundColors = val;
-    } else {
-      this._itemBackgroundColors = Defaults.wheel.itemBackgroundColors;
-    }
+    this._itemBackgroundColors = util.setProp({
+      val,
+      isValid: Array.isArray(val),
+      errorMessage: 'Wheel.itemBackgroundColors must be an array',
+      defaultValue: Defaults.wheel.itemBackgroundColors,
+    });
+
     this.refresh();
   }
 
@@ -711,11 +726,13 @@ export class Wheel {
     return this._itemLabelAlign;
   }
   set itemLabelAlign(val) {
-    if (typeof val === 'string') {
-      this._itemLabelAlign = val;
-    } else {
-      this._itemLabelAlign = Defaults.wheel.itemLabelAlign;
-    }
+    this._itemLabelAlign = util.setProp({
+      val,
+      isValid: typeof val === 'string',
+      errorMessage: 'Wheel.itemLabelAlign must be a string',
+      defaultValue: Defaults.wheel.itemLabelAlign,
+    });
+
     this.refresh();
   }
 
@@ -726,11 +743,13 @@ export class Wheel {
     return this._itemLabelBaselineOffset;
   }
   set itemLabelBaselineOffset(val) {
-    if (typeof val === 'number') {
-      this._itemLabelBaselineOffset = val;
-    } else {
-      this._itemLabelBaselineOffset = Defaults.wheel.itemLabelBaselineOffset;
-    }
+    this._itemLabelBaselineOffset = util.setProp({
+      val,
+      isValid: util.isNumber(val),
+      errorMessage: 'Wheel.itemLabelBaselineOffset must be a number',
+      defaultValue: Defaults.wheel.itemLabelBaselineOffset,
+    });
+
     this.resize();
   }
 
@@ -743,11 +762,13 @@ export class Wheel {
     return this._itemLabelColors;
   }
   set itemLabelColors(val) {
-    if (Array.isArray(val)) {
-      this._itemLabelColors = val;
-    } else {
-      this._itemLabelColors = Defaults.wheel.itemLabelColors;
-    }
+    this._itemLabelColors = util.setProp({
+      val,
+      isValid: Array.isArray(val),
+      errorMessage: 'Wheel.itemLabelColors must be an array',
+      defaultValue: Defaults.wheel.itemLabelColors,
+    });
+
     this.refresh();
   }
 
@@ -760,11 +781,13 @@ export class Wheel {
     return this._itemLabelFont;
   }
   set itemLabelFont(val) {
-    if (typeof val === 'string') {
-      this._itemLabelFont = val;
-    } else {
-      this._itemLabelFont = Defaults.wheel.itemLabelFont;
-    }
+    this._itemLabelFont = util.setProp({
+      val,
+      isValid: typeof val === 'string',
+      errorMessage: 'Wheel.itemLabelFont must be a string',
+      defaultValue: Defaults.wheel.itemLabelFont,
+    });
+
     this.resize();
   }
 
@@ -775,11 +798,13 @@ export class Wheel {
     return this._itemLabelFontSizeMax;
   }
   set itemLabelFontSizeMax(val) {
-    if (typeof val === 'number') {
-      this._itemLabelFontSizeMax = val;
-    } else {
-      this._itemLabelFontSizeMax = Defaults.wheel.itemLabelFontSizeMax;
-    }
+    this._itemLabelFontSizeMax = util.setProp({
+      val,
+      isValid: util.isNumber(val),
+      errorMessage: 'Wheel.itemLabelFontSizeMax must be a number',
+      defaultValue: Defaults.wheel.itemLabelFontSizeMax,
+    });
+
     this.resize();
   }
 
@@ -791,11 +816,13 @@ export class Wheel {
     return this._itemLabelRadius;
   }
   set itemLabelRadius(val) {
-    if (typeof val === 'number') {
-      this._itemLabelRadius = val;
-    } else {
-      this._itemLabelRadius = Defaults.wheel.itemLabelRadius;
-    }
+    this._itemLabelRadius = util.setProp({
+      val,
+      isValid: util.isNumber(val),
+      errorMessage: 'Wheel.itemLabelRadius must be a number',
+      defaultValue: Defaults.wheel.itemLabelRadius,
+    });
+
     this.resize();
   }
 
@@ -807,11 +834,13 @@ export class Wheel {
     return this._itemLabelRadiusMax;
   }
   set itemLabelRadiusMax(val) {
-    if (typeof val === 'number') {
-      this._itemLabelRadiusMax = val;
-    } else {
-      this._itemLabelRadiusMax = Defaults.wheel.itemLabelRadiusMax;
-    }
+    this._itemLabelRadiusMax = util.setProp({
+      val,
+      isValid: util.isNumber(val),
+      errorMessage: 'Wheel.itemLabelRadiusMax must be a number',
+      defaultValue: Defaults.wheel.itemLabelRadiusMax,
+    });
+
     this.resize();
   }
 
@@ -823,11 +852,13 @@ export class Wheel {
     return this._itemLabelRotation;
   }
   set itemLabelRotation(val) {
-    if (typeof val === 'number') {
-      this._itemLabelRotation = val;
-    } else {
-      this._itemLabelRotation = Defaults.wheel.itemLabelRotation;
-    }
+    this._itemLabelRotation = util.setProp({
+      val,
+      isValid: util.isNumber(val),
+      errorMessage: 'Wheel.itemLabelRotation must be a number',
+      defaultValue: Defaults.wheel.itemLabelRotation,
+    });
+
     this.refresh();
   }
 
@@ -838,27 +869,29 @@ export class Wheel {
     return this._items;
   }
   set items(val) {
-    if (Array.isArray(val)) {
-
-      this._items = [];
-
-      for (const item of val) {
-        this._items.push(new Item(this, {
-          backgroundColor: item.backgroundColor,
-          image: item.image,
-          imageRadius: item.imageRadius,
-          imageRotation: item.imageRotation,
-          imageScale: item.imageScale,
-          label: item.label,
-          labelColor: item.labelColor,
-          value: item.value,
-          weight: item.weight,
-        }));
-      }
-
-    } else {
-      this._items = Defaults.wheel.items;
-    }
+    this._items = util.setProp({
+      val,
+      isValid: Array.isArray(val),
+      errorMessage: 'Wheel.items must be an array of Items',
+      defaultValue: Defaults.wheel.items,
+      action: () => {
+        const v = [];
+        for (const item of val) {
+          v.push(new Item(this, {
+            backgroundColor: item.backgroundColor,
+            image: item.image,
+            imageRadius: item.imageRadius,
+            imageRotation: item.imageRotation,
+            imageScale: item.imageScale,
+            label: item.label,
+            labelColor: item.labelColor,
+            value: item.value,
+            weight: item.weight,
+          }));
+        }
+        return v;
+      },
+    });
 
     this.refreshCurrentIndex(this.getItemAngles(this.rotation));
   }
@@ -870,11 +903,13 @@ export class Wheel {
     return this._lineColor;
   }
   set lineColor(val) {
-    if (typeof val === 'string') {
-      this._lineColor = val;
-    } else {
-      this._lineColor = Defaults.wheel.lineColor;
-    }
+    this._lineColor = util.setProp({
+      val,
+      isValid: typeof val === 'string',
+      errorMessage: 'Wheel.lineColor must be a string',
+      defaultValue: Defaults.wheel.lineColor,
+    });
+
     this.refresh();
   }
 
@@ -885,11 +920,13 @@ export class Wheel {
     return this._lineWidth;
   }
   set lineWidth(val) {
-    if (typeof val === 'number') {
-      this._lineWidth = val;
-    } else {
-      this._lineWidth = Defaults.wheel.lineWidth;
-    }
+    this._lineWidth = util.setProp({
+      val,
+      isValid: util.isNumber(val),
+      errorMessage: 'Wheel.lineWidth must be a number',
+      defaultValue: Defaults.wheel.lineWidth,
+    });
+
     this.refresh();
   }
 
@@ -900,11 +937,13 @@ export class Wheel {
     return this._radius;
   }
   set radius(val) {
-    if (typeof val === 'number') {
-      this._radius = val;
-    } else {
-      this._radius = Defaults.wheel.radius;
-    }
+    this._radius = util.setProp({
+      val,
+      isValid: util.isNumber(val),
+      errorMessage: 'Wheel.radius must be a number',
+      defaultValue: Defaults.wheel.radius,
+    });
+
     this.resize();
   }
 
@@ -917,11 +956,13 @@ export class Wheel {
     return this._rotation;
   }
   set rotation(val) {
-    if (typeof val === 'number') {
-      this._rotation = val;
-    } else {
-      this._rotation = Defaults.wheel.rotation;
-    }
+    this._rotation = util.setProp({
+      val,
+      isValid: util.isNumber(val),
+      errorMessage: 'Wheel.rotation must be a number',
+      defaultValue: Defaults.wheel.rotation,
+    });
+
     this.refreshCurrentIndex(this.getItemAngles(this.rotation));
     this.refresh();
   }
@@ -933,11 +974,12 @@ export class Wheel {
     return this._rotationResistance;
   }
   set rotationResistance(val) {
-    if (typeof val === 'number') {
-      this._rotationResistance = val;
-    } else {
-      this._rotationResistance = Defaults.wheel.rotationResistance;
-    }
+    this._rotationResistance = util.setProp({
+      val,
+      isValid: util.isNumber(val),
+      errorMessage: 'Wheel.rotationResistance must be a number',
+      defaultValue: Defaults.wheel.rotationResistance,
+    });
   }
 
   /**
@@ -949,11 +991,13 @@ export class Wheel {
     return this._pixelRatio;
   }
   set pixelRatio(val) {
-    if (typeof val === 'number') {
-      this._pixelRatio = val;
-    } else {
-      this._pixelRatio = Defaults.wheel.pixelRatio;
-    }
+    this._pixelRatio = util.setProp({
+      val,
+      isValid: util.isNumber(val),
+      errorMessage: 'Wheel.pixelRatio must be a number',
+      defaultValue: Defaults.wheel.pixelRatio,
+    });
+
     this.resize();
   }
 
@@ -966,17 +1010,20 @@ export class Wheel {
     return this._rotationSpeed;
   }
   set rotationSpeed(val) {
-    if (typeof val === 'number') {
+    this._rotationSpeed = util.setProp({
+      val,
+      isValid: util.isNumber(val),
+      errorMessage: 'Wheel.rotationSpeed must be a number',
+      defaultValue: Defaults.wheel.rotationSpeed,
+      action: () => {
+        // Limit speed to `rotationSpeedMax`
+        let newSpeed = Math.min(val, this.rotationSpeedMax);
+        newSpeed = Math.max(newSpeed, -this.rotationSpeedMax);
 
-      // Limit speed to `rotationSpeedMax`
-      let newSpeed = Math.min(val, this.rotationSpeedMax);
-      newSpeed = Math.max(newSpeed, -this.rotationSpeedMax);
+        return newSpeed;
+      },
+    });
 
-      this._rotationSpeed = newSpeed;
-
-    } else {
-      this._rotationSpeed = Defaults.wheel.rotationSpeed;
-    }
     this._rotationDirection = (this._rotationSpeed >= 0) ? 1 : -1; // 1 for clockwise (or stationary), -1 for antiClockwise.
     this.refresh();
   }
@@ -989,11 +1036,12 @@ export class Wheel {
     return this._rotationSpeedMax;
   }
   set rotationSpeedMax(val) {
-    if (typeof val === 'number') {
-      this._rotationSpeedMax = val;
-    } else {
-      this._rotationSpeedMax = Defaults.wheel.rotationSpeedMax;
-    }
+    this._rotationSpeedMax = util.setProp({
+      val,
+      isValid: util.isNumber(val),
+      errorMessage: 'Wheel.rotationSpeedMax must be a number',
+      defaultValue: Defaults.wheel.rotationSpeedMax,
+    });
   }
 
   /**
@@ -1003,11 +1051,13 @@ export class Wheel {
     return this._offset;
   }
   set offset(val) {
-    if (val) {
-      this._offset = val;
-    } else {
-      this._offset = Defaults.wheel.offset;
-    }
+    this._offset = util.setProp({
+      val,
+      isValid: util.isObject(val),
+      errorMessage: 'Wheel.offset must be an object',
+      defaultValue: Defaults.wheel.offset,
+    });
+
     this.resize();
   }
 
@@ -1018,11 +1068,12 @@ export class Wheel {
     return this._onCurrentIndexChange;
   }
   set onCurrentIndexChange(val) {
-    if (typeof val === 'function') {
-      this._onCurrentIndexChange = val;
-    } else {
-      this._onCurrentIndexChange = Defaults.wheel.onCurrentIndexChange;
-    }
+    this._onCurrentIndexChange = util.setProp({
+      val,
+      isValid: typeof val === 'function' || val === null,
+      errorMessage: 'Wheel.onCurrentIndexChange must be a function or null',
+      defaultValue: Defaults.wheel.onCurrentIndexChange,
+    });
   }
 
   /**
@@ -1032,11 +1083,12 @@ export class Wheel {
     return this._onRest;
   }
   set onRest(val) {
-    if (typeof val === 'function') {
-      this._onRest = val;
-    } else {
-      this._onRest = Defaults.wheel.onRest;
-    }
+    this._onRest = util.setProp({
+      val,
+      isValid: typeof val === 'function' || val === null,
+      errorMessage: 'Wheel.onRest must be a function or null',
+      defaultValue: Defaults.wheel.onRest,
+    });
   }
 
   /**
@@ -1046,11 +1098,12 @@ export class Wheel {
     return this._onSpin;
   }
   set onSpin(val) {
-    if (typeof val === 'function') {
-      this._onSpin = val;
-    } else {
-      this._onSpin = Defaults.wheel.onSpin;
-    }
+    this._onSpin = util.setProp({
+      val,
+      isValid: typeof val === 'function' || val === null,
+      errorMessage: 'Wheel.onSpin must be a function or null',
+      defaultValue: Defaults.wheel.onSpin,
+    });
   }
 
   /**
@@ -1062,15 +1115,20 @@ export class Wheel {
     return this._overlayImage?.src ?? null;
   }
   set overlayImage(val) {
-    let img;
-    if (typeof val === 'string') {
-      img = new Image();
-      img.src = val;
-      img.onload = e => this.refresh();
-    } else {
-      img = Defaults.wheel.overlayImage;
-    }
-    this._overlayImage = img;
+    this._overlayImage = util.setProp({
+      val,
+      isValid: typeof val === 'string' || val === null,
+      errorMessage: 'Wheel.overlayImage must be a url (string) or null',
+      defaultValue: Defaults.wheel.overlayImage,
+      action: () => {
+        if (val === null) return null;
+        const v = new Image();
+        v.src = val;
+        v.onload = e => this.refresh();
+        return v;
+      },
+    });
+
     this.refresh();
   }
 
@@ -1081,11 +1139,14 @@ export class Wheel {
     return this._pointerAngle;
   }
   set pointerAngle(val) {
-    if (typeof val === 'number') {
-      this._pointerAngle = val;
-    } else {
-      this._pointerAngle = Defaults.wheel.pointerAngle;
-    }
+    this._pointerAngle = util.setProp({
+      val,
+      isValid: util.isNumber(val) && val >= 0,
+      errorMessage: 'Wheel.pointerAngle must be a number between 0 and 360',
+      defaultValue: Defaults.wheel.pointerAngle,
+      action: () => val % 360,
+    });
+
     if (this.debug) this.refresh();
   }
 

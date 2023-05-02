@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Spin Wheel Example - Playground</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="icon" href="data:image/x-icon;," type="image/x-icon">
+  <link rel="stylesheet" href="./css/index.css"/>
+
+  <script src="js/initWheel.js" type="module"></script>
+  <script src="js/initEventListeners.js" type="module"></script>
+
+</head>
+
+<body>
+  <div class="frame-center">
+    <div class="wheel-wrapper"></div>
+
+    <div class="toolbar" data-name="export">
+      <button class="btn export">Export as JSON...</button>
+    </div>
+  </div>
+
+  <div class="frame-right">
+
+      <div class="input-group" data-name="borderColor">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="color">
+      </div>
+
+      <div class="input-group" data-name="borderWidth" data-multiplier="0.1">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="range" min="0" max="250" value="2">
+      </div>
+
+      <div class="input-group" data-name="debug">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="checkbox">
+      </div>
+
+      <div class="input-group" data-name="image">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="file" accept="image/*">
+        <div>
+          <label class="btn choose">Choose file...</label>
+          <label class="btn clear">x</label>
+        </div>
+      </div>
+
+      <div class="input-group" data-name="isInteractive">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="checkbox">
+      </div>
+
+      <div class="input-group" data-name="itemBackgroundColors">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="input" value="[]">
+      </div>
+
+      <div class="input-group" data-name="itemLabelAlign">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="input" value="[]">
+      </div>
+
+      <div class="input-group" data-name="itemLabelBaselineOffset" data-multiplier="0.01">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="range" min="-50" max="50" value="0">
+      </div>
+
+      <div class="input-group" data-name="itemLabelColors">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="input" value="[]">
+      </div>
+
+      <div class="input-group" data-name="itemLabelFont">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="input" value="">
+      </div>
+
+      <div class="input-group" data-name="itemLabelFontSizeMax">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="range" min="10" max="100" value="12">
+      </div>
+
+      <div class="input-group" data-name="itemLabelRadius" data-multiplier="0.01">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="range" min="0" max="100" value="0">
+      </div>
+
+      <div class="input-group" data-name="itemLabelRadiusMax" data-multiplier="0.01">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="range" min="0" max="100" value="0">
+      </div>
+
+      <div class="input-group" data-name="itemLabelRotation">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="range" min="0" max="359" value="0">
+      </div>
+
+      <div class="input-group" data-name="lineColor">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="color">
+      </div>
+
+      <div class="input-group" data-name="lineWidth" data-multiplier="0.1">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="range" min="0" max="200" value="0">
+      </div>
+
+      <div class="input-group" data-name="pixelRatio" data-multiplier="0.1">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="range" min="0" max="40" value="0">
+      </div>
+
+      <div class="input-group" data-name="radius" data-multiplier="0.01">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="range" min="10" max="100" value="0">
+      </div>
+
+      <div class="input-group" data-name="rotationResistance">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="range" min="-200" max="-1" value="0">
+      </div>
+
+      <div class="input-group" data-name="rotationSpeedMax">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="range" min="50" max="1000" value="0">
+      </div>
+
+      <div class="input-group" data-name="overlayImage">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="file" accept="image/*">
+        <div>
+          <label class="btn choose">Choose file...</label>
+          <label class="btn clear">x</label>
+        </div>
+      </div>
+
+      <div class="input-group" data-name="pointerAngle">
+        <h2><span class="prop-name"></span><span class="prop-value"></span></h2>
+        <input type="range" min="0" max="360" value="0">
+      </div>
+  </div>
+
+</body>
+</html>

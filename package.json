@@ -1,11 +1,16 @@
 {
   "name": "spin-wheel",
-  "version": "3.4.3",
+  "version": "3.4.4",
   "description": "An easy to use, themeable component for randomising choices and prizes.",
   "keywords": [
     "spinner",
     "wheel",
-    "random"
+    "random",
+    "picker",
+    "prize",
+    "spinning",
+    "roulette",
+    "fortune"
   ],
   "type": "module",
   "scripts": {

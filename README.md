@@ -50,6 +50,7 @@ const wheel = new Wheel(container, props);
 - [Basic ESM usage](https://crazytim.github.io/spin-wheel/examples/esm)
 - [Basic IIFE usage](https://crazytim.github.io/spin-wheel/examples/iife)
 - [Themes](https://crazytim.github.io/spin-wheel/examples/themes)
+- [Developer playground (for testing and troubleshooting)](https://crazytim.github.io/spin-wheel/examples/playground)
 
 ## Configuration
 
@@ -77,6 +78,8 @@ Method                                             | Description
 `getCurrentIndex()`                                | Get the index of the item that the Pointer is pointing at.</p><p>An item is considered "current" if `pointerAngle` is between it's start angle (inclusive) and it's end angle (exclusive).
 
 ## Properties for `Wheel`
+
+Note: setting a property to `undefined` will reset it to the default value.
 
 Name                            | Default Value     | Description
 ------------------------------- | ------------------| ---------------------------
@@ -142,6 +145,8 @@ Key                         | Value
 `dragEvents`                | An array of events that occurred during the interactive spin that was used to raise `onSpin`.</p><p>If the spin was not interactive then this will be an empty array.
 
 ## Properties for `Item`
+
+Note: setting a property to `undefined` will reset it to the default value.
 
 Name                            | Default Value     | Description
 ------------------------------- | ----------------- | ---------------------------
