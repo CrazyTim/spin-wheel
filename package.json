@@ -5,7 +5,12 @@
   "keywords": [
     "spinner",
     "wheel",
-    "random"
+    "random",
+    "picker",
+    "prize",
+    "spinning",
+    "roulette",
+    "fortune"
   ],
   "type": "module",
   "scripts": {
