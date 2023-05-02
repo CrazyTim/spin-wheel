@@ -14,7 +14,7 @@ An easy to use, themeable component for randomising choices and prizes.
 - Easily themeable:
   - Give items their own color and weight.
   - Rotate labels and change alignment.
-  - Draw images on items, the wheel, and the canvas.
+  - Draw images on items, the wheel, and the foreground.
   - Apply repeating colour sets.
 - Callbacks for events like `onSpin` and `onRest`.
 - Clockwise and anticlockwise spinning.
@@ -58,9 +58,9 @@ For example configurations see [./examples/themes/js/props.js](https://github.co
 
 Everything is easy to configure. The wheel is responsive and resizes automatically to fit it's container, so when the size of the container changes you don't have to worry about updating fiddly things like widths and font sizes. For that reason, some numeric properties are expressed as percentages, while others are expressed as pixels.
 
-* **Percentage properties** are a percent of the size of the canvas. For example, a `Wheel.radius` of `0.9` means the wheel will fill `90%` of the canvas.
+* **Percentage properties** are a percent of the container size. For example, a `Wheel.radius` of `0.9` means the wheel will fill `90%` of the container.
 
-* **Pixel properties** are relative to a canvas size of `500px`. For example, a `Wheel.LineWidth` of `1` will be exactly `1px` when the canvas size is `500px`.
+* **Pixel properties** are relative to a container size of `500px`. For example, a `Wheel.LineWidth` of `1` will be exactly `1px` when the container size is `500px`.
 
 Labels are also simple to configure because the font size is calculated automatically. You can optionally set `Wheel.itemLabelFontSizeMax` (in pixels), but otherwise the largest item label will be sized to fit between `Wheel.itemLabelRadius` (percent) and  `Wheel.itemLabelRadiusMax` (percent).
 
