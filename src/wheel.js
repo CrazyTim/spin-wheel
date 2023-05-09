@@ -369,7 +369,11 @@ export class Wheel {
 
       const item = this._items[i];
 
-      if (!item.label) continue;
+      const actualLabelColor = item.labelColor
+        || (this._itemLabelColors[i % this._itemLabelColors.length] // Fall back to a value from the repeating set.
+        || 'transparent'); // Handle empty string/undefined.
+
+      if (item.label.trim() === '' || actualLabelColor === 'transparent') continue;
 
       ctx.save();
 
@@ -399,10 +403,7 @@ export class Wheel {
         ctx.strokeRect(0, -this.itemLabelFontSize / 2, -this.labelMaxWidth, this.itemLabelFontSize);
       }
 
-      ctx.fillStyle = item.labelColor
-        || this._itemLabelColors[i % this._itemLabelColors.length] // Fall back to a value from the repeating set.
-        || 'transparent'; // Handle empty string/null.
-
+      ctx.fillStyle = actualLabelColor;
       ctx.fillText(item.label, 0, actualItemLabelBaselineOffset);
 
       ctx.restore();
