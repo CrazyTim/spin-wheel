@@ -65,7 +65,7 @@ const container = document.querySelector('.wheel-container');
 const wheel = new Wheel(container, props);
 ```
 
-# How to spin the wheel
+## How to spin the wheel
 
 The most useful way is to call `Wheel.spinToItem()`. The wheel will spin for a certain duration, and once finished the pointer will be pointing at the specified item. For non-trivial applications (such as multiplayer games, or awarding prizes with actual value) you should always calculate the winning item on the back-end, and only use the front-end to display the result. For example:
 
