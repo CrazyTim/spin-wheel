@@ -20,9 +20,29 @@ An easy to use, themeable component for randomising choices and prizes.
 - Callbacks for events like `onSpin` and `onCurrentIndexChange`.
 - Clockwise and anticlockwise spinning.
 
+## Installation
+
+### ESM from CDN
+
+```javascript
+import {Wheel} from 'https://cdn.jsdelivr.net/npm/spin-wheel@4.0.0/dist/spin-wheel-esm.js';
+```
+
+### IIFE from CDN
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/spin-wheel@4.0.0/dist/spin-wheel-iife.js"></script>
+```
+
+### Local from npm
+
+```sh
+npm install spin-wheel
+```
+
 ## How to make your own wheel
 
-```JavaScript
+```javascript
 // 1. Configure the wheel's properties:
 const props = {
   items: [
@@ -49,7 +69,7 @@ const wheel = new Wheel(container, props);
 
 The most useful way is to call `Wheel.spinToItem()`. The wheel will spin for a certain duration, and once finished the pointer will be pointing at the specified item. For non-trivial applications (such as multiplayer games, or awarding prizes with actual value) you should always calculate the winning item on the back-end, and only use the front-end to display the result. For example:
 
-```JavaScript
+```javascript
 const winningItemIndex = await fetchWinningItemIndex(); // For example, this might return a value of 2.
 const duration = 4000;
 const easing = easing.cubicOut;
