@@ -47,7 +47,7 @@ body {
   flex-direction: column;
   gap: 10px;
   overflow-y: scroll;
-  width: 440px;
+  width: 460px;
   border-left: solid 1px #5c5c5c;
   padding-bottom: 15px;
 }
@@ -77,9 +77,8 @@ button.btn, label.btn {
   font-family: monospace;
   /* background-color: #dfdfdb; */
   padding: 10px 0px 0px;
-
   font-weight: normal;
-  break-inside: avoid;
+  white-space: nowrap;
 }
 .input-group h2 span:first-of-type {
   display: inline-block;
