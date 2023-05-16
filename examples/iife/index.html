@@ -7,7 +7,7 @@
   <link rel="icon" href="data:image/x-icon;," type="image/x-icon">
   <link rel="stylesheet" href="./css/index.css"/>
 
-  <script src="../../dist/spin-wheel-iife.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/spin-wheel@4.0.0/dist/spin-wheel-iife.js"></script>
 
   <script>
     window.onload = () => {
@@ -28,7 +28,7 @@
 
       const container = document.querySelector('.wheel-wrapper');
 
-      window.w = new wheel.Wheel(container, props);
+      window.wheel = new spinWheel.Wheel(container, props);
 
     }
   </script>

@@ -181,4 +181,42 @@ export class Item {
     }
   }
 
+  /**
+   * Get the 0-based index of this item.
+   */
+  getIndex() {
+    const index = this._wheel.items.findIndex(i => i === this);
+    if (index === -1) throw new Error('Item not found in parent Wheel');
+    return index;
+  }
+
+  /**
+   * Get the angle (in degrees) that this item ends at (exclusive), ignoring the current `rotation` of the wheel.
+   */
+  getCenterAngle() {
+    const angle = this._wheel.getItemAngles()[ this.getIndex() ];
+    return angle.start + ((angle.end - angle.start) / 2);
+  }
+
+  /**
+   * Get the angle (in degrees) that this item starts at (inclusive), ignoring the current `rotation` of the wheel.
+   */
+  getStartAngle() {
+    return this._wheel.getItemAngles()[ this.getIndex() ].start;
+  }
+
+  /**
+   * Get the angle (in degrees) that this item ends at (inclusive), ignoring the current `rotation` of the wheel.
+   */
+  getEndAngle() {
+    return this._wheel.getItemAngles()[ this.getIndex() ].end;
+  }
+
+  /**
+   * Return a random angle (in degrees) between this item's start angle (inclusive) and end angle (inclusive).
+   */
+  getRandomAngle() {
+    return util.getRandomFloat(this.getStartAngle(), this.getEndAngle());
+  }
+
 }

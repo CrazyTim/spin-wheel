@@ -9,20 +9,40 @@ An easy to use, themeable component for randomising choices and prizes.
 - Vanilla JavaScript (ES6).
 - No dependencies.
 - Simple, easy to use API.
-- Realistic wheel rotation (no easing, just momentum and drag).
-- Interactive - spin the wheel using click-drag/touch-flick, or you can manually call `spin()`.
+- Spin by applying momentum and drag, or animate to a specific angle with easing.
+- Interactable with click-drag or touch-flick.
+- Responsive layout - everything in the wheel resizes automatically to fit it's container.
 - Easily themeable:
   - Give items their own color and weight.
   - Rotate labels and change alignment.
-  - Draw images on items, the wheel, and the canvas.
+  - Draw images on items, the wheel, and the foreground.
   - Apply repeating colour sets.
-- Callbacks for events like `onSpin` and `onRest`.
+- Callbacks for events like `onSpin` and `onCurrentIndexChange`.
 - Clockwise and anticlockwise spinning.
-- Responsive layout - the wheel resizes automatically to fit it's container, making it easy to adjust.
+
+## Installation
+
+### ESM from CDN
+
+```javascript
+import {Wheel} from 'https://cdn.jsdelivr.net/npm/spin-wheel@4.0.0/dist/spin-wheel-esm.js';
+```
+
+### IIFE from CDN
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/spin-wheel@4.0.0/dist/spin-wheel-iife.js"></script>
+```
+
+### Local from npm
+
+```sh
+npm install spin-wheel
+```
 
 ## How to make your own wheel
 
-```JavaScript
+```javascript
 // 1. Configure the wheel's properties:
 const props = {
   items: [
@@ -45,10 +65,26 @@ const container = document.querySelector('.wheel-container');
 const wheel = new Wheel(container, props);
 ```
 
+# How to spin the wheel
+
+The most useful way is to call `Wheel.spinToItem()`. The wheel will spin for a certain duration, and once finished the pointer will be pointing at the specified item. For non-trivial applications (such as multiplayer games, or awarding prizes with actual value) you should always calculate the winning item on the back-end, and only use the front-end to display the result. For example:
+
+```javascript
+const winningItemIndex = await fetchWinningItemIndex(); // For example, this might return a value of 2.
+const duration = 4000;
+const easing = easing.cubicOut;
+wheel.spinToItem(2, duration, false, 2, 1, easing)
+```
+
+A simpler way to spin the wheel is to set `Wheel.rotationSpeed`. The wheel will start spinning, and will slow down and eventually stop depending on the value of `Wheel.rotationResistance`.
+
+Lastly, you can set `Wheel.isInteractive == true` to allow the user to interact with the wheel by clicking and dragging (or flicking on touch screens). After the interaction has finished, the wheel will continue to spin in the direction it was dragged/flicked.
+
 ## Examples
 
 - [Basic ESM usage](https://crazytim.github.io/spin-wheel/examples/esm)
 - [Basic IIFE usage](https://crazytim.github.io/spin-wheel/examples/iife)
+- [Spin to a specific item](https://crazytim.github.io/spin-wheel/examples/spin-to-item)
 - [Themes](https://crazytim.github.io/spin-wheel/examples/themes)
 - [Developer playground (for testing and troubleshooting)](https://crazytim.github.io/spin-wheel/examples/playground)
 
@@ -58,9 +94,9 @@ For example configurations see [./examples/themes/js/props.js](https://github.co
 
 Everything is easy to configure. The wheel is responsive and resizes automatically to fit it's container, so when the size of the container changes you don't have to worry about updating fiddly things like widths and font sizes. For that reason, some numeric properties are expressed as percentages, while others are expressed as pixels.
 
-* **Percentage properties** are a percent of the size of the canvas. For example, a `Wheel.radius` of `0.9` means the wheel will fill `90%` of the canvas.
+* **Percentage properties** are a percent of the container size. For example, a `Wheel.radius` of `0.9` means the wheel will fill `90%` of the container.
 
-* **Pixel properties** are relative to a canvas size of `500px`. For example, a `Wheel.LineWidth` of `1` will be exactly `1px` when the canvas size is `500px`.
+* **Pixel properties** are relative to a container size of `500px`. For example, a `Wheel.LineWidth` of `1` will be exactly `1px` when the container size is `500px`.
 
 Labels are also simple to configure because the font size is calculated automatically. You can optionally set `Wheel.itemLabelFontSizeMax` (in pixels), but otherwise the largest item label will be sized to fit between `Wheel.itemLabelRadius` (percent) and  `Wheel.itemLabelRadiusMax` (percent).
 
@@ -70,12 +106,14 @@ Here's a handy diagram:
 
 ## Methods for `Wheel`
 
-Method                                             | Description
--------------------------------------------------- | ---------------------------
-`constructor(container, props = {})`               | `container` must be an Element.</p><p>`props` must be an Object or null.
-`init(props = {})`                                 | Initialise all properties.</p><p>If a value is not provided for a property then it will be given a default value.
-`spin(speed = 0, randomAdjustmentPercent = 0.0)`   | Spin the wheel by setting `rotationSpeed` and raise the `onSpin` event.</p><p>Optionally apply a random adjustment to the speed within a range (percent), which can make the spin less predictable.
-`getCurrentIndex()`                                | Get the index of the item that the Pointer is pointing at.</p><p>An item is considered "current" if `pointerAngle` is between it's start angle (inclusive) and it's end angle (exclusive).
+Method                                                              | Description
+------------------------------------------------------------------- | ---------------------------
+`constructor(container, props = {})`                                | `container` must be an Element.</p><p>`props` must be an Object or null.
+`init(props = {})`                                                  | Initialise all properties.</p><p>If a value is not provided for a property then it will be given a default value.
+`spinTo(rotation = 0, duration = 0, easingFunction = null)`         | Spin the wheel to a particular rotation.</p><p>The animation will occur over the provided `duration` (milliseconds).</p><p>The `rotationSpeed` property will be ignored during the animation.</p><p>The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.</p><p>For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
+`spinToItem(itemIndex = 0, duration = 0, spinToCenter = true, numberOfRevolutions = 1, easingFunction = null)` | Spin the wheel to a particular item.</p><p>The animation will occur over the provided `duration` (milliseconds).</p><p>If `spinToCenter` is true, the wheel will spin to the center of the item, otherwise the wheel will spin to a random angle inside the item.</p><p>`numberOfRevolutions` controls how many times the wheel will rotate a full 360 degrees before resting on the item.</p><p>The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.</p><p>If no easing function is provided, the default easeSinOut will be used.</p><p>For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).</p><p>Note: the `Wheel.rotationSpeed` property will be ignored during the animation.
+`stop()`                                                            | Immediately stop the wheel from spinning, regardless of which method was used to spin it.
+`getCurrentIndex()`                                                 | Get the index of the item that the Pointer is pointing at.</p><p>An item is considered "current" if `pointerAngle` is between it's start angle (inclusive) and it's end angle (exclusive).
 
 ## Properties for `Wheel`
 
@@ -87,7 +125,7 @@ Name                            | Default Value     | Description
 `borderWidth`                   | `0`               | The width (in pixels) of the line around the circumference of the wheel.
 `debug`                         | `false`           | Show debugging info.</p><p>This is particularly helpful when fine-tuning labels.
 `image`                         | `''`              | The url of an image that will be drawn over the center of the wheel which will rotate with the wheel.</p><p>It will be automatically scaled to fit `radius`.
-`isInteractive`                 | `true`            | Allow the user to spin the wheel using click-drag/touch-flick.
+`isInteractive`                 | `true`            | Allow the user to spin the wheel using click-drag/touch-flick. </p><p>User interaction will only be detected within the bounds of `Wheel.radius`.
 `itemBackgroundColors`          | `['#fff']`        | The repeating pattern of background colors for all items.</p><p>Overridden by `Item.backgroundColor`.</p><p>Example: `['#fff','#000']`.
 `itemLabelAlign`                | `'right'`         | The alignment of all item labels.</p><p>Accepted values: `'left'`|`'center'`|`'right'`.</p><p>You may need to set `itemLabelRotation` in combination with this.
 `itemLabelBaselineOffset`       | `0`               | The offset of the baseline (or line height) of all item labels (as a percent of the label's height).
@@ -121,7 +159,7 @@ Raised when a new item is pointed at. This can be used to change the color of th
 
 Key                         | Value
 --------------------------- | ---------------------------
-`event`                     | `'currentIndexChange'`
+`type`                      | `'currentIndexChange'`
 `currentIndex`              | The index of the item that the Pointer was pointing at.</p><p>See `Wheel.pointerAngle`.
 
 ### `onRest(event = {})`
@@ -130,19 +168,33 @@ Raised when the wheel comes to a rest after spinning.
 
 Key                         | Value
 --------------------------- | ---------------------------
-`event`                     | `'rest'`
+`type`                      | `'rest'`
 `currentIndex`              | The index of the item that the Pointer was pointing at.</p><p>See `Wheel.pointerAngle`.
 `rotation`                  | The rotation of the wheel.</p><p>See `Wheel.rotation`.
 
 ### `onSpin(event = {})`
 
-Raised when the wheel has been spun by the user (via click-drag/touch-flick), or after calling `Wheel.spin()`.
+Raised when the wheel has been spun by the user (via click-drag/touch-flick), or by calling `Wheel.spinTo()` or `Wheel.spinToItem()`.
 
 Key                         | Value
 --------------------------- | ---------------------------
-`event`                     | `'spin'`
-`rotationSpeed`             | The rotation speed of the wheel.</p><p>See `Wheel.rotationSpeed`.
-`dragEvents`                | An array of events that occurred during the interactive spin that was used to raise `onSpin`.</p><p>If the spin was not interactive then this will be an empty array.
+`type`                      | `'spin'`
+`duration`                  | the duration of the spin animation. Only set when `method = spinto` or `method = spintoitem`.
+`method`                    | The method that was used to spin the wheel (`interact`, `spinto`, `spintoitem`).
+`rotationSpeed`             | The value of `Wheel.rotationSpeed` at the time the event was raised.</p><p>Only set when `method = interact`.</p><p>See `Wheel.rotationSpeed`.
+`targetItemIndex`           | The item that the Pointer will be pointing at once the spin animation has finished.</p><p>Only set when `method = spintoitem`.
+`targetRotation`            | The value that `Wheel.rotation` will have once the spin animation has finished.</p><p>Only set when `method = spinto` or `method = spintoitem`.
+
+## Methods for `Item`
+
+Name                            | Description
+------------------------------- | ---------------------------
+`getCenterAngle()`              | Get the angle (in degrees) that this item ends at (exclusive), ignoring the current `rotation` of the wheel.
+`getEndAngle()`                 | Get the angle (in degrees) that this item ends at (inclusive), ignoring the current `rotation` of the wheel.
+`getIndex()`                    | Get the 0-based index of this item.
+`getRandomAngle()`              | Return a random angle (in degrees) between this item's start angle (inclusive) and end angle (inclusive).
+`getStartAngle()`               | Get the angle (in degrees) that this item starts at (inclusive), ignoring the current `rotation` of the wheel.
+`init(props = {})`              | Initialise all properties.</p><p>If a value is undefined or invalid then that property will fall back to a default value.
 
 ## Properties for `Item`
 

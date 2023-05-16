@@ -49,7 +49,7 @@ await esbuild.build({
   minify: true,
   target: ['es6'],
   format: format,
-  globalName: 'wheel', // This setting is only for IIFE format.
+  globalName: 'spinWheel', // This setting is only for IIFE format.
   watch: shouldStartWebServer,
   banner: {'js': preamble.join('')},
 })
