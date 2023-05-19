@@ -153,7 +153,7 @@ export class Wheel {
 
     this.animateRotation(now);
 
-    const angles = this.getItemAngles(this.rotation);
+    const angles = this.getItemAngles(this._rotation);
 
     const actualBorderWidth = this.getActualBorderWidth();
 
@@ -261,7 +261,7 @@ export class Wheel {
       this._center.y
     );
 
-    if (!isOverlay) ctx.rotate(util.degRad(this.rotation));
+    if (!isOverlay) ctx.rotate(util.degRad(this._rotation));
 
     // Draw the image centered and scaled to fit the wheel's container:
     // For convenience, scale the 'normal' image to the size of the wheel radius
@@ -1010,7 +1010,7 @@ export class Wheel {
       },
     });
 
-    this.refreshCurrentIndex(this.getItemAngles(this.rotation));
+    this.refreshCurrentIndex(this.getItemAngles(this._rotation));
   }
 
   /**
@@ -1080,7 +1080,7 @@ export class Wheel {
       defaultValue: Defaults.wheel.rotation,
     });
 
-    this.refreshCurrentIndex(this.getItemAngles(this.rotation));
+    this.refreshCurrentIndex(this.getItemAngles(this._rotation));
     this.refresh();
   }
 
