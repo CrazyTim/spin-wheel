@@ -18,14 +18,13 @@ const wheelPropInits = {
   //'items': TODO
   'lineColor': initTextbox,
   'lineWidth': initRange,
-  'pixelRatio': initRange,
-  'radius': initRange,
-  //'rotation': initRange,
-  'rotationResistance': initRange,
-  'rotationSpeedMax': initRange,
   //'offset': initRange,
   'overlayImage': initImage,
+  'pixelRatio': initRange,
   'pointerAngle': initRange,
+  'radius': initRange,
+  'rotationResistance': initRange,
+  'rotationSpeedMax': initRange,
 }
 
 for (const g of inputGroups) {

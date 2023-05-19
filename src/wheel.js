@@ -1048,103 +1048,6 @@ export class Wheel {
   }
 
   /**
-   * The radius of the wheel (as a percent of the container's smallest dimension).
-   */
-  get radius() {
-    return this._radius;
-  }
-  set radius(val) {
-    this._radius = util.setProp({
-      val,
-      isValid: util.isNumber(val),
-      errorMessage: 'Wheel.radius must be a number',
-      defaultValue: Defaults.wheel.radius,
-    });
-
-    this.resize();
-  }
-
-  /**
-   * The rotation (angle in degrees) of the wheel.
-   * `0` is north.
-   * The first item will be drawn clockwise from this point.
-   */
-  get rotation() {
-    return this._rotation;
-  }
-  set rotation(val) {
-    this._rotation = util.setProp({
-      val,
-      isValid: util.isNumber(val),
-      errorMessage: 'Wheel.rotation must be a number',
-      defaultValue: Defaults.wheel.rotation,
-    });
-
-    this.refreshCurrentIndex(this.getItemAngles(this._rotation));
-    this.refresh();
-  }
-
-  /**
-   * The amount that `rotationSpeed` will be reduced by every second.
-   * Only in effect when `rotationSpeed !== 0`.
-   * Set to `0` to spin the wheel infinitely.
-   */
-  get rotationResistance() {
-    return this._rotationResistance;
-  }
-  set rotationResistance(val) {
-    this._rotationResistance = util.setProp({
-      val,
-      isValid: util.isNumber(val),
-      errorMessage: 'Wheel.rotationResistance must be a number',
-      defaultValue: Defaults.wheel.rotationResistance,
-    });
-  }
-
-  /**
-   * The pixel ratio used to render the wheel.
-   * Values above 0 will produce a sharper image at the cost of performance.
-   * A value of `0` will cause the pixel ratio to be automatically determined using `window.devicePixelRatio`.
-   */
-   get pixelRatio() {
-    return this._pixelRatio;
-  }
-  set pixelRatio(val) {
-    this._pixelRatio = util.setProp({
-      val,
-      isValid: util.isNumber(val),
-      errorMessage: 'Wheel.pixelRatio must be a number',
-      defaultValue: Defaults.wheel.pixelRatio,
-    });
-
-    this.resize();
-  }
-
-  /**
-   * (Readonly) How far (angle in degrees) the wheel will spin every 1 second.
-   * A positive number means the wheel is spinning clockwise, a negative number means anticlockwise, and `0` means the wheel is not spinning.
-   */
-  get rotationSpeed() {
-    return this._rotationSpeed;
-  }
-
-  /**
-   * The maximum value for `rotationSpeed` (ignoring the wheel's spin direction).
-   * The wheel will not spin faster than this value in any direction.
-   */
-  get rotationSpeedMax() {
-    return this._rotationSpeedMax;
-  }
-  set rotationSpeedMax(val) {
-    this._rotationSpeedMax = util.setProp({
-      val,
-      isValid: util.isNumber(val) && val >= 0,
-      errorMessage: 'Wheel.rotationSpeedMax must be a number >= 0',
-      defaultValue: Defaults.wheel.rotationSpeedMax,
-    });
-  }
-
-  /**
    * The offset of the wheel relative to it's center (as a percent of the wheel's diameter).
    */
   get offset() {
@@ -1233,6 +1136,25 @@ export class Wheel {
   }
 
   /**
+   * The pixel ratio used to render the wheel.
+   * Values above 0 will produce a sharper image at the cost of performance.
+   * A value of `0` will cause the pixel ratio to be automatically determined using `window.devicePixelRatio`.
+   */
+  get pixelRatio() {
+    return this._pixelRatio;
+  }
+  set pixelRatio(val) {
+    this._pixelRatio = util.setProp({
+      val,
+      isValid: util.isNumber(val),
+      errorMessage: 'Wheel.pixelRatio must be a number',
+      defaultValue: Defaults.wheel.pixelRatio,
+    });
+
+    this.resize();
+  }
+
+  /**
    * The angle of the Pointer which is used to determine the `currentIndex` (or the "winning" item).
    */
   get pointerAngle() {
@@ -1248,6 +1170,84 @@ export class Wheel {
     });
 
     if (this.debug) this.refresh();
+  }
+
+  /**
+   * The radius of the wheel (as a percent of the container's smallest dimension).
+   */
+  get radius() {
+    return this._radius;
+  }
+  set radius(val) {
+    this._radius = util.setProp({
+      val,
+      isValid: util.isNumber(val),
+      errorMessage: 'Wheel.radius must be a number',
+      defaultValue: Defaults.wheel.radius,
+    });
+
+    this.resize();
+  }
+
+  /**
+   * The rotation (angle in degrees) of the wheel.
+   * `0` is north.
+   * The first item will be drawn clockwise from this point.
+   */
+  get rotation() {
+    return this._rotation;
+  }
+  set rotation(val) {
+    this._rotation = util.setProp({
+      val,
+      isValid: util.isNumber(val),
+      errorMessage: 'Wheel.rotation must be a number',
+      defaultValue: Defaults.wheel.rotation,
+    });
+
+    this.refreshCurrentIndex(this.getItemAngles(this._rotation));
+    this.refresh();
+  }
+
+  /**
+   * The amount that `rotationSpeed` will be reduced by every second.
+   * Only in effect when `rotationSpeed !== 0`.
+   * Set to `0` to spin the wheel infinitely.
+   */
+  get rotationResistance() {
+    return this._rotationResistance;
+  }
+  set rotationResistance(val) {
+    this._rotationResistance = util.setProp({
+      val,
+      isValid: util.isNumber(val),
+      errorMessage: 'Wheel.rotationResistance must be a number',
+      defaultValue: Defaults.wheel.rotationResistance,
+    });
+  }
+
+  /**
+   * (Readonly) How far (angle in degrees) the wheel will spin every 1 second.
+   * A positive number means the wheel is spinning clockwise, a negative number means anticlockwise, and `0` means the wheel is not spinning.
+   */
+  get rotationSpeed() {
+    return this._rotationSpeed;
+  }
+
+  /**
+   * The maximum value for `rotationSpeed` (ignoring the wheel's spin direction).
+   * The wheel will not spin faster than this value in any direction.
+   */
+  get rotationSpeedMax() {
+    return this._rotationSpeedMax;
+  }
+  set rotationSpeedMax(val) {
+    this._rotationSpeedMax = util.setProp({
+      val,
+      isValid: util.isNumber(val) && val >= 0,
+      errorMessage: 'Wheel.rotationSpeedMax must be a number >= 0',
+      defaultValue: Defaults.wheel.rotationSpeedMax,
+    });
   }
 
   /**
