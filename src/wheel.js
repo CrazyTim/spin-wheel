@@ -1129,8 +1129,8 @@ export class Wheel {
   }
 
   /**
-   * The maximum value for `rotationSpeed`.
-   * The wheel will not spin faster than this value.
+   * The maximum value for `rotationSpeed` (ignoring the wheel's spin direction).
+   * The wheel will not spin faster than this value in any direction.
    */
   get rotationSpeedMax() {
     return this._rotationSpeedMax;
@@ -1138,8 +1138,8 @@ export class Wheel {
   set rotationSpeedMax(val) {
     this._rotationSpeedMax = util.setProp({
       val,
-      isValid: util.isNumber(val),
-      errorMessage: 'Wheel.rotationSpeedMax must be a number',
+      isValid: util.isNumber(val) && val >= 0,
+      errorMessage: 'Wheel.rotationSpeedMax must be a number >= 0',
       defaultValue: Defaults.wheel.rotationSpeedMax,
     });
   }

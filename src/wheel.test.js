@@ -175,3 +175,14 @@ test('getRotationSpeedPlusDrag() works', () => {
 
 });
 
+test('rotationSpeedMax works', () => {
+
+  fixture.wheel.rotationSpeedMax = 1;
+
+  fixture.wheel.spin(2);
+  expect(fixture.wheel.rotationSpeed).toBe(1);
+
+  fixture.wheel.spin(-2);
+  expect(fixture.wheel.rotationSpeed).toBe(-1);
+
+});

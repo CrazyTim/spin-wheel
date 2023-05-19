@@ -79,7 +79,7 @@ Item {
     "_rotationDirection": 1,
     "_rotationResistance": -35,
     "_rotationSpeed": 0,
-    "_rotationSpeedMax": 250,
+    "_rotationSpeedMax": 300,
     "_size": 500,
     "canvas": <canvas
       height="500"
