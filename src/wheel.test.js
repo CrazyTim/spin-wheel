@@ -1,7 +1,7 @@
 import {beforeEach, test, expect} from '@jest/globals';
 import {Defaults} from './constants.js';
 import * as fixture from '../scripts/test-fixture.js';
-import {getInstanceProperties} from '../scripts/util.js';
+import {getInstanceProperties, delay} from '../scripts/util.js';
 import {Wheel} from '../src/wheel.js';
 
 beforeEach(() => {
@@ -25,7 +25,7 @@ test('Should throw when initialised without container param', () => {
 
 test('Each Wheel property has a coresponding default value', () => {
 
-  const wheelGetters = getInstanceProperties(fixture.wheel).getters;
+  const wheelGetters = getInstanceProperties(fixture.wheel).setters;
 
   for (const i of wheelGetters) {
     expect(Defaults.wheel[i]).not.toBe(undefined);
@@ -35,7 +35,7 @@ test('Each Wheel property has a coresponding default value', () => {
 
 test('Each Wheel property is given a Default value when the Wheel is initalised', () => {
 
-  const wheelGetters = getInstanceProperties(fixture.wheel).getters;
+  const wheelGetters = getInstanceProperties(fixture.wheel).setters;
 
   for (const i of wheelGetters) {
     expect(fixture.wheel[i]).toEqual(Defaults.wheel[i]);
@@ -75,17 +75,6 @@ test('getItemAngles() works when weighted', () => {
 
 });
 
-test('getRotationSpeedPlusDrag() works', () => {
-
-  fixture.wheel.rotationSpeed = 100;
-  fixture.wheel.rotationResistance = -5;
-  fixture.wheel.lastRotationFrame = 0;
-  const newRotationSpeed = fixture.wheel.getRotationSpeedPlusDrag(1000);
-
-  expect(newRotationSpeed).toBe(95);
-
-});
-
 test('Default value works for itemBackgroundColors', () => {
 
   fixture.wheel.items = [
@@ -110,59 +99,98 @@ test('Default value works for itemLabelColors', () => {
 
 });
 
-test('spinToItem() works', () => {
+test('spin() works', async () => {
+
+  // Note: this test is not very precise.
+
+  fixture.wheel.rotationResistance = -10;
+  fixture.wheel.spin(10);
+  expect(fixture.wheel.rotationSpeed).toBe(10);
+
+  // 0.5 seconds:
+  await delay(500);
+  expect(fixture.wheel.rotationSpeed).toBeCloseTo(5, 0);
+
+  // 1 second:
+  await delay(500);
+  expect(fixture.wheel.rotationSpeed).toBeCloseTo(0, 0);
+  expect(fixture.wheel.rotation).toBeCloseTo(5, 0);
+
+});
+
+test('spinTo() works', async () => {
+
+  // Note: this is a simple integration test.
+  // The full logic is tested elsewhere for `calcWheelRotationForTargetAngle`.
+
+  fixture.wheel.spinTo(360, 0);
+  await delay(100);
+  expect(fixture.wheel.rotation).toBe(360);
+
+  fixture.wheel.spinTo(-360, 0);
+  await delay(100);
+  expect(fixture.wheel.rotation).toBe(-360);
+
+});
+
+test('spinToItem() works', async () => {
 
   // Note: this is a simple integration test.
   // The full logic is tested elsewhere for `calcWheelRotationForTargetAngle`.
 
   fixture.addBlankItems(4);
-  fixture.wheel.rotation = 0;
 
   // Clockwise:
   let direction = 1;
   let itemIndex = 0;
   const numberOfRevolutions = 0;
-  fixture.wheel.spinToItem(itemIndex, 0, true, numberOfRevolutions, direction, null);
 
-  expect(fixture.wheel._spinToEndRotation).toBe(360 - 45);
+  fixture.wheel.spinToItem(itemIndex, 0, true, numberOfRevolutions, direction, null);
+  await delay(100);
+  expect(fixture.wheel.rotation).toBe(360 - 45);
 
   // Anti-clockwise:
   direction = -1;
   itemIndex = 0;
+  fixture.wheel.rotation = 0;
   fixture.wheel.spinToItem(itemIndex, 0, true, numberOfRevolutions, direction, null);
-
-  expect(fixture.wheel._spinToEndRotation).toBe(0 - 45);
+  await delay(100);
+  expect(fixture.wheel.rotation).toBe(0 - 45);
 
   // Anti-clockwise, but rotation is just past target, so will have to spin almost 360 degrees again:
   direction = -1;
   itemIndex = 0;
   fixture.wheel.rotation = -46;
   fixture.wheel.spinToItem(itemIndex, 0, true, numberOfRevolutions, direction, null);
-
-  expect(fixture.wheel._spinToEndRotation).toBe(0 - 360 - 45);
+  await delay(100);
+  expect(fixture.wheel.rotation).toBe(0 - 360 - 45);
 
   // Clockwise, pointer angle is below 180:
   direction = 1;
   itemIndex = 0;
   fixture.wheel.pointerAngle = 90;
+  fixture.wheel.rotation = 0;
   fixture.wheel.spinToItem(itemIndex, 0, true, numberOfRevolutions, direction, null);
-
-  expect(fixture.wheel._spinToEndRotation).toBe(45);
+  await delay(100);
+  expect(fixture.wheel.rotation).toBe(45);
 
   // Clockwise, pointer angle is above 180:
   direction = 1;
   itemIndex = 0;
   fixture.wheel.pointerAngle = 270;
+  fixture.wheel.rotation = 0;
   fixture.wheel.spinToItem(itemIndex, 0, true, numberOfRevolutions, direction, null);
+  await delay(100);
+  expect(fixture.wheel.rotation).toBe(270 - 45);
 
-  expect(fixture.wheel._spinToEndRotation).toBe(270 - 45);
+  // TODO: test number of revolutions
 
 });
 
 test('getRotationSpeedPlusDrag() works', () => {
 
-  fixture.wheel.rotationSpeed = 2;
   fixture.wheel.rotationResistance = -1;
+  fixture.wheel.spin(2);
 
   // No time has elapsed (since the last frame), rotation speed should be unchanged:
   let delta = 0;
@@ -181,7 +209,19 @@ test('getRotationSpeedPlusDrag() works', () => {
   // Ensure rotation speed does not go past 0:
   delta = 2001;
   expect(fixture.wheel.getRotationSpeedPlusDrag(delta)).toBe(0); // Clockwise
-  fixture.wheel.rotationSpeed = -2;
+  fixture.wheel.spin(-2);
   expect(fixture.wheel.getRotationSpeedPlusDrag(delta)).toBe(0); // Anti-clockwise
+
+});
+
+test('rotationSpeedMax works', () => {
+
+  fixture.wheel.rotationSpeedMax = 1;
+
+  fixture.wheel.spin(2);
+  expect(fixture.wheel.rotationSpeed).toBe(1);
+
+  fixture.wheel.spin(-2);
+  expect(fixture.wheel.rotationSpeed).toBe(-1);
 
 });

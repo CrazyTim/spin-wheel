@@ -56,3 +56,11 @@ export function getInstanceProperties (instance) {
       .map(e => e[0]),
   }
 }
+
+/**
+ * Wrapper for `setTimeout` that can be awaited.
+ * Resolve after a certain duration (in milliseconds).
+ */
+export async function delay(duration) {
+  return new Promise(resolve => setTimeout(resolve, duration));
+}

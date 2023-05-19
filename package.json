@@ -1,6 +1,6 @@
 {
   "name": "spin-wheel",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "An easy to use, themeable component for randomising choices and prizes.",
   "keywords": [
     "spinner",
@@ -23,9 +23,10 @@
   },
   "jest": {
     "verbose": true,
-    "injectGlobals": false,
+    "injectGlobals": true,
     "silent": false,
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "setupFiles": ["jest-canvas-mock"]
   },
   "repository": {
     "type": "git",
@@ -39,9 +40,10 @@
   },
   "devDependencies": {
     "browser-sync": "^2.27.5",
-    "canvas": "^2.8.0",
+    "canvas": "^2.11.2",
     "esbuild": "^0.15.11",
     "eslint": "^8.25.0",
-    "jest": "^27.4.3"
+    "jest": "^27.4.3",
+    "jest-canvas-mock": "^2.5.1"
   }
 }
