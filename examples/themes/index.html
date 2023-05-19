@@ -32,14 +32,15 @@
 
       // Handle dropdown change:
       dropdown.onchange = () => {
+        const oldRotationSpeed = wheel.rotationSpeed;
         wheel.init({
           ...props[dropdown.selectedIndex],
-          rotationSpeed: wheel.rotationSpeed, // Preserve value so it doesn't get reset.
-          rotation: wheel.rotation, // Preserve value so it doesn't get reset.
+          rotation: wheel.rotation, // Preserve value.
           onCurrentIndexChange: e => console.log(e),
           onRest: e => console.log(e),
           onSpin: e => console.log(e),
         });
+        wheel.spin(oldRotationSpeed); // Preserve value.
       }
 
       // Select default:

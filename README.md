@@ -22,19 +22,19 @@ An easy to use, themeable component for randomising choices and prizes.
 
 ## Installation
 
-### ESM from CDN
+### ESM
 
 ```javascript
 import {Wheel} from 'https://cdn.jsdelivr.net/npm/spin-wheel@4.0.0/dist/spin-wheel-esm.js';
 ```
 
-### IIFE from CDN
+### IIFE
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/spin-wheel@4.0.0/dist/spin-wheel-iife.js"></script>
 ```
 
-### Local from npm
+### Local
 
 ```sh
 npm install spin-wheel
@@ -76,9 +76,9 @@ const easing = easing.cubicOut;
 wheel.spinToItem(2, duration, false, 2, 1, easing)
 ```
 
-A simpler way to spin the wheel is to set `Wheel.rotationSpeed`. The wheel will start spinning, and will slow down and eventually stop depending on the value of `Wheel.rotationResistance`.
+If precision is less important, you can use `Wheel.spin()` to immediately start spinning the wheel at a certain speed. This sets the wheel's `rotationSpeed`, which will be reduced over time according to `Wheel.rotationResistance`.
 
-Lastly, you can set `Wheel.isInteractive == true` to allow the user to interact with the wheel by clicking and dragging (or flicking on touch screens). After the interaction has finished, the wheel will continue to spin in the direction it was dragged/flicked.
+You can also set `Wheel.isInteractive = true` to allow the user to spin the wheel themselves by dragging or flicking.
 
 ## Examples
 
@@ -109,7 +109,8 @@ Here's a handy diagram:
 Method                                                              | Description
 ------------------------------------------------------------------- | ---------------------------
 `constructor(container, props = {})`                                | `container` must be an Element.</p><p>`props` must be an Object or null.
-`init(props = {})`                                                  | Initialise all properties.</p><p>If a value is not provided for a property then it will be given a default value.
+`init(props = {})`                                                  | Initialise all properties.</p><The>If a value is not provided for a property then it will be given a default value.
+`spin(rotationSpeed = 0)`                                           | Spin the wheel by setting `rotationSpeed`. The wheel will immediately start spinning, and slow down over time depending on the value of `rotationResistance`.</p><p>A positive number will spin clockwise, a negative number will spin anticlockwise.
 `spinTo(rotation = 0, duration = 0, easingFunction = null)`         | Spin the wheel to a particular rotation.</p><p>The animation will occur over the provided `duration` (milliseconds).</p><p>The `rotationSpeed` property will be ignored during the animation.</p><p>The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.</p><p>For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
 `spinToItem(itemIndex = 0, duration = 0, spinToCenter = true, numberOfRevolutions = 1, easingFunction = null)` | Spin the wheel to a particular item.</p><p>The animation will occur over the provided `duration` (milliseconds).</p><p>If `spinToCenter` is true, the wheel will spin to the center of the item, otherwise the wheel will spin to a random angle inside the item.</p><p>`numberOfRevolutions` controls how many times the wheel will rotate a full 360 degrees before resting on the item.</p><p>The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.</p><p>If no easing function is provided, the default easeSinOut will be used.</p><p>For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).</p><p>Note: the `Wheel.rotationSpeed` property will be ignored during the animation.
 `stop()`                                                            | Immediately stop the wheel from spinning, regardless of which method was used to spin it.
@@ -141,8 +142,8 @@ Name                            | Default Value     | Description
 `pixelRatio`                    | `0`               | The pixel ratio used to render the wheel.</p><p>Values above 0 will produce a sharper image at the cost of performance.</p><p>A value of `0` will cause the pixel ratio to be automatically determined using `window.devicePixelRatio`.
 `radius`                        | `0.95`            | The radius of the wheel (as a percent of the container's smallest dimension).
 `rotation`                      | `0`               | The rotation (angle in degrees) of the wheel.</p><p>The first item will be drawn clockwise from this point.
-`rotationResistance`            | `-35`             | How much to reduce `rotationSpeed` by every second.
-`rotationSpeed`                 | `0`               | How far (angle in degrees) the wheel should spin every 1 second.</p><p>Any number other than `0` will spin the wheel.</p><p>A positive number will spin clockwise, a negative number will spin antiClockwise.
+`rotationResistance`            | `-35`             | The amount that `rotationSpeed` will be reduced by every second. Only in effect when `rotationSpeed !== 0`.</p><p>Set to `0` to spin the wheel infinitely.
+`rotationSpeed`                 | `0`               | (Readonly) How far (angle in degrees) the wheel will spin every 1 second.</p><p>A positive number means the wheel is spinning clockwise, a negative number means anticlockwise, and `0` means the wheel is not spinning.
 `rotationSpeedMax`              | `250`             | The maximum value for `rotationSpeed`.</p><p>The wheel will not spin faster than this value.
 `offset`                        | `{w: 0, h: 0}`    | The offset of the wheel relative to it's center (as a percent of the wheel's diameter).
 `onCurrentIndexChange`          | `null`            | The callback for the `onCurrentIndexChange` event.
@@ -174,14 +175,15 @@ Key                         | Value
 
 ### `onSpin(event = {})`
 
-Raised when the wheel has been spun by the user (via click-drag/touch-flick), or by calling `Wheel.spinTo()` or `Wheel.spinToItem()`.
+Raised when the wheel has been spun.
 
 Key                         | Value
 --------------------------- | ---------------------------
 `type`                      | `'spin'`
 `duration`                  | the duration of the spin animation. Only set when `method = spinto` or `method = spintoitem`.
-`method`                    | The method that was used to spin the wheel (`interact`, `spinto`, `spintoitem`).
-`rotationSpeed`             | The value of `Wheel.rotationSpeed` at the time the event was raised.</p><p>Only set when `method = interact`.</p><p>See `Wheel.rotationSpeed`.
+`method`                    | The method that was used to spin the wheel (`interact`, `spin`, `spinto`, `spintoitem`).
+`rotationResistance`        | The value of `Wheel.rotationResistance` at the time the event was raised.</p><p>Only set when `method = interact` or `method = spin`.
+`rotationSpeed`             | The value of `Wheel.rotationSpeed` at the time the event was raised.</p><p>Only set when `method = interact` or `method = spin`.
 `targetItemIndex`           | The item that the Pointer will be pointing at once the spin animation has finished.</p><p>Only set when `method = spintoitem`.
 `targetRotation`            | The value that `Wheel.rotation` will have once the spin animation has finished.</p><p>Only set when `method = spinto` or `method = spintoitem`.
 

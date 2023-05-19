@@ -22,7 +22,6 @@ const wheelPropInits = {
   'radius': initRange,
   //'rotation': initRange,
   'rotationResistance': initRange,
-  //'rotationSpeed': initRange,
   'rotationSpeedMax': initRange,
   //'offset': initRange,
   'overlayImage': initImage,

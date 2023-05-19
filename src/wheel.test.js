@@ -25,7 +25,7 @@ test('Should throw when initialised without container param', () => {
 
 test('Each Wheel property has a coresponding default value', () => {
 
-  const wheelGetters = getInstanceProperties(fixture.wheel).getters;
+  const wheelGetters = getInstanceProperties(fixture.wheel).setters;
 
   for (const i of wheelGetters) {
     expect(Defaults.wheel[i]).not.toBe(undefined);
@@ -35,7 +35,7 @@ test('Each Wheel property has a coresponding default value', () => {
 
 test('Each Wheel property is given a Default value when the Wheel is initalised', () => {
 
-  const wheelGetters = getInstanceProperties(fixture.wheel).getters;
+  const wheelGetters = getInstanceProperties(fixture.wheel).setters;
 
   for (const i of wheelGetters) {
     expect(fixture.wheel[i]).toEqual(Defaults.wheel[i]);
@@ -72,17 +72,6 @@ test('getItemAngles() works when weighted', () => {
   expect(angles[0].end).toBe(180);
   expect(angles[1].start).toBe(180);
   expect(angles[1].end).toBe(270);
-
-});
-
-test('getRotationSpeedPlusDrag() works', () => {
-
-  fixture.wheel.rotationSpeed = 100;
-  fixture.wheel.rotationResistance = -5;
-  fixture.wheel.lastRotationFrame = 0;
-  const newRotationSpeed = fixture.wheel.getRotationSpeedPlusDrag(1000);
-
-  expect(newRotationSpeed).toBe(95);
 
 });
 
@@ -161,8 +150,8 @@ test('spinToItem() works', () => {
 
 test('getRotationSpeedPlusDrag() works', () => {
 
-  fixture.wheel.rotationSpeed = 2;
   fixture.wheel.rotationResistance = -1;
+  fixture.wheel.spin(2);
 
   // No time has elapsed (since the last frame), rotation speed should be unchanged:
   let delta = 0;
@@ -181,7 +170,8 @@ test('getRotationSpeedPlusDrag() works', () => {
   // Ensure rotation speed does not go past 0:
   delta = 2001;
   expect(fixture.wheel.getRotationSpeedPlusDrag(delta)).toBe(0); // Clockwise
-  fixture.wheel.rotationSpeed = -2;
+  fixture.wheel.spin(-2);
   expect(fixture.wheel.getRotationSpeedPlusDrag(delta)).toBe(0); // Anti-clockwise
 
 });
+

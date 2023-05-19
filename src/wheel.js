@@ -12,7 +12,10 @@ export class Wheel {
    */
   constructor(container, props = {}) {
 
-    this._frameRequestId = null; // Init.
+    // Init some things:
+    this._frameRequestId = null;
+    this._rotationSpeed = 0;
+    this._rotationDirection = 1;
 
     // Validate params.
     if (!(container instanceof Element)) throw new Error('container must be an instance of Element');
@@ -67,7 +70,6 @@ export class Wheel {
     this.radius = props.radius;
     this.rotation = props.rotation;
     this.rotationResistance = props.rotationResistance;
-    this.rotationSpeed = props.rotationSpeed;
     this.offset = props.offset;
     this.onCurrentIndexChange = props.onCurrentIndexChange;
     this.onRest = props.onRest;
@@ -444,8 +446,6 @@ export class Wheel {
         return;
       }
 
-      this.rotationSpeed = 0; // `spinTo()` should override `spin()`
-
       this.refresh(); // Ensure the animation loop is active.
 
       const duration = this._spinToTimeEnd - this._spinToTimeStart;
@@ -459,7 +459,7 @@ export class Wheel {
     }
 
     // For spin()
-    if (this.rotationSpeed !== 0) {
+    if (this._rotationSpeed !== 0) {
 
       this.refresh(); // Ensure the animation loop is active.
 
@@ -469,9 +469,9 @@ export class Wheel {
 
       if (delta > 0) {
 
-        this.rotation += ((delta / 1000) * this.rotationSpeed) % 360; // TODO: very small rounding errors can accumulative here.
-        this.rotationSpeed = this.getRotationSpeedPlusDrag(delta);
-        if (this.rotationSpeed === 0) this.raiseEvent_onRest();
+        this.rotation += ((delta / 1000) * this._rotationSpeed) % 360; // TODO: very small rounding errors can accumulative here.
+        this._rotationSpeed = this.getRotationSpeedPlusDrag(delta);
+        if (this._rotationSpeed === 0) this.raiseEvent_onRest();
         this._lastFrameTime = now;
 
       }
@@ -500,6 +500,16 @@ export class Wheel {
   }
 
   /**
+   * Spin the wheel by setting `rotationSpeed`.
+   * The wheel will immediately start spinning, and slow down over time depending on the value of `rotationResistance`.
+   * A positive number will spin clockwise, a negative number will spin anticlockwise.
+   */
+  spin(rotationSpeed = 0) {
+    if (!util.isNumber(rotationSpeed)) throw new Error('rotationSpeed must be a number');
+    this.setSpeedSpeed(rotationSpeed, 'spin');
+  }
+
+  /**
    * Spin the wheel to a particular rotation.
    * The animation will occur over the provided `duration` (milliseconds).
    * The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.
@@ -510,6 +520,8 @@ export class Wheel {
   spinTo(rotation = 0, duration = 0, easingFunction = null) {
 
     if (Number.isNaN(rotation)) throw new Error('Error: newRotation parameter is NaN'); // TODO: check is valid number. Same for duration param.
+
+    this.stop();
 
     this.animate(rotation, duration, easingFunction);
 
@@ -528,6 +540,8 @@ export class Wheel {
    * Note: the `Wheel.rotationSpeed` property will be ignored during the animation.
    */
   spinToItem(itemIndex = 0, duration = 0, spinToCenter = true, numberOfRevolutions = 1, direction = 1, easingFunction = null) {
+
+    this.stop();
 
     const itemAngle = spinToCenter ? this.items[itemIndex].getCenterAngle() : this.items[itemIndex].getRandomAngle();
 
@@ -680,6 +694,30 @@ export class Wheel {
     if (this._frameRequestId === null) {
       this._frameRequestId = window.requestAnimationFrame(this.draw.bind(this));
     }
+  }
+
+  limitSpeed(speed = 0, max = 0) {
+    // Max is always a positive number, but speed may be positive or negative.
+    const newSpeed = Math.min(speed, max);
+    return Math.max(newSpeed, -max);
+  }
+
+  setSpeedSpeed(speed = 0, spinMethod = '') {
+    this.stop();
+
+    this._rotationSpeed = this.limitSpeed(speed, this._rotationSpeedMax);
+
+    this._rotationDirection = (this._rotationSpeed >= 0) ? 1 : -1; // 1 for clockwise or stationary, -1 for anticlockwise.
+
+    if (this._rotationSpeed !== 0) {
+      this.raiseEvent_onSpin({
+        method: spinMethod,
+        rotationSpeed: this._rotationSpeed,
+        rotationResistance: this._rotationResistance,
+      });
+    }
+
+    this.refresh();
   }
 
   /**
@@ -1047,7 +1085,9 @@ export class Wheel {
   }
 
   /**
-   * How much to reduce `rotationSpeed` by every second.
+   * The amount that `rotationSpeed` will be reduced by every second.
+   * Only in effect when `rotationSpeed !== 0`.
+   * Set to `0` to spin the wheel infinitely.
    */
   get rotationResistance() {
     return this._rotationResistance;
@@ -1081,30 +1121,11 @@ export class Wheel {
   }
 
   /**
-   * How far (angle in degrees) the wheel should spin every 1 second.
-   * Any number other than 0 will spin the wheel.
-   * A positive number will spin clockwise, a negative number will spin antiClockwise.
+   * (Readonly) How far (angle in degrees) the wheel will spin every 1 second.
+   * A positive number means the wheel is spinning clockwise, a negative number means anticlockwise, and `0` means the wheel is not spinning.
    */
   get rotationSpeed() {
     return this._rotationSpeed;
-  }
-  set rotationSpeed(val) {
-    this._rotationSpeed = util.setProp({
-      val,
-      isValid: util.isNumber(val),
-      errorMessage: 'Wheel.rotationSpeed must be a number',
-      defaultValue: Defaults.wheel.rotationSpeed,
-      action: () => {
-        // Limit speed to `rotationSpeedMax`
-        let newSpeed = Math.min(val, this.rotationSpeedMax);
-        newSpeed = Math.max(newSpeed, -this.rotationSpeedMax);
-
-        return newSpeed;
-      },
-    });
-
-    this._rotationDirection = (this._rotationSpeed >= 0) ? 1 : -1; // 1 for clockwise (or stationary), -1 for antiClockwise.
-    this.refresh();
   }
 
   /**
@@ -1304,9 +1325,7 @@ export class Wheel {
 
     if (dragDistance === 0) return;
 
-    this.rotationSpeed = dragDistance * (1000 / Constants.dragCapturePeriod);
-
-    this.raiseEvent_onSpin({method: 'interact', rotationSpeed: this.rotationSpeed});
+    this.setSpeedSpeed(dragDistance * (1000 / Constants.dragCapturePeriod), 'interact');
 
   }
 
