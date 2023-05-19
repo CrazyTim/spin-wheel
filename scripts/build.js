@@ -42,20 +42,21 @@ const preamble = [
   ` */`,
 ];
 
-await esbuild.build({
-  entryPoints: [entryPoint],
-  outfile: `dist/${p.name}-${format}.js`,
-  bundle: true,
-  minify: true,
-  target: ['es6'],
-  format: format,
-  globalName: 'spinWheel', // This setting is only for IIFE format.
-  watch: shouldStartWebServer,
-  banner: {'js': preamble.join('')},
-})
-.catch((error) => {
+try {
+  await esbuild.build({
+    entryPoints: [entryPoint],
+    outfile: `dist/${p.name}-${format}.js`,
+    bundle: true,
+    minify: true,
+    target: ['es6'],
+    format: format,
+    globalName: 'spinWheel', // This setting is only for IIFE format.
+    watch: shouldStartWebServer,
+    banner: {'js': preamble.join('')},
+  })
+} catch (error) {
   console.error(error);
   process.exit(1);
-});
+}
 
 if (shouldStartWebServer) startWebServer(servePathNpm || servePath);
