@@ -73,7 +73,7 @@ The most useful way is to call `Wheel.spinToItem()`. The wheel will spin for a c
 const winningItemIndex = await fetchWinningItemIndex(); // For example, this might return a value of 2.
 const duration = 4000;
 const easing = easing.cubicOut;
-wheel.spinToItem(2, duration, false, 2, 1, easing)
+wheel.spinToItem(winningItemIndex, duration, true, 2, 1, easing)
 ```
 
 If precision is less important, you can use `Wheel.spin()` to immediately start spinning the wheel at a certain speed. This sets the wheel's `rotationSpeed`, which will be reduced over time according to `Wheel.rotationResistance`.
