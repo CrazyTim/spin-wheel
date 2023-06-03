@@ -90,8 +90,6 @@ You can also set `Wheel.isInteractive = true` to allow the user to spin the whee
 
 ## Configuration
 
-For example configurations see [./examples/themes/js/props.js](https://github.com/CrazyTim/spin-wheel/blob/master/examples/themes/js/props.js).
-
 Everything is easy to configure. The wheel is responsive and resizes automatically to fit it's container, so when the size of the container changes you don't have to worry about updating fiddly things like widths and font sizes. For that reason, some numeric properties are expressed as percentages, while others are expressed as pixels.
 
 * **Percentage properties** are a percent of the container size. For example, a `Wheel.radius` of `0.9` means the wheel will fill `90%` of the container.
