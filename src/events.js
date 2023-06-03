@@ -39,6 +39,7 @@ export function register(wheel = {}) {
     canvas.addEventListener('pointermove', onPointerMove);
     canvas.addEventListener('pointerup', onPointerUp);
     canvas.addEventListener('pointercancel', onPointerUp);
+    canvas.addEventListener('pointerout', onPointerUp);
 
     function onPointerMove(e = {}) {
       e.preventDefault();
@@ -54,6 +55,7 @@ export function register(wheel = {}) {
       canvas.removeEventListener('pointermove', onPointerMove);
       canvas.removeEventListener('pointerup', onPointerUp);
       canvas.removeEventListener('pointercancel', onPointerUp);
+      canvas.removeEventListener('pointerout', onPointerUp);
       wheel.dragEnd();
     }
 
