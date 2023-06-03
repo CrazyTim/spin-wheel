@@ -25,13 +25,13 @@ An easy to use, themeable component for randomising choices and prizes.
 ### ESM
 
 ```javascript
-import {Wheel} from 'https://cdn.jsdelivr.net/npm/spin-wheel@4.1.0/dist/spin-wheel-esm.js';
+import {Wheel} from 'https://cdn.jsdelivr.net/npm/spin-wheel@4.1.1/dist/spin-wheel-esm.js';
 ```
 
 ### IIFE
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/spin-wheel@4.1.0/dist/spin-wheel-iife.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/spin-wheel@4.1.1/dist/spin-wheel-iife.js"></script>
 ```
 
 ### Local
@@ -73,7 +73,7 @@ The most useful way is to call `Wheel.spinToItem()`. The wheel will spin for a c
 const winningItemIndex = await fetchWinningItemIndex(); // For example, this might return a value of 2.
 const duration = 4000;
 const easing = easing.cubicOut;
-wheel.spinToItem(2, duration, false, 2, 1, easing)
+wheel.spinToItem(winningItemIndex, duration, true, 2, 1, easing)
 ```
 
 If precision is less important, you can use `Wheel.spin()` to immediately start spinning the wheel at a certain speed. This sets the wheel's `rotationSpeed`, which will be reduced over time according to `Wheel.rotationResistance`.
@@ -89,8 +89,6 @@ You can also set `Wheel.isInteractive = true` to allow the user to spin the whee
 - [Developer playground (for testing and troubleshooting)](https://crazytim.github.io/spin-wheel/examples/playground)
 
 ## Configuration
-
-For example configurations see [./examples/themes/js/props.js](https://github.com/CrazyTim/spin-wheel/blob/master/examples/themes/js/props.js).
 
 Everything is easy to configure. The wheel is responsive and resizes automatically to fit it's container, so when the size of the container changes you don't have to worry about updating fiddly things like widths and font sizes. For that reason, some numeric properties are expressed as percentages, while others are expressed as pixels.
 

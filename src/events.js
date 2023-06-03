@@ -1,9 +1,42 @@
 export function register(wheel = {}) {
 
+  registerPointerEvents(wheel);
+
+  // Register window resize event:
+  wheel._handler_onResize = wheel.resize.bind(wheel);
+  window.addEventListener('resize', wheel._handler_onResize);
+
+  // Monitor when the device resolution (devicePixelRatio) changes:
+  // See https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio
+  const updatePixelRatio = () => {
+    wheel.resize();
+    matchMedia(`(resolution: ${pr}dppx)`)
+      .addEventListener('change', updatePixelRatio, { once: true });
+  };
+
+}
+
+export function unregister(wheel = {}) {
+
   const canvas = wheel.canvas;
 
-  // Register canvas pointer events:
+  if ('PointerEvent' in window) {
+    canvas.removeEventListener('pointerdown', wheel._handler_onPointerDown);
+    canvas.removeEventListener('pointermove', wheel._handler_onPointerMoveRefreshCursor);
+  } else {
+    canvas.removeEventListener('touchstart', wheel._handler_onTouchStart);
+    canvas.removeEventListener('mousedown', wheel._handler_onMouseDown);
+    canvas.removeEventListener('mousemove', wheel._handler_onMouseMoveRefreshCursor);
+  }
+
+  window.removeEventListener('resize', wheel._handler_onResize);
+
+}
+
+function registerPointerEvents(wheel = {}) {
   // Adapted from https://glitch.com/~jake-in-the-box
+
+  const canvas = wheel.canvas;
 
   wheel._handler_onPointerMoveRefreshCursor = (e = {}) => {
     const point = {
@@ -39,6 +72,7 @@ export function register(wheel = {}) {
     canvas.addEventListener('pointermove', onPointerMove);
     canvas.addEventListener('pointerup', onPointerUp);
     canvas.addEventListener('pointercancel', onPointerUp);
+    canvas.addEventListener('pointerout', onPointerUp);
 
     function onPointerMove(e = {}) {
       e.preventDefault();
@@ -54,6 +88,7 @@ export function register(wheel = {}) {
       canvas.removeEventListener('pointermove', onPointerMove);
       canvas.removeEventListener('pointerup', onPointerUp);
       canvas.removeEventListener('pointercancel', onPointerUp);
+      canvas.removeEventListener('pointerout', onPointerUp);
       wheel.dragEnd();
     }
 
@@ -132,34 +167,5 @@ export function register(wheel = {}) {
     canvas.addEventListener('mousedown', wheel._handler_onMouseDown);
     canvas.addEventListener('mousemove', wheel._handler_onMouseMoveRefreshCursor);
   }
-
-  // Register window resize event:
-  wheel._handler_onResize = wheel.resize.bind(wheel);
-  window.addEventListener('resize', wheel._handler_onResize);
-
-  // Monitor when the device resolution (devicePixelRatio) changes:
-  // See https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio
-  const updatePixelRatio = () => {
-    wheel.resize();
-    matchMedia(`(resolution: ${pr}dppx)`)
-      .addEventListener('change', updatePixelRatio, { once: true });
-  };
-
-}
-
-export function unregister(wheel = {}) {
-
-  const canvas = wheel.canvas;
-
-  if ('PointerEvent' in window) {
-    canvas.removeEventListener('pointerdown', wheel._handler_onPointerDown);
-    canvas.removeEventListener('pointermove', wheel._handler_onPointerMoveRefreshCursor);
-  } else {
-    canvas.removeEventListener('touchstart', wheel._handler_onTouchStart);
-    canvas.removeEventListener('mousedown', wheel._handler_onMouseDown);
-    canvas.removeEventListener('mousemove', wheel._handler_onMouseMoveRefreshCursor);
-  }
-
-  window.removeEventListener('resize', wheel._handler_onResize);
 
 }

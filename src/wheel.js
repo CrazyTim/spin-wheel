@@ -599,14 +599,18 @@ export class Wheel {
    */
   refreshCursor() {
 
-    if (this.isDragging) {
-      this.canvas.style.cursor = 'grabbing';
-      return;
-    }
+    if (this.isInteractive) {
 
-    if (this.isInteractive && this.isCursorOverWheel) {
-      this.canvas.style.cursor = 'grab';
-      return;
+      if (this.isDragging) {
+        this.canvas.style.cursor = 'grabbing';
+        return;
+      }
+
+      if (this.isCursorOverWheel) {
+        this.canvas.style.cursor = 'grab';
+        return;
+      }
+
     }
 
     this.canvas.style.cursor = '';
@@ -812,7 +816,7 @@ export class Wheel {
       defaultValue: Defaults.wheel.isInteractive,
     });
 
-    this.refresh();
+    this.refreshCursor(); // Reset the cursor in case the wheel is currently being dragged.
   }
 
   /**
