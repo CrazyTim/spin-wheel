@@ -220,7 +220,7 @@ export class Wheel {
 
       const item = this._items[i];
 
-      if (!util.isImageLoaded(item.image)) continue;
+      if (!util.isImageLoaded(item.imageObj)) continue;
 
       ctx.save();
 
@@ -237,13 +237,13 @@ export class Wheel {
 
       ctx.globalAlpha = item.imageOpacity;
 
-      const width = (this._size / 500) * item.image.width * item.imageScale;
-      const height = (this._size / 500) * item.image.height * item.imageScale;
+      const width = (this._size / 500) * item.imageObj.width * item.imageScale;
+      const height = (this._size / 500) * item.imageObj.height * item.imageScale;
       const widthHalf = -width / 2;
       const heightHalf = -height / 2;
 
       ctx.drawImage(
-        item.image,
+        item.imageObj,
         widthHalf,
         heightHalf,
         width,

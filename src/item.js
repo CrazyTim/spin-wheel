@@ -64,7 +64,7 @@ export class Item {
    * The image will be drawn over the top of `Item.backgroundColor`.
    */
   get image() {
-    return this._image;
+    return this._image?.src ?? null;
   }
   set image(val) {
     let img;
@@ -77,6 +77,10 @@ export class Item {
     }
     this._image = img;
     this._wheel.refresh();
+  }
+
+  get imageObj() {
+    return this._image;
   }
 
   /**
