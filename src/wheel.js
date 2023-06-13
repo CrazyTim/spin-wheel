@@ -506,7 +506,7 @@ export class Wheel {
    */
   spin(rotationSpeed = 0) {
     if (!util.isNumber(rotationSpeed)) throw new Error('rotationSpeed must be a number');
-    this.setSpeedSpeed(rotationSpeed, 'spin');
+    this.beginSpin(rotationSpeed, 'spin');
   }
 
   /**
@@ -706,7 +706,7 @@ export class Wheel {
     return Math.max(newSpeed, -max);
   }
 
-  setSpeedSpeed(speed = 0, spinMethod = '') {
+  beginSpin(speed = 0, spinMethod = '') {
     this.stop();
 
     this._rotationSpeed = this.limitSpeed(speed, this._rotationSpeedMax);
@@ -1329,7 +1329,7 @@ export class Wheel {
 
     if (dragDistance === 0) return;
 
-    this.setSpeedSpeed(dragDistance * (1000 / Constants.dragCapturePeriod), 'interact');
+    this.beginSpin(dragDistance * (1000 / Constants.dragCapturePeriod), 'interact');
 
   }
 
