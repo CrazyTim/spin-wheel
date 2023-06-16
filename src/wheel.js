@@ -522,7 +522,8 @@ export class Wheel {
    */
   spinTo(rotation = 0, duration = 0, easingFunction = null) {
 
-    if (Number.isNaN(rotation)) throw new Error('Error: newRotation parameter is NaN'); // TODO: check is valid number. Same for duration param.
+    if (!util.isNumber(rotation)) throw new Error('Error: rotation must be a number');
+    if (!util.isNumber(duration)) throw new Error('Error: duration must be a number');
 
     this.stop();
 
