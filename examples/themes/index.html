@@ -40,7 +40,7 @@
           onRest: e => console.log(e),
           onSpin: e => console.log(e),
         });
-        wheel.spin(oldRotationSpeed); // Preserve value.
+        if (oldRotationSpeed) wheel.spin(oldRotationSpeed); // Preserve value.
       }
 
       // Select default:

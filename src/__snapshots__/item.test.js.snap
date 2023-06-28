@@ -198,6 +198,7 @@ Item {
     "_itemLabelRadiusMax": 0.2,
     "_itemLabelRotation": 0,
     "_items": Array [],
+    "_lastSpinFrameTime": undefined,
     "_lineColor": "#000",
     "_lineWidth": 1,
     "_offset": Object {

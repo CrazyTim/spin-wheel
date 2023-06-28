@@ -12,14 +12,15 @@ export class Wheel {
    */
   constructor(container, props = {}) {
 
+    // Validate params.
+    if (!(container instanceof Element)) throw new Error('container must be an instance of Element');
+    if (!util.isObject(props) && props !== null) throw new Error('props must be an Object or null');
+
     // Init some things:
     this._frameRequestId = null;
     this._rotationSpeed = 0;
     this._rotationDirection = 1;
-
-    // Validate params.
-    if (!(container instanceof Element)) throw new Error('container must be an instance of Element');
-    if (!util.isObject(props) && props !== null) throw new Error('props must be an Object or null');
+    this._lastSpinFrameTime = undefined;
 
     this._canvasContainer = container;
     this.canvas = document.createElement('canvas');
@@ -438,7 +439,7 @@ export class Wheel {
     // For spinTo()
     if (this._spinToTimeEnd !== undefined) {
 
-      // Check if we should end the animation.
+      // Check if we should end the animation:
       if (now >= this._spinToTimeEnd) {
         this.rotation = this._spinToEndRotation;
         this._spinToTimeEnd = undefined;
@@ -446,41 +447,44 @@ export class Wheel {
         return;
       }
 
-      this.refresh(); // Ensure the animation loop is active.
-
       const duration = this._spinToTimeEnd - this._spinToTimeStart;
       let delta = (now - this._spinToTimeStart) / duration;
       delta = (delta < 0)? 0 : delta; // Frame time may be before the start time.
       const distance = this._spinToEndRotation - this._spinToStartRotation;
 
       this.rotation = this._spinToStartRotation + distance * this._spinToEasingFunction(delta);
+
+      this.refresh();
+
       return;
 
     }
 
     // For spin()
-    if (this._rotationSpeed !== 0) {
+    if (this._lastSpinFrameTime !== undefined) {
 
-      this.refresh(); // Ensure the animation loop is active.
-
-      if (this._lastFrameTime === undefined) this._lastFrameTime = now;
-
-      const delta = now - this._lastFrameTime;
+      const delta = now - this._lastSpinFrameTime;
 
       if (delta > 0) {
 
         this.rotation += ((delta / 1000) * this._rotationSpeed) % 360; // TODO: very small rounding errors can accumulative here.
         this._rotationSpeed = this.getRotationSpeedPlusDrag(delta);
-        if (this._rotationSpeed === 0) this.raiseEvent_onRest();
-        this._lastFrameTime = now;
+
+        // Check if we should end the animation:
+        if (this._rotationSpeed === 0) {
+          this.raiseEvent_onRest();
+          this._lastSpinFrameTime = undefined;
+        } else {
+          this._lastSpinFrameTime = now;
+        }
 
       }
+
+      this.refresh();
 
       return;
 
     }
-
-    this._lastFrameTime = undefined;
 
   }
 
@@ -710,6 +714,7 @@ export class Wheel {
     this.stop();
 
     this._rotationSpeed = this.limitSpeed(speed, this._rotationSpeedMax);
+    this._lastSpinFrameTime = performance.now();
 
     this._rotationDirection = (this._rotationSpeed >= 0) ? 1 : -1; // 1 for clockwise or stationary, -1 for anticlockwise.
 
