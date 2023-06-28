@@ -436,7 +436,7 @@ export class Wheel {
   animateRotation(now = 0) {
 
     // For spinTo()
-    if (this._spinToTimeEnd) {
+    if (this._spinToTimeEnd !== undefined) {
 
       // Check if we should end the animation.
       if (now >= this._spinToTimeEnd) {

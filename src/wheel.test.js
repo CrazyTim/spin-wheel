@@ -1,8 +1,44 @@
-import {test, expect} from '@jest/globals';
+import {jest, test, expect, beforeEach, afterEach} from '@jest/globals';
 import {Defaults} from './constants.js';
 import {createWheel} from '../scripts/test.js';
-import {getInstanceProperties, delay} from '../scripts/util.js';
+import {getInstanceProperties} from '../scripts/util.js';
 import {Wheel} from '../src/wheel.js';
+
+beforeEach(() => {
+  jest.useFakeTimers();
+  let count = 0;
+  jest.spyOn(window, 'requestAnimationFrame')
+    .mockImplementation(callback => {
+      setTimeout(() => callback(count*100), 100); // Mocked frame will be called exactly every .1 seconds.
+      return ++count; // Return frame id;
+    });
+});
+
+afterEach(() => {
+  window.requestAnimationFrame.mockRestore();
+  jest.runOnlyPendingTimers();
+  jest.useRealTimers();
+});
+
+test('Mocked requestAnimationFrame works', async () => {
+
+  let time;
+  const f = ((n = 0) => {
+    time = n;
+    window.requestAnimationFrame(f);
+  });
+
+  f();
+
+  expect(time).toBe(0);
+  jest.advanceTimersByTime(100);
+  expect(time).toBe(100);
+  jest.advanceTimersByTime(200);
+  expect(time).toBe(300);
+  jest.advanceTimersByTime(50);
+  expect(time).toBe(300); // Should not advance because the mocked frame only renders every 100ms.
+
+});
 
 test('Wheel default state is correct', () => {
   const wheel = createWheel();
@@ -106,23 +142,22 @@ test('Default value works for itemLabelColors', () => {
 
 test('spin() works', async () => {
 
-  // Note: this test is not very precise.
-
   const wheel = createWheel({
     rotationResistance: -10,
   });
 
+  // Spin the wheel at 10 degrees/s:
   wheel.spin(10);
   expect(wheel.rotationSpeed).toBe(10);
 
-  // 0.5 seconds:
-  await delay(500);
-  expect(wheel.rotationSpeed).toBeCloseTo(5, 0);
+  // 0.5 seconds elapsed.
+  jest.advanceTimersByTime(500);
+  expect(wheel.rotationSpeed).toBe(5);
 
-  // 1 second:
-  await delay(500);
-  expect(wheel.rotationSpeed).toBeCloseTo(0, 0);
-  expect(wheel.rotation).toBeCloseTo(5, 0);
+  // 1 second elapsed.
+  jest.advanceTimersByTime(500);
+  expect(wheel.rotationSpeed).toBe(0);
+  expect(wheel.rotation).toBe(5.5); // Wheel should finally rest at 5.5 degrees due to rotationResistance.
 
 });
 
@@ -131,11 +166,11 @@ test('spinTo() works', async () => {
   const wheel = createWheel();
 
   wheel.spinTo(360, 0);
-  await delay(100);
+  jest.advanceTimersByTime(100);
   expect(wheel.rotation).toBe(360);
 
   wheel.spinTo(-360, 0);
-  await delay(100);
+  jest.advanceTimersByTime(100);
   expect(wheel.rotation).toBe(-360);
 
 });
@@ -155,7 +190,7 @@ test('spinToItem() works', async () => {
   const numberOfRevolutions = 0;
 
   wheel.spinToItem(itemIndex, 0, true, numberOfRevolutions, direction, null);
-  await delay(100);
+  jest.advanceTimersByTime(100);
   expect(wheel.rotation).toBe(360 - 45);
 
   // Anti-clockwise:
@@ -163,7 +198,7 @@ test('spinToItem() works', async () => {
   itemIndex = 0;
   wheel.rotation = 0;
   wheel.spinToItem(itemIndex, 0, true, numberOfRevolutions, direction, null);
-  await delay(100);
+  jest.advanceTimersByTime(100);
   expect(wheel.rotation).toBe(0 - 45);
 
   // Anti-clockwise, but rotation is just past target, so will have to spin almost 360 degrees again:
@@ -171,7 +206,7 @@ test('spinToItem() works', async () => {
   itemIndex = 0;
   wheel.rotation = -46;
   wheel.spinToItem(itemIndex, 0, true, numberOfRevolutions, direction, null);
-  await delay(100);
+  jest.advanceTimersByTime(100);
   expect(wheel.rotation).toBe(0 - 360 - 45);
 
   // Clockwise, pointer angle is below 180:
@@ -180,7 +215,7 @@ test('spinToItem() works', async () => {
   wheel.pointerAngle = 90;
   wheel.rotation = 0;
   wheel.spinToItem(itemIndex, 0, true, numberOfRevolutions, direction, null);
-  await delay(100);
+  jest.advanceTimersByTime(100);
   expect(wheel.rotation).toBe(45);
 
   // Clockwise, pointer angle is above 180:
@@ -189,7 +224,7 @@ test('spinToItem() works', async () => {
   wheel.pointerAngle = 270;
   wheel.rotation = 0;
   wheel.spinToItem(itemIndex, 0, true, numberOfRevolutions, direction, null);
-  await delay(100);
+  jest.advanceTimersByTime(100);
   expect(wheel.rotation).toBe(270 - 45);
 
   // TODO: test number of revolutions
