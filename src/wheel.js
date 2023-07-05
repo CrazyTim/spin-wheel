@@ -1019,6 +1019,7 @@ export class Wheel {
     });
 
     this.refreshCurrentIndex(this.getItemAngles(this._rotation));
+    this.resize(); // Refresh item label font size.
   }
 
   /**
