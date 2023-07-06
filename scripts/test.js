@@ -1,15 +1,13 @@
-import {Wheel} from '../src/wheel.js';
-import {jest} from '@jest/globals';
+import '../src/wheel.js';
 
 export function createWheel(props) {
 
-  const container = document.createElement('div');
-  jest.spyOn(container, 'clientWidth', 'get').mockReturnValue(500);
-  jest.spyOn(container, 'clientHeight', 'get').mockReturnValue(500);
+  const wheel = document.createElement('spin-wheel');
 
-  document.body.appendChild(container);
+  document.body.appendChild(wheel);
 
-  const wheel = new Wheel(container, props);
+  wheel.init(props);
+
   addBlankItems(wheel, props?.numberOfItems);
 
   return wheel;

@@ -2,7 +2,7 @@ import {jest, test, expect, beforeEach, afterEach} from '@jest/globals';
 import {Defaults, EventName} from './constants.js';
 import {createWheel} from '../scripts/test.js';
 import {getInstanceProperties} from '../scripts/util.js';
-import {Wheel} from '../src/wheel.js';
+import '../src/wheel.js';
 
 beforeEach(() => {
   jest.useFakeTimers();
@@ -38,22 +38,6 @@ test('Mocked requestAnimationFrame works', async () => {
   jest.advanceTimersByTime(50);
   expect(time).toBe(300); // Should not advance because the mocked frame only renders every 100ms.
 
-});
-
-test('Initial state is correct', () => {
-  const wheel = createWheel();
-  expect(wheel).toMatchSnapshot();
-});
-
-test('Wheel can be initialised with props', () => {
-  createWheel(null);
-  createWheel({});
-});
-
-test('Should throw when initialised without container param', () => {
-  expect(() => {
-    return new Wheel();
-  }).toThrow('container must be an instance of Element');
 });
 
 test('A default value exists for each property', () => {

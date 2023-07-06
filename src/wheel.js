@@ -4,31 +4,30 @@ import {Defaults} from './constants.js';
 import * as events from './events.js';
 import {Item} from './item.js';
 
-export class Wheel {
+window.customElements.define('spin-wheel', class Wheel extends HTMLElement {
 
-  /**
-   * `container` must be an Element.
-   * `props` must be an Object or null.
-   */
-  constructor(container, props = {}) {
+  constructor() {
 
-    // Validate params.
-    if (!(container instanceof Element)) throw new Error('container must be an instance of Element');
-    if (!util.isObject(props) && props !== null) throw new Error('props must be an Object or null');
+    super();
+
+    const shadow = this.attachShadow({mode: 'open'});
+    shadow.innerHTML = `
+      <style>
+        :host {
+          display: block;
+        }
+      </style>`;
+
+    this.canvas = document.createElement('canvas');
+    shadow.appendChild(this.canvas);
 
     // Init some things:
+    this._context = this.canvas.getContext('2d');
     this._frameRequestId = null;
     this._rotationSpeed = 0;
     this._rotationDirection = 1;
     this._spinToTimeEnd = null; // Used to animate the wheel for spinTo()
     this._lastSpinFrameTime = null; // Used to animate the wheel for spin()
-
-    this._canvasContainer = container;
-    this.canvas = document.createElement('canvas');
-    this._context = this.canvas.getContext('2d');
-
-    this.addCanvas();
-    events.register(this);
 
     // Assign default values.
     // This avoids null exceptions when we initalise each property one-by-one in `init()`.
@@ -36,18 +35,28 @@ export class Wheel {
       this['_' + i] = Defaults.wheel[i];
     }
 
-    if (props) {
-      this.init(props);
-    } else {
-      this.init(Defaults.wheel);
-    }
+    this.init(Defaults.wheel);
 
+  }
+
+  connectedCallback() { // Element added to page. Also called after moving.
+    events.register(this);
+  }
+
+  disconnectedCallback() { // Removed from page. Also called before moving.
+    events.unregister(this);
+  }
+
+  adoptedCallback() { // Moved to a new page.
   }
 
   /**
    * Initialise all properties.
    */
   init(props = {}) {
+
+    if (!util.isObject(props) && props !== null) throw new Error('props must be an Object or null');
+
     this._isInitialising = true;
 
     this.borderColor = props.borderColor;
@@ -77,20 +86,6 @@ export class Wheel {
     this.pointerAngle = props.pointerAngle;
   }
 
-  addCanvas() {
-    this._canvasContainer.appendChild(this.canvas);
-  }
-
-  removeCanvas() {
-    this._canvasContainer.removeChild(this.canvas);
-  }
-
-  remove() {
-    window.cancelAnimationFrame(this._frameRequestId);
-    events.unregister(this);
-    this.removeCanvas();
-  }
-
   /**
    * Resize the wheel to fit inside it's container.
    * Call this after changing any property of the wheel that relates to it's size or position.
@@ -98,10 +93,8 @@ export class Wheel {
   resize() {
 
     // Get the smallest dimension of `canvasContainer`:
-    const [w, h] = [
-      this._canvasContainer.clientWidth * this.getActualPixelRatio(),
-      this._canvasContainer.clientHeight * this.getActualPixelRatio(),
-    ];
+    const w = this.clientWidth * this.getActualPixelRatio();
+    const h = this.clientHeight * this.getActualPixelRatio();
 
     // Calc the size that the wheel needs to be to fit in it's container:
     const minSize = Math.min(w, h);
@@ -113,8 +106,8 @@ export class Wheel {
     this._size = Math.max(wheelSize.w * scale, wheelSize.h * scale);
 
     // Resize canvas element:
-    this.canvas.style.width = this._canvasContainer.clientWidth + 'px';
-    this.canvas.style.height = this._canvasContainer.clientHeight + 'px';
+    this.canvas.style.width = this.clientWidth + 'px';
+    this.canvas.style.height = this.clientHeight + 'px';
     this.canvas.width = w;
     this.canvas.height = h;
 
@@ -444,7 +437,7 @@ export class Wheel {
         this.rotation = this._spinToEndRotation;
         this._spinToTimeEnd = null;
 
-        util.dispatchEvent(this.canvas, Constants.EventName.rest, {
+        util.dispatchEvent(this, Constants.EventName.rest, {
           currentIndex: this._currentIndex,
           rotation: this._rotation,
         });
@@ -478,7 +471,7 @@ export class Wheel {
         // Check if we should end the animation:
         if (this._rotationSpeed === 0) {
 
-          util.dispatchEvent(this.canvas, Constants.EventName.rest, {
+          util.dispatchEvent(this, Constants.EventName.rest, {
             currentIndex: this._currentIndex,
             rotation: this._rotation,
           });
@@ -542,7 +535,7 @@ export class Wheel {
 
     this.animate(rotation, duration, easingFunction);
 
-    util.dispatchEvent(this.canvas, Constants.EventName.spin, {
+    util.dispatchEvent(this, Constants.EventName.spin, {
       duration,
       method: 'spinto',
       targetRotation: rotation,
@@ -572,7 +565,7 @@ export class Wheel {
 
     this.animate(newRotation, duration, easingFunction);
 
-    util.dispatchEvent(this.canvas, Constants.EventName.spin, {
+    util.dispatchEvent(this, Constants.EventName.spin, {
       duration,
       method: 'spintoitem',
       targetItemIndex: itemIndex,
@@ -679,7 +672,7 @@ export class Wheel {
       this._currentIndex = i;
 
       if (!this._isInitialising) {
-        util.dispatchEvent(this.canvas, Constants.EventName.currentIndexChange, {
+        util.dispatchEvent(this, Constants.EventName.currentIndexChange, {
           currentIndex: this._currentIndex,
         });
       }
@@ -749,7 +742,7 @@ export class Wheel {
     this._rotationDirection = (this._rotationSpeed >= 0) ? 1 : -1; // 1 for clockwise or stationary, -1 for anticlockwise.
 
     if (this._rotationSpeed !== 0) {
-      util.dispatchEvent(this.canvas, Constants.EventName.spin, {
+      util.dispatchEvent(this, Constants.EventName.spin, {
         method: spinMethod,
         rotationResistance: this._rotationResistance,
         rotationSpeed: this._rotationSpeed,
@@ -1329,4 +1322,4 @@ export class Wheel {
     return (now - event.now) > Constants.dragCapturePeriod;
   }
 
-}
+});
