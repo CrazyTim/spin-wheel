@@ -37,7 +37,7 @@ import 'spin-wheel';
 Or simply load it with a script tag:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/spin-wheel@4.2.0/dist/spin-wheel.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/spin-wheel@4.2.0"></script>
 ```
 
 ## How to make your own wheel

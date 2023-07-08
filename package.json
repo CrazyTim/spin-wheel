@@ -14,6 +14,7 @@
   ],
   "type": "module",
   "main": "./src/wheel.js",
+  "jsdelivr": "./dist/spin-wheel.js",
   "scripts": {
     "start": "node scripts/build.js -entryPoint=src/wheel.js -servePath=examples/themes/ -format=esm",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --testPathPattern=src",
