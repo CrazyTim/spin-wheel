@@ -246,3 +246,61 @@ test('Property "rotationSpeedMax" works', () => {
   expect(wheel.rotationSpeed).toBe(-1);
 
 });
+
+test('Event "currentIndexChange" is raised', async () => {
+
+  const wheel = createWheel({
+    numberOfItems: 2,
+    rotationSpeedMax: 360,
+    rotationResistance: 0,
+    onCurrentIndexChange: jest.fn(),
+  });
+
+  wheel.spin(360);
+  jest.advanceTimersByTime(600); // Advance to just after 180 degrees (because the angle check is exclusive of the end angle).
+
+  expect(wheel.onCurrentIndexChange).toHaveBeenCalledTimes(1);
+  expect(wheel.onCurrentIndexChange).toHaveBeenCalledWith({
+    type: 'currentIndexChange',
+    currentIndex: 0,
+  });
+
+});
+
+test('Event "rest" is raised', async () => {
+
+  const wheel = createWheel({
+    numberOfItems: 2,
+    rotationResistance: -10,
+    onRest: jest.fn(),
+  });
+
+  wheel.spin(10);
+  jest.advanceTimersByTime(1000);
+
+  expect(wheel.onRest).toHaveBeenCalledTimes(1);
+  expect(wheel.onRest).toHaveBeenCalledWith({
+    type: 'rest',
+    currentIndex: 1,
+    rotation: 5.5,
+  });
+
+});
+
+test('Event "spin" is raised', async () => {
+
+  const wheel = createWheel({
+    onSpin: jest.fn(),
+  });
+
+  wheel.spin(10);
+
+  expect(wheel.onSpin).toHaveBeenCalledTimes(1);
+  expect(wheel.onSpin).toHaveBeenCalledWith({
+    type: 'spin',
+    method: 'spin',
+    rotationResistance: Defaults.wheel.rotationResistance,
+    rotationSpeed: 10,
+  });
+
+});
