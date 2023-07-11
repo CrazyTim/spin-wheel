@@ -76,3 +76,9 @@ export const Debugging = Object.freeze({
   labelRadiusColor: '#00ff00',
   dragEventHue: 200,
 });
+
+export const EventName = Object.freeze({
+  currentIndexChange: 'spin-wheel:current-index-change',
+  rest: 'spin-wheel:rest',
+  spin: 'spin-wheel:spin',
+});

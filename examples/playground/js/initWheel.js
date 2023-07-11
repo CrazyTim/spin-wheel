@@ -22,6 +22,10 @@ const container = document.querySelector('.wheel-wrapper');
 window.wheel = new Wheel(container, props);
 
 // Log events for easy debugging:
-wheel.onCurrentIndexChange = e => console.log(e);
-wheel.onRest = e => console.log(e);
-wheel.onSpin = e => console.log(e);
+document.addEventListener('spin-wheel:current-index-change', log);
+document.addEventListener('spin-wheel:rest', log);
+document.addEventListener('spin-wheel:spin', log);
+
+function log(e) {
+  console.log({eventType: e.type, ...e.detail});
+}

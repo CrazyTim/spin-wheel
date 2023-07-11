@@ -73,9 +73,6 @@ export class Wheel {
     this.rotation = props.rotation;
     this.rotationResistance = props.rotationResistance;
     this.offset = props.offset;
-    this.onCurrentIndexChange = props.onCurrentIndexChange;
-    this.onRest = props.onRest;
-    this.onSpin = props.onSpin;
     this.overlayImage = props.overlayImage;
     this.pointerAngle = props.pointerAngle;
   }
@@ -446,7 +443,12 @@ export class Wheel {
       if (now >= this._spinToTimeEnd) {
         this.rotation = this._spinToEndRotation;
         this._spinToTimeEnd = null;
-        this.raiseEvent_onRest();
+
+        util.dispatchEvent(this.canvas, Constants.EventName.rest, {
+          currentIndex: this._currentIndex,
+          rotation: this._rotation,
+        });
+
         return;
       }
 
@@ -475,7 +477,12 @@ export class Wheel {
 
         // Check if we should end the animation:
         if (this._rotationSpeed === 0) {
-          this.raiseEvent_onRest();
+
+          util.dispatchEvent(this.canvas, Constants.EventName.rest, {
+            currentIndex: this._currentIndex,
+            rotation: this._rotation,
+          });
+
           this._lastSpinFrameTime = null;
         } else {
           this._lastSpinFrameTime = now;
@@ -535,7 +542,11 @@ export class Wheel {
 
     this.animate(rotation, duration, easingFunction);
 
-    this.raiseEvent_onSpin({method: 'spinto', targetRotation: rotation, duration});
+    util.dispatchEvent(this.canvas, Constants.EventName.spin, {
+      duration,
+      method: 'spinto',
+      targetRotation: rotation,
+    });
 
   }
 
@@ -561,7 +572,12 @@ export class Wheel {
 
     this.animate(newRotation, duration, easingFunction);
 
-    this.raiseEvent_onSpin({method: 'spintoitem', targetItemIndex: itemIndex, targetRotation: newRotation, duration});
+    util.dispatchEvent(this.canvas, Constants.EventName.spin, {
+      duration,
+      method: 'spintoitem',
+      targetItemIndex: itemIndex,
+      targetRotation: newRotation,
+    });
 
   }
 
@@ -662,7 +678,11 @@ export class Wheel {
 
       this._currentIndex = i;
 
-      if (!this._isInitialising) this.raiseEvent_onCurrentIndexChange();
+      if (!this._isInitialising) {
+        util.dispatchEvent(this.canvas, Constants.EventName.currentIndexChange, {
+          currentIndex: this._currentIndex,
+        });
+      }
 
       break;
 
@@ -729,10 +749,10 @@ export class Wheel {
     this._rotationDirection = (this._rotationSpeed >= 0) ? 1 : -1; // 1 for clockwise or stationary, -1 for anticlockwise.
 
     if (this._rotationSpeed !== 0) {
-      this.raiseEvent_onSpin({
+      util.dispatchEvent(this.canvas, Constants.EventName.spin, {
         method: spinMethod,
-        rotationSpeed: this._rotationSpeed,
         rotationResistance: this._rotationResistance,
+        rotationSpeed: this._rotationSpeed,
       });
     }
 
@@ -1085,51 +1105,6 @@ export class Wheel {
   }
 
   /**
-   * The callback for the `onCurrentIndexChange` event.
-   */
-  get onCurrentIndexChange() {
-    return this._onCurrentIndexChange;
-  }
-  set onCurrentIndexChange(val) {
-    this._onCurrentIndexChange = util.setProp({
-      val,
-      isValid: typeof val === 'function' || val === null,
-      errorMessage: 'Wheel.onCurrentIndexChange must be a function or null',
-      defaultValue: Defaults.wheel.onCurrentIndexChange,
-    });
-  }
-
-  /**
-   * The callback for the `onRest` event.
-   */
-  get onRest() {
-    return this._onRest;
-  }
-  set onRest(val) {
-    this._onRest = util.setProp({
-      val,
-      isValid: typeof val === 'function' || val === null,
-      errorMessage: 'Wheel.onRest must be a function or null',
-      defaultValue: Defaults.wheel.onRest,
-    });
-  }
-
-  /**
-   * The callback for the `onSpin` event.
-   */
-  get onSpin() {
-    return this._onSpin;
-  }
-  set onSpin(val) {
-    this._onSpin = util.setProp({
-      val,
-      isValid: typeof val === 'function' || val === null,
-      errorMessage: 'Wheel.onSpin must be a function or null',
-      defaultValue: Defaults.wheel.onSpin,
-    });
-  }
-
-  /**
    * The url of an image that will be drawn over the center of the wheel which will not rotate with the wheel.
    * It will be automatically scaled to fit the container's smallest dimension.
    * Use this to draw decorations around the wheel, such as a stand or pointer.
@@ -1352,30 +1327,6 @@ export class Wheel {
 
   isDragEventTooOld(now = 0, event = {}) {
     return (now - event.now) > Constants.dragCapturePeriod;
-  }
-
-  raiseEvent_onCurrentIndexChange(data = {}) {
-    this.onCurrentIndexChange?.({
-      type: 'currentIndexChange',
-      currentIndex: this._currentIndex,
-      ...data,
-    });
-  }
-
-  raiseEvent_onRest(data = {}) {
-    this.onRest?.({
-      type: 'rest',
-      currentIndex: this._currentIndex,
-      rotation: this._rotation,
-      ...data,
-    });
-  }
-
-  raiseEvent_onSpin(data = {}) {
-    this.onSpin?.({
-      type: 'spin',
-      ...data,
-    });
   }
 
 }

@@ -7,6 +7,8 @@ export function createWheel(props) {
   jest.spyOn(container, 'clientWidth', 'get').mockReturnValue(500);
   jest.spyOn(container, 'clientHeight', 'get').mockReturnValue(500);
 
+  document.body.appendChild(container);
+
   const wheel = new Wheel(container, props);
   addBlankItems(wheel, props?.numberOfItems);
 

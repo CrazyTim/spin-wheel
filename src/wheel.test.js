@@ -1,5 +1,5 @@
 import {jest, test, expect, beforeEach, afterEach} from '@jest/globals';
-import {Defaults} from './constants.js';
+import {Defaults, EventName} from './constants.js';
 import {createWheel} from '../scripts/test.js';
 import {getInstanceProperties} from '../scripts/util.js';
 import {Wheel} from '../src/wheel.js';
@@ -279,15 +279,17 @@ test('Event "currentIndexChange" is raised', async () => {
     numberOfItems: 2,
     rotationSpeedMax: 360,
     rotationResistance: 0,
-    onCurrentIndexChange: jest.fn(),
   });
 
+  const callback = jest.fn();
+  window.document.addEventListener(EventName.currentIndexChange, callback);
+
   wheel.spin(360);
+
   jest.advanceTimersByTime(600); // Advance to just after 180 degrees (because the angle check is exclusive of the end angle).
 
-  expect(wheel.onCurrentIndexChange).toHaveBeenCalledTimes(1);
-  expect(wheel.onCurrentIndexChange).toHaveBeenCalledWith({
-    type: 'currentIndexChange',
+  expect(callback).toHaveBeenCalledTimes(1);
+  expect(callback.mock.calls[0][0].detail).toEqual({
     currentIndex: 0,
   });
 
@@ -298,15 +300,16 @@ test('Event "rest" is raised', async () => {
   const wheel = createWheel({
     numberOfItems: 2,
     rotationResistance: -10,
-    onRest: jest.fn(),
   });
+
+  const callback = jest.fn();
+  window.document.addEventListener(EventName.rest, callback);
 
   wheel.spin(10);
   jest.advanceTimersByTime(1000);
 
-  expect(wheel.onRest).toHaveBeenCalledTimes(1);
-  expect(wheel.onRest).toHaveBeenCalledWith({
-    type: 'rest',
+  expect(callback).toHaveBeenCalledTimes(1);
+  expect(callback.mock.calls[0][0].detail).toEqual({
     currentIndex: 1,
     rotation: 5.5,
   });
@@ -319,11 +322,13 @@ test('Event "spin" is raised', async () => {
     onSpin: jest.fn(),
   });
 
+  const callback = jest.fn();
+  window.document.addEventListener(EventName.spin, callback);
+
   wheel.spin(10);
 
-  expect(wheel.onSpin).toHaveBeenCalledTimes(1);
-  expect(wheel.onSpin).toHaveBeenCalledWith({
-    type: 'spin',
+  expect(callback).toHaveBeenCalledTimes(1);
+  expect(callback.mock.calls[0][0].detail).toEqual({
     method: 'spin',
     rotationResistance: Defaults.wheel.rotationResistance,
     rotationSpeed: 10,

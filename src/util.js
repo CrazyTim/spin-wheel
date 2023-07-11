@@ -188,3 +188,12 @@ export function fixFloat(f = 0) {
 export function easeSinOut(n) {
   return Math.sin((n * Math.PI) / 2);
 }
+
+export function dispatchEvent(el, eventName, detail = {}) {
+  const event = new CustomEvent(eventName, {
+    bubbles: true,
+    cancelable: true,
+    detail,
+  });
+  return el.dispatchEvent(event);
+}

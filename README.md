@@ -17,7 +17,7 @@ An easy to use, themeable component for randomising choices and prizes.
   - Rotate labels and change alignment.
   - Draw images on items, the wheel, and the foreground.
   - Apply repeating colour sets.
-- Callbacks for events like `onSpin` and `onCurrentIndexChange`.
+- Events such as `spin` and `current-index-change`.
 - Clockwise and anticlockwise spinning.
 
 ## Installation
@@ -142,40 +142,37 @@ Name                            | Default Value     | Description
 `rotationSpeed`                 | `0`               | (Readonly) How far (angle in degrees) the wheel will spin every 1 second.</p><p>A positive number means the wheel is spinning clockwise, a negative number means anticlockwise, and `0` means the wheel is not spinning.
 `rotationSpeedMax`              | `250`             | The maximum value for `rotationSpeed` (ignoring the wheel's spin direction).</p><p>The wheel will not spin faster than this value in any direction.
 `offset`                        | `{w: 0, h: 0}`    | The offset of the wheel relative to it's center (as a percent of the wheel's diameter).
-`onCurrentIndexChange`          | `null`            | The callback for the `onCurrentIndexChange` event.
-`onRest`                        | `null`            | The callback for the `onRest` event.
-`onSpin`                        | `null`            | The callback for the `onSpin` event.
+`onCurrentIndexChange`          | `null`            | The callback for the `current-index-change` event.
+`onRest`                        | `null`            | The callback for the `rest` event.
+`onSpin`                        | `null`            | The callback for the `spin` event.
 `overlayImage`                  | `''`              | The url of an image that will be drawn over the center of the wheel which will not rotate with the wheel.</p><p>It will be automatically scaled to fit the container's smallest dimension.</p><p>Use this to draw decorations around the wheel, such as a stand or pointer.
 `pointerAngle`                  | `0`               | The angle of the Pointer which is used to determine the `currentIndex` (or the "winning" item).
 
 ## Events for `Wheel`
 
-### `onCurrentIndexChange(event = {})`
+### `spin-wheel:current-index-change`
 
 Raised when a new item is pointed at. This can be used to change the color of the current item, or play a 'ticking' sound.
 
 Key                         | Value
 --------------------------- | ---------------------------
-`type`                      | `'currentIndexChange'`
 `currentIndex`              | The index of the item that the Pointer was pointing at.</p><p>See `Wheel.pointerAngle`.
 
-### `onRest(event = {})`
+### `spin-wheel:rest`
 
 Raised when the wheel comes to a rest after spinning.
 
 Key                         | Value
 --------------------------- | ---------------------------
-`type`                      | `'rest'`
 `currentIndex`              | The index of the item that the Pointer was pointing at.</p><p>See `Wheel.pointerAngle`.
 `rotation`                  | The rotation of the wheel.</p><p>See `Wheel.rotation`.
 
-### `onSpin(event = {})`
+### `spin-wheel:spin`
 
 Raised when the wheel has been spun.
 
 Key                         | Value
 --------------------------- | ---------------------------
-`type`                      | `'spin'`
 `duration`                  | the duration of the spin animation. Only set when `method = spinto` or `method = spintoitem`.
 `method`                    | The method that was used to spin the wheel (`interact`, `spin`, `spinto`, `spintoitem`).
 `rotationResistance`        | The value of `Wheel.rotationResistance` at the time the event was raised.</p><p>Only set when `method = interact` or `method = spin`.
