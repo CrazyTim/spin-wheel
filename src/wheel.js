@@ -218,7 +218,7 @@ export class Wheel {
 
       const item = this._items[i];
 
-      if (!util.isImageLoaded(item.image)) return;
+      if (!util.isImageLoaded(item.image)) continue;
 
       ctx.save();
 
