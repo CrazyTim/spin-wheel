@@ -201,7 +201,8 @@ Note: setting a property to `undefined` will reset it to the default value.
 Name                            | Default Value     | Description
 ------------------------------- | ----------------- | ---------------------------
 `backgroundColor`               | `null`            | The background color of the item.</p><p>When `null`, the actual color rendered will fall back to `Wheel.itemBackgroundColors`.</p><p>Example: `'#fff'`.
-`image`                         | `null`            | The url of an image that will be drawn on the item. Any part of the image that extends outside the item will be clipped.
+`image`                         | `null`            | The url of an image that will be drawn on the item. Any part of the image that extends outside the item will be clipped. The image will be drawn over the top of `Item.backgroundColor`.
+`imageOpacity`                  | `1`               | The opacity (as a percent) of `Item.image`. Useful if you want to fade the image to make the item's label stand out.
 `imageRadius`                   | `0.5`             | The point along the radius (as a percent, starting from the center of the wheel) to draw the center of `Item.image`.
 `imageRotation`                 | `0`               | The rotation (angle in degrees) of `Item.image`.
 `imageScale`                    | `1`               | The scale (as a percent) to resize `Item.image`.

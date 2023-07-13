@@ -234,6 +234,8 @@ export class Wheel {
 
       ctx.rotate(util.degRad(angle + item.imageRotation));
 
+      ctx.globalAlpha = item.imageOpacity;
+
       const width = (this._size / 500) * item.image.width * item.imageScale;
       const height = (this._size / 500) * item.image.height * item.imageScale;
       const widthHalf = -width / 2;

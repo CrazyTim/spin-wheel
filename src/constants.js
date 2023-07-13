@@ -59,6 +59,7 @@ export const Defaults = Object.freeze({
   item: {
     backgroundColor: null,
     image: null,
+    imageOpacity: 1,
     imageRadius: 0.5,
     imageRotation: 0,
     imageScale: 1,
