@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Item default state is correct 1`] = `
+exports[`Initial state is correct 1`] = `
 Item {
   "_backgroundColor": null,
   "_image": null,
@@ -9,8 +9,7 @@ Item {
   "_imageScale": 1,
   "_label": "",
   "_labelColor": null,
-  "_labelFont": null,
-  "_value": undefined,
+  "_value": null,
   "_weight": 1,
   "_wheel": Wheel {
     "_actualRadius": 237.5,

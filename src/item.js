@@ -42,7 +42,7 @@ export class Item {
 
   /**
    * The background color of the item.
-   * Falls back to `Wheel.itemBackgroundColors` when `null`.
+   * When `null`, the actual color rendered will fall back to `Wheel.itemBackgroundColors`.
    * Example: `'#fff'`.
    */
   get backgroundColor() {
@@ -139,7 +139,7 @@ export class Item {
 
   /**
    * The color of the label.
-   * Falls back to `Wheel.itemLabelColors` when `null`.
+   * When `null`, the actual color rendered will fall back to `Wheel.itemLabelColors`.
    * Example: `'#000'`.
    */
   get labelColor() {
@@ -162,7 +162,11 @@ export class Item {
     return this._value;
   }
   set value(val) {
-    this._value = val;
+    if (val !== undefined) {
+      this._value = val;
+    } else {
+      this._value = Defaults.item.value;
+    }
   }
 
   /**

@@ -40,7 +40,7 @@ test('Mocked requestAnimationFrame works', async () => {
 
 });
 
-test('Wheel default state is correct', () => {
+test('Initial state is correct', () => {
   const wheel = createWheel();
   expect(wheel).toMatchSnapshot();
 });
@@ -56,7 +56,7 @@ test('Should throw when initialised without container param', () => {
   }).toThrow('container must be an instance of Element');
 });
 
-test('Each Wheel property has a coresponding default value', () => {
+test('A default value exists for each property', () => {
 
   const wheel = createWheel();
   const setters = getInstanceProperties(wheel).setters;
@@ -67,7 +67,7 @@ test('Each Wheel property has a coresponding default value', () => {
 
 });
 
-test('Each Wheel property is given a Default value when the Wheel is initalised', () => {
+test('Each property is given a default value when instantiated', () => {
 
   const wheel = createWheel();
   const setters = getInstanceProperties(wheel).setters;
@@ -78,7 +78,7 @@ test('Each Wheel property is given a Default value when the Wheel is initalised'
 
 });
 
-test('getItemAngles() works', () => {
+test('Method "getItemAngles" works', () => {
 
   const wheel = createWheel({
     numberOfItems: 4,
@@ -93,7 +93,7 @@ test('getItemAngles() works', () => {
 
 });
 
-test('getItemAngles() works when weighted', () => {
+test('Method "getItemAngles" works when weighted', () => {
 
   const wheel = createWheel({
     items: [
@@ -112,35 +112,7 @@ test('getItemAngles() works when weighted', () => {
 
 });
 
-test('Default value works for itemBackgroundColors', () => {
-
-  const wheel = createWheel({
-    items: [
-      {},
-      {backgroundColor: 'bar'},
-    ],
-  });
-
-  expect(wheel.items[0].backgroundColor).toBe(Defaults.item.backgroundColor);
-  expect(wheel.items[1].backgroundColor).toBe('bar');
-
-});
-
-test('Default value works for itemLabelColors', () => {
-
-  const wheel = createWheel({
-    items: [
-      {},
-      {labelColor: 'bar'},
-    ],
-  });
-
-  expect(wheel.items[0].labelColor).toBe(Defaults.item.labelColor);
-  expect(wheel.items[1].labelColor).toBe('bar');
-
-});
-
-test('spin() works', async () => {
+test('Method "spin" works', async () => {
 
   const wheel = createWheel({
     rotationResistance: -10,
@@ -161,7 +133,7 @@ test('spin() works', async () => {
 
 });
 
-test('spinTo() works', async () => {
+test('Method "spinTo" works', async () => {
 
   const wheel = createWheel();
 
@@ -175,7 +147,7 @@ test('spinTo() works', async () => {
 
 });
 
-test('spinToItem() works', async () => {
+test('Method "spinToItem" works', async () => {
 
   // Note: this is a simple integration test.
   // The full logic is tested elsewhere for `calcWheelRotationForTargetAngle`.
@@ -231,7 +203,7 @@ test('spinToItem() works', async () => {
 
 });
 
-test('getRotationSpeedPlusDrag() works', () => {
+test('Method "getRotationSpeedPlusDrag" works', () => {
 
   const wheel = createWheel({
     rotationResistance: -1,
@@ -261,7 +233,7 @@ test('getRotationSpeedPlusDrag() works', () => {
 
 });
 
-test('rotationSpeedMax works', () => {
+test('Property "rotationSpeedMax" works', () => {
 
   const wheel = createWheel({
     rotationSpeedMax: 1,

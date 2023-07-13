@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Wheel default state is correct 1`] = `
+exports[`Initial state is correct 1`] = `
 Wheel {
   "_actualRadius": 237.5,
   "_borderColor": "#000",
