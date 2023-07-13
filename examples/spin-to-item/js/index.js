@@ -1,5 +1,5 @@
 import {Wheel} from '../../../dist/spin-wheel-esm.js';
-import * as easing from "https://cdn.skypack.dev/d3-ease@3";
+import * as easing from "../../../scripts/easing.js";
 
 window.onload = () => {
 
@@ -56,23 +56,23 @@ window.onload = () => {
     },
     {
       label: 'easeSinInOut',
-      function: easing.easeSinInOut,
+      function: easing.sinInOut,
     },
     {
       label: 'easeCubicOut',
-      function: easing.easeCubicOut,
+      function: easing.cubicOut,
     },
     {
       label: 'easeCubicInOut',
-      function: easing.easeCubicInOut,
+      function: easing.cubicInOut,
     },
     {
       label: 'easeElasticOut',
-      function: easing.easeElasticOut,
+      function: easing.elasticOut,
     },
     {
       label: 'easeBounceOut',
-      function: easing.easeBounceOut,
+      function: easing.bounceOut,
     },
   ];
 
