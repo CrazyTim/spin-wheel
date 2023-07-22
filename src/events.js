@@ -3,7 +3,7 @@ export function register(wheel = {}) {
   registerPointerEvents(wheel);
 
   // Register window resize event:
-  wheel._handler_onResize = wheel.resize.bind(wheel);
+  wheel._handler_onResize = e => wheel.resize(e);
   window.addEventListener('resize', wheel._handler_onResize);
 
   // Monitor when the device resolution (devicePixelRatio) changes:

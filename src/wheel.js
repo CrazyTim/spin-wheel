@@ -204,7 +204,7 @@ export class Wheel {
 
       ctx.fillStyle = item.backgroundColor ?? (
         // Fall back to a value from the repeating set:
-        this.itemBackgroundColors[i % this.itemBackgroundColors.length]
+        this._itemBackgroundColors[i % this._itemBackgroundColors.length]
       );
 
       ctx.fill(item.path);
@@ -307,7 +307,7 @@ export class Wheel {
 
   drawBorder(ctx) {
 
-    if (this.borderWidth <= 0) return;
+    if (this._borderWidth <= 0) return;
 
     const actualBorderWidth = this.getActualBorderWidth();
     const actualBorderColor = this._borderColor || 'transparent';
@@ -336,9 +336,9 @@ export class Wheel {
 
   drawItemLines(ctx, angles = []) {
 
-    if (this.lineWidth <= 0) return;
+    if (this._lineWidth <= 0) return;
 
-    const actualLineWidth = (this.lineWidth / Constants.baseCanvasSize) * this._size;
+    const actualLineWidth = (this._lineWidth / Constants.baseCanvasSize) * this._size;
     const actualBorderWidth = this.getActualBorderWidth();
 
     ctx.translate(
@@ -570,18 +570,20 @@ export class Wheel {
    * Immediately stop the wheel from spinning, regardless of which method was used to spin it.
    */
   stop() {
+
     // Stop the wheel if it was spun via `spin()`.
     this._rotationSpeed = 0;
 
     // Stop the wheel if it was spun via `spinTo()`.
     this._spinToTimeEnd = undefined;
+
   }
 
   /**
    * Return the scaled border size.
    */
   getActualBorderWidth() {
-     return (this.borderWidth / Constants.baseCanvasSize) * this._size;
+     return (this._borderWidth / Constants.baseCanvasSize) * this._size;
   }
 
   getActualPixelRatio() {
@@ -699,7 +701,7 @@ export class Wheel {
    */
   refresh() {
     if (this._frameRequestId === null) {
-      this._frameRequestId = window.requestAnimationFrame(this.draw.bind(this));
+      this._frameRequestId = window.requestAnimationFrame(t => this.draw(t));
     }
   }
 
