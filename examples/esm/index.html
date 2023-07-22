@@ -6,33 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <link rel="icon" href="data:image/x-icon;," type="image/x-icon">
   <link rel="stylesheet" href="./css/index.css"/>
-
-  <script type='module'>
-    import {Wheel} from '../../dist/spin-wheel-esm.js';
-
-    window.onload = () => {
-
-      const props = {
-        items: [
-          {
-            label: 'one',
-          },
-          {
-            label: 'two',
-          },
-          {
-            label: 'three',
-          },
-        ]
-      };
-
-      const container = document.querySelector('.wheel-wrapper');
-
-      window.wheel = new Wheel(container, props);
-
-    }
-  </script>
-
+  <script src="./js/index.js" type="module"></script>
 </head>
 
 <body>
