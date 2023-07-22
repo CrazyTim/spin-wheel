@@ -203,7 +203,7 @@ test('Method "spinToItem" works', async () => {
 
 });
 
-test('Method "getRotationSpeedPlusDrag" works', () => {
+test('Method "getRotationSpeedPlusDrag" works (resistance is applied to wheel correctly)', () => {
 
   const wheel = createWheel({
     rotationResistance: -1,
@@ -244,6 +244,32 @@ test('Property "rotationSpeedMax" works', () => {
 
   wheel.spin(-2);
   expect(wheel.rotationSpeed).toBe(-1);
+
+});
+
+test('Method "stop" works', () => {
+
+  const wheel = createWheel({
+    numberOfItems: 2,
+    rotationResistance: 0,
+  });
+
+  const currentRotation = wheel.rotation;
+
+  // Use Spin:
+  wheel.spin(1);
+  wheel.stop();
+  expect(wheel.rotationSpeed).toBe(0);
+
+  jest.advanceTimersByTime(1000);
+  expect(wheel.rotation).toBe(currentRotation);
+
+  // Use SpinTo:
+  wheel.spinTo(180, 1);
+  wheel.stop();
+
+  jest.advanceTimersByTime(1000);
+  expect(wheel.rotation).toBe(currentRotation);
 
 });
 
