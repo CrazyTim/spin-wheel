@@ -519,7 +519,6 @@ export class Wheel {
    * The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.
    * If no easing function is provided, the default easeSinOut will be used.
    * For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
-   * Note: the `Wheel.rotationSpeed` property will be ignored during the animation.
    */
   spinTo(rotation = 0, duration = 0, easingFunction = null) {
 
@@ -541,7 +540,6 @@ export class Wheel {
    * The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.
    * If no easing function is provided, the default easeSinOut will be used.
    * For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
-   * Note: the `Wheel.rotationSpeed` property will be ignored during the animation.
    */
   spinToItem(itemIndex = 0, duration = 0, spinToCenter = true, numberOfRevolutions = 1, direction = 1, easingFunction = null) {
 

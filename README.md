@@ -11,7 +11,7 @@ An easy to use, themeable component for randomising choices and prizes.
 - Simple, easy to use API.
 - Spin by applying momentum and drag, or animate to a specific angle with easing.
 - Interactable with click-drag or touch-flick.
-- Responsive layout - everything in the wheel resizes automatically to fit it's container.
+- Responsive layout (resizes automatically to fit it's container).
 - Easily themeable:
   - Give items their own color and weight.
   - Rotate labels and change alignment.
@@ -67,18 +67,16 @@ const wheel = new Wheel(container, props);
 
 ## How to spin the wheel
 
-The most useful way is to call `Wheel.spinToItem()`. The wheel will spin for a certain duration, and once finished the pointer will be pointing at the specified item. For non-trivial applications (such as multiplayer games, or awarding prizes with actual value) you should always calculate the winning item on the back-end, and only use the front-end to display the result. For example:
+For multiplayer games or awarding prizes with actual value, the best way is to call `Wheel.spinToItem()`. The wheel will spin for a certain duration, and once finished the pointer will be pointing at the specified item. You should always calculate the winning item on the back-end, for example:
 
 ```javascript
-const winningItemIndex = await fetchWinningItemIndex(); // For example, this might return a value of 2.
+const winningItemIndex = await fetchWinningItemIndex();
 const duration = 4000;
 const easing = easing.cubicOut;
 wheel.spinToItem(winningItemIndex, duration, true, 2, 1, easing)
 ```
 
-If precision is less important, you can use `Wheel.spin()` to immediately start spinning the wheel at a certain speed. This sets the wheel's `rotationSpeed`, which will be reduced over time according to `Wheel.rotationResistance`.
-
-You can also set `Wheel.isInteractive = true` to allow the user to spin the wheel themselves by dragging or flicking.
+If precision is not important, you can use `Wheel.spin()` to immediately start spinning the wheel at a certain speed, which will be reduced over time according to `Wheel.rotationResistance`. You can also set `Wheel.isInteractive = true` to allow the user to spin the wheel themselves by dragging or flicking.
 
 ## Examples
 
@@ -109,8 +107,8 @@ Method                                                              | Descriptio
 `constructor(container, props = {})`                                | `container` must be an Element.</p><p>`props` must be an Object or null.
 `init(props = {})`                                                  | Initialise all properties.</p><The>If a value is not provided for a property then it will be given a default value.
 `spin(rotationSpeed = 0)`                                           | Spin the wheel by setting `rotationSpeed`. The wheel will immediately start spinning, and slow down over time depending on the value of `rotationResistance`.</p><p>A positive number will spin clockwise, a negative number will spin anticlockwise.
-`spinTo(rotation = 0, duration = 0, easingFunction = null)`         | Spin the wheel to a particular rotation.</p><p>The animation will occur over the provided `duration` (milliseconds).</p><p>The `rotationSpeed` property will be ignored during the animation.</p><p>The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.</p><p>For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
-`spinToItem(itemIndex = 0, duration = 0, spinToCenter = true, numberOfRevolutions = 1, easingFunction = null)` | Spin the wheel to a particular item.</p><p>The animation will occur over the provided `duration` (milliseconds).</p><p>If `spinToCenter` is true, the wheel will spin to the center of the item, otherwise the wheel will spin to a random angle inside the item.</p><p>`numberOfRevolutions` controls how many times the wheel will rotate a full 360 degrees before resting on the item.</p><p>The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.</p><p>If no easing function is provided, the default easeSinOut will be used.</p><p>For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).</p><p>Note: the `Wheel.rotationSpeed` property will be ignored during the animation.
+`spinTo(rotation = 0, duration = 0, easingFunction = null)`         | Spin the wheel to a particular rotation.</p><p>The animation will occur over the provided `duration` (milliseconds).<p>The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.</p><p>If no easing function is provided, the default easeSinOut will be used.</p><p>For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
+`spinToItem(itemIndex = 0, duration = 0, spinToCenter = true, numberOfRevolutions = 1, easingFunction = null)` | Spin the wheel to a particular item.</p><p>The animation will occur over the provided `duration` (milliseconds).</p><p>If `spinToCenter` is true, the wheel will spin to the center of the item, otherwise the wheel will spin to a random angle inside the item.</p><p>`numberOfRevolutions` controls how many times the wheel will rotate a full 360 degrees before resting on the item.</p><p>The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.</p><p>If no easing function is provided, the default easeSinOut will be used.</p><>For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
 `stop()`                                                            | Immediately stop the wheel from spinning, regardless of which method was used to spin it.
 `getCurrentIndex()`                                                 | Get the index of the item that the Pointer is pointing at.</p><p>An item is considered "current" if `pointerAngle` is between it's start angle (inclusive) and it's end angle (exclusive).
 
