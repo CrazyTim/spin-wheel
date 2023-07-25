@@ -513,6 +513,7 @@ export class Wheel {
    */
   spin(rotationSpeed = 0) {
     if (!util.isNumber(rotationSpeed)) throw new Error('rotationSpeed must be a number');
+    this.dragEvents = [];
     this.beginSpin(rotationSpeed, 'spin');
   }
 
@@ -529,6 +530,8 @@ export class Wheel {
     if (!util.isNumber(duration)) throw new Error('Error: duration must be a number');
 
     this.stop();
+
+    this.dragEvents = [];
 
     this.animate(rotation, duration, easingFunction);
 
@@ -548,6 +551,8 @@ export class Wheel {
   spinToItem(itemIndex = 0, duration = 0, spinToCenter = true, numberOfRevolutions = 1, direction = 1, easingFunction = null) {
 
     this.stop();
+
+    this.dragEvents = [];
 
     const itemAngle = spinToCenter ? this.items[itemIndex].getCenterAngle() : this.items[itemIndex].getRandomAngle();
 
@@ -1303,7 +1308,7 @@ export class Wheel {
       now:performance.now(),
     });
 
-    // Retain max 40 events when debugging.
+    // Retain max 40 drag events.
     if (this.debug && this.dragEvents.length >= 40) this.dragEvents.pop();
 
     // Snap the wheel to the new rotation.
@@ -1332,6 +1337,7 @@ export class Wheel {
 
       // Exclude old events:
       this.dragEvents.length = i;
+      if (this.debug) this.refresh(); // Redraw drag events after trimming the array.
       break;
 
     }
