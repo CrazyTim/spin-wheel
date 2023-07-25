@@ -8,7 +8,8 @@ window.onload = () => {
   const dropdownEasingFunction = document.querySelector('select.easing-function');
   const dropdownRevolutions = document.querySelector('select.revolutions');
 
-  const btnSpin = document.querySelector('.gui-wrapper button');
+  const btnSpin = document.querySelector('.gui-wrapper .btn-spin');
+  const btnStop = document.querySelector('.gui-wrapper .btn-stop');
 
   const props = {
     debug: true, // So we can see pointer angle.
@@ -105,6 +106,11 @@ window.onload = () => {
       const spinDirection = parseInt(document.querySelector('input[name="spinDirection"]:checked').value);
       const revolutions = parseInt(dropdownRevolutions.value);
       wheel.spinToItem(winningItemIndex, duration, true, revolutions, spinDirection, easingFunction);
+    }
+
+    // Listen for click event on stop button:
+    if (e.target == btnStop) {
+      wheel.stop();
     }
 
   });
