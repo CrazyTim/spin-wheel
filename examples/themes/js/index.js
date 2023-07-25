@@ -25,9 +25,6 @@ function init() {
     wheel.init({
       ...props[dropdown.selectedIndex],
       rotation: wheel.rotation, // Preserve value.
-      onCurrentIndexChange: e => console.log(e),
-      onRest: e => console.log(e),
-      onSpin: e => console.log(e),
     });
   }
 

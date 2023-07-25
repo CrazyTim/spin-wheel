@@ -20,7 +20,8 @@ export class Wheel {
     this._frameRequestId = null;
     this._rotationSpeed = 0;
     this._rotationDirection = 1;
-    this._lastSpinFrameTime = undefined;
+    this._spinToTimeEnd = null; // Used to animate the wheel for spinTo()
+    this._lastSpinFrameTime = null; // Used to animate the wheel for spin()
 
     this._canvasContainer = container;
     this.canvas = document.createElement('canvas');
@@ -439,12 +440,12 @@ export class Wheel {
   animateRotation(now = 0) {
 
     // For spinTo()
-    if (this._spinToTimeEnd !== undefined) {
+    if (this._spinToTimeEnd !== null) {
 
       // Check if we should end the animation:
       if (now >= this._spinToTimeEnd) {
         this.rotation = this._spinToEndRotation;
-        this._spinToTimeEnd = undefined;
+        this._spinToTimeEnd = null;
         this.raiseEvent_onRest();
         return;
       }
@@ -463,7 +464,7 @@ export class Wheel {
     }
 
     // For spin()
-    if (this._lastSpinFrameTime !== undefined) {
+    if (this._lastSpinFrameTime !== null) {
 
       const delta = now - this._lastSpinFrameTime;
 
@@ -475,7 +476,7 @@ export class Wheel {
         // Check if we should end the animation:
         if (this._rotationSpeed === 0) {
           this.raiseEvent_onRest();
-          this._lastSpinFrameTime = undefined;
+          this._lastSpinFrameTime = null;
         } else {
           this._lastSpinFrameTime = now;
         }
@@ -573,11 +574,12 @@ export class Wheel {
    */
   stop() {
 
+    // Stop the wheel if it was spun via `spinTo()`.
+    this._spinToTimeEnd = null;
+
     // Stop the wheel if it was spun via `spin()`.
     this._rotationSpeed = 0;
-
-    // Stop the wheel if it was spun via `spinTo()`.
-    this._spinToTimeEnd = undefined;
+    this._lastSpinFrameTime = null;
 
   }
 

@@ -187,7 +187,7 @@ Wheel {
   "_itemLabelRadiusMax": 0.2,
   "_itemLabelRotation": 0,
   "_items": Array [],
-  "_lastSpinFrameTime": undefined,
+  "_lastSpinFrameTime": null,
   "_lineColor": "#000",
   "_lineWidth": 1,
   "_offset": Object {
@@ -207,6 +207,7 @@ Wheel {
   "_rotationSpeed": 0,
   "_rotationSpeedMax": 300,
   "_size": 500,
+  "_spinToTimeEnd": null,
   "canvas": <canvas
     height="500"
     style="width: 500px; height: 500px;"
