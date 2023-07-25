@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Item default state is correct 1`] = `
+exports[`Initial state is correct 1`] = `
 Item {
   "_backgroundColor": null,
   "_image": null,
+  "_imageOpacity": 1,
   "_imageRadius": 0.5,
   "_imageRotation": 0,
   "_imageScale": 1,
   "_label": "",
   "_labelColor": null,
-  "_labelFont": null,
-  "_value": undefined,
+  "_value": null,
   "_weight": 1,
   "_wheel": Wheel {
     "_actualRadius": 237.5,
@@ -198,6 +198,7 @@ Item {
     "_itemLabelRadiusMax": 0.2,
     "_itemLabelRotation": 0,
     "_items": Array [],
+    "_lastSpinFrameTime": null,
     "_lineColor": "#000",
     "_lineWidth": 1,
     "_offset": Object {
@@ -217,6 +218,7 @@ Item {
     "_rotationSpeed": 0,
     "_rotationSpeedMax": 300,
     "_size": 500,
+    "_spinToTimeEnd": null,
     "canvas": <canvas
       height="500"
       style="width: 500px; height: 500px;"

@@ -12,14 +12,16 @@ export class Wheel {
    */
   constructor(container, props = {}) {
 
+    // Validate params.
+    if (!(container instanceof Element)) throw new Error('container must be an instance of Element');
+    if (!util.isObject(props) && props !== null) throw new Error('props must be an Object or null');
+
     // Init some things:
     this._frameRequestId = null;
     this._rotationSpeed = 0;
     this._rotationDirection = 1;
-
-    // Validate params.
-    if (!(container instanceof Element)) throw new Error('container must be an instance of Element');
-    if (!util.isObject(props) && props !== null) throw new Error('props must be an Object or null');
+    this._spinToTimeEnd = null; // Used to animate the wheel for spinTo()
+    this._lastSpinFrameTime = null; // Used to animate the wheel for spin()
 
     this._canvasContainer = container;
     this.canvas = document.createElement('canvas');
@@ -203,7 +205,7 @@ export class Wheel {
 
       ctx.fillStyle = item.backgroundColor ?? (
         // Fall back to a value from the repeating set:
-        this.itemBackgroundColors[i % this.itemBackgroundColors.length]
+        this._itemBackgroundColors[i % this._itemBackgroundColors.length]
       );
 
       ctx.fill(item.path);
@@ -218,7 +220,7 @@ export class Wheel {
 
       const item = this._items[i];
 
-      if (!util.isImageLoaded(item.image)) return;
+      if (!util.isImageLoaded(item.image)) continue;
 
       ctx.save();
 
@@ -232,6 +234,8 @@ export class Wheel {
       );
 
       ctx.rotate(util.degRad(angle + item.imageRotation));
+
+      ctx.globalAlpha = item.imageOpacity;
 
       const width = (this._size / 500) * item.image.width * item.imageScale;
       const height = (this._size / 500) * item.image.height * item.imageScale;
@@ -306,7 +310,7 @@ export class Wheel {
 
   drawBorder(ctx) {
 
-    if (this.borderWidth <= 0) return;
+    if (this._borderWidth <= 0) return;
 
     const actualBorderWidth = this.getActualBorderWidth();
     const actualBorderColor = this._borderColor || 'transparent';
@@ -335,9 +339,9 @@ export class Wheel {
 
   drawItemLines(ctx, angles = []) {
 
-    if (this.lineWidth <= 0) return;
+    if (this._lineWidth <= 0) return;
 
-    const actualLineWidth = (this.lineWidth / Constants.baseCanvasSize) * this._size;
+    const actualLineWidth = (this._lineWidth / Constants.baseCanvasSize) * this._size;
     const actualBorderWidth = this.getActualBorderWidth();
 
     ctx.translate(
@@ -436,17 +440,15 @@ export class Wheel {
   animateRotation(now = 0) {
 
     // For spinTo()
-    if (this._spinToTimeEnd) {
+    if (this._spinToTimeEnd !== null) {
 
-      // Check if we should end the animation.
+      // Check if we should end the animation:
       if (now >= this._spinToTimeEnd) {
         this.rotation = this._spinToEndRotation;
-        this._spinToTimeEnd = undefined;
+        this._spinToTimeEnd = null;
         this.raiseEvent_onRest();
         return;
       }
-
-      this.refresh(); // Ensure the animation loop is active.
 
       const duration = this._spinToTimeEnd - this._spinToTimeStart;
       let delta = (now - this._spinToTimeStart) / duration;
@@ -454,33 +456,38 @@ export class Wheel {
       const distance = this._spinToEndRotation - this._spinToStartRotation;
 
       this.rotation = this._spinToStartRotation + distance * this._spinToEasingFunction(delta);
+
+      this.refresh();
+
       return;
 
     }
 
     // For spin()
-    if (this._rotationSpeed !== 0) {
+    if (this._lastSpinFrameTime !== null) {
 
-      this.refresh(); // Ensure the animation loop is active.
-
-      if (this._lastFrameTime === undefined) this._lastFrameTime = now;
-
-      const delta = now - this._lastFrameTime;
+      const delta = now - this._lastSpinFrameTime;
 
       if (delta > 0) {
 
         this.rotation += ((delta / 1000) * this._rotationSpeed) % 360; // TODO: very small rounding errors can accumulative here.
         this._rotationSpeed = this.getRotationSpeedPlusDrag(delta);
-        if (this._rotationSpeed === 0) this.raiseEvent_onRest();
-        this._lastFrameTime = now;
+
+        // Check if we should end the animation:
+        if (this._rotationSpeed === 0) {
+          this.raiseEvent_onRest();
+          this._lastSpinFrameTime = null;
+        } else {
+          this._lastSpinFrameTime = now;
+        }
 
       }
+
+      this.refresh();
 
       return;
 
     }
-
-    this._lastFrameTime = undefined;
 
   }
 
@@ -506,7 +513,8 @@ export class Wheel {
    */
   spin(rotationSpeed = 0) {
     if (!util.isNumber(rotationSpeed)) throw new Error('rotationSpeed must be a number');
-    this.setSpeedSpeed(rotationSpeed, 'spin');
+    this.dragEvents = [];
+    this.beginSpin(rotationSpeed, 'spin');
   }
 
   /**
@@ -515,13 +523,15 @@ export class Wheel {
    * The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.
    * If no easing function is provided, the default easeSinOut will be used.
    * For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
-   * Note: the `Wheel.rotationSpeed` property will be ignored during the animation.
    */
   spinTo(rotation = 0, duration = 0, easingFunction = null) {
 
-    if (Number.isNaN(rotation)) throw new Error('Error: newRotation parameter is NaN'); // TODO: check is valid number. Same for duration param.
+    if (!util.isNumber(rotation)) throw new Error('Error: rotation must be a number');
+    if (!util.isNumber(duration)) throw new Error('Error: duration must be a number');
 
     this.stop();
+
+    this.dragEvents = [];
 
     this.animate(rotation, duration, easingFunction);
 
@@ -537,11 +547,12 @@ export class Wheel {
    * The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.
    * If no easing function is provided, the default easeSinOut will be used.
    * For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
-   * Note: the `Wheel.rotationSpeed` property will be ignored during the animation.
    */
   spinToItem(itemIndex = 0, duration = 0, spinToCenter = true, numberOfRevolutions = 1, direction = 1, easingFunction = null) {
 
     this.stop();
+
+    this.dragEvents = [];
 
     const itemAngle = spinToCenter ? this.items[itemIndex].getCenterAngle() : this.items[itemIndex].getRandomAngle();
 
@@ -567,18 +578,21 @@ export class Wheel {
    * Immediately stop the wheel from spinning, regardless of which method was used to spin it.
    */
   stop() {
-    // Stop the wheel if it was spun via `spin()`.
-    this._rotationSpeed = 0;
 
     // Stop the wheel if it was spun via `spinTo()`.
-    this._spinToTimeEnd = undefined;
+    this._spinToTimeEnd = null;
+
+    // Stop the wheel if it was spun via `spin()`.
+    this._rotationSpeed = 0;
+    this._lastSpinFrameTime = null;
+
   }
 
   /**
    * Return the scaled border size.
    */
   getActualBorderWidth() {
-     return (this.borderWidth / Constants.baseCanvasSize) * this._size;
+     return (this._borderWidth / Constants.baseCanvasSize) * this._size;
   }
 
   getActualPixelRatio() {
@@ -696,7 +710,7 @@ export class Wheel {
    */
   refresh() {
     if (this._frameRequestId === null) {
-      this._frameRequestId = window.requestAnimationFrame(this.draw.bind(this));
+      this._frameRequestId = window.requestAnimationFrame(t => this.draw(t));
     }
   }
 
@@ -706,10 +720,11 @@ export class Wheel {
     return Math.max(newSpeed, -max);
   }
 
-  setSpeedSpeed(speed = 0, spinMethod = '') {
+  beginSpin(speed = 0, spinMethod = '') {
     this.stop();
 
     this._rotationSpeed = this.limitSpeed(speed, this._rotationSpeedMax);
+    this._lastSpinFrameTime = performance.now();
 
     this._rotationDirection = (this._rotationSpeed >= 0) ? 1 : -1; // 1 for clockwise or stationary, -1 for anticlockwise.
 
@@ -1015,6 +1030,7 @@ export class Wheel {
     });
 
     this.refreshCurrentIndex(this.getItemAngles(this._rotation));
+    this.resize(); // Refresh item label font size.
   }
 
   /**
@@ -1292,7 +1308,7 @@ export class Wheel {
       now:performance.now(),
     });
 
-    // Retain max 40 events when debugging.
+    // Retain max 40 drag events.
     if (this.debug && this.dragEvents.length >= 40) this.dragEvents.pop();
 
     // Snap the wheel to the new rotation.
@@ -1321,6 +1337,7 @@ export class Wheel {
 
       // Exclude old events:
       this.dragEvents.length = i;
+      if (this.debug) this.refresh(); // Redraw drag events after trimming the array.
       break;
 
     }
@@ -1329,7 +1346,7 @@ export class Wheel {
 
     if (dragDistance === 0) return;
 
-    this.setSpeedSpeed(dragDistance * (1000 / Constants.dragCapturePeriod), 'interact');
+    this.beginSpin(dragDistance * (1000 / Constants.dragCapturePeriod), 'interact');
 
   }
 

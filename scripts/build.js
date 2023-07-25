@@ -32,13 +32,12 @@ const servePath = process.argv.filter(i => i.startsWith('-servePath='))[0]?.subs
 const servePathNpm = process.env.npm_config_servepath;
 const shouldStartWebServer = !!servePathNpm || !!servePath;
 const format = process.argv.includes('-iife') ? 'iife' : 'esm';
-console.log(shouldStartWebServer);
 const preamble = [
   `/**\n`,
   ` * ${p.name} (${format.toUpperCase()}) v${p.version}\n`,
   ` * ${p.homepage}\n`,
   ` * Copyright (c) ${p.author} ${util.dateFormat (new Date (), '%Y')}.\n`,
-  ` * Distributed under the MIT License.\n`,
+  ` * Distributed under the ${p.license} license.\n`,
   ` */`,
 ];
 

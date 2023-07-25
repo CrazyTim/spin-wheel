@@ -1,25 +1,48 @@
-import {beforeEach, test, expect} from '@jest/globals';
-import * as fixture from '../scripts/test-fixture.js';
-import {Wheel} from './wheel.js';
+import {test, expect} from '@jest/globals';
+import {Defaults} from './constants.js';
 import {Item} from './item.js';
+import {createWheel} from '../scripts/test.js';
+import {getInstanceProperties} from '../scripts/util.js';
 
-beforeEach(() => {
-  fixture.initWheel();
-});
-
-test('Item default state is correct', () => {
-  const item = new Item(fixture.wheel);
+test('Initial state is correct', () => {
+  const wheel = createWheel();
+  const item = new Item(wheel);
   expect(item).toMatchSnapshot();
 });
 
-test('Item can be initialised', () => {
-  new Item(fixture.wheel);
-  new Item(fixture.wheel, null);
-  new Item(fixture.wheel, {});
+test('Can be instantiated', () => {
+  const wheel = createWheel({});
+  new Item(wheel);
+  new Item(wheel, null);
+  new Item(wheel, {});
 });
 
-test('Should throw when initialised without wheel param', () => {
+test('Should throw when instantiated without wheel param', () => {
   expect(() => {
     return new Item();
   }).toThrow('wheel must be an instance of Wheel');
+});
+
+test('A default value exists for each property', () => {
+
+  const wheel = createWheel({});
+  const item = new Item(wheel);
+  const setters = getInstanceProperties(item).setters;
+
+  for (const i of setters) {
+    expect(Defaults.item[i]).not.toBe(undefined);
+  }
+
+});
+
+test('Each property is given a default value when instantiated', () => {
+
+  const wheel = createWheel();
+  const item = new Item(wheel);
+  const setters = getInstanceProperties(item).setters;
+
+  for (const i of setters) {
+    expect(item[i]).toEqual(Defaults.item[i]);
+  }
+
 });

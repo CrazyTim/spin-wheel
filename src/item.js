@@ -31,6 +31,7 @@ export class Item {
   init(props = {}) {
     this.backgroundColor = props.backgroundColor;
     this.image = props.image;
+    this.imageOpacity = props.imageOpacity;
     this.imageRadius = props.imageRadius;
     this.imageRotation = props.imageRotation;
     this.imageScale = props.imageScale;
@@ -42,7 +43,7 @@ export class Item {
 
   /**
    * The background color of the item.
-   * Falls back to `Wheel.itemBackgroundColors` when `null`.
+   * When `null`, the actual color rendered will fall back to `Wheel.itemBackgroundColors`.
    * Example: `'#fff'`.
    */
   get backgroundColor() {
@@ -60,6 +61,7 @@ export class Item {
   /**
    * The url of an image that will be drawn on the item.
    * Any part of the image that extends outside the item will be clipped.
+   * The image will be drawn over the top of `Item.backgroundColor`.
    */
   get image() {
     return this._image;
@@ -74,6 +76,22 @@ export class Item {
       img = Defaults.item.image;
     }
     this._image = img;
+    this._wheel.refresh();
+  }
+
+  /**
+   * The opacity (as a percent) of `Item.image`.
+   * Useful if you want to fade the image to make the item's label stand out.
+   */
+  get imageOpacity() {
+    return this._imageOpacity;
+  }
+  set imageOpacity(val) {
+    if (typeof val === 'number') {
+      this._imageOpacity = val;
+    } else {
+      this._imageOpacity = Defaults.item.imageOpacity;
+    }
     this._wheel.refresh();
   }
 
@@ -139,7 +157,7 @@ export class Item {
 
   /**
    * The color of the label.
-   * Falls back to `Wheel.itemLabelColors` when `null`.
+   * When `null`, the actual color rendered will fall back to `Wheel.itemLabelColors`.
    * Example: `'#000'`.
    */
   get labelColor() {
@@ -162,7 +180,11 @@ export class Item {
     return this._value;
   }
   set value(val) {
-    this._value = val;
+    if (val !== undefined) {
+      this._value = val;
+    } else {
+      this._value = Defaults.item.value;
+    }
   }
 
   /**
