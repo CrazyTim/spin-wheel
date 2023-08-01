@@ -53,6 +53,7 @@ try {
     globalName: 'spinWheel', // This setting is only for IIFE format.
     watch: shouldStartWebServer,
     banner: {'js': preamble.join('')},
+    sourcemap: true,
   })
 } catch (error) {
   console.error(error);
