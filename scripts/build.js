@@ -29,12 +29,13 @@ const p = JSON.parse(
 
 const entryPoint = process.argv.filter(i => i.startsWith('-entryPoint='))[0]?.substring(12);
 const servePath = process.argv.filter(i => i.startsWith('-servePath='))[0]?.substring(11);
+const format = process.argv.filter(i => i.startsWith('-format='))[0]?.substring(8);
+const formatPreamble = format ? ' (' + format.toUpperCase() + ') ': ' ';
 const servePathNpm = process.env.npm_config_servepath;
 const shouldStartWebServer = !!servePathNpm || !!servePath;
-const format = process.argv.includes('-iife') ? 'iife' : 'esm';
 const preamble = [
   `/**\n`,
-  ` * ${p.name} (${format.toUpperCase()}) v${p.version}\n`,
+  ` * ${p.name}${formatPreamble}v${p.version}\n`,
   ` * ${p.homepage}\n`,
   ` * Copyright (c) ${p.author} ${util.dateFormat (new Date (), '%Y')}.\n`,
   ` * Distributed under the ${p.license} license.\n`,
@@ -44,7 +45,7 @@ const preamble = [
 try {
   await esbuild.build({
     entryPoints: [entryPoint],
-    outfile: `dist/${p.name}-${format}.js`,
+    outfile: `dist/${p.name}${format ? '-' + format : ''}.js`,
     bundle: true,
     minify: true,
     target: ['es6'],
