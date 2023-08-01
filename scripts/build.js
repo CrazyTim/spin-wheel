@@ -31,6 +31,8 @@ const entryPoint = process.argv.filter(i => i.startsWith('-entryPoint='))[0]?.su
 const servePath = process.argv.filter(i => i.startsWith('-servePath='))[0]?.substring(11);
 const format = process.argv.filter(i => i.startsWith('-format='))[0]?.substring(8);
 const formatPreamble = format ? ' (' + format.toUpperCase() + ') ': ' ';
+const fileName = process.argv.filter(i => i.startsWith('-fileName='))[0]?.substring(10);
+const defaultFileName = p.name + '.js';
 const servePathNpm = process.env.npm_config_servepath;
 const shouldStartWebServer = !!servePathNpm || !!servePath;
 const preamble = [
@@ -45,12 +47,11 @@ const preamble = [
 try {
   await esbuild.build({
     entryPoints: [entryPoint],
-    outfile: `dist/${p.name}${format ? '-' + format : ''}.js`,
+    outfile: `dist/${fileName ?? defaultFileName}`,
     bundle: true,
     minify: true,
     target: ['es6'],
     format: format,
-    globalName: 'spinWheel', // This setting is only for IIFE format.
     watch: shouldStartWebServer,
     banner: {'js': preamble.join('')},
     sourcemap: true,

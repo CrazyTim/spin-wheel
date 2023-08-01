@@ -1,6 +1,6 @@
-import {Wheel} from '../../../dist/spin-wheel-esm.js';
+const wheel = document.querySelector('spin-wheel');
 
-const props = {
+wheel.init({
   items: [
     {
       label: 'one',
@@ -14,12 +14,10 @@ const props = {
   ],
   itemBackgroundColors: ['#fff', '#eee', '#ddd'],
   itemLabelFontSizeMax: 40,
-};
-
-const container = document.querySelector('.wheel-wrapper');
+});
 
 // Save object globally for easy debugging.
-window.wheel = new Wheel(container, props);
+window.wheel = wheel;
 
 // Log events for easy debugging:
 document.addEventListener('spin-wheel:current-index-change', log);

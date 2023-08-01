@@ -2,7 +2,7 @@
 
 # Spin Wheel
 
-An easy to use, themeable component for randomising choices and prizes.
+An easy to use web component for randomising choices and prizes.
 
 ## Features
 
@@ -22,29 +22,39 @@ An easy to use, themeable component for randomising choices and prizes.
 
 ## Installation
 
-### ESM
+There is a single file to register the web component in the browser.
 
-```javascript
-import {Wheel} from 'https://cdn.jsdelivr.net/npm/spin-wheel@4.2.0/dist/spin-wheel-esm.js';
-```
-
-### IIFE
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/spin-wheel@4.2.0/dist/spin-wheel-iife.js"></script>
-```
-
-### Local
+If you're using a bundler you can install from npm and then import it:
 
 ```sh
 npm install spin-wheel
 ```
 
+```javascript
+import 'spin-wheel';
+```
+
+Or simply load it with a script tag:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/spin-wheel@4.2.0/dist/spin-wheel.js"></script>
+```
+
 ## How to make your own wheel
 
+Add a tag in your document:
+
+```html
+<spin-wheel></spin-wheel>
+```
+
+Then you will need some JavaScript to initalise it:
+
 ```javascript
-// 1. Configure the wheel's properties:
-const props = {
+const wheel = document.querySelector('spin-wheel');
+
+wheel.init({
+  lineWidth: 2;
   items: [
     {
       label: 'one',
@@ -56,13 +66,7 @@ const props = {
       label: 'three',
     },
   ]
-}
-
-// 2. Decide where you want it to go:
-const container = document.querySelector('.wheel-container');
-
-// 3. Create the wheel in the container and initialise it with the props:
-const wheel = new Wheel(container, props);
+});
 ```
 
 ## How to spin the wheel
@@ -80,11 +84,10 @@ If precision is not important, you can use `Wheel.spin()` to immediately start s
 
 ## Examples
 
-- [Basic ESM usage](https://crazytim.github.io/spin-wheel/examples/esm)
-- [Basic IIFE usage](https://crazytim.github.io/spin-wheel/examples/iife)
-- [Spin to a specific item](https://crazytim.github.io/spin-wheel/examples/spin-to-item)
+- [Hello World](https://crazytim.github.io/spin-wheel/examples/hello-world)
+- [Spin to an item](https://crazytim.github.io/spin-wheel/examples/spin-to-item)
 - [Themes](https://crazytim.github.io/spin-wheel/examples/themes)
-- [Developer playground (for testing and troubleshooting)](https://crazytim.github.io/spin-wheel/examples/playground)
+- [Playground (for testing and troubleshooting)](https://crazytim.github.io/spin-wheel/examples/playground)
 
 ## Configuration
 

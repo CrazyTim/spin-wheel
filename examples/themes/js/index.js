@@ -1,4 +1,4 @@
-import {Wheel} from '../../../dist/spin-wheel-esm.js';
+import '../../../dist/spin-wheel.js';
 import {loadFonts} from '../../../scripts/util.js';
 import {props} from './props.js';
 
@@ -9,7 +9,7 @@ window.onload = async () => {
 
 function init() {
 
-  const wheel = new Wheel(document.querySelector('.wheel-wrapper'));
+  const wheel = document.querySelector('spin-wheel');
 
   const dropdown = document.querySelector('select');
 

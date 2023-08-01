@@ -35,8 +35,7 @@ body {
   width: 100%;
 }
 
-.wheel-wrapper {
-  overflow: hidden;
+spin-wheel {
   height: 100%;
   width: 100%;
 }

@@ -13,13 +13,13 @@
     "fortune"
   ],
   "type": "module",
+  "main": "./src/wheel.js",
   "scripts": {
     "start": "node scripts/build.js -entryPoint=src/wheel.js -servePath=examples/themes/ -format=esm",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --testPathPattern=src",
     "lint": "eslint src --fix",
-    "build": "npm run lint && npm run test && npm run build-esm && npm run build-iife",
-    "build-esm": "node scripts/build.js -entryPoint=src/wheel.js -format=esm",
-    "build-iife": "node scripts/build.js -entryPoint=src/wheel.js -format=iife"
+    "build": "npm run lint && npm run test && npm run build-iife",
+    "build-iife": "node scripts/build.js -entryPoint=src/wheel.js -format=iife -fileName=spin-wheel.js"
   },
   "jest": {
     "verbose": true,
