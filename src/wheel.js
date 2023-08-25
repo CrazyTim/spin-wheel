@@ -64,6 +64,8 @@ export class Wheel {
     this.itemLabelRadius = props.itemLabelRadius;
     this.itemLabelRadiusMax = props.itemLabelRadiusMax;
     this.itemLabelRotation = props.itemLabelRotation;
+    this.itemLabelStrokeColor = props.itemLabelStrokeColor;
+    this.itemLabelStrokeWidth = props.itemLabelStrokeWidth;
     this.items = props.items;
     this.lineColor = props.lineColor;
     this.lineWidth = props.lineWidth;
@@ -373,6 +375,7 @@ export class Wheel {
 
     const actualItemLabelBaselineOffset = this.itemLabelFontSize * -this.itemLabelBaselineOffset;
     const actualDebugLineWidth = this.getScaledNumber(1);
+    const actualLabelStrokeWidth = this.getScaledNumber(this._itemLabelStrokeWidth * 2);
 
     for (const [i, a] of angles.entries()) {
 
@@ -410,6 +413,13 @@ export class Wheel {
         ctx.stroke();
 
         ctx.strokeRect(0, -this.itemLabelFontSize / 2, -this.labelMaxWidth, this.itemLabelFontSize);
+      }
+
+      if (this._itemLabelStrokeWidth > 0) {
+        ctx.lineWidth = actualLabelStrokeWidth;
+        ctx.strokeStyle = this._itemLabelStrokeColor;
+        ctx.lineJoin = 'round';
+        ctx.strokeText(item.label, 0, actualItemLabelBaselineOffset);
       }
 
       ctx.fillStyle = actualLabelColor;
@@ -998,6 +1008,40 @@ export class Wheel {
       isValid: util.isNumber(val),
       errorMessage: 'Wheel.itemLabelRotation must be a number',
       defaultValue: Defaults.wheel.itemLabelRotation,
+    });
+
+    this.refresh();
+  }
+
+  /**
+   * The color of the stroke applied to the outside of the label text.
+   */
+  get itemLabelStrokeColor() {
+    return this._itemLabelStrokeColor;
+  }
+  set itemLabelStrokeColor(val) {
+    this._itemLabelStrokeColor = util.setProp({
+      val,
+      isValid: typeof val === 'string',
+      errorMessage: 'Wheel.itemLabelStrokeColor must be a string',
+      defaultValue: Defaults.wheel.itemLabelStrokeColor,
+    });
+
+    this.refresh();
+  }
+
+  /**
+   * The width of the stroke applied to the outside of the label text.
+   */
+  get itemLabelStrokeWidth() {
+    return this._itemLabelStrokeWidth;
+  }
+  set itemLabelStrokeWidth(val) {
+    this._itemLabelStrokeWidth = util.setProp({
+      val,
+      isValid: util.isNumber(val),
+      errorMessage: 'Wheel.itemLabelStrokeWidth must be a number',
+      defaultValue: Defaults.wheel.itemLabelStrokeWidth,
     });
 
     this.refresh();

@@ -186,6 +186,8 @@ Wheel {
   "_itemLabelRadius": 0.85,
   "_itemLabelRadiusMax": 0.2,
   "_itemLabelRotation": 0,
+  "_itemLabelStrokeColor": "#fff",
+  "_itemLabelStrokeWidth": 0,
   "_items": Array [],
   "_lastSpinFrameTime": null,
   "_lineColor": "#000",

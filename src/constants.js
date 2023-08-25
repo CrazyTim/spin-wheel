@@ -41,6 +41,8 @@ export const Defaults = Object.freeze({
     itemLabelRadius: 0.85,
     itemLabelRadiusMax: 0.2,
     itemLabelRotation: 0,
+    itemLabelStrokeColor: '#fff',
+    itemLabelStrokeWidth: 0,
     items: [],
     lineColor: '#000',
     lineWidth: 1,

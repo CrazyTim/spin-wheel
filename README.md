@@ -132,6 +132,8 @@ Name                            | Default Value     | Description
 `itemLabelRadius`               | `0.85`            | The point along the radius (as a percent, starting from the center of the wheel) to start drawing all item labels.
 `itemLabelRadiusMax`            | `0.2`             | The point along the radius (as a percent, starting from the center of the wheel) to calculate the maximum font size for all item labels.
 `itemLabelRotation`             | `0`               | The rotation of all item labels.<b>Use this to flip the labels `180°` in combination with `itemLabelAlign`.
+`itemLabelStrokeColor`          | `#fff`            | The color of the stroke applied to the outside of the label text.
+`itemLabelStrokeWidth`          | `0`               | The width of the stroke applied to the outside of the label text.
 `items`                         | `[]`              | The items to show on the wheel.
 `lineColor`                     | `'#000'`          | The color of the lines between the items.
 `lineWidth`                     | `1`               | The width (in pixels) of the lines between the items.
