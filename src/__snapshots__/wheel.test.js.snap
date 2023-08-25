@@ -213,6 +213,7 @@ Wheel {
     style="width: 500px; height: 500px;"
     width="500"
   />,
+  "dragEvents": Array [],
   "itemLabelFontSize": 500,
   "labelMaxWidth": 154.37499999999997,
 }

@@ -1175,7 +1175,7 @@ export class Wheel {
       errorMessage: 'Wheel.pixelRatio must be a number',
       defaultValue: Defaults.wheel.pixelRatio,
     });
-
+    this.dragEvents = [];
     this.resize();
   }
 
