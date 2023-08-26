@@ -18,7 +18,9 @@ Item {
     "_borderWidth": 1,
     "_canvasContainer": <div>
       <canvas
+        aria-label="An image of a spinning prize wheel."
         height="500"
+        role="img"
         style="width: 500px; height: 500px;"
         width="500"
       />
@@ -29,7 +31,9 @@ Item {
     },
     "_context": CanvasRenderingContext2D {
       "_canvas": <canvas
+        aria-label="An image of a spinning prize wheel."
         height="500"
+        role="img"
         style="width: 500px; height: 500px;"
         width="500"
       />,
@@ -222,7 +226,9 @@ Item {
     "_size": 500,
     "_spinToTimeEnd": null,
     "canvas": <canvas
+      aria-label="An image of a spinning prize wheel."
       height="500"
+      role="img"
       style="width: 500px; height: 500px;"
       width="500"
     />,

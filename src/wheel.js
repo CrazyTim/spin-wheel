@@ -754,6 +754,13 @@ export class Wheel {
     this.refresh();
   }
 
+  refreshAriaLabel() {
+    // See https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/img_role
+    this.canvas.setAttribute('role', 'img');
+    const wheelDescription = (this.items.length >= 2) ? ` The wheel has ${this.items.length} slices.` : '';
+    this.canvas.setAttribute('aria-label', 'An image of a spinning prize wheel.' + wheelDescription);
+  }
+
   /**
    * The color of the line around the circumference of the wheel.
    */
@@ -1078,6 +1085,7 @@ export class Wheel {
       },
     });
 
+    this.refreshAriaLabel();
     this.refreshCurrentIndex(this.getItemAngles(this._rotation));
     this.resize(); // Refresh item label font size.
   }
