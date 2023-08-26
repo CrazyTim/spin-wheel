@@ -84,7 +84,7 @@ window.onload = () => {
     const opt = document.createElement('option');
     opt.textContent = item.label;
     opt.value = i;
-    dropdownWinningItem.appendChild(opt);
+    dropdownWinningItem.append(opt);
   }
 
   // Initalise easing functions dropdown:
@@ -92,7 +92,7 @@ window.onload = () => {
     const opt = document.createElement('option');
     opt.textContent = item.label;
     opt.value = i;
-    dropdownEasingFunction.appendChild(opt);
+    dropdownEasingFunction.append(opt);
   }
 
   window.addEventListener('click', (e) => {

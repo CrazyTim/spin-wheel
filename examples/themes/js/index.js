@@ -17,7 +17,7 @@ function init() {
   for (const p of props) {
     const opt = document.createElement('option');
     opt.textContent = p.name;
-    dropdown.appendChild(opt);
+    dropdown.append(opt);
   }
 
   // Handle dropdown change:

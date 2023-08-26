@@ -3,11 +3,7 @@ import {jest} from '@jest/globals';
 
 export function createWheel(props) {
 
-  const container = document.createElement('div');
-  jest.spyOn(container, 'clientWidth', 'get').mockReturnValue(500);
-  jest.spyOn(container, 'clientHeight', 'get').mockReturnValue(500);
-
-  const wheel = new Wheel(container, props);
+  const wheel = new Wheel(createContainer(), props);
   addBlankItems(wheel, props?.numberOfItems);
 
   return wheel;
@@ -25,5 +21,14 @@ function addBlankItems (wheel, numberOfItems) {
   wheel.items = wheel.items.concat(newItems);
 
   return this;
+
+}
+
+export function createContainer() {
+
+  const container = document.createElement('div');
+  jest.spyOn(container, 'clientWidth', 'get').mockReturnValue(500);
+  jest.spyOn(container, 'clientHeight', 'get').mockReturnValue(500);
+  return container;
 
 }

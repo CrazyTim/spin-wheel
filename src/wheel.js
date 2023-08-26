@@ -7,6 +7,7 @@ import {Item} from './item.js';
 export class Wheel {
 
   /**
+   * Create the wheel inside a container Element and initialise it with props.
    * `container` must be an Element.
    * `props` must be an Object or null.
    */
@@ -23,12 +24,7 @@ export class Wheel {
     this._spinToTimeEnd = null; // Used to animate the wheel for spinTo()
     this._lastSpinFrameTime = null; // Used to animate the wheel for spin()
 
-    this._canvasContainer = container;
-    this.canvas = document.createElement('canvas');
-    this._context = this.canvas.getContext('2d');
-
-    this.addCanvas();
-    events.register(this);
+    this.add(container);
 
     // Assign default values.
     // This avoids null exceptions when we initalise each property one-by-one in `init()`.
@@ -82,18 +78,28 @@ export class Wheel {
     this.pointerAngle = props.pointerAngle;
   }
 
-  addCanvas() {
-    this._canvasContainer.appendChild(this.canvas);
+  /**
+   * Add the wheel to the DOM and register event handlers.
+   */
+  add(container) {
+    this._canvasContainer = container;
+    this.canvas = document.createElement('canvas');
+    this._context = this.canvas.getContext('2d');
+    this._canvasContainer.append(this.canvas);
+    events.register(this);
+    if (this._isInitialising === false) this.resize(); // Initalise the canvas's dimensions (but not when called from the constructor).
   }
 
-  removeCanvas() {
-    this._canvasContainer.removeChild(this.canvas);
-  }
-
+  /**
+   * Remove the wheel from the DOM and unregister event handlers.
+   */
   remove() {
     window.cancelAnimationFrame(this._frameRequestId);
     events.unregister(this);
-    this.removeCanvas();
+    this._canvasContainer.removeChild(this.canvas);
+    this._canvasContainer = null;
+    this.canvas = null;
+    this._context = null;
   }
 
   /**
