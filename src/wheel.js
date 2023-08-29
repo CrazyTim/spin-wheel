@@ -883,8 +883,7 @@ export class Wheel {
 
   /**
    * The alignment of all item labels.
-   * Accepted values: `'left'`|`'center'`|`'right'`.
-   * You may need to set `itemLabelRotation` in combination with this.
+   * Accepted values: `'left'`,`'center'`,`'right'`.
    */
   get itemLabelAlign() {
     return this._itemLabelAlign;
@@ -1010,7 +1009,7 @@ export class Wheel {
 
   /**
    * The rotation of all item labels.
-   * Use this to flip the labels `180°` in combination with `itemLabelAlign`.
+   * Use this in combination with `itemLabelAlign` to flip the labels `180°`.
    */
   get itemLabelRotation() {
     return this._itemLabelRotation;
