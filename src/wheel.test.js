@@ -1,6 +1,6 @@
 import {jest, test, expect, beforeEach, afterEach} from '@jest/globals';
 import {Defaults} from './constants.js';
-import {createWheel} from '../scripts/test.js';
+import {createWheel, createContainer} from '../scripts/test.js';
 import {getInstanceProperties} from '../scripts/util.js';
 import {Wheel} from '../src/wheel.js';
 
@@ -270,6 +270,17 @@ test('Method "stop" works', () => {
 
   jest.advanceTimersByTime(1000);
   expect(wheel.rotation).toBe(currentRotation);
+
+});
+
+test('Wheel can be removed from the DOM and added back again', () => {
+
+  const wheel = createWheel({
+    numberOfItems: 2,
+  });
+
+  wheel.remove();
+  wheel.add(createContainer());
 
 });
 

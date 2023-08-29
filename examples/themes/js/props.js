@@ -63,7 +63,7 @@ export const props = [
       {
         label: 'WALL SIT',
       },
-    ]
+    ],
 
   },
 
@@ -150,7 +150,7 @@ export const props = [
         label: 'Pizza',
         weight: 1.3,
       },
-    ]
+    ],
   },
 
   {
@@ -217,7 +217,7 @@ export const props = [
       {
         label: 'Fantasy',
       },
-    ]
+    ],
   },
 
   {
@@ -303,7 +303,7 @@ export const props = [
         weight: 0.8,
         backgroundColor: '#b1ddff',
       },
-    ]
+    ],
   },
 
   {
@@ -340,7 +340,7 @@ export const props = [
       {
         label: 'AMY',
       },
-    ]
+    ],
   },
 
   {
@@ -376,7 +376,7 @@ export const props = [
         imageRadius: 0.6,
         imageScale: 1.2,
       },
-    ]
+    ],
   },
 
   {
@@ -391,7 +391,7 @@ export const props = [
       {
         label: 'three',
       },
-    ]
+    ],
   },
 
 ];

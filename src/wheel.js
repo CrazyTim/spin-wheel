@@ -7,6 +7,7 @@ import {Item} from './item.js';
 export class Wheel {
 
   /**
+   * Create the wheel inside a container Element and initialise it with props.
    * `container` must be an Element.
    * `props` must be an Object or null.
    */
@@ -23,12 +24,7 @@ export class Wheel {
     this._spinToTimeEnd = null; // Used to animate the wheel for spinTo()
     this._lastSpinFrameTime = null; // Used to animate the wheel for spin()
 
-    this._canvasContainer = container;
-    this.canvas = document.createElement('canvas');
-    this._context = this.canvas.getContext('2d');
-
-    this.addCanvas();
-    events.register(this);
+    this.add(container);
 
     // Assign default values.
     // This avoids null exceptions when we initalise each property one-by-one in `init()`.
@@ -64,6 +60,8 @@ export class Wheel {
     this.itemLabelRadius = props.itemLabelRadius;
     this.itemLabelRadiusMax = props.itemLabelRadiusMax;
     this.itemLabelRotation = props.itemLabelRotation;
+    this.itemLabelStrokeColor = props.itemLabelStrokeColor;
+    this.itemLabelStrokeWidth = props.itemLabelStrokeWidth;
     this.items = props.items;
     this.lineColor = props.lineColor;
     this.lineWidth = props.lineWidth;
@@ -80,18 +78,28 @@ export class Wheel {
     this.pointerAngle = props.pointerAngle;
   }
 
-  addCanvas() {
-    this._canvasContainer.appendChild(this.canvas);
+  /**
+   * Add the wheel to the DOM and register event handlers.
+   */
+  add(container) {
+    this._canvasContainer = container;
+    this.canvas = document.createElement('canvas');
+    this._context = this.canvas.getContext('2d');
+    this._canvasContainer.append(this.canvas);
+    events.register(this);
+    if (this._isInitialising === false) this.resize(); // Initalise the canvas's dimensions (but not when called from the constructor).
   }
 
-  removeCanvas() {
-    this._canvasContainer.removeChild(this.canvas);
-  }
-
+  /**
+   * Remove the wheel from the DOM and unregister event handlers.
+   */
   remove() {
     window.cancelAnimationFrame(this._frameRequestId);
     events.unregister(this);
-    this.removeCanvas();
+    this._canvasContainer.removeChild(this.canvas);
+    this._canvasContainer = null;
+    this.canvas = null;
+    this._context = null;
   }
 
   /**
@@ -157,7 +165,7 @@ export class Wheel {
 
     const angles = this.getItemAngles(this._rotation);
 
-    const actualBorderWidth = this.getActualBorderWidth();
+    const actualBorderWidth = this.getScaledNumber(this._borderWidth);
 
     // Set font:
     ctx.textBaseline = 'middle';
@@ -301,7 +309,7 @@ export class Wheel {
     ctx.lineTo(this._actualRadius * 2, 0);
 
     ctx.strokeStyle = Constants.Debugging.pointerLineColor;
-    ctx.lineWidth = 2;
+    ctx.lineWidth = this.getScaledNumber(2);
     ctx.stroke();
 
     ctx.resetTransform();
@@ -312,7 +320,7 @@ export class Wheel {
 
     if (this._borderWidth <= 0) return;
 
-    const actualBorderWidth = this.getActualBorderWidth();
+    const actualBorderWidth = this.getScaledNumber(this._borderWidth);
     const actualBorderColor = this._borderColor || 'transparent';
 
     ctx.beginPath();
@@ -322,15 +330,17 @@ export class Wheel {
     ctx.stroke();
 
     if (this.debug) {
+      const actualDebugLineWidth = this.getScaledNumber(1);
+
       ctx.beginPath();
       ctx.strokeStyle = ctx.strokeStyle = Constants.Debugging.labelRadiusColor;
-      ctx.lineWidth = 1;
+      ctx.lineWidth = actualDebugLineWidth;
       ctx.arc(this._center.x, this._center.y, this._actualRadius * this.itemLabelRadius, 0, 2 * Math.PI);
       ctx.stroke();
 
       ctx.beginPath();
       ctx.strokeStyle = ctx.strokeStyle = Constants.Debugging.labelRadiusColor;
-      ctx.lineWidth = 1;
+      ctx.lineWidth = actualDebugLineWidth;
       ctx.arc(this._center.x, this._center.y, this._actualRadius * this.itemLabelRadiusMax, 0, 2 * Math.PI);
       ctx.stroke();
     }
@@ -341,8 +351,8 @@ export class Wheel {
 
     if (this._lineWidth <= 0) return;
 
-    const actualLineWidth = (this._lineWidth / Constants.baseCanvasSize) * this._size;
-    const actualBorderWidth = this.getActualBorderWidth();
+    const actualLineWidth = this.getScaledNumber(this._lineWidth);
+    const actualBorderWidth = this.getScaledNumber(this._borderWidth);
 
     ctx.translate(
       this._center.x,
@@ -370,6 +380,8 @@ export class Wheel {
   drawItemLabels(ctx, angles = []) {
 
     const actualItemLabelBaselineOffset = this.itemLabelFontSize * -this.itemLabelBaselineOffset;
+    const actualDebugLineWidth = this.getScaledNumber(1);
+    const actualLabelStrokeWidth = this.getScaledNumber(this._itemLabelStrokeWidth * 2);
 
     for (const [i, a] of angles.entries()) {
 
@@ -403,10 +415,17 @@ export class Wheel {
         ctx.lineTo(-this.labelMaxWidth, 0);
 
         ctx.strokeStyle = Constants.Debugging.labelOutlineColor;
-        ctx.lineWidth = 1;
+        ctx.lineWidth = actualDebugLineWidth;
         ctx.stroke();
 
         ctx.strokeRect(0, -this.itemLabelFontSize / 2, -this.labelMaxWidth, this.itemLabelFontSize);
+      }
+
+      if (this._itemLabelStrokeWidth > 0) {
+        ctx.lineWidth = actualLabelStrokeWidth;
+        ctx.strokeStyle = this._itemLabelStrokeColor;
+        ctx.lineJoin = 'round';
+        ctx.strokeText(item.label, 0, actualItemLabelBaselineOffset);
       }
 
       ctx.fillStyle = actualLabelColor;
@@ -423,14 +442,16 @@ export class Wheel {
     if (!this.debug || !this.dragEvents?.length) return;
 
     const dragEventsReversed = [...this.dragEvents].reverse();
+    const actualLineWidth = this.getScaledNumber(0.5);
+    const actualCircleDiameter = this.getScaledNumber(4);
 
     for (const [i, event] of dragEventsReversed.entries()) {
       const percent = (i / this.dragEvents.length) * 100;
       ctx.beginPath();
-      ctx.arc(event.x, event.y, 5, 0, 2 * Math.PI);
+      ctx.arc(event.x, event.y, actualCircleDiameter, 0, 2 * Math.PI);
       ctx.fillStyle = `hsl(${Constants.Debugging.dragEventHue},100%,${percent}%)`;
       ctx.strokeStyle = '#000';
-      ctx.lineWidth = 0.5;
+      ctx.lineWidth = actualLineWidth;
       ctx.fill();
       ctx.stroke();
     }
@@ -589,10 +610,10 @@ export class Wheel {
   }
 
   /**
-   * Return the scaled border size.
+   * Return n scaled to the size of the canvas.
    */
-  getActualBorderWidth() {
-     return (this._borderWidth / Constants.baseCanvasSize) * this._size;
+  getScaledNumber(n) {
+     return (n / Constants.baseCanvasSize) * this._size;
   }
 
   getActualPixelRatio() {
@@ -737,6 +758,13 @@ export class Wheel {
     }
 
     this.refresh();
+  }
+
+  refreshAriaLabel() {
+    // See https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/img_role
+    this.canvas.setAttribute('role', 'img');
+    const wheelDescription = (this.items.length >= 2) ? ` The wheel has ${this.items.length} slices.` : '';
+    this.canvas.setAttribute('aria-label', 'An image of a spinning prize wheel.' + wheelDescription);
   }
 
   /**
@@ -999,6 +1027,40 @@ export class Wheel {
   }
 
   /**
+   * The color of the stroke applied to the outside of the label text.
+   */
+  get itemLabelStrokeColor() {
+    return this._itemLabelStrokeColor;
+  }
+  set itemLabelStrokeColor(val) {
+    this._itemLabelStrokeColor = util.setProp({
+      val,
+      isValid: typeof val === 'string',
+      errorMessage: 'Wheel.itemLabelStrokeColor must be a string',
+      defaultValue: Defaults.wheel.itemLabelStrokeColor,
+    });
+
+    this.refresh();
+  }
+
+  /**
+   * The width of the stroke applied to the outside of the label text.
+   */
+  get itemLabelStrokeWidth() {
+    return this._itemLabelStrokeWidth;
+  }
+  set itemLabelStrokeWidth(val) {
+    this._itemLabelStrokeWidth = util.setProp({
+      val,
+      isValid: util.isNumber(val),
+      errorMessage: 'Wheel.itemLabelStrokeWidth must be a number',
+      defaultValue: Defaults.wheel.itemLabelStrokeWidth,
+    });
+
+    this.refresh();
+  }
+
+  /**
    * The items to show on the wheel.
    */
   get items() {
@@ -1029,6 +1091,7 @@ export class Wheel {
       },
     });
 
+    this.refreshAriaLabel();
     this.refreshCurrentIndex(this.getItemAngles(this._rotation));
     this.resize(); // Refresh item label font size.
   }
@@ -1170,7 +1233,7 @@ export class Wheel {
       errorMessage: 'Wheel.pixelRatio must be a number',
       defaultValue: Defaults.wheel.pixelRatio,
     });
-
+    this.dragEvents = [];
     this.resize();
   }
 

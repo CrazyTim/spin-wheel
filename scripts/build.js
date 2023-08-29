@@ -14,7 +14,6 @@ function startWebServer (startPath) {
     watch: true,
     notify: false,
     ignore: [
-      './bin/*.*',
       './src/*.*', // esbuild is monitoring this folder.
       ],
   });

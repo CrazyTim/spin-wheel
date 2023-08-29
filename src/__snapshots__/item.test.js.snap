@@ -18,7 +18,9 @@ Item {
     "_borderWidth": 1,
     "_canvasContainer": <div>
       <canvas
+        aria-label="An image of a spinning prize wheel."
         height="500"
+        role="img"
         style="width: 500px; height: 500px;"
         width="500"
       />
@@ -29,7 +31,9 @@ Item {
     },
     "_context": CanvasRenderingContext2D {
       "_canvas": <canvas
+        aria-label="An image of a spinning prize wheel."
         height="500"
+        role="img"
         style="width: 500px; height: 500px;"
         width="500"
       />,
@@ -197,6 +201,8 @@ Item {
     "_itemLabelRadius": 0.85,
     "_itemLabelRadiusMax": 0.2,
     "_itemLabelRotation": 0,
+    "_itemLabelStrokeColor": "#fff",
+    "_itemLabelStrokeWidth": 0,
     "_items": Array [],
     "_lastSpinFrameTime": null,
     "_lineColor": "#000",
@@ -220,10 +226,13 @@ Item {
     "_size": 500,
     "_spinToTimeEnd": null,
     "canvas": <canvas
+      aria-label="An image of a spinning prize wheel."
       height="500"
+      role="img"
       style="width: 500px; height: 500px;"
       width="500"
     />,
+    "dragEvents": Array [],
     "itemLabelFontSize": 500,
     "labelMaxWidth": 154.37499999999997,
   },

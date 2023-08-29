@@ -1,5 +1,5 @@
 import {Wheel} from '../../../dist/spin-wheel-esm.js';
-import * as easing from "../../../scripts/easing.js";
+import * as easing from '../../../scripts/easing.js';
 
 window.onload = () => {
 
@@ -47,7 +47,7 @@ window.onload = () => {
         weight: 1,
       },
     ],
-    itemLabelRadiusMax: .5,
+    itemLabelRadiusMax: 0.5,
   };
 
   const easingFunctions = [
@@ -84,7 +84,7 @@ window.onload = () => {
     const opt = document.createElement('option');
     opt.textContent = item.label;
     opt.value = i;
-    dropdownWinningItem.appendChild(opt);
+    dropdownWinningItem.append(opt);
   }
 
   // Initalise easing functions dropdown:
@@ -92,13 +92,13 @@ window.onload = () => {
     const opt = document.createElement('option');
     opt.textContent = item.label;
     opt.value = i;
-    dropdownEasingFunction.appendChild(opt);
+    dropdownEasingFunction.append(opt);
   }
 
   window.addEventListener('click', (e) => {
 
     // Listen for click event on spin button:
-    if (e.target == btnSpin) {
+    if (e.target === btnSpin) {
       const winningItemIndex = fetchWinningItemIndexFromApi();
       const easing = easingFunctions[dropdownEasingFunction.value];
       const easingFunction = easing.function;
@@ -109,7 +109,7 @@ window.onload = () => {
     }
 
     // Listen for click event on stop button:
-    if (e.target == btnStop) {
+    if (e.target === btnStop) {
       wheel.stop();
     }
 
@@ -129,4 +129,4 @@ window.onload = () => {
     return dropdownWinningItem.value;
   }
 
-}
+};

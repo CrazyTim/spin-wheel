@@ -1,41 +1,48 @@
 const inputGroups = document.querySelectorAll('.input-group');
 
-const wheelPropInits = {
-  'borderColor': initTextbox,
-  'borderWidth': initRange,
-  'debug': initCheckbox,
-  'image': initImage,
-  'isInteractive': initCheckbox,
-  'itemBackgroundColors': initTextboxArray,
-  'itemLabelAlign': initTextbox,
-  'itemLabelBaselineOffset': initRange,
-  'itemLabelColors': initTextboxArray,
-  'itemLabelFont': initTextbox,
-  'itemLabelFontSizeMax': initRange,
-  'itemLabelRadius': initRange,
-  'itemLabelRadiusMax': initRange,
-  'itemLabelRotation': initRange,
-  //'items': TODO
-  'lineColor': initTextbox,
-  'lineWidth': initRange,
-  //'offset': initRange,
-  'overlayImage': initImage,
-  'pixelRatio': initRange,
-  'pointerAngle': initRange,
-  'radius': initRange,
-  'rotationResistance': initRange,
-  'rotationSpeedMax': initRange,
-}
-
 for (const g of inputGroups) {
 
-  const span = g.querySelector('h2 .prop-name');
+  // Add header:
+  const header = document.createElement('h2');
+  header.innerHTML = '<span class="prop-name"></span><span class="prop-value"></span>';
+  header.querySelector('.prop-name').textContent = g.dataset.name + ':';
+  g.prepend(header);
 
-  if (span) {
-    span.textContent = g.dataset.name + ':';
+  if (g.dataset.type === 'textbox') {
+    const el = document.createElement('input');
+    el.type = 'input';
+    g.append(el);
+    initTextboxOrColor(g);
+  } else if (g.dataset.type === 'color') {
+    const el = document.createElement('input');
+    el.type = 'color';
+    g.append(el);
+    initTextboxOrColor(g);
+  } else if (g.dataset.type === 'textboxArray') {
+    const el = document.createElement('input');
+    el.type = 'input';
+    g.append(el);
+    initTextboxArray(g);
+  } else if (g.dataset.type === 'range') {
+    const el = document.createElement('input');
+    el.type = 'range';
+    el.min = g.dataset.min;
+    el.max = g.dataset.max;
+    g.append(el);
+    initRange(g);
+  } else if (g.dataset.type === 'checkbox') {
+    const el = document.createElement('input');
+    el.type = 'checkbox';
+    g.append(el);
+    initCheckbox(g);
+  } else if (g.dataset.type === 'image') {
+    g.insertAdjacentHTML('beforeend', `<input type="file" accept="image/*">
+    <div>
+      <label class="btn choose">Choose file...</label>
+      <label class="btn clear">x</label>
+    </div>`);
+    initImage(g);
   }
-
-  if (wheelPropInits[g.dataset.name]) wheelPropInits[g.dataset.name](g);
 }
 
 document.querySelector('.btn.export').addEventListener('click', exportWheelAsJson);
@@ -75,9 +82,9 @@ function initImage(g) {
   btnChoose.addEventListener('click', () => input.click());
   btnClear.addEventListener('click', () => clearImage());
   input.addEventListener('input', async () => await onInput());
-  reader.addEventListener("load", () => setImage(reader.result));
+  reader.addEventListener('load', () => setImage(reader.result));
 
-  async function onInput () {
+  async function onInput() {
     const file = input.files[0];
 
     clearImage();
@@ -115,22 +122,24 @@ function initImage(g) {
     localStorage.removeItem(localStorageKey);
   }
 
-  setImage(localStorage.getItem(localStorageKey))
+  setImage(localStorage.getItem(localStorageKey));
 }
 
-function initTextbox(g) {
+function initTextboxOrColor(g) {
   g.querySelector('input').addEventListener('input', () => {
     const val = g.querySelector('input').value;
     window.wheel[g.dataset.name] = val;
     return true;
   });
-  const initialVal = window.wheel[g.dataset.name];
+  const initialVal = fixThreeCharHexColor( // Color input requires a 6 decimal hex
+    window.wheel[g.dataset.name]
+  );
   g.querySelector('input').value = initialVal;
 }
 
 function initTextboxArray(g) {
   g.querySelector('input').addEventListener('input', () => {
-    let val = g.querySelector('input').value.split(',').map(i => i.trim());
+    const val = g.querySelector('input').value.split(',').map(i => i.trim());
     window.wheel[g.dataset.name] = val;
     return true;
   });
@@ -148,12 +157,17 @@ function exportWheelAsJson() {
 
 function roundUp(num = 0, decimalPlaces = 2) {
   if (num < 0) return -roundUp(-num, decimalPlaces);
-  return +(Math.round(num + "e+" + decimalPlaces)  + "e-" + decimalPlaces);
+  return +(Math.round(num + 'e+' + decimalPlaces) + 'e-' + decimalPlaces);
 }
 
 function downloadTextFile(text, fileName, mimeType) {
   const a = document.createElement('a');
-  a.href = URL.createObjectURL( new Blob([text], {type: mimeType} ) );
+  a.href = URL.createObjectURL(new Blob([text], {type: mimeType}));
   a.download = fileName;
   a.click();
+}
+
+function fixThreeCharHexColor(s) {
+  if (typeof s !== 'string' || s.length !== 4 || s[0] !== '#') return s;
+  return '#' + s[1] + s[1] + s[2] + s[2] + s[3] + s[3];
 }

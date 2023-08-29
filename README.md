@@ -25,13 +25,13 @@ An easy to use, themeable component for randomising choices and prizes.
 ### ESM
 
 ```javascript
-import {Wheel} from 'https://cdn.jsdelivr.net/npm/spin-wheel@4.2.0/dist/spin-wheel-esm.js';
+import {Wheel} from 'https://cdn.jsdelivr.net/npm/spin-wheel@4.3.0/dist/spin-wheel-esm.js';
 ```
 
 ### IIFE
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/spin-wheel@4.2.0/dist/spin-wheel-iife.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/spin-wheel@4.3.0/dist/spin-wheel-iife.js"></script>
 ```
 
 ### Local
@@ -104,11 +104,12 @@ Here's a handy diagram:
 
 Method                                                              | Description
 ------------------------------------------------------------------- | ---------------------------
-`constructor(container, props = {})`                                | `container` must be an Element.</p><p>`props` must be an Object or null.
+`constructor(container, props = {})`                                | Create the wheel inside a container Element and initialise it with props.</p><p>`container` must be an Element.</p><p>`props` must be an Object or null.
 `init(props = {})`                                                  | Initialise all properties.</p><The>If a value is not provided for a property then it will be given a default value.
+`remove`                                                            | Remove the wheel from the DOM and unregister event handlers.
 `spin(rotationSpeed = 0)`                                           | Spin the wheel by setting `rotationSpeed`. The wheel will immediately start spinning, and slow down over time depending on the value of `rotationResistance`.</p><p>A positive number will spin clockwise, a negative number will spin anticlockwise.
 `spinTo(rotation = 0, duration = 0, easingFunction = null)`         | Spin the wheel to a particular rotation.</p><p>The animation will occur over the provided `duration` (milliseconds).<p>The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.</p><p>If no easing function is provided, the default easeSinOut will be used.</p><p>For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
-`spinToItem(itemIndex = 0, duration = 0, spinToCenter = true, numberOfRevolutions = 1, easingFunction = null)` | Spin the wheel to a particular item.</p><p>The animation will occur over the provided `duration` (milliseconds).</p><p>If `spinToCenter` is true, the wheel will spin to the center of the item, otherwise the wheel will spin to a random angle inside the item.</p><p>`numberOfRevolutions` controls how many times the wheel will rotate a full 360 degrees before resting on the item.</p><p>The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.</p><p>If no easing function is provided, the default easeSinOut will be used.</p><>For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
+`spinToItem(itemIndex = 0, duration = 0, spinToCenter = true, numberOfRevolutions = 1, easingFunction = null)` | Spin the wheel to a particular item.</p><p>The animation will occur over the provided `duration` (milliseconds).</p><p>If `spinToCenter` is true, the wheel will spin to the center of the item, otherwise the wheel will spin to a random angle inside the item.</p><p>`numberOfRevolutions` controls how many times the wheel will rotate a full 360 degrees before resting on the item.</p><p>The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.</p><p>If no easing function is provided, the default easeSinOut will be used.</p><p>For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
 `stop()`                                                            | Immediately stop the wheel from spinning, regardless of which method was used to spin it.
 `getCurrentIndex()`                                                 | Get the index of the item that the Pointer is pointing at.</p><p>An item is considered "current" if `pointerAngle` is between it's start angle (inclusive) and it's end angle (exclusive).
 
@@ -132,6 +133,8 @@ Name                            | Default Value     | Description
 `itemLabelRadius`               | `0.85`            | The point along the radius (as a percent, starting from the center of the wheel) to start drawing all item labels.
 `itemLabelRadiusMax`            | `0.2`             | The point along the radius (as a percent, starting from the center of the wheel) to calculate the maximum font size for all item labels.
 `itemLabelRotation`             | `0`               | The rotation of all item labels.<b>Use this to flip the labels `180°` in combination with `itemLabelAlign`.
+`itemLabelStrokeColor`          | `#fff`            | The color of the stroke applied to the outside of the label text.
+`itemLabelStrokeWidth`          | `0`               | The width of the stroke applied to the outside of the label text.
 `items`                         | `[]`              | The items to show on the wheel.
 `lineColor`                     | `'#000'`          | The color of the lines between the items.
 `lineWidth`                     | `1`               | The width (in pixels) of the lines between the items.
