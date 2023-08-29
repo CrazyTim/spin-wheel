@@ -157,7 +157,7 @@ export class Wheel {
 
     const angles = this.getItemAngles(this._rotation);
 
-    const actualBorderWidth = this.getActualBorderWidth();
+    const actualBorderWidth = this.getScaledNumber(this._borderWidth);
 
     // Set font:
     ctx.textBaseline = 'middle';
@@ -301,7 +301,7 @@ export class Wheel {
     ctx.lineTo(this._actualRadius * 2, 0);
 
     ctx.strokeStyle = Constants.Debugging.pointerLineColor;
-    ctx.lineWidth = 2;
+    ctx.lineWidth = this.getScaledNumber(2);
     ctx.stroke();
 
     ctx.resetTransform();
@@ -312,7 +312,7 @@ export class Wheel {
 
     if (this._borderWidth <= 0) return;
 
-    const actualBorderWidth = this.getActualBorderWidth();
+    const actualBorderWidth = this.getScaledNumber(this._borderWidth);
     const actualBorderColor = this._borderColor || 'transparent';
 
     ctx.beginPath();
@@ -322,15 +322,17 @@ export class Wheel {
     ctx.stroke();
 
     if (this.debug) {
+      const actualDebugLineWidth = this.getScaledNumber(1);
+
       ctx.beginPath();
       ctx.strokeStyle = ctx.strokeStyle = Constants.Debugging.labelRadiusColor;
-      ctx.lineWidth = 1;
+      ctx.lineWidth = actualDebugLineWidth;
       ctx.arc(this._center.x, this._center.y, this._actualRadius * this.itemLabelRadius, 0, 2 * Math.PI);
       ctx.stroke();
 
       ctx.beginPath();
       ctx.strokeStyle = ctx.strokeStyle = Constants.Debugging.labelRadiusColor;
-      ctx.lineWidth = 1;
+      ctx.lineWidth = actualDebugLineWidth;
       ctx.arc(this._center.x, this._center.y, this._actualRadius * this.itemLabelRadiusMax, 0, 2 * Math.PI);
       ctx.stroke();
     }
@@ -341,8 +343,8 @@ export class Wheel {
 
     if (this._lineWidth <= 0) return;
 
-    const actualLineWidth = (this._lineWidth / Constants.baseCanvasSize) * this._size;
-    const actualBorderWidth = this.getActualBorderWidth();
+    const actualLineWidth = this.getScaledNumber(this._lineWidth);
+    const actualBorderWidth = this.getScaledNumber(this._borderWidth);
 
     ctx.translate(
       this._center.x,
@@ -370,6 +372,7 @@ export class Wheel {
   drawItemLabels(ctx, angles = []) {
 
     const actualItemLabelBaselineOffset = this.itemLabelFontSize * -this.itemLabelBaselineOffset;
+    const actualDebugLineWidth = this.getScaledNumber(1);
 
     for (const [i, a] of angles.entries()) {
 
@@ -403,7 +406,7 @@ export class Wheel {
         ctx.lineTo(-this.labelMaxWidth, 0);
 
         ctx.strokeStyle = Constants.Debugging.labelOutlineColor;
-        ctx.lineWidth = 1;
+        ctx.lineWidth = actualDebugLineWidth;
         ctx.stroke();
 
         ctx.strokeRect(0, -this.itemLabelFontSize / 2, -this.labelMaxWidth, this.itemLabelFontSize);
@@ -423,14 +426,16 @@ export class Wheel {
     if (!this.debug || !this.dragEvents?.length) return;
 
     const dragEventsReversed = [...this.dragEvents].reverse();
+    const actualLineWidth = this.getScaledNumber(0.5);
+    const actualCircleDiameter = this.getScaledNumber(4);
 
     for (const [i, event] of dragEventsReversed.entries()) {
       const percent = (i / this.dragEvents.length) * 100;
       ctx.beginPath();
-      ctx.arc(event.x, event.y, 5, 0, 2 * Math.PI);
+      ctx.arc(event.x, event.y, actualCircleDiameter, 0, 2 * Math.PI);
       ctx.fillStyle = `hsl(${Constants.Debugging.dragEventHue},100%,${percent}%)`;
       ctx.strokeStyle = '#000';
-      ctx.lineWidth = 0.5;
+      ctx.lineWidth = actualLineWidth;
       ctx.fill();
       ctx.stroke();
     }
@@ -589,10 +594,10 @@ export class Wheel {
   }
 
   /**
-   * Return the scaled border size.
+   * Return n scaled to the size of the canvas.
    */
-  getActualBorderWidth() {
-     return (this._borderWidth / Constants.baseCanvasSize) * this._size;
+  getScaledNumber(n) {
+     return (n / Constants.baseCanvasSize) * this._size;
   }
 
   getActualPixelRatio() {
