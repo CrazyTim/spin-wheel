@@ -5,7 +5,7 @@ import {props} from './props.js';
 window.onload = async () => {
   await loadFonts(props.map(i => i.itemLabelFont));
   init();
-}
+};
 
 function init() {
 
@@ -26,7 +26,7 @@ function init() {
       ...props[dropdown.selectedIndex],
       rotation: wheel.rotation, // Preserve value.
     });
-  }
+  };
 
   // Select default:
   dropdown.options[0].selected = 'selected';

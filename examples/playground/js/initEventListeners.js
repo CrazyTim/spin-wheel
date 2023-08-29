@@ -82,7 +82,7 @@ function initImage(g) {
   btnChoose.addEventListener('click', () => input.click());
   btnClear.addEventListener('click', () => clearImage());
   input.addEventListener('input', async () => await onInput());
-  reader.addEventListener("load", () => setImage(reader.result));
+  reader.addEventListener('load', () => setImage(reader.result));
 
   async function onInput() {
     const file = input.files[0];
@@ -122,7 +122,7 @@ function initImage(g) {
     localStorage.removeItem(localStorageKey);
   }
 
-  setImage(localStorage.getItem(localStorageKey))
+  setImage(localStorage.getItem(localStorageKey));
 }
 
 function initTextboxOrColor(g) {
@@ -139,7 +139,7 @@ function initTextboxOrColor(g) {
 
 function initTextboxArray(g) {
   g.querySelector('input').addEventListener('input', () => {
-    let val = g.querySelector('input').value.split(',').map(i => i.trim());
+    const val = g.querySelector('input').value.split(',').map(i => i.trim());
     window.wheel[g.dataset.name] = val;
     return true;
   });
@@ -157,12 +157,12 @@ function exportWheelAsJson() {
 
 function roundUp(num = 0, decimalPlaces = 2) {
   if (num < 0) return -roundUp(-num, decimalPlaces);
-  return +(Math.round(num + "e+" + decimalPlaces)  + "e-" + decimalPlaces);
+  return +(Math.round(num + 'e+' + decimalPlaces) + 'e-' + decimalPlaces);
 }
 
 function downloadTextFile(text, fileName, mimeType) {
   const a = document.createElement('a');
-  a.href = URL.createObjectURL( new Blob([text], {type: mimeType} ) );
+  a.href = URL.createObjectURL(new Blob([text], {type: mimeType}));
   a.download = fileName;
   a.click();
 }

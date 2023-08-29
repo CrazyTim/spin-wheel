@@ -16,7 +16,7 @@
   "scripts": {
     "start": "node scripts/build.js -entryPoint=src/wheel.js -servePath=examples/themes/",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --testPathPattern=src",
-    "lint": "eslint src --fix",
+    "lint": "eslint src examples scripts --fix",
     "build": "npm run lint && npm run test && npm run build-esm && npm run build-iife",
     "build-esm": "node scripts/build.js -entryPoint=src/wheel.js -esm",
     "build-iife": "node scripts/build.js -entryPoint=src/wheel.js -iife"

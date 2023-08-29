@@ -1,0 +1,3 @@
+{
+  "ignorePatterns": ["easing.js", "build.js"]
+}

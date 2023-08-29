@@ -10,7 +10,7 @@ export function createWheel(props) {
 
 }
 
-function addBlankItems (wheel, numberOfItems) {
+function addBlankItems(wheel, numberOfItems) {
 
   if (!numberOfItems) return;
 
@@ -19,8 +19,6 @@ function addBlankItems (wheel, numberOfItems) {
     newItems.push({});
   }
   wheel.items = wheel.items.concat(newItems);
-
-  return this;
 
 }
 

@@ -13,11 +13,11 @@ window.onload = () => {
       {
         label: 'three',
       },
-    ]
+    ],
   };
 
   const container = document.querySelector('.wheel-wrapper');
 
   window.wheel = new Wheel(container, props);
 
-}
+};
