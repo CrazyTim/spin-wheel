@@ -108,37 +108,38 @@ export class Wheel {
    */
   resize() {
 
-    // Get the smallest dimension of `canvasContainer`:
+    // Set the dimensions of the canvas element to be the same as its container:
+    this.canvas.style.width = this._canvasContainer.clientWidth + 'px';
+    this.canvas.style.height = this._canvasContainer.clientHeight + 'px';
+
+    // Calc the actual pixel dimensions that will be drawn:
+    // See https://www.khronos.org/webgl/wiki/HandlingHighDPI
     const [w, h] = [
       this._canvasContainer.clientWidth * this.getActualPixelRatio(),
       this._canvasContainer.clientHeight * this.getActualPixelRatio(),
     ];
+    this.canvas.width = w;
+    this.canvas.height = h;
 
     // Calc the size that the wheel needs to be to fit in it's container:
-    const minSize = Math.min(w, h);
+    const min = Math.min(w, h);
     const wheelSize = {
-      w: minSize - (minSize * this.offset.w),
-      h: minSize - (minSize * this.offset.h),
+      w: min - (min * this.offset.w),
+      h: min - (min * this.offset.h),
     };
     const scale = Math.min(w / wheelSize.w, h / wheelSize.h);
     this._size = Math.max(wheelSize.w * scale, wheelSize.h * scale);
 
-    // Resize canvas element:
-    this.canvas.style.width = this._canvasContainer.clientWidth + 'px';
-    this.canvas.style.height = this._canvasContainer.clientHeight + 'px';
-    this.canvas.width = w;
-    this.canvas.height = h;
-
-    // Re-calculate the center of the wheel:
+    // Calculate the center of the wheel:
     this._center = {
       x: w / 2 + (w * this.offset.w),
       y: h / 2 + (h * this.offset.h),
     };
 
-    // Recalculate the wheel radius:
+    // Calculate the wheel radius:
     this._actualRadius = (this._size / 2) * this.radius;
 
-    // Adjust the font size of labels so they all fit inside `wheelRadius`:
+    // Adjust the font size of labels so they all fit inside the wheel's radius:
     this.itemLabelFontSize = this.itemLabelFontSizeMax * (this._size / Constants.baseCanvasSize);
     this.labelMaxWidth = this._actualRadius * (this.itemLabelRadius - this.itemLabelRadiusMax);
     for (const item of this._items) {
