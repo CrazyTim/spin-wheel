@@ -168,6 +168,7 @@ Wheel {
   "_currentIndex": -1,
   "_debug": false,
   "_frameRequestId": 1,
+  "_handler_onDevicePixelRatioChange": [Function],
   "_handler_onMouseDown": [Function],
   "_handler_onMouseMoveRefreshCursor": [Function],
   "_handler_onPointerDown": [Function],
@@ -196,6 +197,30 @@ Wheel {
   "_lastSpinFrameTime": null,
   "_lineColor": "#000",
   "_lineWidth": 1,
+  "_mediaQueryList": Object {
+    "addEventListener": [MockFunction] {
+      "calls": Array [
+        Array [
+          "change",
+          [Function],
+          Object {
+            "once": true,
+          },
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    },
+    "dispatchEvent": [MockFunction],
+    "matches": false,
+    "media": "(resolution: 1dppx)",
+    "onchange": null,
+    "removeEventListener": [MockFunction],
+  },
   "_offset": Object {
     "h": 0,
     "w": 0,
