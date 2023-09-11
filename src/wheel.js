@@ -94,6 +94,7 @@ export class Wheel {
    * Remove the wheel from the DOM and unregister event handlers.
    */
   remove() {
+    if (this.canvas === null) return;
     window.cancelAnimationFrame(this._frameRequestId);
     events.unregister(this);
     this._canvasContainer.removeChild(this.canvas);
