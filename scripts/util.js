@@ -21,9 +21,10 @@ export function dateFormat(date, format, utc = true) {
 
 export async function loadFonts(fontNames = []) {
   // Fail silently if browser doesn't support font loading.
-  if (!'fonts' in document) return;
+  if (!('fonts' in document)) return;
 
   const fontLoading = [];
+
   for (const i of fontNames) {
     if (typeof i === 'string') fontLoading.push(document.fonts.load('1em ' + i));
   }

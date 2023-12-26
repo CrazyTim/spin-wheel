@@ -176,6 +176,7 @@ Wheel {
   "_handler_onResize": [Function],
   "_handler_onTouchStart": [Function],
   "_image": null,
+  "_isCursorOverWheel": false,
   "_isInitialising": true,
   "_isInteractive": true,
   "_itemBackgroundColors": Array [

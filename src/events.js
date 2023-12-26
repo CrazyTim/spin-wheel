@@ -50,7 +50,7 @@ function registerPointerEvents(wheel = {}) {
       x: e.clientX,
       y: e.clientY,
     };
-    wheel.isCursorOverWheel = wheel.wheelHitTest(point);
+    wheel._isCursorOverWheel = wheel.wheelHitTest(point);
     wheel.refreshCursor();
   };
 
@@ -59,7 +59,7 @@ function registerPointerEvents(wheel = {}) {
       x: e.clientX,
       y: e.clientY,
     };
-    wheel.isCursorOverWheel = wheel.wheelHitTest(point);
+    wheel._isCursorOverWheel = wheel.wheelHitTest(point);
     wheel.refreshCursor();
   };
 

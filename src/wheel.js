@@ -23,6 +23,7 @@ export class Wheel {
     this._rotationDirection = 1;
     this._spinToTimeEnd = null; // Used to animate the wheel for spinTo()
     this._lastSpinFrameTime = null; // Used to animate the wheel for spin()
+    this._isCursorOverWheel = false;
 
     this.add(container);
 
@@ -643,7 +644,7 @@ export class Wheel {
         return;
       }
 
-      if (this.isCursorOverWheel) {
+      if (this._isCursorOverWheel) {
         this.canvas.style.cursor = 'grab';
         return;
       }
