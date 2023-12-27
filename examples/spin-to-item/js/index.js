@@ -118,7 +118,6 @@ window.onload = () => {
   window.addEventListener('keyup', (e) => {
 
     if (e.target && e.target.matches('#pointerAngle')) {
-      console.log(e.target.value);
       wheel.pointerAngle = parseInt(e.target.value) || 0;
     }
 
