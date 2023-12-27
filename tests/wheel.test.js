@@ -1,5 +1,5 @@
 import {jest, test, expect, beforeEach, afterEach} from '@jest/globals';
-import {Defaults} from './constants.js';
+import {Defaults} from '../src/constants.js';
 import {createWheel, createContainer} from '../scripts/test.js';
 import {getInstanceProperties} from '../scripts/util.js';
 import {Wheel} from '../src/wheel.js';

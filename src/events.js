@@ -2,18 +2,24 @@ export function register(wheel = {}) {
 
   registerPointerEvents(wheel);
 
-  // Register window resize event:
+  // Listen for when the window is resized.
   wheel._handler_onResize = e => wheel.resize(e);
   window.addEventListener('resize', wheel._handler_onResize);
 
-  // Monitor when the device resolution (devicePixelRatio) changes:
-  // See https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio
-  const updatePixelRatio = () => {
-    wheel.resize();
-    matchMedia(`(resolution: ${pr}dppx)`)
-      .addEventListener('change', updatePixelRatio, { once: true });
+  // Listen for when window.devicePixelRatio changes.
+  // For example, when the browser window is moved to a different screen.
+  // Note: Chrome Version 116 raises the `resize` event when `window.devicePixelRatio` changes,
+  // and so does Firefox 117 but sometimes it raises it twice (shrug).
+  // However Safari 16.3 doesn't, hence we need to monitor this separately.
+  const listenForDevicePixelRatioChange = () => {
+    wheel._mediaQueryList = window.matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`);
+    wheel._mediaQueryList.addEventListener('change', wheel._handler_onDevicePixelRatioChange, { once: true });
   };
-
+  wheel._handler_onDevicePixelRatioChange = () => {
+    wheel.resize();
+    listenForDevicePixelRatioChange();
+  };
+  listenForDevicePixelRatioChange();
 }
 
 export function unregister(wheel = {}) {
@@ -30,6 +36,7 @@ export function unregister(wheel = {}) {
   }
 
   window.removeEventListener('resize', wheel._handler_onResize);
+  wheel._mediaQueryList.removeEventListener('change', wheel._handler_onDevicePixelRatioChange);
 
 }
 
@@ -43,7 +50,7 @@ function registerPointerEvents(wheel = {}) {
       x: e.clientX,
       y: e.clientY,
     };
-    wheel.isCursorOverWheel = wheel.wheelHitTest(point);
+    wheel._isCursorOverWheel = wheel.wheelHitTest(point);
     wheel.refreshCursor();
   };
 
@@ -52,7 +59,7 @@ function registerPointerEvents(wheel = {}) {
       x: e.clientX,
       y: e.clientY,
     };
-    wheel.isCursorOverWheel = wheel.wheelHitTest(point);
+    wheel._isCursorOverWheel = wheel.wheelHitTest(point);
     wheel.refreshCursor();
   };
 

@@ -25,13 +25,13 @@ An easy to use, themeable component for randomising choices and prizes.
 ### ESM
 
 ```javascript
-import {Wheel} from 'https://cdn.jsdelivr.net/npm/spin-wheel@4.3.0/dist/spin-wheel-esm.js';
+import {Wheel} from 'https://cdn.jsdelivr.net/npm/spin-wheel@4.3.1/dist/spin-wheel-esm.js';
 ```
 
 ### IIFE
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/spin-wheel@4.3.0/dist/spin-wheel-iife.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/spin-wheel@4.3.1/dist/spin-wheel-iife.js"></script>
 ```
 
 ### Local
@@ -125,14 +125,14 @@ Name                            | Default Value     | Description
 `image`                         | `''`              | The url of an image that will be drawn over the center of the wheel which will rotate with the wheel.</p><p>It will be automatically scaled to fit `radius`.
 `isInteractive`                 | `true`            | Allow the user to spin the wheel using click-drag/touch-flick. </p><p>User interaction will only be detected within the bounds of `Wheel.radius`.
 `itemBackgroundColors`          | `['#fff']`        | The repeating pattern of background colors for all items.</p><p>Overridden by `Item.backgroundColor`.</p><p>Example: `['#fff','#000']`.
-`itemLabelAlign`                | `'right'`         | The alignment of all item labels.</p><p>Accepted values: `'left'`|`'center'`|`'right'`.</p><p>You may need to set `itemLabelRotation` in combination with this.
+`itemLabelAlign`                | `'right'`         | The alignment of all item labels.</p><p>Accepted values: `'left'`,`'center'`,`'right'`.
 `itemLabelBaselineOffset`       | `0`               | The offset of the baseline (or line height) of all item labels (as a percent of the label's height).
 `itemLabelColors`               | `['#000']`        | The repeating pattern of colors for all item labels.</p><p>Overridden by `Item.labelColor`.</p><p>Example: `['#fff','#000']`.
 `itemLabelFont`                 | `'sans-serif'`    | The font family for all item labels.</p><p>Example: `'sans-serif'`.
 `itemLabelFontSizeMax`          | `100`             | The maximum font size (in pixels) for all item labels.
 `itemLabelRadius`               | `0.85`            | The point along the radius (as a percent, starting from the center of the wheel) to start drawing all item labels.
 `itemLabelRadiusMax`            | `0.2`             | The point along the radius (as a percent, starting from the center of the wheel) to calculate the maximum font size for all item labels.
-`itemLabelRotation`             | `0`               | The rotation of all item labels.<b>Use this to flip the labels `180°` in combination with `itemLabelAlign`.
+`itemLabelRotation`             | `0`               | The rotation of all item labels.<p></p>Use this in combination with `itemLabelAlign` to flip the labels `180°`.
 `itemLabelStrokeColor`          | `#fff`            | The color of the stroke applied to the outside of the label text.
 `itemLabelStrokeWidth`          | `0`               | The width of the stroke applied to the outside of the label text.
 `items`                         | `[]`              | The items to show on the wheel.

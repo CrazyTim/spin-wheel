@@ -1,6 +1,19 @@
 import {Wheel} from '../src/wheel.js';
 import {jest} from '@jest/globals';
 
+// Mock window.matchMedia
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation(query => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
+});
+
 export function createWheel(props) {
 
   const wheel = new Wheel(createContainer(), props);

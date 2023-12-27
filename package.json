@@ -1,6 +1,6 @@
 {
   "name": "spin-wheel",
-  "version": "4.3.0",
+  "version": "4.3.1",
   "description": "An easy to use, themeable component for randomising choices and prizes.",
   "keywords": [
     "spinner",
@@ -13,9 +13,14 @@
     "fortune"
   ],
   "type": "module",
+  "exports": {
+    "import": "./src/wheel.js",
+    "browser": "./dist/spin-wheel-esm.js",
+    "default": "./src/wheel.js"
+  },
   "scripts": {
     "start": "node scripts/build.js -entryPoint=src/wheel.js -servePath=examples/themes/",
-    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --testPathPattern=src",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
     "lint": "eslint src examples scripts --fix",
     "build": "npm run lint && npm run test && npm run build-esm && npm run build-iife",
     "build-esm": "node scripts/build.js -entryPoint=src/wheel.js -esm",
@@ -30,60 +35,181 @@
       "sourceType": "module"
     },
     "rules": {
-      "brace-style": ["error"],
-      "comma-dangle": ["error", {"objects": "always-multiline", "arrays": "always-multiline"}],
-      "comma-spacing": ["error", {"before": false, "after": true}],
-      "consistent-return": ["error", { "treatUndefinedAsUnspecified": true }],
-      "curly": ["error", "multi-line", "consistent"],
-      "eqeqeq": ["error"],
-      "func-call-spacing": ["error"],
-      "guard-for-in": ["error"],
-      "keyword-spacing": ["error"],
-      "linebreak-style": ["error", "unix"],
-      "max-statements-per-line": ["error", {"max": 1}],
-      "new-cap": ["error"],
-      "no-alert": ["error"],
-      "no-cond-assign": ["error", "always"],
-      "no-console": ["error"],
-      "no-dupe-args": ["error"],
-      "no-dupe-keys": ["error"],
-      "no-else-return": ["error"],
-      "no-extend-native": ["error"],
-      "no-floating-decimal": ["error"],
-      "no-labels": ["error"],
-      "no-mixed-spaces-and-tabs": ["error"],
-      "no-multi-spaces": ["error", {"ignoreEOLComments": true}],
-      "no-multiple-empty-lines": ["error"],
-      "no-octal": ["error"],
-      "no-return-assign": ["error", "always"],
-      "no-sparse-arrays": ["error"],
-      "no-throw-literal": ["error"],
-      "no-trailing-spaces": ["error"],
-      "no-unneeded-ternary": ["error"],
-      "no-use-before-define": ["error", {"functions": false, "classes": false}],
-      "no-useless-concat": ["error"],
-      "no-var": ["error"],
-      "no-with": ["error"],
-      "object-property-newline": ["error", {"allowAllPropertiesOnSameLine": true}],
-      "prefer-const": ["error"],
-      "quotes": ["error", "single"],
-      "semi": ["error", "always"],
-      "space-before-blocks": ["error"],
-      "space-before-function-paren": ["error", {
-        "anonymous": "never",
-        "named": "never",
-        "asyncArrow": "always"
-      }],
-      "space-in-parens": ["error", "never"],
-      "valid-typeof": ["error"]
+      "brace-style": [
+        "error"
+      ],
+      "comma-dangle": [
+        "error",
+        {
+          "objects": "always-multiline",
+          "arrays": "always-multiline"
+        }
+      ],
+      "comma-spacing": [
+        "error",
+        {
+          "before": false,
+          "after": true
+        }
+      ],
+      "consistent-return": [
+        "error",
+        {
+          "treatUndefinedAsUnspecified": true
+        }
+      ],
+      "curly": [
+        "error",
+        "multi-line",
+        "consistent"
+      ],
+      "eqeqeq": [
+        "error"
+      ],
+      "func-call-spacing": [
+        "error"
+      ],
+      "guard-for-in": [
+        "error"
+      ],
+      "keyword-spacing": [
+        "error"
+      ],
+      "linebreak-style": [
+        "error",
+        "unix"
+      ],
+      "max-statements-per-line": [
+        "error",
+        {
+          "max": 1
+        }
+      ],
+      "new-cap": [
+        "error"
+      ],
+      "no-alert": [
+        "error"
+      ],
+      "no-cond-assign": [
+        "error",
+        "always"
+      ],
+      "no-console": [
+        "error"
+      ],
+      "no-dupe-args": [
+        "error"
+      ],
+      "no-dupe-keys": [
+        "error"
+      ],
+      "no-else-return": [
+        "error"
+      ],
+      "no-extend-native": [
+        "error"
+      ],
+      "no-floating-decimal": [
+        "error"
+      ],
+      "no-labels": [
+        "error"
+      ],
+      "no-mixed-spaces-and-tabs": [
+        "error"
+      ],
+      "no-multi-spaces": [
+        "error",
+        {
+          "ignoreEOLComments": true
+        }
+      ],
+      "no-multiple-empty-lines": [
+        "error"
+      ],
+      "no-octal": [
+        "error"
+      ],
+      "no-return-assign": [
+        "error",
+        "always"
+      ],
+      "no-sparse-arrays": [
+        "error"
+      ],
+      "no-throw-literal": [
+        "error"
+      ],
+      "no-trailing-spaces": [
+        "error"
+      ],
+      "no-unneeded-ternary": [
+        "error"
+      ],
+      "no-use-before-define": [
+        "error",
+        {
+          "functions": false,
+          "classes": false
+        }
+      ],
+      "no-useless-concat": [
+        "error"
+      ],
+      "no-var": [
+        "error"
+      ],
+      "no-with": [
+        "error"
+      ],
+      "object-property-newline": [
+        "error",
+        {
+          "allowAllPropertiesOnSameLine": true
+        }
+      ],
+      "prefer-const": [
+        "error"
+      ],
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "semi": [
+        "error",
+        "always"
+      ],
+      "space-before-blocks": [
+        "error"
+      ],
+      "space-before-function-paren": [
+        "error",
+        {
+          "anonymous": "never",
+          "named": "never",
+          "asyncArrow": "always"
+        }
+      ],
+      "space-in-parens": [
+        "error",
+        "never"
+      ],
+      "valid-typeof": [
+        "error"
+      ]
     }
   },
   "jest": {
     "verbose": true,
-    "injectGlobals": true,
     "silent": false,
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ],
     "testEnvironment": "jsdom",
-    "setupFiles": ["jest-canvas-mock"]
+    "setupFiles": [
+      "jest-canvas-mock"
+    ]
   },
   "repository": {
     "type": "git",
@@ -97,10 +223,12 @@
   },
   "devDependencies": {
     "browser-sync": "^2.27.5",
-    "canvas": "^2.11.2",
     "esbuild": "^0.15.11",
     "eslint": "^8.25.0",
     "jest": "^27.4.3",
     "jest-canvas-mock": "^2.5.1"
+  },
+  "optionalDependencies": {
+    "canvas": "^2.11.2"
   }
 }
