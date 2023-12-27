@@ -1,5 +1,5 @@
 import {test, expect} from '@jest/globals';
-import * as util from './util.js';
+import * as util from '../src/util.js';
 
 test('degRad() works', () => {
   const f = util.degRad;

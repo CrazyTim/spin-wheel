@@ -1,6 +1,6 @@
 import {test, expect} from '@jest/globals';
-import {Defaults} from './constants.js';
-import {Item} from './item.js';
+import {Defaults} from '../src/constants.js';
+import {Item} from '../src/item.js';
 import {createWheel} from '../scripts/test.js';
 import {getInstanceProperties} from '../scripts/util.js';
 

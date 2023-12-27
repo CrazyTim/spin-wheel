@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "node scripts/build.js -entryPoint=src/wheel.js -servePath=examples/themes/",
-    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --testPathPattern=src",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
     "lint": "eslint src examples scripts --fix",
     "build": "npm run lint && npm run test && npm run build-esm && npm run build-iife",
     "build-esm": "node scripts/build.js -entryPoint=src/wheel.js -esm",
@@ -202,8 +202,10 @@
   },
   "jest": {
     "verbose": true,
-    "injectGlobals": true,
     "silent": false,
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ],
     "testEnvironment": "jsdom",
     "setupFiles": [
       "jest-canvas-mock"
