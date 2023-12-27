@@ -30,52 +30,169 @@
       "sourceType": "module"
     },
     "rules": {
-      "brace-style": ["error"],
-      "comma-dangle": ["error", {"objects": "always-multiline", "arrays": "always-multiline"}],
-      "comma-spacing": ["error", {"before": false, "after": true}],
-      "consistent-return": ["error", { "treatUndefinedAsUnspecified": true }],
-      "curly": ["error", "multi-line", "consistent"],
-      "eqeqeq": ["error"],
-      "func-call-spacing": ["error"],
-      "guard-for-in": ["error"],
-      "keyword-spacing": ["error"],
-      "linebreak-style": ["error", "unix"],
-      "max-statements-per-line": ["error", {"max": 1}],
-      "new-cap": ["error"],
-      "no-alert": ["error"],
-      "no-cond-assign": ["error", "always"],
-      "no-console": ["error"],
-      "no-dupe-args": ["error"],
-      "no-dupe-keys": ["error"],
-      "no-else-return": ["error"],
-      "no-extend-native": ["error"],
-      "no-floating-decimal": ["error"],
-      "no-labels": ["error"],
-      "no-mixed-spaces-and-tabs": ["error"],
-      "no-multi-spaces": ["error", {"ignoreEOLComments": true}],
-      "no-multiple-empty-lines": ["error"],
-      "no-octal": ["error"],
-      "no-return-assign": ["error", "always"],
-      "no-sparse-arrays": ["error"],
-      "no-throw-literal": ["error"],
-      "no-trailing-spaces": ["error"],
-      "no-unneeded-ternary": ["error"],
-      "no-use-before-define": ["error", {"functions": false, "classes": false}],
-      "no-useless-concat": ["error"],
-      "no-var": ["error"],
-      "no-with": ["error"],
-      "object-property-newline": ["error", {"allowAllPropertiesOnSameLine": true}],
-      "prefer-const": ["error"],
-      "quotes": ["error", "single"],
-      "semi": ["error", "always"],
-      "space-before-blocks": ["error"],
-      "space-before-function-paren": ["error", {
-        "anonymous": "never",
-        "named": "never",
-        "asyncArrow": "always"
-      }],
-      "space-in-parens": ["error", "never"],
-      "valid-typeof": ["error"]
+      "brace-style": [
+        "error"
+      ],
+      "comma-dangle": [
+        "error",
+        {
+          "objects": "always-multiline",
+          "arrays": "always-multiline"
+        }
+      ],
+      "comma-spacing": [
+        "error",
+        {
+          "before": false,
+          "after": true
+        }
+      ],
+      "consistent-return": [
+        "error",
+        {
+          "treatUndefinedAsUnspecified": true
+        }
+      ],
+      "curly": [
+        "error",
+        "multi-line",
+        "consistent"
+      ],
+      "eqeqeq": [
+        "error"
+      ],
+      "func-call-spacing": [
+        "error"
+      ],
+      "guard-for-in": [
+        "error"
+      ],
+      "keyword-spacing": [
+        "error"
+      ],
+      "linebreak-style": [
+        "error",
+        "unix"
+      ],
+      "max-statements-per-line": [
+        "error",
+        {
+          "max": 1
+        }
+      ],
+      "new-cap": [
+        "error"
+      ],
+      "no-alert": [
+        "error"
+      ],
+      "no-cond-assign": [
+        "error",
+        "always"
+      ],
+      "no-console": [
+        "error"
+      ],
+      "no-dupe-args": [
+        "error"
+      ],
+      "no-dupe-keys": [
+        "error"
+      ],
+      "no-else-return": [
+        "error"
+      ],
+      "no-extend-native": [
+        "error"
+      ],
+      "no-floating-decimal": [
+        "error"
+      ],
+      "no-labels": [
+        "error"
+      ],
+      "no-mixed-spaces-and-tabs": [
+        "error"
+      ],
+      "no-multi-spaces": [
+        "error",
+        {
+          "ignoreEOLComments": true
+        }
+      ],
+      "no-multiple-empty-lines": [
+        "error"
+      ],
+      "no-octal": [
+        "error"
+      ],
+      "no-return-assign": [
+        "error",
+        "always"
+      ],
+      "no-sparse-arrays": [
+        "error"
+      ],
+      "no-throw-literal": [
+        "error"
+      ],
+      "no-trailing-spaces": [
+        "error"
+      ],
+      "no-unneeded-ternary": [
+        "error"
+      ],
+      "no-use-before-define": [
+        "error",
+        {
+          "functions": false,
+          "classes": false
+        }
+      ],
+      "no-useless-concat": [
+        "error"
+      ],
+      "no-var": [
+        "error"
+      ],
+      "no-with": [
+        "error"
+      ],
+      "object-property-newline": [
+        "error",
+        {
+          "allowAllPropertiesOnSameLine": true
+        }
+      ],
+      "prefer-const": [
+        "error"
+      ],
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "semi": [
+        "error",
+        "always"
+      ],
+      "space-before-blocks": [
+        "error"
+      ],
+      "space-before-function-paren": [
+        "error",
+        {
+          "anonymous": "never",
+          "named": "never",
+          "asyncArrow": "always"
+        }
+      ],
+      "space-in-parens": [
+        "error",
+        "never"
+      ],
+      "valid-typeof": [
+        "error"
+      ]
     }
   },
   "jest": {
@@ -83,7 +200,9 @@
     "injectGlobals": true,
     "silent": false,
     "testEnvironment": "jsdom",
-    "setupFiles": ["jest-canvas-mock"]
+    "setupFiles": [
+      "jest-canvas-mock"
+    ]
   },
   "repository": {
     "type": "git",
