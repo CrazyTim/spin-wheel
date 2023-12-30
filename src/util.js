@@ -1,3 +1,4 @@
+// @ts-check
 /**
  * Get a random integer between `min` (inclusive) and `max` (exclusive).
  */
@@ -161,6 +162,18 @@ export function isNumber(n) {
   return typeof n === 'number' && !Number.isNaN(n);
 }
 
+/**
+ * Handy function to concisely set a property if the value is valid,
+ * revert to a default value if the value is undefined,
+ * or throw an error.
+ * @param {object} details
+ * @param {any} details.val
+ * @param {boolean} details.isValid
+ * @param {string} details.errorMessage
+ * @param {any} details.defaultValue
+ * @param {?function(): any} [details.action]
+ * @returns {any}
+ */
 export function setProp({val, isValid, errorMessage, defaultValue, action = null}) {
   if (isValid) {
     return (action) ? action() : val;

@@ -14,9 +14,9 @@
   ],
   "type": "module",
   "exports": {
-    "import": "./src/wheel.js",
+    "import": "./index.js",
     "browser": "./dist/spin-wheel-esm.js",
-    "default": "./src/wheel.js"
+    "default": "./index.js"
   },
   "scripts": {
     "start": "node scripts/build.js -entryPoint=src/wheel.js -servePath=examples/themes/",
