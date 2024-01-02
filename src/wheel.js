@@ -142,10 +142,10 @@ export class Wheel {
     this._actualRadius = (this._size / 2) * this.radius;
 
     // Adjust the font size of labels so they all fit inside the wheel's radius:
-    this.itemLabelFontSize = this.itemLabelFontSizeMax * (this._size / Constants.baseCanvasSize);
+    this._itemLabelFontSize = this.itemLabelFontSizeMax * (this._size / Constants.baseCanvasSize);
     this.labelMaxWidth = this._actualRadius * (this.itemLabelRadius - this.itemLabelRadiusMax);
     for (const item of this._items) {
-      this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(item.label, this.itemLabelFont, this.labelMaxWidth, this._context));
+      this._itemLabelFontSize = Math.min(this._itemLabelFontSize, util.getFontSizeToFit(item.label, this.itemLabelFont, this.labelMaxWidth, this._context));
     }
 
     this.refresh();
@@ -173,7 +173,7 @@ export class Wheel {
     // Set font:
     ctx.textBaseline = 'middle';
     ctx.textAlign = this.itemLabelAlign;
-    ctx.font = this.itemLabelFontSize + 'px ' + this.itemLabelFont;
+    ctx.font = this._itemLabelFontSize + 'px ' + this.itemLabelFont;
 
     ctx.save();
 
@@ -382,7 +382,7 @@ export class Wheel {
 
   drawItemLabels(ctx, angles = []) {
 
-    const actualItemLabelBaselineOffset = this.itemLabelFontSize * -this.itemLabelBaselineOffset;
+    const actualItemLabelBaselineOffset = this._itemLabelFontSize * -this.itemLabelBaselineOffset;
     const actualDebugLineWidth = this.getScaledNumber(1);
     const actualLabelStrokeWidth = this.getScaledNumber(this._itemLabelStrokeWidth * 2);
 
@@ -421,7 +421,7 @@ export class Wheel {
         ctx.lineWidth = actualDebugLineWidth;
         ctx.stroke();
 
-        ctx.strokeRect(0, -this.itemLabelFontSize / 2, -this.labelMaxWidth, this.itemLabelFontSize);
+        ctx.strokeRect(0, -this._itemLabelFontSize / 2, -this.labelMaxWidth, this._itemLabelFontSize);
       }
 
       if (this._itemLabelStrokeWidth > 0) {

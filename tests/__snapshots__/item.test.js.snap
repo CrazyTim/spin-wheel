@@ -200,6 +200,7 @@ Item {
       "#000",
     ],
     "_itemLabelFont": "sans-serif",
+    "_itemLabelFontSize": 500,
     "_itemLabelFontSizeMax": 500,
     "_itemLabelRadius": 0.85,
     "_itemLabelRadiusMax": 0.2,
@@ -259,7 +260,6 @@ Item {
       style="width: 500px; height: 500px;"
       width="500"
     />,
-    "itemLabelFontSize": 500,
     "labelMaxWidth": 154.37499999999997,
   },
 }
