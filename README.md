@@ -157,7 +157,7 @@ Name                            | Default Value     | Description
 `rotationResistance`            | `-35`             | The amount that `rotationSpeed` will be reduced by every second. Only in effect when `rotationSpeed !== 0`.</p><p>Set to `0` to spin the wheel infinitely.
 `rotationSpeed`                 | `0`               | (Readonly) How far (angle in degrees) the wheel will spin every 1 second.</p><p>A positive number means the wheel is spinning clockwise, a negative number means anti-clockwise, and `0` means the wheel is not spinning.
 `rotationSpeedMax`              | `250`             | The maximum value for `rotationSpeed` (ignoring the wheel's spin direction).</p><p>The wheel will not spin faster than this value in any direction.
-`offset`                        | `{w: 0, h: 0}`    | The offset of the wheel relative to it's center (as a percent of the wheel's diameter).
+`offset`                        | `{x: 0, y: 0}`    | The offset of the wheel relative to it's center (as a percent of the wheel's diameter).
 `onCurrentIndexChange`          | `null`            | The callback for the `onCurrentIndexChange` event.
 `onRest`                        | `null`            | The callback for the `onRest` event.
 `onSpin`                        | `null`            | The callback for the `onSpin` event.

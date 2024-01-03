@@ -226,8 +226,8 @@ Wheel {
     "removeEventListener": [MockFunction],
   },
   "_offset": Object {
-    "h": 0,
-    "w": 0,
+    "x": 0,
+    "y": 0,
   },
   "_onCurrentIndexChange": null,
   "_onRest": null,
