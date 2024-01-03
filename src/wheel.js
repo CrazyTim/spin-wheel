@@ -127,16 +127,16 @@ export class Wheel {
     // Calc the size that the wheel needs to be to fit in it's container:
     const min = Math.min(w, h);
     const wheelSize = {
-      w: min - (min * this.offset.w),
-      h: min - (min * this.offset.h),
+      w: min - (min * this._offset.x),
+      h: min - (min * this._offset.y),
     };
     const scale = Math.min(w / wheelSize.w, h / wheelSize.h);
     this._size = Math.max(wheelSize.w * scale, wheelSize.h * scale);
 
     // Calculate the center of the wheel:
     this._center = {
-      x: w / 2 + (w * this.offset.w),
-      y: h / 2 + (h * this.offset.h),
+      x: w / 2 + (w * this._offset.x),
+      y: h / 2 + (h * this._offset.y),
     };
 
     // Calculate the wheel radius:
