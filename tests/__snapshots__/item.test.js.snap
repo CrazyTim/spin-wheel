@@ -178,6 +178,7 @@ Item {
     },
     "_currentIndex": -1,
     "_debug": false,
+    "_dragEvents": Array [],
     "_frameRequestId": 1,
     "_handler_onDevicePixelRatioChange": [Function],
     "_handler_onMouseDown": [Function],
@@ -258,7 +259,6 @@ Item {
       style="width: 500px; height: 500px;"
       width="500"
     />,
-    "dragEvents": Array [],
     "itemLabelFontSize": 500,
     "labelMaxWidth": 154.37499999999997,
   },

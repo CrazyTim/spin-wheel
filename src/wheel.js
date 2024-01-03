@@ -442,14 +442,14 @@ export class Wheel {
 
   drawDragEvents(ctx) {
 
-    if (!this.debug || !this.dragEvents?.length) return;
+    if (!this.debug || !this._dragEvents?.length) return;
 
-    const dragEventsReversed = [...this.dragEvents].reverse();
+    const dragEventsReversed = [...this._dragEvents].reverse();
     const actualLineWidth = this.getScaledNumber(0.5);
     const actualCircleDiameter = this.getScaledNumber(4);
 
     for (const [i, event] of dragEventsReversed.entries()) {
-      const percent = (i / this.dragEvents.length) * 100;
+      const percent = (i / this._dragEvents.length) * 100;
       ctx.beginPath();
       ctx.arc(event.x, event.y, actualCircleDiameter, 0, 2 * Math.PI);
       ctx.fillStyle = `hsl(${Constants.Debugging.dragEventHue},100%,${percent}%)`;
@@ -537,7 +537,7 @@ export class Wheel {
    */
   spin(rotationSpeed = 0) {
     if (!util.isNumber(rotationSpeed)) throw new Error('rotationSpeed must be a number');
-    this.dragEvents = [];
+    this._dragEvents = [];
     this.beginSpin(rotationSpeed, 'spin');
   }
 
@@ -555,7 +555,7 @@ export class Wheel {
 
     this.stop();
 
-    this.dragEvents = [];
+    this._dragEvents = [];
 
     this.animate(rotation, duration, easingFunction);
 
@@ -576,7 +576,7 @@ export class Wheel {
 
     this.stop();
 
-    this.dragEvents = [];
+    this._dragEvents = [];
 
     const itemAngle = spinToCenter ? this.items[itemIndex].getCenterAngle() : this.items[itemIndex].getRandomAngle();
 
@@ -1235,7 +1235,7 @@ export class Wheel {
       errorMessage: 'Wheel.pixelRatio must be a number',
       defaultValue: Defaults.wheel.pixelRatio,
     });
-    this.dragEvents = [];
+    this._dragEvents = [];
     this.resize();
   }
 
@@ -1346,7 +1346,7 @@ export class Wheel {
 
     this.stop(); // Interrupt `spinTo()`
 
-    this.dragEvents = [{
+    this._dragEvents = [{
       distance: 0,
       x: p.x,
       y: p.y,
@@ -1362,19 +1362,19 @@ export class Wheel {
     const p = util.translateXYToElement(point, this.canvas, this.getActualPixelRatio());
     const a = this.getAngleFromCenter(p);
 
-    const lastDragPoint = this.dragEvents[0];
+    const lastDragPoint = this._dragEvents[0];
     const lastAngle = this.getAngleFromCenter(lastDragPoint);
     const angleSinceLastMove = util.diffAngle(lastAngle, a);
 
-    this.dragEvents.unshift({
+    this._dragEvents.unshift({
       distance: angleSinceLastMove,
       x: p.x,
       y: p.y,
-      now:performance.now(),
+      now: performance.now(),
     });
 
     // Retain max 40 drag events.
-    if (this.debug && this.dragEvents.length >= 40) this.dragEvents.pop();
+    if (this.debug && this._dragEvents.length >= 40) this._dragEvents.pop();
 
     // Snap the wheel to the new rotation.
     this.rotation += angleSinceLastMove; // TODO: can we apply easing here so it looks nicer?
@@ -1393,7 +1393,7 @@ export class Wheel {
     let dragDistance = 0;
     const now = performance.now();
 
-    for (const [i, event] of this.dragEvents.entries()) {
+    for (const [i, event] of this._dragEvents.entries()) {
 
       if (!this.isDragEventTooOld(now, event)) {
         dragDistance += event.distance;
@@ -1401,7 +1401,7 @@ export class Wheel {
       }
 
       // Exclude old events:
-      this.dragEvents.length = i;
+      this._dragEvents.length = i;
       if (this.debug) this.refresh(); // Redraw drag events after trimming the array.
       break;
 
