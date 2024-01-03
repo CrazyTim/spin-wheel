@@ -51,7 +51,7 @@ export const Defaults = Object.freeze({
     rotation: 0,
     rotationResistance: -35,
     rotationSpeedMax: 300,
-    offset: {w: 0, h: 0},
+    offset: {x: 0, y: 0},
     onCurrentIndexChange: null,
     onRest: null,
     onSpin: null,
