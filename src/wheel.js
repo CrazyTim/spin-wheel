@@ -179,6 +179,7 @@ export class Wheel {
 
     // Build paths:
     for (const [i, a] of angles.entries()) {
+      const item = this._items[i];
 
       const path = new Path2D();
       path.moveTo(this._center.x, this._center.y);
@@ -190,8 +191,7 @@ export class Wheel {
         util.degRad(a.end + Constants.arcAdjust)
       );
 
-      this._items[i].path = path;
-
+      item.path = path;
     }
 
     this.drawItemBackgrounds(ctx, angles);
@@ -476,7 +476,7 @@ export class Wheel {
 
       const duration = this._spinToTimeEnd - this._spinToTimeStart;
       let delta = (now - this._spinToTimeStart) / duration;
-      delta = (delta < 0)? 0 : delta; // Frame time may be before the start time.
+      delta = (delta < 0) ? 0 : delta; // Frame time may be before the start time.
       const distance = this._spinToEndRotation - this._spinToStartRotation;
 
       this.rotation = this._spinToStartRotation + distance * this._spinToEasingFunction(delta);
@@ -559,7 +559,7 @@ export class Wheel {
 
     this.animate(rotation, duration, easingFunction);
 
-    this.raiseEvent_onSpin({method: 'spinto', targetRotation: rotation, duration});
+    this.raiseEvent_onSpin({ method: 'spinto', targetRotation: rotation, duration });
 
   }
 
@@ -585,7 +585,7 @@ export class Wheel {
 
     this.animate(newRotation, duration, easingFunction);
 
-    this.raiseEvent_onSpin({method: 'spintoitem', targetItemIndex: itemIndex, targetRotation: newRotation, duration});
+    this.raiseEvent_onSpin({ method: 'spintoitem', targetItemIndex: itemIndex, targetRotation: newRotation, duration });
 
   }
 
@@ -626,7 +626,7 @@ export class Wheel {
   /**
    * Return true if the given point is inside the wheel.
    */
-  wheelHitTest(point = {x:0, y:0}) {
+  wheelHitTest(point = { x: 0, y: 0 }) {
     const p = util.translateXYToElement(point, this.canvas, this.getActualPixelRatio());
     return util.isPointInCircle(p, this._center.x, this._center.y, this._actualRadius);
   }
@@ -659,7 +659,7 @@ export class Wheel {
    * Get the angle (in degrees) of the given point from the center of the wheel.
    * 0 is north.
    */
-  getAngleFromCenter(point = {x:0, y:0}) {
+  getAngleFromCenter(point = { x: 0, y: 0 }) {
     return (util.getAngle(this._center.x, this._center.y, point.x, point.y) + 90) % 360;
   }
 
@@ -1338,7 +1338,7 @@ export class Wheel {
   /**
    * Enter the drag state.
    */
-  dragStart(point = {x:0, y:0}) {
+  dragStart(point = { x: 0, y: 0 }) {
 
     const p = util.translateXYToElement(point, this.canvas, this.getActualPixelRatio());
 
@@ -1350,14 +1350,14 @@ export class Wheel {
       distance: 0,
       x: p.x,
       y: p.y,
-      now:performance.now(),
+      now: performance.now(),
     }];
 
     this.refreshCursor();
 
   }
 
-  dragMove(point = {x:0, y:0}) {
+  dragMove(point = { x: 0, y: 0 }) {
 
     const p = util.translateXYToElement(point, this.canvas, this.getActualPixelRatio());
     const a = this.getAngleFromCenter(p);
