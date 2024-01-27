@@ -1,6 +1,6 @@
 <script setup>
-  import { Wheel } from "spin-wheel";
   import { ref, onMounted, onUpdated } from 'vue'
+  import { Wheel, WheelProps} from "spin-wheel";
 
   const props = defineProps({
     numItems: {
@@ -11,6 +11,7 @@
   const wheelContainer = ref(null);
   let wheel = null;
 
+  /** @type {WheelProps} */
   const wheelProps = {
     items: [],
     itemLabelRadiusMax: 0.4,
