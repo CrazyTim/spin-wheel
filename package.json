@@ -27,6 +27,9 @@
     "build-iife": "node scripts/build.js -entryPoint=src/wheel.js -iife"
   },
   "eslintConfig": {
+    "ignorePatterns": [
+      "**/dist/**/*.js"
+    ],
     "env": {
       "browser": true,
       "es2021": true
