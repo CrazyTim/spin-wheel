@@ -202,8 +202,8 @@ export class Wheel {
     this.drawItemLines(ctx, angles);
     this.drawItemLabels(ctx, angles);
     this.drawBorder(ctx);
-    this.drawImage(ctx, this._image, false);
-    this.drawImage(ctx, this._overlayImage, true);
+    this.drawImage(ctx, this._imageObj, false);
+    this.drawImage(ctx, this._overlayImageObj, true);
     this.drawPointerLine(ctx);
     this.drawDragEvents(ctx);
 
@@ -234,7 +234,8 @@ export class Wheel {
 
       const item = this._items[i];
 
-      if (!util.isImageLoaded(item.image)) continue;
+      if (item.imageObj == null) continue;
+      if (!util.isImageLoaded(item.imageObj)) continue;
 
       ctx.save();
 
@@ -251,13 +252,13 @@ export class Wheel {
 
       ctx.globalAlpha = item.imageOpacity;
 
-      const width = (this._size / 500) * item.image.width * item.imageScale;
-      const height = (this._size / 500) * item.image.height * item.imageScale;
+      const width = (this._size / 500) * item.imageObj.width * item.imageScale;
+      const height = (this._size / 500) * item.imageObj.height * item.imageScale;
       const widthHalf = -width / 2;
       const heightHalf = -height / 2;
 
       ctx.drawImage(
-        item.image,
+        item.imageObj,
         widthHalf,
         heightHalf,
         width,
@@ -272,6 +273,7 @@ export class Wheel {
 
   drawImage(ctx, image, isOverlay = false) {
 
+    if (image === null) return;
     if (!util.isImageLoaded(image)) return;
 
     ctx.translate(
@@ -832,7 +834,7 @@ export class Wheel {
    * It will be automatically scaled to fit `radius`.
    */
   get image() {
-    return this._image?.src ?? null;
+    return this._image;
   }
   set image(val) {
     this._image = util.setProp({
@@ -841,15 +843,20 @@ export class Wheel {
       errorMessage: 'Wheel.image must be a url (string) or null',
       defaultValue: Defaults.wheel.image,
       action: () => {
-        if (val === null) return null;
-        const v = new Image();
-        v.src = val;
-        v.onload = e => this.refresh();
-        return v;
+        if (val === null) {
+          this._imageObj = null;
+          return null;
+        }
+        this._imageObj = util.loadImage(val, e => this.refresh());
+        return val;
       },
     });
 
     this.refresh();
+  }
+
+  get imageObj() {
+    return this._imageObj;
   }
 
   /**
@@ -1205,7 +1212,7 @@ export class Wheel {
    * Use this to draw decorations around the wheel, such as a stand or pointer.
    */
   get overlayImage() {
-    return this._overlayImage?.src ?? null;
+    return this._overlayImage;
   }
   set overlayImage(val) {
     this._overlayImage = util.setProp({
@@ -1214,15 +1221,20 @@ export class Wheel {
       errorMessage: 'Wheel.overlayImage must be a url (string) or null',
       defaultValue: Defaults.wheel.overlayImage,
       action: () => {
-        if (val === null) return null;
-        const v = new Image();
-        v.src = val;
-        v.onload = e => this.refresh();
-        return v;
+        if (val === null) {
+          this._overlayImageObj = null;
+          return null;
+        }
+        this._overlayImageObj = util.loadImage(val, e => this.refresh());
+        return val;
       },
     });
 
     this.refresh();
+  }
+
+  get overlayImageObj() {
+    return this._overlayImageObj;
   }
 
   /**

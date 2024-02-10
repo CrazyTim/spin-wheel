@@ -172,10 +172,12 @@ export function setProp({val, isValid, errorMessage, defaultValue, action = null
 
 /**
  * Return true if image has loaded.
+ * @param {HTMLImageElement} image
+ * @returns {boolean}
  */
 export function isImageLoaded(image) {
   // We can detect a broken image (didn't load) by checking the natural width/height.
-  return image && image.complete && image.naturalWidth !== 0 && image.naturalHeight !== 0;
+  return image?.complete && image?.naturalWidth !== 0 && image?.naturalHeight !== 0;
 }
 
 export function fixFloat(f = 0) {
@@ -187,4 +189,17 @@ export function fixFloat(f = 0) {
  */
 export function easeSinOut(n) {
   return Math.sin((n * Math.PI) / 2);
+}
+
+/**
+ * Initalise an image, set a callback for when it loads, and return the image.
+ * @param {string} src
+ * @param {function(any): void} onLoadCallBack
+ * @returns {HTMLImageElement}
+ */
+export function loadImage(src, onLoadCallBack) {
+  const img = new Image();
+  img.src = src;
+  img.onload = e => onLoadCallBack(e);
+  return img;
 }
