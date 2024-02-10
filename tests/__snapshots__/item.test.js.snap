@@ -4,6 +4,7 @@ exports[`Initial state is correct 1`] = `
 Item {
   "_backgroundColor": null,
   "_image": null,
+  "_imageObj": null,
   "_imageOpacity": 1,
   "_imageRadius": 0.5,
   "_imageRotation": 0,
