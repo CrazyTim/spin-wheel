@@ -67,16 +67,18 @@ export class Item {
     return this._image;
   }
   set image(val) {
-    let img;
     if (typeof val === 'string') {
-      img = new Image();
-      img.src = val;
-      img.onload = e => this._wheel.refresh();
+      this._image = val;
+      this._imageObj = util.loadImage(val, e => this._wheel.refresh());
     } else {
-      img = Defaults.item.image;
+      this._image = Defaults.item.image;
+      this._imageObj = null;
     }
-    this._image = img;
     this._wheel.refresh();
+  }
+
+  get imageObj() {
+    return this._imageObj;
   }
 
   /**
