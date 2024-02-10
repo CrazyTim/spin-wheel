@@ -143,9 +143,9 @@ export class Wheel {
 
     // Adjust the font size of labels so they all fit inside the wheel's radius:
     this._itemLabelFontSize = this.itemLabelFontSizeMax * (this._size / Constants.baseCanvasSize);
-    this.labelMaxWidth = this._actualRadius * (this.itemLabelRadius - this.itemLabelRadiusMax);
+    this._labelMaxWidth = this._actualRadius * (this.itemLabelRadius - this.itemLabelRadiusMax);
     for (const item of this._items) {
-      this._itemLabelFontSize = Math.min(this._itemLabelFontSize, util.getFontSizeToFit(item.label, this.itemLabelFont, this.labelMaxWidth, this._context));
+      this._itemLabelFontSize = Math.min(this._itemLabelFontSize, util.getFontSizeToFit(item.label, this.itemLabelFont, this._labelMaxWidth, this._context));
     }
 
     this.refresh();
@@ -415,13 +415,13 @@ export class Wheel {
         // Draw the outline of the label:
         ctx.beginPath();
         ctx.moveTo(0, 0);
-        ctx.lineTo(-this.labelMaxWidth, 0);
+        ctx.lineTo(-this._labelMaxWidth, 0);
 
         ctx.strokeStyle = Constants.Debugging.labelOutlineColor;
         ctx.lineWidth = actualDebugLineWidth;
         ctx.stroke();
 
-        ctx.strokeRect(0, -this._itemLabelFontSize / 2, -this.labelMaxWidth, this._itemLabelFontSize);
+        ctx.strokeRect(0, -this._itemLabelFontSize / 2, -this._labelMaxWidth, this._itemLabelFontSize);
       }
 
       if (this._itemLabelStrokeWidth > 0) {

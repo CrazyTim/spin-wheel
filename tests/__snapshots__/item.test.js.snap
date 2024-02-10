@@ -208,6 +208,7 @@ Item {
     "_itemLabelStrokeColor": "#fff",
     "_itemLabelStrokeWidth": 0,
     "_items": Array [],
+    "_labelMaxWidth": 154.37499999999997,
     "_lastSpinFrameTime": null,
     "_lineColor": "#000",
     "_lineWidth": 1,
@@ -260,7 +261,6 @@ Item {
       style="width: 500px; height: 500px;"
       width="500"
     />,
-    "labelMaxWidth": 154.37499999999997,
   },
 }
 `;
