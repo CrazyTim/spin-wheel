@@ -22,6 +22,7 @@
     "start": "node scripts/build.js -entryPoint=src/wheel.js -servePath=examples/themes/",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
     "lint": "eslint src examples scripts --fix",
+    "format": "prettier --write .",
     "build": "npm run lint && npm run test && npm run build-esm && npm run build-iife",
     "build-esm": "node scripts/build.js -entryPoint=src/wheel.js -esm",
     "build-iife": "node scripts/build.js -entryPoint=src/wheel.js -iife"
@@ -226,7 +227,8 @@
     "esbuild": "^0.15.11",
     "eslint": "^8.25.0",
     "jest": "^27.4.3",
-    "jest-canvas-mock": "^2.5.1"
+    "jest-canvas-mock": "^2.5.1",
+    "prettier": "^3.2.5"
   },
   "optionalDependencies": {
     "canvas": "^2.11.2"
