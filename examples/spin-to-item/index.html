@@ -1,41 +1,63 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Spin Wheel Example - Spin to an Item</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <link rel="icon" href="data:image/x-icon;," type="image/x-icon">
-  <link rel="stylesheet" href="./css/index.css"/>
-  <script src="./js/index.js" type="module"></script>
-</head>
+  <head>
+    <meta charset="utf-8" />
+    <title>Spin Wheel Example - Spin to an Item</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="data:image/x-icon;," type="image/x-icon" />
+    <link rel="stylesheet" href="./css/index.css" />
+    <script src="./js/index.js" type="module"></script>
+  </head>
 
-<body>
-
-  <div class="gui-wrapper">
-    <p><label>Choose the winning item:</label><select class="winning-item"></select></p>
-    <p><label>Spin easing function:</label><select class="easing-function"></select></p>
-    <p><label>Number of revolutions:</label><select class="revolutions">
-      <option>0</option>
-      <option selected>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-    </select></p>
-    <p>
-      <label>Spin direction:</label>
-      <input type="radio" id="spinDirection-0" name="spinDirection" value="1" checked="checked"/><label for="spinDirection-0">Clockwise</label>
-      <input type="radio" id="spinDirection-1" name="spinDirection" value="-1"/><label for="spinDirection-1">Anticlockwise</label>
-    </p>
-    <p>
-      <label>Wheel pointer angle (Degrees):</label><input type="text" id="pointerAngle" value="0">
-    </p>
-    <div>
-      <button class="btn-spin">Spin to Item</button>
-      <button class="btn-stop">Stop</button>
+  <body>
+    <div class="gui-wrapper">
+      <p>
+        <label>Choose the winning item:</label
+        ><select class="winning-item"></select>
+      </p>
+      <p>
+        <label>Spin easing function:</label
+        ><select class="easing-function"></select>
+      </p>
+      <p>
+        <label>Number of revolutions:</label
+        ><select class="revolutions">
+          <option>0</option>
+          <option selected>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+        </select>
+      </p>
+      <p>
+        <label>Spin direction:</label>
+        <input
+          type="radio"
+          id="spinDirection-0"
+          name="spinDirection"
+          value="1"
+          checked="checked"
+        /><label for="spinDirection-0">Clockwise</label>
+        <input
+          type="radio"
+          id="spinDirection-1"
+          name="spinDirection"
+          value="-1"
+        /><label for="spinDirection-1">Anticlockwise</label>
+      </p>
+      <p>
+        <label>Wheel pointer angle (Degrees):</label
+        ><input type="text" id="pointerAngle" value="0" />
+      </p>
+      <div>
+        <button class="btn-spin">Spin to Item</button>
+        <button class="btn-stop">Stop</button>
+      </div>
     </div>
-  </div>
 
-  <div class="wheel-wrapper"></div>
-
-</body>
+    <div class="wheel-wrapper"></div>
+  </body>
 </html>

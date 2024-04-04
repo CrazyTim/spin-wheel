@@ -1,13 +1,14 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: 'Lucida Grande', sans-serif;
+  font-family: "Lucida Grande", sans-serif;
   font-size: 15px;
   -webkit-tap-highlight-color: transparent;
   user-select: none; /* Prevent selecting ui text when dragging */
 }
 
-html, body {
+html,
+body {
   height: 100%;
 }
 

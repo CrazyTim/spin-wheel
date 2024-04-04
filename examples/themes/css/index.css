@@ -1,18 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Pragati+Narrow&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Pragati+Narrow&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap");
 
 * {
   margin: 0;
   padding: 0;
-  font-family: 'Lucida Grande', sans-serif;
+  font-family: "Lucida Grande", sans-serif;
   font-size: 15px;
   -webkit-tap-highlight-color: transparent;
   user-select: none; /* Prevent selecting ui text when dragging */
 }
 
-html, body {
+html,
+body {
   height: 100%;
 }
 

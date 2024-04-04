@@ -1,378 +1,384 @@
-import {AlignText} from '../../../src/constants.js';
+import { AlignText } from "../../../src/constants.js";
 
 export const props = [
-
   {
-    name: 'Workout',
+    name: "Workout",
     radius: 0.84,
     itemLabelRadius: 0.93,
     itemLabelRadiusMax: 0.35,
     itemLabelRotation: 180,
     itemLabelAlign: AlignText.left,
-    itemLabelColors: ['#fff'],
+    itemLabelColors: ["#fff"],
     itemLabelBaselineOffset: -0.07,
-    itemLabelFont: 'Amatic SC',
+    itemLabelFont: "Amatic SC",
     itemLabelFontSizeMax: 55,
-    itemBackgroundColors: ['#ffc93c', '#66bfbf', '#a2d5f2', '#515070', '#43658b', '#ed6663', '#d54062' ],
+    itemBackgroundColors: [
+      "#ffc93c",
+      "#66bfbf",
+      "#a2d5f2",
+      "#515070",
+      "#43658b",
+      "#ed6663",
+      "#d54062",
+    ],
     rotationSpeedMax: 500,
     rotationResistance: -100,
     lineWidth: 1,
-    lineColor: '#fff',
-    image: './img/example-0-image.svg',
-    overlayImage: './img/example-0-overlay.svg',
+    lineColor: "#fff",
+    image: "./img/example-0-image.svg",
+    overlayImage: "./img/example-0-overlay.svg",
     items: [
       {
-        label: 'TWISTS',
+        label: "TWISTS",
       },
       {
-        label: 'PRESS UPS',
+        label: "PRESS UPS",
       },
       {
-        label: 'JOGGING',
+        label: "JOGGING",
       },
       {
-        label: 'SQUATS',
+        label: "SQUATS",
       },
       {
-        label: 'PLANKS',
+        label: "PLANKS",
       },
       {
-        label: 'LUNGES',
+        label: "LUNGES",
       },
       {
-        label: 'BURPIES',
+        label: "BURPIES",
       },
       {
-        label: 'CRUNCHES',
+        label: "CRUNCHES",
       },
       {
-        label: 'MOUNT. CLIMB',
+        label: "MOUNT. CLIMB",
       },
       {
-        label: 'STAR JUMPS',
+        label: "STAR JUMPS",
       },
       {
-        label: 'KANGAROOS',
+        label: "KANGAROOS",
       },
       {
-        label: 'ROPE CLIMB',
+        label: "ROPE CLIMB",
       },
       {
-        label: 'KICK BOXING',
+        label: "KICK BOXING",
       },
       {
-        label: 'WALL SIT',
+        label: "WALL SIT",
       },
     ],
-
   },
 
   {
-    name: 'Takeaway',
+    name: "Takeaway",
     radius: 0.89,
     pointerAngle: 90,
     itemLabelRadius: 0.92,
     itemLabelRadiusMax: 0.37,
     itemLabelRotation: 0,
     itemLabelAlign: AlignText.right,
-    itemLabelColors: ['#000'],
+    itemLabelColors: ["#000"],
     itemLabelBaselineOffset: -0.06,
-    itemLabelFont: 'Rubik',
-    itemBackgroundColors: ['#fbf8c4', '#e4f1aa', '#c0d26e', '#ff7d7d'],
+    itemLabelFont: "Rubik",
+    itemBackgroundColors: ["#fbf8c4", "#e4f1aa", "#c0d26e", "#ff7d7d"],
     rotationSpeedMax: 700,
     rotationResistance: -110,
     lineWidth: 0,
-    overlayImage: './img/example-1-overlay.svg',
+    overlayImage: "./img/example-1-overlay.svg",
     borderWidth: 0,
     items: [
       {
-        label: 'Japanese',
+        label: "Japanese",
       },
       {
-        label: 'Fish N Chips',
+        label: "Fish N Chips",
       },
       {
-        label: 'Sandwich',
+        label: "Sandwich",
       },
       {
-        label: 'Sub Sandwich',
+        label: "Sub Sandwich",
         weight: 1.3,
       },
       {
-        label: 'Tacos / Mexican',
+        label: "Tacos / Mexican",
       },
       {
-        label: 'Noodle Box',
+        label: "Noodle Box",
       },
       {
-        label: 'BBQ Chicken',
+        label: "BBQ Chicken",
       },
       {
-        label: 'Fried Chicken',
+        label: "Fried Chicken",
         weight: 1.3,
       },
       {
-        label: 'Indian',
+        label: "Indian",
       },
       {
-        label: 'Thai',
+        label: "Thai",
       },
       {
-        label: 'Juice Smoothie',
+        label: "Juice Smoothie",
       },
       {
-        label: 'Burgers',
+        label: "Burgers",
         weight: 1.3,
       },
       {
-        label: 'Souvlaki / Kebab',
+        label: "Souvlaki / Kebab",
       },
       {
-        label: 'Italian',
+        label: "Italian",
       },
       {
-        label: 'Sushi',
+        label: "Sushi",
       },
       {
-        label: 'Subways',
+        label: "Subways",
         weight: 1.3,
       },
       {
-        label: 'Pie / Bakery',
+        label: "Pie / Bakery",
       },
       {
-        label: 'Chinese',
+        label: "Chinese",
       },
       {
-        label: 'Korean',
+        label: "Korean",
       },
       {
-        label: 'Pizza',
+        label: "Pizza",
         weight: 1.3,
       },
     ],
   },
 
   {
-    name: 'Movies',
+    name: "Movies",
     radius: 0.88,
     itemLabelRadius: 0.92,
     itemLabelRadiusMax: 0.4,
     itemLabelRotation: 0,
     itemLabelAlign: AlignText.right,
     itemLabelBaselineOffset: -0.13,
-    itemLabelFont: 'Pragati Narrow',
-    itemBackgroundColors: ['#c7160c', '#fff'],
-    itemLabelColors: ['#fff', '#000'],
+    itemLabelFont: "Pragati Narrow",
+    itemBackgroundColors: ["#c7160c", "#fff"],
+    itemLabelColors: ["#fff", "#000"],
     rotationSpeedMax: 700,
     rotationResistance: -70,
     lineWidth: 0,
-    overlayImage: './img/example-2-overlay.svg',
+    overlayImage: "./img/example-2-overlay.svg",
     items: [
       {
-        label: 'Action',
+        label: "Action",
       },
       {
-        label: 'Horror',
+        label: "Horror",
       },
       {
-        label: 'Science Fict.',
+        label: "Science Fict.",
       },
       {
-        label: 'Comedy',
+        label: "Comedy",
       },
       {
-        label: 'Romance',
+        label: "Romance",
       },
       {
-        label: 'Thriller',
+        label: "Thriller",
       },
       {
-        label: 'Western',
+        label: "Western",
       },
       {
-        label: 'Indie',
+        label: "Indie",
       },
       {
-        label: 'Crime',
+        label: "Crime",
       },
       {
-        label: 'Documentary',
+        label: "Documentary",
       },
       {
-        label: 'Drama',
+        label: "Drama",
       },
       {
-        label: 'Musical',
+        label: "Musical",
       },
       {
-        label: 'Mystery',
+        label: "Mystery",
       },
       {
-        label: 'War',
+        label: "War",
       },
       {
-        label: 'Sports',
+        label: "Sports",
       },
       {
-        label: 'Fantasy',
+        label: "Fantasy",
       },
     ],
   },
 
   {
-    name: 'Money',
+    name: "Money",
     radius: 0.88,
     itemLabelRadius: 0.93,
     itemLabelRotation: 180,
     itemLabelAlign: AlignText.left,
-    itemLabelColors: ['#000'],
+    itemLabelColors: ["#000"],
     itemLabelBaselineOffset: -0.06,
-    itemLabelFont: 'Arial',
+    itemLabelFont: "Arial",
     itemLabelFontSizeMax: 22,
     lineWidth: 1,
-    lineColor: '#000',
-    overlayImage: './img/example-3-overlay.svg',
+    lineColor: "#000",
+    overlayImage: "./img/example-3-overlay.svg",
     items: [
       {
-        label: '$ 50',
+        label: "$ 50",
       },
       {
-        label: '$ 200',
+        label: "$ 200",
       },
       {
-        label: '$ 1000',
+        label: "$ 1000",
         weight: 0.6,
-        backgroundColor: '#f23925',
-        labelColor: '#fff',
+        backgroundColor: "#f23925",
+        labelColor: "#fff",
       },
       {
-        label: '$ 100',
+        label: "$ 100",
       },
       {
-        label: '$ 200',
+        label: "$ 200",
       },
       {
-        label: '$ 500',
+        label: "$ 500",
         weight: 0.8,
-        backgroundColor: '#b1ddff',
+        backgroundColor: "#b1ddff",
       },
       {
-        label: '$ 100',
+        label: "$ 100",
       },
       {
-        label: '$ 50',
+        label: "$ 50",
       },
       {
-        label: '$ 5000',
+        label: "$ 5000",
         weight: 0.4,
-        backgroundColor: '#000',
-        labelColor: '#fff',
+        backgroundColor: "#000",
+        labelColor: "#fff",
       },
       {
-        label: '$ 50',
+        label: "$ 50",
       },
       {
-        label: '$ 200',
+        label: "$ 200",
       },
       {
-        label: '$ 500',
+        label: "$ 500",
         weight: 0.8,
-        backgroundColor: '#b1ddff',
+        backgroundColor: "#b1ddff",
       },
       {
-        label: '$ 100',
+        label: "$ 100",
       },
       {
-        label: '$ 200',
+        label: "$ 200",
       },
       {
-        label: '$ 1000',
+        label: "$ 1000",
         weight: 0.6,
-        backgroundColor: '#f23925',
-        labelColor: '#fff',
+        backgroundColor: "#f23925",
+        labelColor: "#fff",
       },
       {
-        label: '$ 100',
+        label: "$ 100",
       },
       {
-        label: '$ 50',
+        label: "$ 50",
       },
       {
-        label: '$ 500',
+        label: "$ 500",
         weight: 0.8,
-        backgroundColor: '#b1ddff',
+        backgroundColor: "#b1ddff",
       },
     ],
   },
 
   {
-    name: 'King of Nerds',
+    name: "King of Nerds",
     itemLabelRadius: 0.92,
     itemLabelRadiusMax: 0.3,
-    itemLabelColors: ['hsl(0, 0%, 20%)'],
-    itemLabelFont: 'Gloria Hallelujah',
+    itemLabelColors: ["hsl(0, 0%, 20%)"],
+    itemLabelFont: "Gloria Hallelujah",
     itemLabelBaselineOffset: -0.2,
     rotationSpeedMax: 400,
     rotationResistance: -100,
-    image: './img/example-4-image.svg',
+    image: "./img/example-4-image.svg",
     lineWidth: 0,
     items: [
       {
-        label: 'SHELDON',
+        label: "SHELDON",
         weight: 2.9,
       },
       {
-        label: 'PENNY',
+        label: "PENNY",
       },
       {
-        label: 'LEONARD',
+        label: "LEONARD",
       },
       {
-        label: 'HOWARD',
+        label: "HOWARD",
       },
       {
-        label: 'BERNADETTE',
+        label: "BERNADETTE",
       },
       {
-        label: 'RAJ',
+        label: "RAJ",
       },
       {
-        label: 'AMY',
+        label: "AMY",
       },
     ],
   },
 
   {
-    name: 'Rock Paper Scissors',
-    itemBackgroundColors: ['hsl(310, 100%, 95%)'],
-    lineColor: 'hsl(350, 20%, 40%)',
+    name: "Rock Paper Scissors",
+    itemBackgroundColors: ["hsl(310, 100%, 95%)"],
+    lineColor: "hsl(350, 20%, 40%)",
     lineWidth: 2,
-    borderColor: 'hsl(350, 20%, 40%)',
+    borderColor: "hsl(350, 20%, 40%)",
     borderWidth: 4,
     items: [
       {
-        image: './img/example-5-item-0.svg',
+        image: "./img/example-5-item-0.svg",
         imageRadius: 0.6,
         imageScale: 1.2,
       },
       {
-        image: './img/example-5-item-1.svg',
+        image: "./img/example-5-item-1.svg",
         imageRadius: 0.6,
         imageScale: 1.2,
       },
       {
-        image: './img/example-5-item-2.svg',
+        image: "./img/example-5-item-2.svg",
         imageRadius: 0.6,
         imageScale: 1.2,
       },
       {
-        image: './img/example-5-item-3.svg',
+        image: "./img/example-5-item-3.svg",
         imageRadius: 0.6,
         imageScale: 1.2,
       },
       {
-        image: './img/example-5-item-4.svg',
+        image: "./img/example-5-item-4.svg",
         imageRadius: 0.6,
         imageScale: 1.2,
       },
@@ -380,18 +386,17 @@ export const props = [
   },
 
   {
-    name: 'Basic',
+    name: "Basic",
     items: [
       {
-        label: 'one',
+        label: "one",
       },
       {
-        label: 'two',
+        label: "two",
       },
       {
-        label: 'three',
+        label: "three",
       },
     ],
   },
-
 ];

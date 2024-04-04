@@ -1,17 +1,16 @@
-import {jest, test, expect, beforeEach, afterEach} from '@jest/globals';
-import {Defaults} from '../src/constants.js';
-import {createWheel, createContainer} from '../scripts/test.js';
-import {getInstanceProperties} from '../scripts/util.js';
-import {Wheel} from '../src/wheel.js';
+import { jest, test, expect, beforeEach, afterEach } from "@jest/globals";
+import { Defaults } from "../src/constants.js";
+import { createWheel, createContainer } from "../scripts/test.js";
+import { getInstanceProperties } from "../scripts/util.js";
+import { Wheel } from "../src/wheel.js";
 
 beforeEach(() => {
   jest.useFakeTimers();
   let count = 0;
-  jest.spyOn(window, 'requestAnimationFrame')
-    .mockImplementation(callback => {
-      setTimeout(() => callback(count*100), 100); // Mocked frame will be called exactly every .1 seconds.
-      return ++count; // Return frame id;
-    });
+  jest.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
+    setTimeout(() => callback(count * 100), 100); // Mocked frame will be called exactly every .1 seconds.
+    return ++count; // Return frame id;
+  });
 });
 
 afterEach(() => {
@@ -20,13 +19,12 @@ afterEach(() => {
   jest.useRealTimers();
 });
 
-test('Mocked requestAnimationFrame works', async () => {
-
+test("Mocked requestAnimationFrame works", async () => {
   let time;
-  const f = ((n = 0) => {
+  const f = (n = 0) => {
     time = n;
     window.requestAnimationFrame(f);
-  });
+  };
 
   f();
 
@@ -37,49 +35,43 @@ test('Mocked requestAnimationFrame works', async () => {
   expect(time).toBe(300);
   jest.advanceTimersByTime(50);
   expect(time).toBe(300); // Should not advance because the mocked frame only renders every 100ms.
-
 });
 
-test('Initial state is correct', () => {
+test("Initial state is correct", () => {
   const wheel = createWheel();
   expect(wheel).toMatchSnapshot();
 });
 
-test('Wheel can be initialised with props', () => {
+test("Wheel can be initialised with props", () => {
   createWheel(null);
   createWheel({});
 });
 
-test('Should throw when initialised without container param', () => {
+test("Should throw when initialised without container param", () => {
   expect(() => {
     return new Wheel();
-  }).toThrow('container must be an instance of Element');
+  }).toThrow("container must be an instance of Element");
 });
 
-test('A default value exists for each property', () => {
-
+test("A default value exists for each property", () => {
   const wheel = createWheel();
   const setters = getInstanceProperties(wheel).setters;
 
   for (const i of setters) {
     expect(Defaults.wheel[i]).not.toBe(undefined);
   }
-
 });
 
-test('Each property is given a default value when instantiated', () => {
-
+test("Each property is given a default value when instantiated", () => {
   const wheel = createWheel();
   const setters = getInstanceProperties(wheel).setters;
 
   for (const i of setters) {
     expect(wheel[i]).toEqual(Defaults.wheel[i]);
   }
-
 });
 
 test('Method "getItemAngles" works', () => {
-
   const wheel = createWheel({
     numberOfItems: 4,
     rotation: 90, // Rotation should not affect start/end angles
@@ -90,17 +82,11 @@ test('Method "getItemAngles" works', () => {
   expect(wheel.items[1].getStartAngle()).toBe(90);
   expect(wheel.items[1].getEndAngle()).toBe(180);
   expect(wheel.items[3].getEndAngle()).toBe(360); // Last end angle should be 360.
-
 });
 
 test('Method "getItemAngles" works when weighted', () => {
-
   const wheel = createWheel({
-    items: [
-      {weight: 2},
-      {weight: 1},
-      {weight: 1},
-    ],
+    items: [{ weight: 2 }, { weight: 1 }, { weight: 1 }],
   });
 
   const angles = wheel.getItemAngles();
@@ -109,11 +95,9 @@ test('Method "getItemAngles" works when weighted', () => {
   expect(angles[0].end).toBe(180);
   expect(angles[1].start).toBe(180);
   expect(angles[1].end).toBe(270);
-
 });
 
 test('Method "spin" works', async () => {
-
   const wheel = createWheel({
     rotationResistance: -10,
   });
@@ -130,11 +114,9 @@ test('Method "spin" works', async () => {
   jest.advanceTimersByTime(500);
   expect(wheel.rotationSpeed).toBe(0);
   expect(wheel.rotation).toBe(5.5); // Wheel should finally rest at 5.5 degrees due to rotationResistance.
-
 });
 
 test('Method "spinTo" works', async () => {
-
   const wheel = createWheel();
 
   wheel.spinTo(360, 0);
@@ -144,11 +126,9 @@ test('Method "spinTo" works', async () => {
   wheel.spinTo(-360, 0);
   jest.advanceTimersByTime(100);
   expect(wheel.rotation).toBe(-360);
-
 });
 
 test('Method "spinToItem" works', async () => {
-
   // Note: this is a simple integration test.
   // The full logic is tested elsewhere for `calcWheelRotationForTargetAngle`.
 
@@ -200,11 +180,9 @@ test('Method "spinToItem" works', async () => {
   expect(wheel.rotation).toBe(270 - 45);
 
   // TODO: test number of revolutions
-
 });
 
 test('Method "getRotationSpeedPlusDrag" works (resistance is applied to wheel correctly)', () => {
-
   const wheel = createWheel({
     rotationResistance: -1,
   });
@@ -220,7 +198,7 @@ test('Method "getRotationSpeedPlusDrag" works (resistance is applied to wheel co
   expect(wheel.getRotationSpeedPlusDrag(delta)).toBe(1.999);
 
   delta = 100;
-  expect(wheel.getRotationSpeedPlusDrag(delta)).toBe(1.900);
+  expect(wheel.getRotationSpeedPlusDrag(delta)).toBe(1.9);
 
   delta = 2000;
   expect(wheel.getRotationSpeedPlusDrag(delta)).toBe(0);
@@ -230,11 +208,9 @@ test('Method "getRotationSpeedPlusDrag" works (resistance is applied to wheel co
   expect(wheel.getRotationSpeedPlusDrag(delta)).toBe(0); // Clockwise
   wheel.spin(-2);
   expect(wheel.getRotationSpeedPlusDrag(delta)).toBe(0); // Anti-clockwise
-
 });
 
 test('Property "rotationSpeedMax" works', () => {
-
   const wheel = createWheel({
     rotationSpeedMax: 1,
   });
@@ -244,11 +220,9 @@ test('Property "rotationSpeedMax" works', () => {
 
   wheel.spin(-2);
   expect(wheel.rotationSpeed).toBe(-1);
-
 });
 
 test('Method "stop" works', () => {
-
   const wheel = createWheel({
     numberOfItems: 2,
     rotationResistance: 0,
@@ -270,22 +244,18 @@ test('Method "stop" works', () => {
 
   jest.advanceTimersByTime(1000);
   expect(wheel.rotation).toBe(currentRotation);
-
 });
 
-test('Wheel can be removed from the DOM and added back again', () => {
-
+test("Wheel can be removed from the DOM and added back again", () => {
   const wheel = createWheel({
     numberOfItems: 2,
   });
 
   wheel.remove();
   wheel.add(createContainer());
-
 });
 
 test('Event "currentIndexChange" is raised', async () => {
-
   const wheel = createWheel({
     numberOfItems: 2,
     rotationSpeedMax: 360,
@@ -298,14 +268,12 @@ test('Event "currentIndexChange" is raised', async () => {
 
   expect(wheel.onCurrentIndexChange).toHaveBeenCalledTimes(1);
   expect(wheel.onCurrentIndexChange).toHaveBeenCalledWith({
-    type: 'currentIndexChange',
+    type: "currentIndexChange",
     currentIndex: 0,
   });
-
 });
 
 test('Event "rest" is raised', async () => {
-
   const wheel = createWheel({
     numberOfItems: 2,
     rotationResistance: -10,
@@ -317,15 +285,13 @@ test('Event "rest" is raised', async () => {
 
   expect(wheel.onRest).toHaveBeenCalledTimes(1);
   expect(wheel.onRest).toHaveBeenCalledWith({
-    type: 'rest',
+    type: "rest",
     currentIndex: 1,
     rotation: 5.5,
   });
-
 });
 
 test('Event "spin" is raised', async () => {
-
   const wheel = createWheel({
     onSpin: jest.fn(),
   });
@@ -334,10 +300,9 @@ test('Event "spin" is raised', async () => {
 
   expect(wheel.onSpin).toHaveBeenCalledTimes(1);
   expect(wheel.onSpin).toHaveBeenCalledWith({
-    type: 'spin',
-    method: 'spin',
+    type: "spin",
+    method: "spin",
     rotationResistance: Defaults.wheel.rotationResistance,
     rotationSpeed: 10,
   });
-
 });

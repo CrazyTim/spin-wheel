@@ -19,7 +19,7 @@ export function getRandomFloat(min = 0, max = 0, round = 14) {
  * Convert degrees to radians.
  */
 export function degRad(degrees = 0) {
-  return degrees * Math.PI / 180;
+  return (degrees * Math.PI) / 180;
 }
 
 /**
@@ -41,7 +41,7 @@ export function isAngleBetween(angle, arcStart, arcEnd) {
 export function aveArray(array = []) {
   let sum = 0;
   for (const val of array) {
-    if (val) sum += ((typeof val === 'number') ? val : 1);
+    if (val) sum += typeof val === "number" ? val : 1;
   }
   return sum / array.length || 0;
 }
@@ -63,15 +63,19 @@ export function getFontSizeToFit(text, fontFamily, maxWidth, canvasContext) {
  * cx, cy is circle center.
  * radius is circle radius.
  */
-export function isPointInCircle(point = {x: 0, y: 0}, cx, cy, radius) {
-  const distanceSquared = ((point.x - cx) ** 2) + ((point.y - cy) ** 2);
-  return distanceSquared <= (radius ** 2);
+export function isPointInCircle(point = { x: 0, y: 0 }, cx, cy, radius) {
+  const distanceSquared = (point.x - cx) ** 2 + (point.y - cy) ** 2;
+  return distanceSquared <= radius ** 2;
 }
 
 /**
  * Translate the given point from the viewport's coordinate space to the element's coordinate space.
  */
-export function translateXYToElement(point = {x: 0, y: 0}, element = {}, devicePixelRatio = 1) {
+export function translateXYToElement(
+  point = { x: 0, y: 0 },
+  element = {},
+  devicePixelRatio = 1,
+) {
   const rect = element.getBoundingClientRect();
   return {
     x: (point.x - rect.left) * devicePixelRatio,
@@ -80,27 +84,30 @@ export function translateXYToElement(point = {x: 0, y: 0}, element = {}, deviceP
 }
 
 export function getMouseButtonsPressed(event = {}) {
-  return [1, 2, 4, 8, 16].filter(i => event.buttons & i);
+  return [1, 2, 4, 8, 16].filter((i) => event.buttons & i);
 }
 
 /**
  * Source: https://stackoverflow.com/a/47653643/737393
  */
 export function getAngle(originX, originY, targetX, targetY) {
-    const dx = originX - targetX;
-    const dy = originY - targetY;
+  const dx = originX - targetX;
+  const dy = originY - targetY;
 
-    let theta = Math.atan2(-dy, -dx);
-    theta *= 180 / Math.PI;
-    if (theta < 0) theta += 360;
+  let theta = Math.atan2(-dy, -dx);
+  theta *= 180 / Math.PI;
+  if (theta < 0) theta += 360;
 
-    return theta;
+  return theta;
 }
 
 /**
  * Return the distance between two points.
  */
-export function getDistanceBetweenPoints(point1 = {x: 0, y: 0}, point2 = {x: 0, y: 0}) {
+export function getDistanceBetweenPoints(
+  point1 = { x: 0, y: 0 },
+  point2 = { x: 0, y: 0 },
+) {
   return Math.hypot(point2.x - point1.x, point2.y - point1.y);
 }
 
@@ -137,8 +144,11 @@ export function diffAngle(a = 0, b = 0) {
  * targetAngle = a value between 0 and 360.
  * direction = the direction the wheel can spin. 1 for clockwise, -1 for antiClockwise.
  */
-export function calcWheelRotationForTargetAngle(currentRotation = 0, targetAngle = 0, direction = 1) {
-
+export function calcWheelRotationForTargetAngle(
+  currentRotation = 0,
+  targetAngle = 0,
+  direction = 1,
+) {
   let angle = ((currentRotation % 360) + targetAngle) % 360;
 
   // Ignore tiny values.
@@ -147,23 +157,29 @@ export function calcWheelRotationForTargetAngle(currentRotation = 0, targetAngle
   angle = fixFloat(angle);
 
   // Apply direction:
-  angle = ((direction === 1) ? (360 - angle) : 360 + angle) % 360;
+  angle = (direction === 1 ? 360 - angle : 360 + angle) % 360;
   angle *= direction;
 
   return currentRotation + angle;
 }
 
 export function isObject(v) {
-  return typeof v === 'object' && !Array.isArray(v) && v !== null;
+  return typeof v === "object" && !Array.isArray(v) && v !== null;
 }
 
 export function isNumber(n) {
-  return typeof n === 'number' && !Number.isNaN(n);
+  return typeof n === "number" && !Number.isNaN(n);
 }
 
-export function setProp({val, isValid, errorMessage, defaultValue, action = null}) {
+export function setProp({
+  val,
+  isValid,
+  errorMessage,
+  defaultValue,
+  action = null,
+}) {
   if (isValid) {
-    return (action) ? action() : val;
+    return action ? action() : val;
   } else if (val === undefined) {
     return defaultValue;
   }
@@ -175,7 +191,12 @@ export function setProp({val, isValid, errorMessage, defaultValue, action = null
  */
 export function isImageLoaded(image) {
   // We can detect a broken image (didn't load) by checking the natural width/height.
-  return image && image.complete && image.naturalWidth !== 0 && image.naturalHeight !== 0;
+  return (
+    image &&
+    image.complete &&
+    image.naturalWidth !== 0 &&
+    image.naturalHeight !== 0
+  );
 }
 
 export function fixFloat(f = 0) {

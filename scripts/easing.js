@@ -34,19 +34,19 @@ function tpmt(x) {
 }
 
 var pi = Math.PI,
-    b1 = 4 / 11,
-    b2 = 6 / 11,
-    b3 = 8 / 11,
-    b4 = 3 / 4,
-    b5 = 9 / 11,
-    b6 = 10 / 11,
-    b7 = 15 / 16,
-    b8 = 21 / 22,
-    b9 = 63 / 64,
-    b0 = 1 / b1 / b1,
-    tau = 2 * Math.PI,
-    amplitude = 1,
-    period = 0.3;
+  b1 = 4 / 11,
+  b2 = 6 / 11,
+  b3 = 8 / 11,
+  b4 = 3 / 4,
+  b5 = 9 / 11,
+  b6 = 10 / 11,
+  b7 = 15 / 16,
+  b8 = 21 / 22,
+  b9 = 63 / 64,
+  b0 = 1 / b1 / b1,
+  tau = 2 * Math.PI,
+  amplitude = 1,
+  period = 0.3;
 
 export function sinInOut(t) {
   return (1 - Math.cos(pi * t)) / 2;
@@ -64,17 +64,29 @@ export var elasticInOut = (function custom(a, p) {
   var s = Math.asin(1 / (a = Math.max(1, a))) * (p /= tau);
 
   function elasticInOut(t) {
-    return ((t = t * 2 - 1) < 0
+    return (
+      ((t = t * 2 - 1) < 0
         ? a * tpmt(-t) * Math.sin((s - t) / p)
-        : 2 - a * tpmt(t) * Math.sin((s + t) / p)) / 2;
+        : 2 - a * tpmt(t) * Math.sin((s + t) / p)) / 2
+    );
   }
 
-  elasticInOut.amplitude = function(a) { return custom(a, p * tau); };
-  elasticInOut.period = function(p) { return custom(a, p); };
+  elasticInOut.amplitude = function (a) {
+    return custom(a, p * tau);
+  };
+  elasticInOut.period = function (p) {
+    return custom(a, p);
+  };
 
   return elasticInOut;
 })(amplitude, period);
 
 export function bounceOut(t) {
-  return (t = +t) < b1 ? b0 * t * t : t < b3 ? b0 * (t -= b2) * t + b4 : t < b6 ? b0 * (t -= b5) * t + b7 : b0 * (t -= b8) * t + b9;
+  return (t = +t) < b1
+    ? b0 * t * t
+    : t < b3
+      ? b0 * (t -= b2) * t + b4
+      : t < b6
+        ? b0 * (t -= b5) * t + b7
+        : b0 * (t -= b8) * t + b9;
 }

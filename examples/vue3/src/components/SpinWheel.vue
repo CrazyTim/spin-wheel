@@ -1,37 +1,37 @@
 <script setup>
-  import { Wheel } from "spin-wheel";
-  import { ref, onMounted, onUpdated } from 'vue'
+import { Wheel } from "spin-wheel";
+import { ref, onMounted, onUpdated } from "vue";
 
-  const props = defineProps({
-    numItems: {
-      type: Number,
-    }
+const props = defineProps({
+  numItems: {
+    type: Number,
+  },
+});
+
+const wheelContainer = ref(null);
+let wheel = null;
+
+const wheelProps = {
+  items: [],
+  itemLabelRadiusMax: 0.4,
+};
+
+for (let i = 0; i < props.numItems; i++) {
+  wheelProps.items.push({
+    label: "item " + i,
   });
+}
 
-  const wheelContainer = ref(null);
-  let wheel = null;
+onMounted(() => {
+  wheel = new Wheel(wheelContainer.value, wheelProps);
+});
 
-  const wheelProps = {
-    items: [],
-    itemLabelRadiusMax: 0.4,
-  };
-
-  for (let i = 0; i < props.numItems; i++) {
-    wheelProps.items.push({
-      label: 'item ' + i,
-    });
-  }
-
-  onMounted(() => {
-    wheel = new Wheel(wheelContainer.value, wheelProps);
-  })
-
-  onUpdated(() => {
-    wheelProps.items.push({
-      label: 'item ' + props.numItems,
-    });
-    wheel.items = wheelProps.items;
-  })
+onUpdated(() => {
+  wheelProps.items.push({
+    label: "item " + props.numItems,
+  });
+  wheel.items = wheelProps.items;
+});
 </script>
 
 <template>
@@ -39,9 +39,9 @@
 </template>
 
 <style scoped>
-  div {
-    width: 60vw;
-    height: 60vh;
-    margin: auto;
-  }
+div {
+  width: 60vw;
+  height: 60vh;
+  margin: auto;
+}
 </style>

@@ -1,10 +1,10 @@
-import {Wheel} from '../src/wheel.js';
-import {jest} from '@jest/globals';
+import { Wheel } from "../src/wheel.js";
+import { jest } from "@jest/globals";
 
 // Mock window.matchMedia
-Object.defineProperty(window, 'matchMedia', {
+Object.defineProperty(window, "matchMedia", {
   writable: true,
-  value: jest.fn().mockImplementation(query => ({
+  value: jest.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -15,16 +15,13 @@ Object.defineProperty(window, 'matchMedia', {
 });
 
 export function createWheel(props) {
-
   const wheel = new Wheel(createContainer(), props);
   addBlankItems(wheel, props?.numberOfItems);
 
   return wheel;
-
 }
 
 function addBlankItems(wheel, numberOfItems) {
-
   if (!numberOfItems) return;
 
   const newItems = [];
@@ -32,14 +29,11 @@ function addBlankItems(wheel, numberOfItems) {
     newItems.push({});
   }
   wheel.items = wheel.items.concat(newItems);
-
 }
 
 export function createContainer() {
-
-  const container = document.createElement('div');
-  jest.spyOn(container, 'clientWidth', 'get').mockReturnValue(500);
-  jest.spyOn(container, 'clientHeight', 'get').mockReturnValue(500);
+  const container = document.createElement("div");
+  jest.spyOn(container, "clientWidth", "get").mockReturnValue(500);
+  jest.spyOn(container, "clientHeight", "get").mockReturnValue(500);
   return container;
-
 }

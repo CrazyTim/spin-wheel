@@ -17,9 +17,9 @@ export const dragCapturePeriod = 250;
  * Text alignment enum.
  */
 export const AlignText = Object.freeze({
-  left: 'left',
-  right: 'right',
-  center: 'center',
+  left: "left",
+  right: "right",
+  center: "center",
 });
 
 /**
@@ -27,31 +27,31 @@ export const AlignText = Object.freeze({
  */
 export const Defaults = Object.freeze({
   wheel: {
-    borderColor: '#000',
+    borderColor: "#000",
     borderWidth: 1,
     debug: false,
     image: null,
     isInteractive: true,
-    itemBackgroundColors: ['#fff'],
+    itemBackgroundColors: ["#fff"],
     itemLabelAlign: AlignText.right,
     itemLabelBaselineOffset: 0,
-    itemLabelColors: ['#000'],
-    itemLabelFont: 'sans-serif',
+    itemLabelColors: ["#000"],
+    itemLabelFont: "sans-serif",
     itemLabelFontSizeMax: baseCanvasSize,
     itemLabelRadius: 0.85,
     itemLabelRadiusMax: 0.2,
     itemLabelRotation: 0,
-    itemLabelStrokeColor: '#fff',
+    itemLabelStrokeColor: "#fff",
     itemLabelStrokeWidth: 0,
     items: [],
-    lineColor: '#000',
+    lineColor: "#000",
     lineWidth: 1,
     pixelRatio: 0,
     radius: 0.95,
     rotation: 0,
     rotationResistance: -35,
     rotationSpeedMax: 300,
-    offset: {w: 0, h: 0},
+    offset: { w: 0, h: 0 },
     onCurrentIndexChange: null,
     onRest: null,
     onSpin: null,
@@ -65,7 +65,7 @@ export const Defaults = Object.freeze({
     imageRadius: 0.5,
     imageRotation: 0,
     imageScale: 1,
-    label: '',
+    label: "",
     labelColor: null,
     value: null,
     weight: 1,
@@ -73,8 +73,8 @@ export const Defaults = Object.freeze({
 });
 
 export const Debugging = Object.freeze({
-  pointerLineColor: '#ff00ff',
-  labelOutlineColor: '#ff00ff',
-  labelRadiusColor: '#00ff00',
+  pointerLineColor: "#ff00ff",
+  labelOutlineColor: "#ff00ff",
+  labelRadiusColor: "#00ff00",
   dragEventHue: 200,
 });

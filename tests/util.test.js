@@ -1,7 +1,7 @@
-import {test, expect} from '@jest/globals';
-import * as util from '../src/util.js';
+import { test, expect } from "@jest/globals";
+import * as util from "../src/util.js";
 
-test('degRad() works', () => {
+test("degRad() works", () => {
   const f = util.degRad;
 
   expect(f(-1)).toBe(-0.017453292519943295);
@@ -10,7 +10,7 @@ test('degRad() works', () => {
   expect(f(360)).toBe(6.283185307179586);
 });
 
-test('isAngleBetween() works', () => {
+test("isAngleBetween() works", () => {
   const f = util.isAngleBetween;
 
   expect(f(0, 1, 2)).toBe(false);
@@ -19,14 +19,14 @@ test('isAngleBetween() works', () => {
   expect(f(1, 0, 1)).toBe(false); // angleEnd should be exclusive.
 });
 
-test('aveArray() works', () => {
+test("aveArray() works", () => {
   const f = util.aveArray;
 
   expect(f([0, 2, 4, 8])).toBe(3.5);
   expect(f([])).toBe(0); // Empty array.
 });
 
-test('aveArray() handles truthy/falsy values', () => {
+test("aveArray() handles truthy/falsy values", () => {
   const f = util.aveArray;
 
   const arr = [
@@ -35,7 +35,7 @@ test('aveArray() handles truthy/falsy values', () => {
     true,
     {},
     [],
-    i => {},
+    (i) => {},
     new Set(),
     new Map(),
     new Date(),
@@ -43,7 +43,7 @@ test('aveArray() handles truthy/falsy values', () => {
     0,
     -0,
     0n,
-    '',
+    "",
     false,
     null,
     undefined,
@@ -53,37 +53,31 @@ test('aveArray() handles truthy/falsy values', () => {
   expect(f(arr)).toBe(0.5);
 });
 
-test('getMouseButtonsPressed() works', () => {
+test("getMouseButtonsPressed() works", () => {
   const f = util.getMouseButtonsPressed;
 
-  expect(f({buttons: 3})).toStrictEqual([1, 2]);
-  expect(f({buttons: 12})).toStrictEqual([4, 8]);
-  expect(f({buttons: 9})).toStrictEqual([1, 8]);
+  expect(f({ buttons: 3 })).toStrictEqual([1, 2]);
+  expect(f({ buttons: 12 })).toStrictEqual([4, 8]);
+  expect(f({ buttons: 9 })).toStrictEqual([1, 8]);
 });
 
-test('getDistanceBetweenPoints() works', () => {
+test("getDistanceBetweenPoints() works", () => {
   const f = util.getDistanceBetweenPoints;
 
-  expect(f(
-    {x: 0, y: 0},
-    {x: 0, y: 0}
-  )).toBe(0);
+  expect(f({ x: 0, y: 0 }, { x: 0, y: 0 })).toBe(0);
 
-  expect(f(
-    {x: 0, y: 0},
-    {x: 0, y: 0}
-  )).toBe(0);
+  expect(f({ x: 0, y: 0 }, { x: 0, y: 0 })).toBe(0);
 });
 
-test('isPointInCircle() works', () => {
+test("isPointInCircle() works", () => {
   const f = util.isPointInCircle;
 
-  expect(f({x:0, y:0}, 0, 0, 0)).toBe(true);
-  expect(f({x:1, y:1}, 0, 0, 0)).toBe(false);
-  expect(f({x:1, y:1}, 0, 0, 5)).toBe(true);
+  expect(f({ x: 0, y: 0 }, 0, 0, 0)).toBe(true);
+  expect(f({ x: 1, y: 1 }, 0, 0, 0)).toBe(false);
+  expect(f({ x: 1, y: 1 }, 0, 0, 5)).toBe(true);
 });
 
-test('addAngle() works', () => {
+test("addAngle() works", () => {
   const f = util.addAngle;
 
   expect(f(0, 0)).toBe(0);
@@ -95,7 +89,7 @@ test('addAngle() works', () => {
   expect(f(0, -360)).toBe(0);
 });
 
-test('diffAngle() works', () => {
+test("diffAngle() works", () => {
   const f = util.diffAngle;
 
   expect(f(0, 360)).toBe(0);
@@ -110,7 +104,7 @@ test('diffAngle() works', () => {
   expect(f(180, 190)).toBe(10);
 });
 
-test('isObject() works', () => {
+test("isObject() works", () => {
   const f = util.isObject;
 
   expect(f({})).toBe(true);
@@ -119,8 +113,7 @@ test('isObject() works', () => {
   expect(f(null)).toBe(false);
 });
 
-
-test('calcWheelRotationForTargetAngle() works', () => {
+test("calcWheelRotationForTargetAngle() works", () => {
   const f = util.calcWheelRotationForTargetAngle;
 
   // Clockwise:
@@ -154,5 +147,4 @@ test('calcWheelRotationForTargetAngle() works', () => {
   expect(f(-90, 90, -1)).toBe(-90); // No change
   expect(f(-90, 180, -1)).toBe(-180);
   expect(f(-90, 270, -1)).toBe(-270);
-
 });

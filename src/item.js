@@ -1,20 +1,20 @@
-import * as util from './util.js';
-import {Defaults} from './constants.js';
+import * as util from "./util.js";
+import { Defaults } from "./constants.js";
 
 export class Item {
-
   constructor(wheel, props = {}) {
-
     // Validate params.
-    if (!util.isObject(wheel)) throw new Error('wheel must be an instance of Wheel'); // Ideally we would use instanceof, however importing the Wheel class would create a circular ref.
-    if (!util.isObject(props) && props !== null) throw new Error('props must be an Object or null');
+    if (!util.isObject(wheel))
+      throw new Error("wheel must be an instance of Wheel"); // Ideally we would use instanceof, however importing the Wheel class would create a circular ref.
+    if (!util.isObject(props) && props !== null)
+      throw new Error("props must be an Object or null");
 
     this._wheel = wheel;
 
     // Assign default values.
     // This avoids null exceptions when we initalise each property one-by-one in `init()`.
     for (const i of Object.keys(Defaults.item)) {
-      this['_' + i] = Defaults.item[i];
+      this["_" + i] = Defaults.item[i];
     }
 
     if (props) {
@@ -22,7 +22,6 @@ export class Item {
     } else {
       this.init(Defaults.item);
     }
-
   }
 
   /**
@@ -50,7 +49,7 @@ export class Item {
     return this._backgroundColor;
   }
   set backgroundColor(val) {
-    if (typeof val === 'string') {
+    if (typeof val === "string") {
       this._backgroundColor = val;
     } else {
       this._backgroundColor = Defaults.item.backgroundColor;
@@ -68,10 +67,10 @@ export class Item {
   }
   set image(val) {
     let img;
-    if (typeof val === 'string') {
+    if (typeof val === "string") {
       img = new Image();
       img.src = val;
-      img.onload = e => this._wheel.refresh();
+      img.onload = (e) => this._wheel.refresh();
     } else {
       img = Defaults.item.image;
     }
@@ -87,7 +86,7 @@ export class Item {
     return this._imageOpacity;
   }
   set imageOpacity(val) {
-    if (typeof val === 'number') {
+    if (typeof val === "number") {
       this._imageOpacity = val;
     } else {
       this._imageOpacity = Defaults.item.imageOpacity;
@@ -102,7 +101,7 @@ export class Item {
     return this._imageRadius;
   }
   set imageRadius(val) {
-    if (typeof val === 'number') {
+    if (typeof val === "number") {
       this._imageRadius = val;
     } else {
       this._imageRadius = Defaults.item.imageRadius;
@@ -117,7 +116,7 @@ export class Item {
     return this._imageRotation;
   }
   set imageRotation(val) {
-    if (typeof val === 'number') {
+    if (typeof val === "number") {
       this._imageRotation = val;
     } else {
       this._imageRotation = Defaults.item.imageRotation;
@@ -132,7 +131,7 @@ export class Item {
     return this._imageScale;
   }
   set imageScale(val) {
-    if (typeof val === 'number') {
+    if (typeof val === "number") {
       this._imageScale = val;
     } else {
       this._imageScale = Defaults.item.imageScale;
@@ -147,7 +146,7 @@ export class Item {
     return this._label;
   }
   set label(val) {
-    if (typeof val === 'string') {
+    if (typeof val === "string") {
       this._label = val;
     } else {
       this._label = Defaults.item.label;
@@ -164,7 +163,7 @@ export class Item {
     return this._labelColor;
   }
   set labelColor(val) {
-    if (typeof val === 'string') {
+    if (typeof val === "string") {
       this._labelColor = val;
     } else {
       this._labelColor = Defaults.item.labelColor;
@@ -196,7 +195,7 @@ export class Item {
     return this._weight;
   }
   set weight(val) {
-    if (typeof val === 'number') {
+    if (typeof val === "number") {
       this._weight = val;
     } else {
       this._weight = Defaults.item.weight;
@@ -207,8 +206,8 @@ export class Item {
    * Get the 0-based index of this item.
    */
   getIndex() {
-    const index = this._wheel.items.findIndex(i => i === this);
-    if (index === -1) throw new Error('Item not found in parent Wheel');
+    const index = this._wheel.items.findIndex((i) => i === this);
+    if (index === -1) throw new Error("Item not found in parent Wheel");
     return index;
   }
 
@@ -216,22 +215,22 @@ export class Item {
    * Get the angle (in degrees) that this item ends at (exclusive), ignoring the current `rotation` of the wheel.
    */
   getCenterAngle() {
-    const angle = this._wheel.getItemAngles()[ this.getIndex() ];
-    return angle.start + ((angle.end - angle.start) / 2);
+    const angle = this._wheel.getItemAngles()[this.getIndex()];
+    return angle.start + (angle.end - angle.start) / 2;
   }
 
   /**
    * Get the angle (in degrees) that this item starts at (inclusive), ignoring the current `rotation` of the wheel.
    */
   getStartAngle() {
-    return this._wheel.getItemAngles()[ this.getIndex() ].start;
+    return this._wheel.getItemAngles()[this.getIndex()].start;
   }
 
   /**
    * Get the angle (in degrees) that this item ends at (inclusive), ignoring the current `rotation` of the wheel.
    */
   getEndAngle() {
-    return this._wheel.getItemAngles()[ this.getIndex() ].end;
+    return this._wheel.getItemAngles()[this.getIndex()].end;
   }
 
   /**
@@ -240,5 +239,4 @@ export class Item {
   getRandomAngle() {
     return util.getRandomFloat(this.getStartAngle(), this.getEndAngle());
   }
-
 }

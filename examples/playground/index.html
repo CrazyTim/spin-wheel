@@ -1,48 +1,160 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Spin Wheel Example - Playground</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <link rel="icon" href="data:image/x-icon;," type="image/x-icon">
-  <link rel="stylesheet" href="./css/index.css"/>
-  <script src="./js/index.js" type="module"></script>
-</head>
+  <head>
+    <meta charset="utf-8" />
+    <title>Spin Wheel Example - Playground</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="data:image/x-icon;," type="image/x-icon" />
+    <link rel="stylesheet" href="./css/index.css" />
+    <script src="./js/index.js" type="module"></script>
+  </head>
 
-<body>
-  <section class="frame-center">
-    <div class="wheel-wrapper"></div>
+  <body>
+    <section class="frame-center">
+      <div class="wheel-wrapper"></div>
 
-    <div class="toolbar" data-name="export">
-      <button class="btn export">Export as JSON...</button>
-    </div>
-  </section>
+      <div class="toolbar" data-name="export">
+        <button class="btn export">Export as JSON...</button>
+      </div>
+    </section>
 
-  <section class="frame-right">
+    <section class="frame-right">
       <div class="input-group" data-name="borderColor" data-type="color"></div>
-      <div class="input-group" data-name="borderWidth" data-type="range" data-min="0" data-max="250" data-multiplier="0.1"></div>
+      <div
+        class="input-group"
+        data-name="borderWidth"
+        data-type="range"
+        data-min="0"
+        data-max="250"
+        data-multiplier="0.1"
+      ></div>
       <div class="input-group" data-name="debug" data-type="checkbox"></div>
       <div class="input-group" data-name="image" data-type="image"></div>
-      <div class="input-group" data-name="isInteractive" data-type="checkbox"></div>
-      <div class="input-group" data-name="itemBackgroundColors" data-type="textboxArray"></div>
-      <div class="input-group" data-name="itemLabelAlign" data-type="textbox"></div>
-      <div class="input-group" data-name="itemLabelBaselineOffset" data-type="range" data-min="-50" data-max="50" data-multiplier="0.01"></div>
-      <div class="input-group" data-name="itemLabelColors" data-type="textboxArray"></div>
-      <div class="input-group" data-name="itemLabelFont" data-type="textbox"></div>
-      <div class="input-group" data-name="itemLabelFontSizeMax" data-type="range" data-min="10" data-max="100"></div>
-      <div class="input-group" data-name="itemLabelRadius" data-type="range" data-min="0" data-max="100" data-multiplier="0.01"></div>
-      <div class="input-group" data-name="itemLabelRadiusMax" data-type="range" data-min="0" data-max="100" data-multiplier="0.01"></div>
-      <div class="input-group" data-name="itemLabelRotation" data-type="range" data-min="0" data-max="359"></div>
-      <div class="input-group" data-name="itemLabelStrokeColor" data-type="color"></div>
-      <div class="input-group" data-name="itemLabelStrokeWidth" data-type="range" data-min="0" data-max="30"></div>
+      <div
+        class="input-group"
+        data-name="isInteractive"
+        data-type="checkbox"
+      ></div>
+      <div
+        class="input-group"
+        data-name="itemBackgroundColors"
+        data-type="textboxArray"
+      ></div>
+      <div
+        class="input-group"
+        data-name="itemLabelAlign"
+        data-type="textbox"
+      ></div>
+      <div
+        class="input-group"
+        data-name="itemLabelBaselineOffset"
+        data-type="range"
+        data-min="-50"
+        data-max="50"
+        data-multiplier="0.01"
+      ></div>
+      <div
+        class="input-group"
+        data-name="itemLabelColors"
+        data-type="textboxArray"
+      ></div>
+      <div
+        class="input-group"
+        data-name="itemLabelFont"
+        data-type="textbox"
+      ></div>
+      <div
+        class="input-group"
+        data-name="itemLabelFontSizeMax"
+        data-type="range"
+        data-min="10"
+        data-max="100"
+      ></div>
+      <div
+        class="input-group"
+        data-name="itemLabelRadius"
+        data-type="range"
+        data-min="0"
+        data-max="100"
+        data-multiplier="0.01"
+      ></div>
+      <div
+        class="input-group"
+        data-name="itemLabelRadiusMax"
+        data-type="range"
+        data-min="0"
+        data-max="100"
+        data-multiplier="0.01"
+      ></div>
+      <div
+        class="input-group"
+        data-name="itemLabelRotation"
+        data-type="range"
+        data-min="0"
+        data-max="359"
+      ></div>
+      <div
+        class="input-group"
+        data-name="itemLabelStrokeColor"
+        data-type="color"
+      ></div>
+      <div
+        class="input-group"
+        data-name="itemLabelStrokeWidth"
+        data-type="range"
+        data-min="0"
+        data-max="30"
+      ></div>
       <div class="input-group" data-name="lineColor" data-type="color"></div>
-      <div class="input-group" data-name="lineWidth" data-type="range" data-min="0" data-max="200" data-multiplier="0.1"></div>
+      <div
+        class="input-group"
+        data-name="lineWidth"
+        data-type="range"
+        data-min="0"
+        data-max="200"
+        data-multiplier="0.1"
+      ></div>
       <div class="input-group" data-name="overlayImage" data-type="image"></div>
-      <div class="input-group" data-name="pixelRatio" data-type="range" data-min="0" data-max="40" data-multiplier="0.1"></div>
-      <div class="input-group" data-name="pointerAngle" data-type="range" data-min="0" data-max="360"></div>
-      <div class="input-group" data-name="radius" data-type="range" data-min="10" data-max="100" data-multiplier="0.01"></div>
-      <div class="input-group" data-name="rotationResistance" data-type="range" data-min="-200" data-max="0"></div>
-      <div class="input-group" data-name="rotationSpeedMax" data-type="range" data-min="50" data-max="1000"></div>
-  </section>
-</body>
+      <div
+        class="input-group"
+        data-name="pixelRatio"
+        data-type="range"
+        data-min="0"
+        data-max="40"
+        data-multiplier="0.1"
+      ></div>
+      <div
+        class="input-group"
+        data-name="pointerAngle"
+        data-type="range"
+        data-min="0"
+        data-max="360"
+      ></div>
+      <div
+        class="input-group"
+        data-name="radius"
+        data-type="range"
+        data-min="10"
+        data-max="100"
+        data-multiplier="0.01"
+      ></div>
+      <div
+        class="input-group"
+        data-name="rotationResistance"
+        data-type="range"
+        data-min="-200"
+        data-max="0"
+      ></div>
+      <div
+        class="input-group"
+        data-name="rotationSpeedMax"
+        data-type="range"
+        data-min="50"
+        data-max="1000"
+      ></div>
+    </section>
+  </body>
 </html>
