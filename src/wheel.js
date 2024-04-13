@@ -182,6 +182,7 @@ export class Wheel {
 
     // Build paths:
     for (const [i, a] of angles.entries()) {
+      const item = this._items[i];
 
       const path = new Path2D();
       path.moveTo(this._center.x, this._center.y);
@@ -193,8 +194,7 @@ export class Wheel {
         util.degRad(a.end + Constants.arcAdjust)
       );
 
-      this._items[i].path = path;
-
+      item.path = path;
     }
 
     this.drawItemBackgrounds(ctx, angles);
@@ -479,7 +479,7 @@ export class Wheel {
 
       const duration = this._spinToTimeEnd - this._spinToTimeStart;
       let delta = (now - this._spinToTimeStart) / duration;
-      delta = (delta < 0)? 0 : delta; // Frame time may be before the start time.
+      delta = (delta < 0) ? 0 : delta; // Frame time may be before the start time.
       const distance = this._spinToEndRotation - this._spinToStartRotation;
 
       this.rotation = this._spinToStartRotation + distance * this._spinToEasingFunction(delta);
