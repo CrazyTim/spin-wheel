@@ -78,9 +78,9 @@ test('getDistanceBetweenPoints() works', () => {
 test('isPointInCircle() works', () => {
   const f = util.isPointInCircle;
 
-  expect(f({x:0, y:0}, 0, 0, 0)).toBe(true);
-  expect(f({x:1, y:1}, 0, 0, 0)).toBe(false);
-  expect(f({x:1, y:1}, 0, 0, 5)).toBe(true);
+  expect(f({x: 0, y: 0}, 0, 0, 0)).toBe(true);
+  expect(f({x: 1, y: 1}, 0, 0, 0)).toBe(false);
+  expect(f({x: 1, y: 1}, 0, 0, 5)).toBe(true);
 });
 
 test('addAngle() works', () => {

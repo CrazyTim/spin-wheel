@@ -21,7 +21,7 @@
   "scripts": {
     "start": "node scripts/build.js -entryPoint=src/wheel.js -servePath=examples/themes/",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
-    "lint": "eslint src examples scripts --fix",
+    "lint": "eslint src examples scripts tests --fix",
     "build": "npm run lint && npm run test && npm run build-esm && npm run build-iife",
     "build-esm": "node scripts/build.js -entryPoint=src/wheel.js -esm",
     "build-iife": "node scripts/build.js -entryPoint=src/wheel.js -iife"
@@ -75,6 +75,9 @@
       "guard-for-in": [
         "error"
       ],
+      "key-spacing": [
+        "error"
+      ],
       "keyword-spacing": [
         "error"
       ],
@@ -114,6 +117,9 @@
         "error"
       ],
       "no-floating-decimal": [
+        "error"
+      ],
+      "no-irregular-whitespace": [
         "error"
       ],
       "no-labels": [
@@ -166,6 +172,10 @@
       "no-with": [
         "error"
       ],
+      "object-curly-spacing": [
+        "error",
+        "never"
+      ],
       "object-property-newline": [
         "error",
         {
@@ -182,6 +192,9 @@
       "semi": [
         "error",
         "always"
+      ],
+      "semi-spacing": [
+        "error"
       ],
       "space-before-blocks": [
         "error"

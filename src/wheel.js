@@ -629,7 +629,7 @@ export class Wheel {
   /**
    * Return true if the given point is inside the wheel.
    */
-  wheelHitTest(point = {x:0, y:0}) {
+  wheelHitTest(point = {x: 0, y: 0}) {
     if (this.canvas === null) return false;
     const p = util.translateXYToElement(point, this.canvas, this.getActualPixelRatio());
     return util.isPointInCircle(p, this._center.x, this._center.y, this._actualRadius);
@@ -663,7 +663,7 @@ export class Wheel {
    * Get the angle (in degrees) of the given point from the center of the wheel.
    * 0 is north.
    */
-  getAngleFromCenter(point = {x:0, y:0}) {
+  getAngleFromCenter(point = {x: 0, y: 0}) {
     return (util.getAngle(this._center.x, this._center.y, point.x, point.y) + 90) % 360;
   }
 
@@ -1343,7 +1343,7 @@ export class Wheel {
   /**
    * Enter the drag state.
    */
-  dragStart(point = {x:0, y:0}) {
+  dragStart(point = {x: 0, y: 0}) {
 
     if (this.canvas === null) return;
 
@@ -1357,14 +1357,14 @@ export class Wheel {
       distance: 0,
       x: p.x,
       y: p.y,
-      now:performance.now(),
+      now: performance.now(),
     }];
 
     this.refreshCursor();
 
   }
 
-  dragMove(point = {x:0, y:0}) {
+  dragMove(point = {x: 0, y: 0}) {
 
     if (this.canvas === null) return;
 
