@@ -84,6 +84,7 @@ If precision is not important, you can use `Wheel.spin()` to immediately start s
 - [Basic IIFE](https://crazytim.github.io/spin-wheel/examples/iife)
 - [Basic Vue](https://crazytim.github.io/spin-wheel/examples/vue3/dist)
 - [Spin to a specific item](https://crazytim.github.io/spin-wheel/examples/spin-to-item)
+- [Multiple Wheels](https://crazytim.github.io/spin-wheel/examples/multiple)
 - [Themes](https://crazytim.github.io/spin-wheel/examples/themes)
 - [Developer playground (for testing and troubleshooting)](https://crazytim.github.io/spin-wheel/examples/playground)
 
