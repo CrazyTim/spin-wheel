@@ -25,13 +25,13 @@ An easy to use, themeable component for randomising choices and prizes.
 ### ESM
 
 ```javascript
-import {Wheel} from 'https://cdn.jsdelivr.net/npm/spin-wheel@4.3.1/dist/spin-wheel-esm.js';
+import {Wheel} from 'https://cdn.jsdelivr.net/npm/spin-wheel@4.3.2/dist/spin-wheel-esm.js';
 ```
 
 ### IIFE
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/spin-wheel@4.3.1/dist/spin-wheel-iife.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/spin-wheel@4.3.2/dist/spin-wheel-iife.js"></script>
 ```
 
 ### Local
@@ -80,9 +80,11 @@ If precision is not important, you can use `Wheel.spin()` to immediately start s
 
 ## Examples
 
-- [Basic ESM usage](https://crazytim.github.io/spin-wheel/examples/esm)
-- [Basic IIFE usage](https://crazytim.github.io/spin-wheel/examples/iife)
+- [Basic ESM](https://crazytim.github.io/spin-wheel/examples/esm)
+- [Basic IIFE](https://crazytim.github.io/spin-wheel/examples/iife)
+- [Basic Vue](https://crazytim.github.io/spin-wheel/examples/vue3/dist)
 - [Spin to a specific item](https://crazytim.github.io/spin-wheel/examples/spin-to-item)
+- [Multiple Wheels](https://crazytim.github.io/spin-wheel/examples/multiple)
 - [Themes](https://crazytim.github.io/spin-wheel/examples/themes)
 - [Developer playground (for testing and troubleshooting)](https://crazytim.github.io/spin-wheel/examples/playground)
 

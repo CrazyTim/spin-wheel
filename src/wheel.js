@@ -96,7 +96,7 @@ export class Wheel {
    */
   remove() {
     if (this.canvas === null) return;
-    window.cancelAnimationFrame(this._frameRequestId);
+    if (this._frameRequestId !== null) window.cancelAnimationFrame(this._frameRequestId);
     events.unregister(this);
     this._canvasContainer.removeChild(this.canvas);
     this._canvasContainer = null;
@@ -109,6 +109,7 @@ export class Wheel {
    * Call this after changing any property of the wheel that relates to it's size or position.
    */
   resize() {
+    if (this.canvas === null) return;
 
     // Set the dimensions of the canvas element to be the same as its container:
     this.canvas.style.width = this._canvasContainer.clientWidth + 'px';
@@ -142,10 +143,10 @@ export class Wheel {
     this._actualRadius = (this._size / 2) * this.radius;
 
     // Adjust the font size of labels so they all fit inside the wheel's radius:
-    this.itemLabelFontSize = this.itemLabelFontSizeMax * (this._size / Constants.baseCanvasSize);
-    this.labelMaxWidth = this._actualRadius * (this.itemLabelRadius - this.itemLabelRadiusMax);
+    this._itemLabelFontSize = this.itemLabelFontSizeMax * (this._size / Constants.baseCanvasSize);
+    this._labelMaxWidth = this._actualRadius * (this.itemLabelRadius - this.itemLabelRadiusMax);
     for (const item of this._items) {
-      this.itemLabelFontSize = Math.min(this.itemLabelFontSize, util.getFontSizeToFit(item.label, this.itemLabelFont, this.labelMaxWidth, this._context));
+      this._itemLabelFontSize = Math.min(this._itemLabelFontSize, util.getFontSizeToFit(item.label, this.itemLabelFont, this._labelMaxWidth, this._context));
     }
 
     this.refresh();
@@ -158,6 +159,8 @@ export class Wheel {
   draw(now = 0) {
 
     this._frameRequestId = null;
+
+    if (this._context === null || this.canvas === null) return;
 
     const ctx = this._context;
 
@@ -173,12 +176,13 @@ export class Wheel {
     // Set font:
     ctx.textBaseline = 'middle';
     ctx.textAlign = this.itemLabelAlign;
-    ctx.font = this.itemLabelFontSize + 'px ' + this.itemLabelFont;
+    ctx.font = this._itemLabelFontSize + 'px ' + this.itemLabelFont;
 
     ctx.save();
 
     // Build paths:
     for (const [i, a] of angles.entries()) {
+      const item = this._items[i];
 
       const path = new Path2D();
       path.moveTo(this._center.x, this._center.y);
@@ -190,8 +194,7 @@ export class Wheel {
         util.degRad(a.end + Constants.arcAdjust)
       );
 
-      this._items[i].path = path;
-
+      item.path = path;
     }
 
     this.drawItemBackgrounds(ctx, angles);
@@ -382,7 +385,7 @@ export class Wheel {
 
   drawItemLabels(ctx, angles = []) {
 
-    const actualItemLabelBaselineOffset = this.itemLabelFontSize * -this.itemLabelBaselineOffset;
+    const actualItemLabelBaselineOffset = this._itemLabelFontSize * -this.itemLabelBaselineOffset;
     const actualDebugLineWidth = this.getScaledNumber(1);
     const actualLabelStrokeWidth = this.getScaledNumber(this._itemLabelStrokeWidth * 2);
 
@@ -415,13 +418,13 @@ export class Wheel {
         // Draw the outline of the label:
         ctx.beginPath();
         ctx.moveTo(0, 0);
-        ctx.lineTo(-this.labelMaxWidth, 0);
+        ctx.lineTo(-this._labelMaxWidth, 0);
 
         ctx.strokeStyle = Constants.Debugging.labelOutlineColor;
         ctx.lineWidth = actualDebugLineWidth;
         ctx.stroke();
 
-        ctx.strokeRect(0, -this.itemLabelFontSize / 2, -this.labelMaxWidth, this.itemLabelFontSize);
+        ctx.strokeRect(0, -this._itemLabelFontSize / 2, -this._labelMaxWidth, this._itemLabelFontSize);
       }
 
       if (this._itemLabelStrokeWidth > 0) {
@@ -442,14 +445,14 @@ export class Wheel {
 
   drawDragEvents(ctx) {
 
-    if (!this.debug || !this.dragEvents?.length) return;
+    if (!this.debug || !this._dragEvents?.length) return;
 
-    const dragEventsReversed = [...this.dragEvents].reverse();
+    const dragEventsReversed = [...this._dragEvents].reverse();
     const actualLineWidth = this.getScaledNumber(0.5);
     const actualCircleDiameter = this.getScaledNumber(4);
 
     for (const [i, event] of dragEventsReversed.entries()) {
-      const percent = (i / this.dragEvents.length) * 100;
+      const percent = (i / this._dragEvents.length) * 100;
       ctx.beginPath();
       ctx.arc(event.x, event.y, actualCircleDiameter, 0, 2 * Math.PI);
       ctx.fillStyle = `hsl(${Constants.Debugging.dragEventHue},100%,${percent}%)`;
@@ -476,7 +479,7 @@ export class Wheel {
 
       const duration = this._spinToTimeEnd - this._spinToTimeStart;
       let delta = (now - this._spinToTimeStart) / duration;
-      delta = (delta < 0)? 0 : delta; // Frame time may be before the start time.
+      delta = (delta < 0) ? 0 : delta; // Frame time may be before the start time.
       const distance = this._spinToEndRotation - this._spinToStartRotation;
 
       this.rotation = this._spinToStartRotation + distance * this._spinToEasingFunction(delta);
@@ -537,7 +540,7 @@ export class Wheel {
    */
   spin(rotationSpeed = 0) {
     if (!util.isNumber(rotationSpeed)) throw new Error('rotationSpeed must be a number');
-    this.dragEvents = [];
+    this._dragEvents = [];
     this.beginSpin(rotationSpeed, 'spin');
   }
 
@@ -555,7 +558,7 @@ export class Wheel {
 
     this.stop();
 
-    this.dragEvents = [];
+    this._dragEvents = [];
 
     this.animate(rotation, duration, easingFunction);
 
@@ -576,7 +579,7 @@ export class Wheel {
 
     this.stop();
 
-    this.dragEvents = [];
+    this._dragEvents = [];
 
     const itemAngle = spinToCenter ? this.items[itemIndex].getCenterAngle() : this.items[itemIndex].getRandomAngle();
 
@@ -626,7 +629,8 @@ export class Wheel {
   /**
    * Return true if the given point is inside the wheel.
    */
-  wheelHitTest(point = {x:0, y:0}) {
+  wheelHitTest(point = {x: 0, y: 0}) {
+    if (this.canvas === null) return false;
     const p = util.translateXYToElement(point, this.canvas, this.getActualPixelRatio());
     return util.isPointInCircle(p, this._center.x, this._center.y, this._actualRadius);
   }
@@ -636,6 +640,7 @@ export class Wheel {
    * Call this after the pointer moves.
    */
   refreshCursor() {
+    if (this.canvas === null) return;
 
     if (this.isInteractive) {
 
@@ -652,14 +657,13 @@ export class Wheel {
     }
 
     this.canvas.style.cursor = '';
-
   }
 
   /**
    * Get the angle (in degrees) of the given point from the center of the wheel.
    * 0 is north.
    */
-  getAngleFromCenter(point = {x:0, y:0}) {
+  getAngleFromCenter(point = {x: 0, y: 0}) {
     return (util.getAngle(this._center.x, this._center.y, point.x, point.y) + 90) % 360;
   }
 
@@ -764,6 +768,7 @@ export class Wheel {
   }
 
   refreshAriaLabel() {
+    if (this.canvas === null) return;
     // See https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/img_role
     this.canvas.setAttribute('role', 'img');
     const wheelDescription = (this.items.length >= 2) ? ` The wheel has ${this.items.length} slices.` : '';
@@ -1235,7 +1240,7 @@ export class Wheel {
       errorMessage: 'Wheel.pixelRatio must be a number',
       defaultValue: Defaults.wheel.pixelRatio,
     });
-    this.dragEvents = [];
+    this._dragEvents = [];
     this.resize();
   }
 
@@ -1338,7 +1343,9 @@ export class Wheel {
   /**
    * Enter the drag state.
    */
-  dragStart(point = {x:0, y:0}) {
+  dragStart(point = {x: 0, y: 0}) {
+
+    if (this.canvas === null) return;
 
     const p = util.translateXYToElement(point, this.canvas, this.getActualPixelRatio());
 
@@ -1346,35 +1353,37 @@ export class Wheel {
 
     this.stop(); // Interrupt `spinTo()`
 
-    this.dragEvents = [{
+    this._dragEvents = [{
       distance: 0,
       x: p.x,
       y: p.y,
-      now:performance.now(),
+      now: performance.now(),
     }];
 
     this.refreshCursor();
 
   }
 
-  dragMove(point = {x:0, y:0}) {
+  dragMove(point = {x: 0, y: 0}) {
+
+    if (this.canvas === null) return;
 
     const p = util.translateXYToElement(point, this.canvas, this.getActualPixelRatio());
     const a = this.getAngleFromCenter(p);
 
-    const lastDragPoint = this.dragEvents[0];
+    const lastDragPoint = this._dragEvents[0];
     const lastAngle = this.getAngleFromCenter(lastDragPoint);
     const angleSinceLastMove = util.diffAngle(lastAngle, a);
 
-    this.dragEvents.unshift({
+    this._dragEvents.unshift({
       distance: angleSinceLastMove,
       x: p.x,
       y: p.y,
-      now:performance.now(),
+      now: performance.now(),
     });
 
     // Retain max 40 drag events.
-    if (this.debug && this.dragEvents.length >= 40) this.dragEvents.pop();
+    if (this.debug && this._dragEvents.length >= 40) this._dragEvents.pop();
 
     // Snap the wheel to the new rotation.
     this.rotation += angleSinceLastMove; // TODO: can we apply easing here so it looks nicer?
@@ -1393,7 +1402,7 @@ export class Wheel {
     let dragDistance = 0;
     const now = performance.now();
 
-    for (const [i, event] of this.dragEvents.entries()) {
+    for (const [i, event] of this._dragEvents.entries()) {
 
       if (!this.isDragEventTooOld(now, event)) {
         dragDistance += event.distance;
@@ -1401,7 +1410,7 @@ export class Wheel {
       }
 
       // Exclude old events:
-      this.dragEvents.length = i;
+      this._dragEvents.length = i;
       if (this.debug) this.refresh(); // Redraw drag events after trimming the array.
       break;
 

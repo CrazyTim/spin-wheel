@@ -13,7 +13,7 @@ export function register(wheel = {}) {
   // However Safari 16.3 doesn't, hence we need to monitor this separately.
   const listenForDevicePixelRatioChange = () => {
     wheel._mediaQueryList = window.matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`);
-    wheel._mediaQueryList.addEventListener('change', wheel._handler_onDevicePixelRatioChange, { once: true });
+    wheel._mediaQueryList.addEventListener('change', wheel._handler_onDevicePixelRatioChange, {once: true});
   };
   wheel._handler_onDevicePixelRatioChange = () => {
     wheel.resize();

@@ -167,6 +167,7 @@ Wheel {
   },
   "_currentIndex": -1,
   "_debug": false,
+  "_dragEvents": Array [],
   "_frameRequestId": 1,
   "_handler_onDevicePixelRatioChange": [Function],
   "_handler_onMouseDown": [Function],
@@ -188,6 +189,7 @@ Wheel {
     "#000",
   ],
   "_itemLabelFont": "sans-serif",
+  "_itemLabelFontSize": 500,
   "_itemLabelFontSizeMax": 500,
   "_itemLabelRadius": 0.85,
   "_itemLabelRadiusMax": 0.2,
@@ -195,6 +197,7 @@ Wheel {
   "_itemLabelStrokeColor": "#fff",
   "_itemLabelStrokeWidth": 0,
   "_items": Array [],
+  "_labelMaxWidth": 154.37499999999997,
   "_lastSpinFrameTime": null,
   "_lineColor": "#000",
   "_lineWidth": 1,
@@ -247,8 +250,5 @@ Wheel {
     style="width: 500px; height: 500px;"
     width="500"
   />,
-  "dragEvents": Array [],
-  "itemLabelFontSize": 500,
-  "labelMaxWidth": 154.37499999999997,
 }
 `;
