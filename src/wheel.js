@@ -96,7 +96,7 @@ export class Wheel {
    */
   remove() {
     if (this.canvas === null) return;
-    window.cancelAnimationFrame(this._frameRequestId);
+    if (this._frameRequestId !== null) window.cancelAnimationFrame(this._frameRequestId);
     events.unregister(this);
     this._canvasContainer.removeChild(this.canvas);
     this._canvasContainer = null;
@@ -109,6 +109,7 @@ export class Wheel {
    * Call this after changing any property of the wheel that relates to it's size or position.
    */
   resize() {
+    if (this.canvas === null) return;
 
     // Set the dimensions of the canvas element to be the same as its container:
     this.canvas.style.width = this._canvasContainer.clientWidth + 'px';
@@ -158,6 +159,8 @@ export class Wheel {
   draw(now = 0) {
 
     this._frameRequestId = null;
+
+    if (this._context === null || this.canvas === null) return;
 
     const ctx = this._context;
 
@@ -627,6 +630,7 @@ export class Wheel {
    * Return true if the given point is inside the wheel.
    */
   wheelHitTest(point = {x:0, y:0}) {
+    if (this.canvas === null) return false;
     const p = util.translateXYToElement(point, this.canvas, this.getActualPixelRatio());
     return util.isPointInCircle(p, this._center.x, this._center.y, this._actualRadius);
   }
@@ -636,6 +640,7 @@ export class Wheel {
    * Call this after the pointer moves.
    */
   refreshCursor() {
+    if (this.canvas === null) return;
 
     if (this.isInteractive) {
 
@@ -652,7 +657,6 @@ export class Wheel {
     }
 
     this.canvas.style.cursor = '';
-
   }
 
   /**
@@ -764,6 +768,7 @@ export class Wheel {
   }
 
   refreshAriaLabel() {
+    if (this.canvas === null) return;
     // See https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/img_role
     this.canvas.setAttribute('role', 'img');
     const wheelDescription = (this.items.length >= 2) ? ` The wheel has ${this.items.length} slices.` : '';
@@ -1340,6 +1345,8 @@ export class Wheel {
    */
   dragStart(point = {x:0, y:0}) {
 
+    if (this.canvas === null) return;
+
     const p = util.translateXYToElement(point, this.canvas, this.getActualPixelRatio());
 
     this.isDragging = true;
@@ -1358,6 +1365,8 @@ export class Wheel {
   }
 
   dragMove(point = {x:0, y:0}) {
+
+    if (this.canvas === null) return;
 
     const p = util.translateXYToElement(point, this.canvas, this.getActualPixelRatio());
     const a = this.getAngleFromCenter(p);
