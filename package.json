@@ -23,9 +23,9 @@
   ],
   "type": "module",
   "exports": {
-    "import": "./src/wheel.js",
+    "import": "./index.js",
     "browser": "./dist/spin-wheel-esm.js",
-    "default": "./src/wheel.js"
+    "default": "./index.js"
   },
   "scripts": {
     "start": "node scripts/build.js -entryPoint=src/wheel.js -servePath=examples/themes/",
@@ -43,7 +43,8 @@
     "esbuild": "^0.15.11",
     "eslint": "^8.25.0",
     "jest": "^27.4.3",
-    "jest-canvas-mock": "^2.5.1"
+    "jest-canvas-mock": "^2.5.1",
+    "typescript": "^5.4.5"
   },
   "optionalDependencies": {
     "canvas": "^2.11.2"

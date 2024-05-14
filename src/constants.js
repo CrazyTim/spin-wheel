@@ -1,3 +1,5 @@
+// @ts-check
+
 /**
  * Adjustment when drawing arcs to ensure 0° is north (due to canvas drawing arcs from 90°).
  */

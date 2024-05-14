@@ -1,21 +1,126 @@
+// @ts-check
 import * as util from './util.js';
 import {Defaults} from './constants.js';
+import {IWheel} from './wheel.js';
+
+/**
+ * @typedef {object} ItemProps
+ * @prop {?string} [backgroundColor]
+ * @prop {?string} [image]
+ * @prop {number} [imageOpacity]
+ * @prop {number} [imageRadius]
+ * @prop {number} [imageRotation]
+ * @prop {number} [imageScale]
+ * @prop {string} [label]
+ * @prop {?string} [labelColor]
+ * @prop {?string} [value]
+ * @prop {number} [weight]
+*/
+
+/** @type {ItemProps} */
+export let ItemProps;
 
 export class Item {
 
+  /**
+   * Create an Item (to be used inside a wheel) and initialise it with props.
+   * @param {IWheel} wheel
+   * @param {ItemProps} [props]
+   */
   constructor(wheel, props = {}) {
 
     // Validate params.
     if (!util.isObject(wheel)) throw new Error('wheel must be an instance of Wheel'); // Ideally we would use instanceof, however importing the Wheel class would create a circular ref.
     if (!util.isObject(props) && props !== null) throw new Error('props must be an Object or null');
 
+    /**
+     * @private
+     * @type {IWheel}
+     */
     this._wheel = wheel;
 
     // Assign default values.
-    // This avoids null exceptions when we initalise each property one-by-one in `init()`.
+    // This avoids null exceptions when we initialise each property one-by-one in `init()`.
     for (const i of Object.keys(Defaults.item)) {
       this['_' + i] = Defaults.item[i];
     }
+
+    /**
+     * @type {Path2D}
+     * @package
+     */
+    this.path = new Path2D;
+
+    /**
+     * @type {?HTMLImageElement}
+     */
+    this._imageObj = null;
+
+
+    // --------------------------------------------------
+    // Init private props vars.
+    // We only need to do this so we have nice types.
+    // --------------------------------------------------
+
+    /**
+     * @type {?string}
+     * @private
+     */
+    this._backgroundColor = null;
+
+    /**
+     * @type {?string}
+     * @private
+     */
+    this._image = null;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._imageOpacity = 0;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._imageRadius = 0;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._imageRotation = 0;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._imageScale = 0;
+
+    /**
+     * @type {string}
+     * @private
+     */
+    this._label = '';
+
+    /**
+     * @type {?string}
+     * @private
+     */
+    this._labelColor = null;
+
+    /**
+     * @type {any}
+     * @private
+     */
+    this._value = undefined;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._weight = 0;
 
     if (props) {
       this.init(props);
@@ -27,18 +132,20 @@ export class Item {
 
   /**
    * Initialise all properties.
+   * @param {ItemProps} props
    */
   init(props = {}) {
-    this.backgroundColor = props.backgroundColor;
-    this.image = props.image;
-    this.imageOpacity = props.imageOpacity;
-    this.imageRadius = props.imageRadius;
-    this.imageRotation = props.imageRotation;
-    this.imageScale = props.imageScale;
-    this.label = props.label;
-    this.labelColor = props.labelColor;
-    this.value = props.value;
-    this.weight = props.weight;
+    // @ts-ignore
+    this.backgroundColor = props.backgroundColor; // @ts-ignore
+    this.image = props.image; // @ts-ignore
+    this.imageOpacity = props.imageOpacity; // @ts-ignore
+    this.imageRadius = props.imageRadius; // @ts-ignore
+    this.imageRotation = props.imageRotation; // @ts-ignore
+    this.imageScale = props.imageScale; // @ts-ignore
+    this.label = props.label; // @ts-ignore
+    this.labelColor = props.labelColor; // @ts-ignore
+    this.value = props.value; // @ts-ignore
+    this.weight = props.weight; // @ts-ignore
   }
 
   /**
@@ -207,6 +314,7 @@ export class Item {
 
   /**
    * Get the 0-based index of this item.
+   * @returns {number}
    */
   getIndex() {
     const index = this._wheel.items.findIndex(i => i === this);
@@ -216,6 +324,7 @@ export class Item {
 
   /**
    * Get the angle (in degrees) that this item ends at (exclusive), ignoring the current `rotation` of the wheel.
+   * @returns {number}
    */
   getCenterAngle() {
     const angle = this._wheel.getItemAngles()[ this.getIndex() ];
@@ -224,6 +333,7 @@ export class Item {
 
   /**
    * Get the angle (in degrees) that this item starts at (inclusive), ignoring the current `rotation` of the wheel.
+   * @returns {number}
    */
   getStartAngle() {
     return this._wheel.getItemAngles()[ this.getIndex() ].start;
@@ -231,6 +341,7 @@ export class Item {
 
   /**
    * Get the angle (in degrees) that this item ends at (inclusive), ignoring the current `rotation` of the wheel.
+   * @returns {number}
    */
   getEndAngle() {
     return this._wheel.getItemAngles()[ this.getIndex() ].end;
@@ -238,6 +349,7 @@ export class Item {
 
   /**
    * Return a random angle (in degrees) between this item's start angle (inclusive) and end angle (inclusive).
+   * @returns {number}
    */
   getRandomAngle() {
     return util.getRandomFloat(this.getStartAngle(), this.getEndAngle());

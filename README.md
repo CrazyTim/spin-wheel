@@ -8,6 +8,7 @@ An easy to use, themeable component for randomising choices and prizes.
 
 - Vanilla JavaScript (ES6).
 - No dependencies.
+- TypeScript ready.
 - Simple, easy to use API.
 - Spin by applying momentum and drag, or animate to a specific angle with easing.
 - Interactable with click-drag or touch-flick.

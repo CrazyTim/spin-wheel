@@ -1,15 +1,120 @@
+// @ts-check
 import * as util from './util.js';
 import * as Constants from './constants.js';
 import {Defaults} from './constants.js';
 import * as events from './events.js';
-import {Item} from './item.js';
+import {Item, ItemProps} from './item.js';
 
+/**
+ * @function getItemAngles
+ * @param {string} [initialRotation]
+ * @returns {Array<{start:number, end:number}>}
+ */
+
+/**
+ * Interface for the Wheel class.
+ * @typedef {object} IWheel
+ * @prop {function(): void} refresh
+ * @prop {function(): Array<{start:number, end:number}>} getItemAngles
+ * @prop {Array<Item>} items
+ */
+
+/** @type {IWheel} */
+export let IWheel;
+
+/**
+ * @typedef {"left" | "center" | "right"} ItemLabelAlign
+ */
+
+/** @type {ItemLabelAlign} */
+export let ItemLabelAlign;
+
+/**
+ * @typedef {object} Point
+ * @prop {number} x
+ * @prop {number} y
+ */
+
+/** @type {Point} */
+export let Point;
+
+/**
+ * @typedef {object} DragEvents
+ * @prop {number} distance
+ * @prop {number} x
+ * @prop {number} y
+ * @prop {number} now
+ */
+
+/** @type {DragEvents} */
+export let DragEvents;
+
+/**
+ * @typedef {object} CurrentIndexChangeEvent
+ * @prop {'currentIndexChange'} type
+ * @prop {number} currentIndex The index of the item that the Pointer was pointing at. See Wheel.pointerAngle.
+ */
+
+/** @type {CurrentIndexChangeEvent} */
+export let CurrentIndexChangeEvent;
+
+/**
+ * @typedef {object} RestEvent
+ * @prop {'rest'} type
+ * @prop {number} currentIndex The index of the item that the Pointer was pointing at. See Wheel.pointerAngle.
+ * @prop {number} rotation The rotation of the wheel. See Wheel.rotation.
+ */
+
+/** @type {RestEvent} */
+export let RestEvent;
+
+/**
+ * @typedef {object} WheelProps
+ * @prop {string} [borderColor]
+ * @prop {number} [borderWidth]
+ * @prop {boolean} [debug]
+ * @prop {?string} [image]
+ * @prop {boolean} [isInteractive]
+ * @prop {Array<string>} [itemBackgroundColors]
+ * @prop {ItemLabelAlign} [itemLabelAlign]
+ * @prop {number} [itemLabelBaselineOffset]
+ * @prop {Array<string>} [itemLabelColors]
+ * @prop {string} [itemLabelFont]
+ * @prop {number} [itemLabelFontSizeMax]
+ * @prop {number} [itemLabelRadius]
+ * @prop {number} [itemLabelRadiusMax]
+ * @prop {number} [itemLabelRotation]
+ * @prop {string} [itemLabelStrokeColor]
+ * @prop {number} [itemLabelStrokeWidth]
+ * @prop {Array<ItemProps>} [items] // TODO: test
+ * @prop {string} [lineColor]
+ * @prop {number} [lineWidth]
+ * @prop {Point} [offset] // TODO: test
+ * @prop {?function(CurrentIndexChangeEvent): void} [onCurrentIndexChange] // TODO: test
+ * @prop {?function(RestEvent): void} [onRest] // TODO: test
+ * @prop {?function(): void} [onSpin] // TODO: test
+ * @prop {?string} [overlayImage]
+ * @prop {number} [pixelRatio]
+ * @prop {number} [pointerAngle]
+ * @prop {number} [radius]
+ * @prop {number} [rotation]
+ * @prop {number} [rotationResistance]
+ * @prop {number} [rotationResistance]
+ * @prop {number} [rotationSpeedMax]
+*/
+
+/** @type {WheelProps} */
+export let WheelProps;
+
+/**
+ * @implements {IWheel}
+ */
 export class Wheel {
 
   /**
-   * Create the wheel inside a container Element and initialise it with props.
-   * `container` must be an Element.
-   * `props` must be an Object or null.
+   * Create the wheel inside a container and initialise it with props.
+   * @param {Element} container
+   * @param {WheelProps} [props]
    */
   constructor(container, props = {}) {
 
@@ -17,18 +122,332 @@ export class Wheel {
     if (!(container instanceof Element)) throw new Error('container must be an instance of Element');
     if (!util.isObject(props) && props !== null) throw new Error('props must be an Object or null');
 
-    // Init some things:
-    this._frameRequestId = null;
+    // --------------------------------------------------
+    // Init private vars.
+    // --------------------------------------------------
+
+    /**
+     * @type {?number}
+     * @private
+     */
+    this._frameRequestId = 0;
+
+    /**
+     * @type {number}
+     * @private
+     */
     this._rotationSpeed = 0;
+
+    /**
+     * 1 for clockwise or stationary, -1 for anti-clockwise.
+     * @type {1|-1}
+     * @private
+     */
     this._rotationDirection = 1;
-    this._spinToTimeEnd = null; // Used to animate the wheel for spinTo()
-    this._lastSpinFrameTime = null; // Used to animate the wheel for spin()
+
+    /**
+     * @type {?number}
+     * @private
+     */
+    this._lastSpinFrameTime = null;
+
+    /**
+     * @type {boolean}
+     * @private
+     */
     this._isCursorOverWheel = false;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._actualRadius = 0;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._size = 0;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._spinToStartRotation = 0;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._spinToEndRotation = 0;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._spinToTimeStart = 0;
+
+    /**
+     * @type {?number}
+     * @private
+     */
+    this._spinToTimeEnd = null;
+
+    /**
+     * @type {function(number): number}
+     * @private
+     */
+    this._spinToEasingFunction = i => 0;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._currentIndex = -1;
+
+    /**
+     * @type {Point}
+     * @private
+     */
+    this._center = {x: 0, y: 0};
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this._isInitialising = false;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._itemLabelFontSize = 0;
+
+    /**
+     * @type {?CanvasRenderingContext2D}
+     * @private
+     */
+    this._context = null;
+
+    /**
+     * @type {?HTMLCanvasElement}
+     * @private
+     */
+    this.canvas = null;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._labelMaxWidth = 0;
+
+    /**
+     * @type {?HTMLImageElement}
+     * @private
+     */
+    this._imageObj = null;
+
+    /**
+     * @type {?HTMLImageElement}
+     * @private
+     */
+    this._overlayImageObj = null;
+
+    /**
+     * @type {Array<DragEvents>}
+     * @private
+     */
+    this._dragEvents = [];
+
+    // --------------------------------------------------
+    // Init private prop vars.
+    // We only need to do this so we have nice types.
+    // --------------------------------------------------
+
+    /**
+     * @type {string}
+     * @private
+     */
+    this._borderColor = '';
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._borderWidth = 0;
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this._debug = false;
+
+    /**
+     * @type {?string}
+     * @private
+     */
+    this._image = '';
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this._isInteractive = false;
+
+    /**
+     * @type {Array<string>}
+     * @private
+     */
+    this._itemBackgroundColors = [];
+
+    /**
+     * @type {ItemLabelAlign}
+     * @private
+     */
+    this._itemLabelAlign = 'right';
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._itemLabelBaselineOffset = 0;
+
+    /**
+     * @type {Array<string>}
+     * @private
+     */
+    this._itemLabelColors = [];
+
+    /**
+     * @type {string}
+     * @private
+     */
+    this._itemLabelFont = '';
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._itemLabelFontSizeMax = 0;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._itemLabelRadius = 0;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._itemLabelRadiusMax = 0;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._itemLabelRotation = 0;
+
+    /**
+     * @type {string}
+     * @private
+     */
+    this._itemLabelStrokeColor = '';
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._itemLabelStrokeWidth = 0;
+
+    /**
+     * @type {Array<Item>}
+     * @private
+     */
+    this._items = [];
+
+    /**
+     * @type {string}
+     * @private
+     */
+    this._lineColor = '';
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._lineWidth = 0;
+
+    /**
+     * @type {Point}
+     * @private
+     */
+    this._offset = {x: 0, y: 0};
+
+    /**
+     * @type {?function(CurrentIndexChangeEvent): void}
+     * @private
+     */
+    this._onCurrentIndexChange = i => null;
+
+    /**
+     * @type {?function(RestEvent): void}
+     * @private
+     */
+    this._onRest = i => null;
+
+    /**
+     * @type {?function(object): void}
+     * @private
+     */
+    this._onSpin = i => null;
+
+    /**
+     * @type {?string}
+     * @private
+     */
+    this._overlayImage = '';
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._pixelRatio = 0;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._pointerAngle = 0;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._radius = 0;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._rotation = 0;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._rotationResistance = 0;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this._rotationSpeedMax = 0;
 
     this.add(container);
 
     // Assign default values.
-    // This avoids null exceptions when we initalise each property one-by-one in `init()`.
+    // This avoids null exceptions when we initialise each property one-by-one in `init()`.
     for (const i of Object.keys(Defaults.wheel)) {
       this['_' + i] = Defaults.wheel[i];
     }
@@ -43,40 +462,71 @@ export class Wheel {
 
   /**
    * Initialise all properties.
+   * @param {WheelProps} props
    */
   init(props = {}) {
     this._isInitialising = true;
 
+    // @ts-ignore
     this.borderColor = props.borderColor;
+    // @ts-ignore
     this.borderWidth = props.borderWidth;
+    // @ts-ignore
     this.debug = props.debug;
+    // @ts-ignore
     this.image = props.image;
+    // @ts-ignore
     this.isInteractive = props.isInteractive;
+    // @ts-ignore
     this.itemBackgroundColors = props.itemBackgroundColors;
+    // @ts-ignore
     this.itemLabelAlign = props.itemLabelAlign;
+    // @ts-ignore
     this.itemLabelBaselineOffset = props.itemLabelBaselineOffset;
+    // @ts-ignore
     this.itemLabelColors = props.itemLabelColors;
+    // @ts-ignore
     this.itemLabelFont = props.itemLabelFont;
+    // @ts-ignore
     this.itemLabelFontSizeMax = props.itemLabelFontSizeMax;
+    // @ts-ignore
     this.itemLabelRadius = props.itemLabelRadius;
+    // @ts-ignore
     this.itemLabelRadiusMax = props.itemLabelRadiusMax;
+    // @ts-ignore
     this.itemLabelRotation = props.itemLabelRotation;
+    // @ts-ignore
     this.itemLabelStrokeColor = props.itemLabelStrokeColor;
+    // @ts-ignore
     this.itemLabelStrokeWidth = props.itemLabelStrokeWidth;
+    // @ts-ignore
     this.items = props.items;
+    // @ts-ignore
     this.lineColor = props.lineColor;
+    // @ts-ignore
     this.lineWidth = props.lineWidth;
-    this.pixelRatio = props.pixelRatio;
-    this.rotationSpeedMax = props.rotationSpeedMax;
-    this.radius = props.radius;
-    this.rotation = props.rotation;
-    this.rotationResistance = props.rotationResistance;
+    // @ts-ignore
     this.offset = props.offset;
+    // @ts-ignore
     this.onCurrentIndexChange = props.onCurrentIndexChange;
+    // @ts-ignore
     this.onRest = props.onRest;
+    // @ts-ignore
     this.onSpin = props.onSpin;
+    // @ts-ignore
     this.overlayImage = props.overlayImage;
+    // @ts-ignore
+    this.pixelRatio = props.pixelRatio;
+    // @ts-ignore
     this.pointerAngle = props.pointerAngle;
+    // @ts-ignore
+    this.radius = props.radius;
+    // @ts-ignore
+    this.rotation = props.rotation;
+    // @ts-ignore
+    this.rotationResistance = props.rotationResistance;
+    // @ts-ignore
+    this.rotationSpeedMax = props.rotationSpeedMax;
   }
 
   /**
@@ -88,7 +538,7 @@ export class Wheel {
     this._context = this.canvas.getContext('2d');
     this._canvasContainer.append(this.canvas);
     events.register(this);
-    if (this._isInitialising === false) this.resize(); // Initalise the canvas's dimensions (but not when called from the constructor).
+    if (this._isInitialising === false) this.resize(); // Initialise the canvas's dimensions (but not when called from the constructor).
   }
 
   /**
@@ -107,6 +557,7 @@ export class Wheel {
   /**
    * Resize the wheel to fit inside it's container.
    * Call this after changing any property of the wheel that relates to it's size or position.
+   * @private
    */
   resize() {
     if (this.canvas === null) return;
@@ -155,6 +606,7 @@ export class Wheel {
 
   /**
    * Main animation loop.
+   * @private
    */
   draw(now = 0) {
 
@@ -211,6 +663,10 @@ export class Wheel {
 
   }
 
+  /**
+   * @param {CanvasRenderingContext2D} ctx
+   * @private
+   */
   drawItemBackgrounds(ctx, angles = []) {
 
     for (const [i, a] of angles.entries()) {
@@ -228,13 +684,17 @@ export class Wheel {
 
   }
 
+  /**
+   * @param {CanvasRenderingContext2D} ctx
+   * @private
+   */
   drawItemImages(ctx, angles = []) {
 
     for (const [i, a] of angles.entries()) {
 
       const item = this._items[i];
 
-      if (item.imageObj == null) continue;
+      if (item.imageObj === null) continue;
       if (!util.isImageLoaded(item.imageObj)) continue;
 
       ctx.save();
@@ -271,6 +731,11 @@ export class Wheel {
 
   }
 
+  /**
+   * @param {CanvasRenderingContext2D} ctx
+   * @param {?HTMLImageElement} image
+   * @private
+   */
   drawImage(ctx, image, isOverlay = false) {
 
     if (image === null) return;
@@ -301,6 +766,9 @@ export class Wheel {
 
   }
 
+  /**
+   * @private
+   */
   drawPointerLine(ctx) {
 
     if (!this.debug) return;
@@ -324,6 +792,9 @@ export class Wheel {
 
   }
 
+  /**
+   * @private
+   */
   drawBorder(ctx) {
 
     if (this._borderWidth <= 0) return;
@@ -355,6 +826,10 @@ export class Wheel {
 
   }
 
+  /**
+   * @param {CanvasRenderingContext2D} ctx
+   * @private
+   */
   drawItemLines(ctx, angles = []) {
 
     if (this._lineWidth <= 0) return;
@@ -385,6 +860,10 @@ export class Wheel {
 
   }
 
+  /**
+   * @param {CanvasRenderingContext2D} ctx
+   * @private
+   */
   drawItemLabels(ctx, angles = []) {
 
     const actualItemLabelBaselineOffset = this._itemLabelFontSize * -this.itemLabelBaselineOffset;
@@ -445,6 +924,9 @@ export class Wheel {
 
   }
 
+  /**
+   * @private
+   */
   drawDragEvents(ctx) {
 
     if (!this.debug || !this._dragEvents?.length) return;
@@ -466,6 +948,9 @@ export class Wheel {
 
   }
 
+  /**
+   * @private
+   */
   animateRotation(now = 0) {
 
     // For spinTo()
@@ -514,12 +999,13 @@ export class Wheel {
 
       this.refresh();
 
-      return;
-
     }
 
   }
 
+  /**
+   * @private
+   */
   getRotationSpeedPlusDrag(delta = 0) {
 
     // Simulate drag:
@@ -595,6 +1081,9 @@ export class Wheel {
 
   }
 
+  /**
+   * @private
+   */
   animate(newRotation, duration, easingFunction) {
     this._spinToStartRotation = this.rotation;
     this._spinToEndRotation = newRotation;
@@ -620,17 +1109,22 @@ export class Wheel {
 
   /**
    * Return n scaled to the size of the canvas.
+   * @private
    */
   getScaledNumber(n) {
-     return (n / Constants.baseCanvasSize) * this._size;
+    return (n / Constants.baseCanvasSize) * this._size;
   }
 
+  /**
+   * @private
+   */
   getActualPixelRatio() {
     return (this._pixelRatio !== 0) ? this._pixelRatio : window.devicePixelRatio;
   }
 
   /**
    * Return true if the given point is inside the wheel.
+   * @private
    */
   wheelHitTest(point = {x: 0, y: 0}) {
     if (this.canvas === null) return false;
@@ -641,6 +1135,7 @@ export class Wheel {
   /**
    * Refresh the cursor state.
    * Call this after the pointer moves.
+   * @private
    */
   refreshCursor() {
     if (this.canvas === null) return;
@@ -665,6 +1160,7 @@ export class Wheel {
   /**
    * Get the angle (in degrees) of the given point from the center of the wheel.
    * 0 is north.
+   * @private
    */
   getAngleFromCenter(point = {x: 0, y: 0}) {
     return (util.getAngle(this._center.x, this._center.y, point.x, point.y) + 90) % 360;
@@ -674,6 +1170,7 @@ export class Wheel {
    * Get the index of the item that the Pointer is pointing at.
    * An item is considered "current" if `pointerAngle` is between it's start angle (inclusive)
    * and it's end angle (exclusive).
+   * @returns {number}
    */
   getCurrentIndex() {
     return this._currentIndex;
@@ -681,6 +1178,7 @@ export class Wheel {
 
   /**
    * Calculate and set `currentIndex`
+   * @private
    */
   refreshCurrentIndex(angles = []) {
     if (this._items.length === 0) this._currentIndex = -1;
@@ -702,6 +1200,9 @@ export class Wheel {
 
   /**
    * Return an array of objects containing the start angle (inclusive) and end angle (inclusive) of each item.
+   * @param {number} initialRotation
+   * @returns {Array<{start:number, end:number}>}
+   * @package
    */
   getItemAngles(initialRotation = 0) {
 
@@ -745,19 +1246,25 @@ export class Wheel {
     }
   }
 
+  /**
+   * @private
+   */
   limitSpeed(speed = 0, max = 0) {
     // Max is always a positive number, but speed may be positive or negative.
     const newSpeed = Math.min(speed, max);
     return Math.max(newSpeed, -max);
   }
 
+  /**
+   * @private
+   */
   beginSpin(speed = 0, spinMethod = '') {
     this.stop();
 
     this._rotationSpeed = this.limitSpeed(speed, this._rotationSpeedMax);
     this._lastSpinFrameTime = performance.now();
 
-    this._rotationDirection = (this._rotationSpeed >= 0) ? 1 : -1; // 1 for clockwise or stationary, -1 for anti-clockwise.
+    this._rotationDirection = (this._rotationSpeed >= 0) ? 1 : -1;
 
     if (this._rotationSpeed !== 0) {
       this.raiseEvent_onSpin({
@@ -770,6 +1277,9 @@ export class Wheel {
     this.refresh();
   }
 
+  /**
+   * @private
+   */
   refreshAriaLabel() {
     if (this.canvas === null) return;
     // See https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/img_role
@@ -1077,10 +1587,14 @@ export class Wheel {
 
   /**
    * The items to show on the wheel.
+   * @returns {Array<Item>}
    */
   get items() {
     return this._items;
   }
+  /**
+   * @param {Array<ItemProps> | undefined} val
+   */
   set items(val) {
     this._items = util.setProp({
       val,
@@ -1089,6 +1603,7 @@ export class Wheel {
       defaultValue: Defaults.wheel.items,
       action: () => {
         const v = [];
+        //@ts-ignore
         for (const item of val) {
           v.push(new Item(this, {
             backgroundColor: item.backgroundColor,
@@ -1355,6 +1870,7 @@ export class Wheel {
 
   /**
    * Enter the drag state.
+   * @private
    */
   dragStart(point = {x: 0, y: 0}) {
 
@@ -1377,6 +1893,9 @@ export class Wheel {
 
   }
 
+  /**
+   * @private
+   */
   dragMove(point = {x: 0, y: 0}) {
 
     if (this.canvas === null) return;
@@ -1406,6 +1925,7 @@ export class Wheel {
   /**
    * Exit the drag state.
    * Set the rotation speed so the wheel continues to spin in the same direction.
+   * @private
    */
   dragEnd() {
 
@@ -1437,27 +1957,37 @@ export class Wheel {
 
   }
 
+  /**
+   * @private
+   */
   isDragEventTooOld(now = 0, event = {}) {
     return (now - event.now) > Constants.dragCapturePeriod;
   }
 
-  raiseEvent_onCurrentIndexChange(data = {}) {
+  /**
+   * @private
+   */
+  raiseEvent_onCurrentIndexChange() {
     this.onCurrentIndexChange?.({
       type: 'currentIndexChange',
       currentIndex: this._currentIndex,
-      ...data,
     });
   }
 
-  raiseEvent_onRest(data = {}) {
+  /**
+   * @private
+   */
+  raiseEvent_onRest() {
     this.onRest?.({
       type: 'rest',
       currentIndex: this._currentIndex,
       rotation: this._rotation,
-      ...data,
     });
   }
 
+  /**
+   * @private
+   */
   raiseEvent_onSpin(data = {}) {
     this.onSpin?.({
       type: 'spin',
