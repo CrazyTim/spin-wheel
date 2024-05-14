@@ -32,6 +32,7 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
     "lint": "eslint src examples scripts tests --fix",
     "build": "npm run lint && npm run test && npm run build-esm && npm run build-iife",
+    "build-types": "tsc src/wheel.js --declaration --allowJs --emitDeclarationOnly --outDir dist/types --target ES6 --moduleResolution nodenext --module NodeNext && rm dist/types/util.d.ts && rm dist/types/events.d.ts",
     "build-esm": "node scripts/build.js -entryPoint=src/wheel.js -esm",
     "build-iife": "node scripts/build.js -entryPoint=src/wheel.js -iife"
   },
