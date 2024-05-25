@@ -776,7 +776,7 @@ export class Wheel {
   }
 
   /**
-   * The color of the line around the circumference of the wheel.
+   * The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the line around the circumference of the wheel.
    */
   get borderColor() {
     return this._borderColor;
@@ -871,7 +871,7 @@ export class Wheel {
   }
 
   /**
-   * The repeating pattern of background colors for all items.
+   * The [CSS colors](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) to use as a repeating pattern for the background colors of all items.
    * Overridden by `Item.backgroundColor`.
    * Example: `['#fff','#000']`.
    */
@@ -925,7 +925,7 @@ export class Wheel {
   }
 
   /**
-   * The repeating pattern of colors for all item labels.
+   * The [CSS colors](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) to use as a repeating pattern for the colors of all item labels.
    * Overridden by `Item.labelColor`.
    * Example: `['#fff','#000']`.
    */
@@ -1034,7 +1034,7 @@ export class Wheel {
   }
 
   /**
-   * The color of the stroke applied to the outside of the label text.
+   * The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the stroke applied to the outside of the label text.
    */
   get itemLabelStrokeColor() {
     return this._itemLabelStrokeColor;
@@ -1104,7 +1104,7 @@ export class Wheel {
   }
 
   /**
-   * The color of the lines between the items.
+   * The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the lines between the items.
    */
   get lineColor() {
     return this._lineColor;
