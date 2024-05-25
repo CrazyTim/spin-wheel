@@ -20,6 +20,16 @@ An easy to use, themeable component for randomising choices and prizes.
 - Callbacks for events like `onSpin` and `onCurrentIndexChange`.
 - Clockwise and anticlockwise spinning.
 
+## Examples
+
+- [Basic ESM](https://crazytim.github.io/spin-wheel/examples/esm)
+- [Basic IIFE](https://crazytim.github.io/spin-wheel/examples/iife)
+- [Basic Vue](https://crazytim.github.io/spin-wheel/examples/vue3/dist)
+- [Spin to a specific item](https://crazytim.github.io/spin-wheel/examples/spin-to-item)
+- [Multiple Wheels](https://crazytim.github.io/spin-wheel/examples/multiple)
+- [Themes](https://crazytim.github.io/spin-wheel/examples/themes)
+- [Developer playground (for testing and troubleshooting)](https://crazytim.github.io/spin-wheel/examples/playground)
+
 ## Installation
 
 ### ESM
@@ -78,15 +88,16 @@ wheel.spinToItem(winningItemIndex, duration, true, 2, 1, easing)
 
 If precision is not important, you can use `Wheel.spin()` to immediately start spinning the wheel at a certain speed, which will be reduced over time according to `Wheel.rotationResistance`. You can also set `Wheel.isInteractive = true` to allow the user to spin the wheel themselves by dragging or flicking.
 
-## Examples
+## How to draw the pointer
 
-- [Basic ESM](https://crazytim.github.io/spin-wheel/examples/esm)
-- [Basic IIFE](https://crazytim.github.io/spin-wheel/examples/iife)
-- [Basic Vue](https://crazytim.github.io/spin-wheel/examples/vue3/dist)
-- [Spin to a specific item](https://crazytim.github.io/spin-wheel/examples/spin-to-item)
-- [Multiple Wheels](https://crazytim.github.io/spin-wheel/examples/multiple)
-- [Themes](https://crazytim.github.io/spin-wheel/examples/themes)
-- [Developer playground (for testing and troubleshooting)](https://crazytim.github.io/spin-wheel/examples/playground)
+The wheel doesn't have a built-in pointer, instead you set `Wheel.pointerAngle` and draw the pointer yourself. This is because there are many ways you might want the pointer to appear and behave, for example you might want to animate it.
+
+Your options for drawing the pointer are:
+
+- Overlay an image using `Wheel.overlayImage`
+- Overlay something using the DOM
+
+Feel free to use an image from one of the examples above.
 
 ## Configuration
 
@@ -140,7 +151,7 @@ Name                            | Default Value     | Description
 `items`                         | `[]`              | The items to show on the wheel.
 `lineColor`                     | `'#000'`          | The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the lines between the items.
 `lineWidth`                     | `1`               | The width (in pixels) of the lines between the items.
-`pixelRatio`                    | `0`               | The pixel ratio used to render the wheel.</p><p>Values above 0 will produce a sharper image at the cost of performance.</p><p>A value of `0` will cause the pixel ratio to be automatically determined using `window.devicePixelRatio`.
+`pixelRatio`                    | `0`               | The pixel ratio used to draw the wheel.</p><p>Values above 0 will produce a sharper image at the cost of performance.</p><p>A value of `0` will cause the pixel ratio to be automatically determined using `window.devicePixelRatio`.
 `radius`                        | `0.95`            | The radius of the wheel (as a percent of the container's smallest dimension).
 `rotation`                      | `0`               | The rotation (angle in degrees) of the wheel.</p><p>The first item will be drawn clockwise from this point.
 `rotationResistance`            | `-35`             | The amount that `rotationSpeed` will be reduced by every second. Only in effect when `rotationSpeed !== 0`.</p><p>Set to `0` to spin the wheel infinitely.

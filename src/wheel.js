@@ -1226,7 +1226,7 @@ export class Wheel {
   }
 
   /**
-   * The pixel ratio used to render the wheel.
+   * The pixel ratio used to draw the wheel.
    * Values above 0 will produce a sharper image at the cost of performance.
    * A value of `0` will cause the pixel ratio to be automatically determined using `window.devicePixelRatio`.
    */
