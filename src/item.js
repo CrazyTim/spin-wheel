@@ -42,8 +42,8 @@ export class Item {
   }
 
   /**
-   * The background color of the item.
-   * When `null`, the actual color rendered will fall back to `Wheel.itemBackgroundColors`.
+   * The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the item's background.
+   * When `null`, the color will fall back to `Wheel.itemBackgroundColors`.
    * Example: `'#fff'`.
    */
   get backgroundColor() {
@@ -156,8 +156,8 @@ export class Item {
   }
 
   /**
-   * The color of the label.
-   * When `null`, the actual color rendered will fall back to `Wheel.itemLabelColors`.
+   * The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the item's label.
+   * When `null`, the color will fall back to `Wheel.itemLabelColors`.
    * Example: `'#000'`.
    */
   get labelColor() {
