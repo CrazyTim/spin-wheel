@@ -536,7 +536,7 @@ export class Wheel {
   /**
    * Spin the wheel by setting `rotationSpeed`.
    * The wheel will immediately start spinning, and slow down over time depending on the value of `rotationResistance`.
-   * A positive number will spin clockwise, a negative number will spin anticlockwise.
+   * A positive number will spin clockwise, a negative number will spin anti-clockwise.
    */
   spin(rotationSpeed = 0) {
     if (!util.isNumber(rotationSpeed)) throw new Error('rotationSpeed must be a number');
@@ -571,6 +571,7 @@ export class Wheel {
    * The animation will occur over the provided `duration` (milliseconds).
    * If `spinToCenter` is true, the wheel will spin to the center of the item, otherwise the wheel will spin to a random angle inside the item.
    * `numberOfRevolutions` controls how many times the wheel will rotate a full 360 degrees before resting on the item.
+   * `direction` can be `1` (clockwise) or `-1` (anti-clockwise).
    * The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.
    * If no easing function is provided, the default easeSinOut will be used.
    * For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
@@ -754,7 +755,7 @@ export class Wheel {
     this._rotationSpeed = this.limitSpeed(speed, this._rotationSpeedMax);
     this._lastSpinFrameTime = performance.now();
 
-    this._rotationDirection = (this._rotationSpeed >= 0) ? 1 : -1; // 1 for clockwise or stationary, -1 for anticlockwise.
+    this._rotationDirection = (this._rotationSpeed >= 0) ? 1 : -1; // 1 for clockwise or stationary, -1 for anti-clockwise.
 
     if (this._rotationSpeed !== 0) {
       this.raiseEvent_onSpin({
@@ -1318,7 +1319,7 @@ export class Wheel {
 
   /**
    * (Readonly) How far (angle in degrees) the wheel will spin every 1 second.
-   * A positive number means the wheel is spinning clockwise, a negative number means anticlockwise, and `0` means the wheel is not spinning.
+   * A positive number means the wheel is spinning clockwise, a negative number means anti-clockwise, and `0` means the wheel is not spinning.
    */
   get rotationSpeed() {
     return this._rotationSpeed;

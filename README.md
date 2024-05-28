@@ -18,7 +18,7 @@ An easy to use, themeable component for randomising choices and prizes.
   - Draw images on items, the wheel, and the foreground.
   - Apply repeating colour sets.
 - Callbacks for events like `onSpin` and `onCurrentIndexChange`.
-- Clockwise and anticlockwise spinning.
+- Clockwise and anti-clockwise spinning.
 
 ## Examples
 
@@ -120,9 +120,9 @@ Method                                                              | Descriptio
 `constructor(container, props = {})`                                | Create the wheel inside a container Element and initialise it with props.</p><p>`container` must be an Element.</p><p>`props` must be an Object or null.
 `init(props = {})`                                                  | Initialise all properties.</p><The>If a value is not provided for a property then it will be given a default value.
 `remove`                                                            | Remove the wheel from the DOM and unregister event handlers.
-`spin(rotationSpeed = 0)`                                           | Spin the wheel by setting `rotationSpeed`. The wheel will immediately start spinning, and slow down over time depending on the value of `rotationResistance`.</p><p>A positive number will spin clockwise, a negative number will spin anticlockwise.
+`spin(rotationSpeed = 0)`                                           | Spin the wheel by setting `rotationSpeed`. The wheel will immediately start spinning, and slow down over time depending on the value of `rotationResistance`.</p><p>A positive number will spin clockwise, a negative number will spin anti-clockwise.
 `spinTo(rotation = 0, duration = 0, easingFunction = null)`         | Spin the wheel to a particular rotation.</p><p>The animation will occur over the provided `duration` (milliseconds).<p>The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.</p><p>If no easing function is provided, the default easeSinOut will be used.</p><p>For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
-`spinToItem(itemIndex = 0, duration = 0, spinToCenter = true, numberOfRevolutions = 1, direction = 1, easingFunction = null)` | Spin the wheel to a particular item.</p><p>The animation will occur over the provided `duration` (milliseconds).</p><p>If `spinToCenter` is true, the wheel will spin to the center of the item, otherwise the wheel will spin to a random angle inside the item.</p><p>`numberOfRevolutions` controls how many times the wheel will rotate a full 360 degrees before resting on the item.</p><p>`direction` can be `1` or `-1`, `1` meaning clockwise and `-1` counter-clockwise</p><p>The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.</p><p>If no easing function is provided, the default easeSinOut will be used.</p><p>For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
+`spinToItem(itemIndex = 0, duration = 0, spinToCenter = true, numberOfRevolutions = 1, direction = 1, easingFunction = null)` | Spin the wheel to a particular item.</p><p>The animation will occur over the provided `duration` (milliseconds).</p><p>If `spinToCenter` is true, the wheel will spin to the center of the item, otherwise the wheel will spin to a random angle inside the item.</p><p>`numberOfRevolutions` controls how many times the wheel will rotate a full 360 degrees before resting on the item.</p><p>`direction` can be `1` (clockwise) or `-1` (anti-clockwise)</p><p>The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.</p><p>If no easing function is provided, the default easeSinOut will be used.</p><p>For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
 `stop()`                                                            | Immediately stop the wheel from spinning, regardless of which method was used to spin it.
 `getCurrentIndex()`                                                 | Get the index of the item that the Pointer is pointing at.</p><p>An item is considered "current" if `pointerAngle` is between it's start angle (inclusive) and it's end angle (exclusive).
 
@@ -132,7 +132,7 @@ Note: setting a property to `undefined` will reset it to the default value.
 
 Name                            | Default Value     | Description
 ------------------------------- | ------------------| ---------------------------
-`borderColor`                   | `#000`            | The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the line around the circumference of the wheel.
+`borderColor`                   | `'#000'`          | The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the line around the circumference of the wheel.
 `borderWidth`                   | `0`               | The width (in pixels) of the line around the circumference of the wheel.
 `debug`                         | `false`           | Show debugging info.</p><p>This is particularly helpful when fine-tuning labels.
 `image`                         | `''`              | The url of an image that will be drawn over the center of the wheel which will rotate with the wheel.</p><p>It will be automatically scaled to fit `radius`.
@@ -146,7 +146,7 @@ Name                            | Default Value     | Description
 `itemLabelRadius`               | `0.85`            | The point along the radius (as a percent, starting from the center of the wheel) to start drawing all item labels.
 `itemLabelRadiusMax`            | `0.2`             | The point along the radius (as a percent, starting from the center of the wheel) to calculate the maximum font size for all item labels.
 `itemLabelRotation`             | `0`               | The rotation of all item labels.<p></p>Use this in combination with `itemLabelAlign` to flip the labels `180°`.
-`itemLabelStrokeColor`          | `#fff`            | The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the stroke applied to the outside of the label text.
+`itemLabelStrokeColor`          | `'#fff'`          | The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the stroke applied to the outside of the label text.
 `itemLabelStrokeWidth`          | `0`               | The width of the stroke applied to the outside of the label text.
 `items`                         | `[]`              | The items to show on the wheel.
 `lineColor`                     | `'#000'`          | The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the lines between the items.
@@ -155,7 +155,7 @@ Name                            | Default Value     | Description
 `radius`                        | `0.95`            | The radius of the wheel (as a percent of the container's smallest dimension).
 `rotation`                      | `0`               | The rotation (angle in degrees) of the wheel.</p><p>The first item will be drawn clockwise from this point.
 `rotationResistance`            | `-35`             | The amount that `rotationSpeed` will be reduced by every second. Only in effect when `rotationSpeed !== 0`.</p><p>Set to `0` to spin the wheel infinitely.
-`rotationSpeed`                 | `0`               | (Readonly) How far (angle in degrees) the wheel will spin every 1 second.</p><p>A positive number means the wheel is spinning clockwise, a negative number means anticlockwise, and `0` means the wheel is not spinning.
+`rotationSpeed`                 | `0`               | (Readonly) How far (angle in degrees) the wheel will spin every 1 second.</p><p>A positive number means the wheel is spinning clockwise, a negative number means anti-clockwise, and `0` means the wheel is not spinning.
 `rotationSpeedMax`              | `250`             | The maximum value for `rotationSpeed` (ignoring the wheel's spin direction).</p><p>The wheel will not spin faster than this value in any direction.
 `offset`                        | `{w: 0, h: 0}`    | The offset of the wheel relative to it's center (as a percent of the wheel's diameter).
 `onCurrentIndexChange`          | `null`            | The callback for the `onCurrentIndexChange` event.
