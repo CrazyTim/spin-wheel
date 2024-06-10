@@ -204,8 +204,8 @@ export class Wheel {
     this.drawBorder(ctx);
     this.drawImage(ctx, this._image, false);
     this.drawImage(ctx, this._overlayImage, true);
-    this.drawPointerLine(ctx);
-    this.drawDragEvents(ctx);
+    this.drawDebugPointerLine(ctx);
+    this.drawDebugDragPoints(ctx);
 
     this._isInitialising = false;
 
@@ -299,7 +299,7 @@ export class Wheel {
 
   }
 
-  drawPointerLine(ctx) {
+  drawDebugPointerLine(ctx) {
 
     if (!this.debug) return;
 
@@ -443,21 +443,21 @@ export class Wheel {
 
   }
 
-  drawDragEvents(ctx) {
+  drawDebugDragPoints(ctx) {
 
     if (!this.debug || !this._dragEvents?.length) return;
 
     const dragEventsReversed = [...this._dragEvents].reverse();
-    const actualLineWidth = this.getScaledNumber(0.5);
-    const actualCircleDiameter = this.getScaledNumber(4);
+    const lineWidth = this.getScaledNumber(0.5);
+    const circleDiameter = this.getScaledNumber(4);
 
     for (const [i, event] of dragEventsReversed.entries()) {
-      const percent = (i / this._dragEvents.length) * 100;
+      const lightnessPercent = (i / this._dragEvents.length) * 100;
       ctx.beginPath();
-      ctx.arc(event.x, event.y, actualCircleDiameter, 0, 2 * Math.PI);
-      ctx.fillStyle = `hsl(${Constants.Debugging.dragEventHue},100%,${percent}%)`;
+      ctx.arc(event.x, event.y, circleDiameter, 0, 2 * Math.PI);
+      ctx.fillStyle = `hsl(${Constants.Debugging.dragPointHue},100%,${lightnessPercent}%)`;
       ctx.strokeStyle = '#000';
-      ctx.lineWidth = actualLineWidth;
+      ctx.lineWidth = lineWidth;
       ctx.fill();
       ctx.stroke();
     }
