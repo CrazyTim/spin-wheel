@@ -185,7 +185,9 @@ Item {
     "_handler_onMouseMoveRefreshCursor": [Function],
     "_handler_onPointerDown": [Function],
     "_handler_onPointerMoveRefreshCursor": [Function],
-    "_handler_onResize": [Function],
+    "_handler_onResize": Object {
+      "stop": [Function],
+    },
     "_handler_onTouchStart": [Function],
     "_image": null,
     "_isCursorOverWheel": false,
