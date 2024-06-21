@@ -180,7 +180,7 @@ export class Wheel {
 
     ctx.save();
 
-    // Build paths:
+    // Build paths for each item:
     for (const [i, a] of angles.entries()) {
       const item = this._items[i];
 
@@ -466,7 +466,7 @@ export class Wheel {
 
   animateRotation(now = 0) {
 
-    // For spinTo()
+    // Spin method = spinTo()
     if (this._spinToTimeEnd !== null) {
 
       // Check if we should end the animation:
@@ -490,14 +490,14 @@ export class Wheel {
 
     }
 
-    // For spin()
+    // Spin method = spin()
     if (this._lastSpinFrameTime !== null) {
 
       const delta = now - this._lastSpinFrameTime;
 
       if (delta > 0) {
 
-        this.rotation += ((delta / 1000) * this._rotationSpeed) % 360; // TODO: very small rounding errors can accumulative here.
+        this.rotation += ((delta / 1000) * this._rotationSpeed) % 360; // TODO: very small rounding errors can accumulate here.
         this._rotationSpeed = this.getRotationSpeedPlusDrag(delta);
 
         // Check if we should end the animation:
