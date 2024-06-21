@@ -28,7 +28,7 @@
     "default": "./src/wheel.js"
   },
   "scripts": {
-    "start": "node scripts/build.js -entryPoint=src/wheel.js -servePath=examples/themes/",
+    "start": "node scripts/build.js -entryPoint=src/wheel.js -servePath=examples/playground/",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
     "lint": "eslint src examples scripts tests --fix",
     "build": "npm run lint && npm run test && npm run build-esm && npm run build-iife",
