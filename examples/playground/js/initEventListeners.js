@@ -148,11 +148,12 @@ function initTextboxArray(g) {
 }
 
 function exportWheelAsJson() {
-  const obj = {};
-  for (const [key, value] of Object.entries(wheelPropInits)) {
-    obj[key] = window.wheel[key];
+  const json = {};
+  for (const g of inputGroups) {
+    const key = g.dataset.name;
+    json[key] = window.wheel[key];
   }
-  downloadTextFile(JSON.stringify(obj, null, 2), 'spin-wheel-settings.json', 'text/json');
+  downloadTextFile(JSON.stringify(json, null, 2), 'spin-wheel-settings.json', 'text/json');
 }
 
 function roundUp(num = 0, decimalPlaces = 2) {

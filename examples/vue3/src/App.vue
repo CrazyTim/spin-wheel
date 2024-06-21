@@ -8,8 +8,12 @@
 </script>
 
 <template>
-  <button @click="count++">Items: {{ count }}</button>
-  <SpinWheel :num-items="count"></SpinWheel>
+  <div class="body-wrapper">
+    <div class="gui-wrapper">
+      <button @click="count++">Items: {{ count }}</button>
+    </div>
+    <SpinWheel :num-items="count"></SpinWheel>
+  </div>
 </template>
 
 <style scoped>

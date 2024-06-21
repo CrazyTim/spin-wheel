@@ -180,7 +180,7 @@ export class Wheel {
 
     ctx.save();
 
-    // Build paths:
+    // Build paths for each item:
     for (const [i, a] of angles.entries()) {
       const item = this._items[i];
 
@@ -204,8 +204,8 @@ export class Wheel {
     this.drawBorder(ctx);
     this.drawImage(ctx, this._image, false);
     this.drawImage(ctx, this._overlayImage, true);
-    this.drawPointerLine(ctx);
-    this.drawDragEvents(ctx);
+    this.drawDebugPointerLine(ctx);
+    this.drawDebugDragPoints(ctx);
 
     this._isInitialising = false;
 
@@ -299,7 +299,7 @@ export class Wheel {
 
   }
 
-  drawPointerLine(ctx) {
+  drawDebugPointerLine(ctx) {
 
     if (!this.debug) return;
 
@@ -443,21 +443,21 @@ export class Wheel {
 
   }
 
-  drawDragEvents(ctx) {
+  drawDebugDragPoints(ctx) {
 
     if (!this.debug || !this._dragEvents?.length) return;
 
     const dragEventsReversed = [...this._dragEvents].reverse();
-    const actualLineWidth = this.getScaledNumber(0.5);
-    const actualCircleDiameter = this.getScaledNumber(4);
+    const lineWidth = this.getScaledNumber(0.5);
+    const circleDiameter = this.getScaledNumber(4);
 
     for (const [i, event] of dragEventsReversed.entries()) {
-      const percent = (i / this._dragEvents.length) * 100;
+      const lightnessPercent = (i / this._dragEvents.length) * 100;
       ctx.beginPath();
-      ctx.arc(event.x, event.y, actualCircleDiameter, 0, 2 * Math.PI);
-      ctx.fillStyle = `hsl(${Constants.Debugging.dragEventHue},100%,${percent}%)`;
+      ctx.arc(event.x, event.y, circleDiameter, 0, 2 * Math.PI);
+      ctx.fillStyle = `hsl(${Constants.Debugging.dragPointHue},100%,${lightnessPercent}%)`;
       ctx.strokeStyle = '#000';
-      ctx.lineWidth = actualLineWidth;
+      ctx.lineWidth = lineWidth;
       ctx.fill();
       ctx.stroke();
     }
@@ -466,7 +466,7 @@ export class Wheel {
 
   animateRotation(now = 0) {
 
-    // For spinTo()
+    // Spin method = spinTo()
     if (this._spinToTimeEnd !== null) {
 
       // Check if we should end the animation:
@@ -490,14 +490,14 @@ export class Wheel {
 
     }
 
-    // For spin()
+    // Spin method = spin()
     if (this._lastSpinFrameTime !== null) {
 
       const delta = now - this._lastSpinFrameTime;
 
       if (delta > 0) {
 
-        this.rotation += ((delta / 1000) * this._rotationSpeed) % 360; // TODO: very small rounding errors can accumulative here.
+        this.rotation += ((delta / 1000) * this._rotationSpeed) % 360; // TODO: very small rounding errors can accumulate here.
         this._rotationSpeed = this.getRotationSpeedPlusDrag(delta);
 
         // Check if we should end the animation:
@@ -536,7 +536,7 @@ export class Wheel {
   /**
    * Spin the wheel by setting `rotationSpeed`.
    * The wheel will immediately start spinning, and slow down over time depending on the value of `rotationResistance`.
-   * A positive number will spin clockwise, a negative number will spin anticlockwise.
+   * A positive number will spin clockwise, a negative number will spin anti-clockwise.
    */
   spin(rotationSpeed = 0) {
     if (!util.isNumber(rotationSpeed)) throw new Error('rotationSpeed must be a number');
@@ -571,6 +571,7 @@ export class Wheel {
    * The animation will occur over the provided `duration` (milliseconds).
    * If `spinToCenter` is true, the wheel will spin to the center of the item, otherwise the wheel will spin to a random angle inside the item.
    * `numberOfRevolutions` controls how many times the wheel will rotate a full 360 degrees before resting on the item.
+   * `direction` can be `1` (clockwise) or `-1` (anti-clockwise).
    * The animation can be adjusted by providing an optional `easingFunction` which accepts a single parameter n, where n is between 0 and 1 inclusive.
    * If no easing function is provided, the default easeSinOut will be used.
    * For example easing functions see [easing-utils](https://github.com/AndrewRayCode/easing-utils).
@@ -754,7 +755,7 @@ export class Wheel {
     this._rotationSpeed = this.limitSpeed(speed, this._rotationSpeedMax);
     this._lastSpinFrameTime = performance.now();
 
-    this._rotationDirection = (this._rotationSpeed >= 0) ? 1 : -1; // 1 for clockwise or stationary, -1 for anticlockwise.
+    this._rotationDirection = (this._rotationSpeed >= 0) ? 1 : -1; // 1 for clockwise or stationary, -1 for anti-clockwise.
 
     if (this._rotationSpeed !== 0) {
       this.raiseEvent_onSpin({
@@ -776,7 +777,7 @@ export class Wheel {
   }
 
   /**
-   * The color of the line around the circumference of the wheel.
+   * The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the line around the circumference of the wheel.
    */
   get borderColor() {
     return this._borderColor;
@@ -871,7 +872,7 @@ export class Wheel {
   }
 
   /**
-   * The repeating pattern of background colors for all items.
+   * The [CSS colors](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) to use as a repeating pattern for the background colors of all items.
    * Overridden by `Item.backgroundColor`.
    * Example: `['#fff','#000']`.
    */
@@ -925,7 +926,7 @@ export class Wheel {
   }
 
   /**
-   * The repeating pattern of colors for all item labels.
+   * The [CSS colors](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) to use as a repeating pattern for the colors of all item labels.
    * Overridden by `Item.labelColor`.
    * Example: `['#fff','#000']`.
    */
@@ -1034,7 +1035,7 @@ export class Wheel {
   }
 
   /**
-   * The color of the stroke applied to the outside of the label text.
+   * The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the stroke applied to the outside of the label text.
    */
   get itemLabelStrokeColor() {
     return this._itemLabelStrokeColor;
@@ -1104,7 +1105,7 @@ export class Wheel {
   }
 
   /**
-   * The color of the lines between the items.
+   * The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the lines between the items.
    */
   get lineColor() {
     return this._lineColor;
@@ -1226,7 +1227,7 @@ export class Wheel {
   }
 
   /**
-   * The pixel ratio used to render the wheel.
+   * The pixel ratio used to draw the wheel.
    * Values above 0 will produce a sharper image at the cost of performance.
    * A value of `0` will cause the pixel ratio to be automatically determined using `window.devicePixelRatio`.
    */
@@ -1318,7 +1319,7 @@ export class Wheel {
 
   /**
    * (Readonly) How far (angle in degrees) the wheel will spin every 1 second.
-   * A positive number means the wheel is spinning clockwise, a negative number means anticlockwise, and `0` means the wheel is not spinning.
+   * A positive number means the wheel is spinning clockwise, a negative number means anti-clockwise, and `0` means the wheel is not spinning.
    */
   get rotationSpeed() {
     return this._rotationSpeed;

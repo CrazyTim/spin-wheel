@@ -1,10 +1,14 @@
+import * as util from './util.js';
+
 export function register(wheel = {}) {
 
   registerPointerEvents(wheel);
 
   // Listen for when the window is resized.
-  wheel._handler_onResize = e => wheel.resize(e);
-  window.addEventListener('resize', wheel._handler_onResize);
+  wheel._handler_onResize = util.getResizeObserver(wheel._canvasContainer, ({redraw = true}) => {
+    wheel.resize();
+    if (redraw) wheel.draw(performance.now());
+  });
 
   // Listen for when window.devicePixelRatio changes.
   // For example, when the browser window is moved to a different screen.
@@ -35,7 +39,7 @@ export function unregister(wheel = {}) {
     canvas.removeEventListener('mousemove', wheel._handler_onMouseMoveRefreshCursor);
   }
 
-  window.removeEventListener('resize', wheel._handler_onResize);
+  wheel._handler_onResize.stop();
   wheel._mediaQueryList.removeEventListener('change', wheel._handler_onDevicePixelRatioChange);
 
 }

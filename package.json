@@ -1,6 +1,13 @@
 {
   "name": "spin-wheel",
-  "version": "4.3.2",
+  "version": "4.4.0",
+  "author": "CrazyTim",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CrazyTim/spin-wheel.git"
+  },
+  "homepage": "https://github.com/CrazyTim/spin-wheel#readme",
+  "license": "MIT",
   "description": "An easy to use, themeable component for randomising choices and prizes.",
   "keywords": [
     "spinner",
@@ -9,8 +16,10 @@
     "picker",
     "prize",
     "spinning",
+    "component",
     "roulette",
-    "fortune"
+    "fortune",
+    "lucky"
   ],
   "type": "module",
   "exports": {
@@ -19,12 +28,25 @@
     "default": "./src/wheel.js"
   },
   "scripts": {
-    "start": "node scripts/build.js -entryPoint=src/wheel.js -servePath=examples/themes/",
+    "start": "node scripts/build.js -entryPoint=src/wheel.js -servePath=examples/playground/",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
     "lint": "eslint src examples scripts tests --fix",
     "build": "npm run lint && npm run test && npm run build-esm && npm run build-iife",
     "build-esm": "node scripts/build.js -entryPoint=src/wheel.js -esm",
     "build-iife": "node scripts/build.js -entryPoint=src/wheel.js -iife"
+  },
+  "engines": {
+    "node": ">=14.8.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.27.5",
+    "esbuild": "^0.15.11",
+    "eslint": "^8.25.0",
+    "jest": "^27.4.3",
+    "jest-canvas-mock": "^2.5.1"
+  },
+  "optionalDependencies": {
+    "canvas": "^2.11.2"
   },
   "eslintConfig": {
     "ignorePatterns": [
@@ -226,25 +248,5 @@
     "setupFiles": [
       "jest-canvas-mock"
     ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/CrazyTim/spin-wheel.git"
-  },
-  "author": "CrazyTim",
-  "license": "MIT",
-  "homepage": "https://github.com/CrazyTim/spin-wheel#readme",
-  "engines": {
-    "node": ">=14.8.0"
-  },
-  "devDependencies": {
-    "browser-sync": "^2.27.5",
-    "esbuild": "^0.15.11",
-    "eslint": "^8.25.0",
-    "jest": "^27.4.3",
-    "jest-canvas-mock": "^2.5.1"
-  },
-  "optionalDependencies": {
-    "canvas": "^2.11.2"
   }
 }

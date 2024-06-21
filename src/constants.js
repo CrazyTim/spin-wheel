@@ -76,5 +76,5 @@ export const Debugging = Object.freeze({
   pointerLineColor: '#ff00ff',
   labelOutlineColor: '#ff00ff',
   labelRadiusColor: '#00ff00',
-  dragEventHue: 200,
+  dragPointHue: 300,
 });

@@ -35,13 +35,8 @@
 </script>
 
 <template>
-  <div ref="wheelContainer"></div>
+  <div class="wheel-wrapper" ref="wheelContainer"></div>
 </template>
 
 <style scoped>
-  div {
-    width: 60vw;
-    height: 60vh;
-    margin: auto;
-  }
 </style>

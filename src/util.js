@@ -188,3 +188,40 @@ export function fixFloat(f = 0) {
 export function easeSinOut(n) {
   return Math.sin((n * Math.PI) / 2);
 }
+
+export const getResizeObserver = (element = {}, callBack = {}) => {
+
+  if (window.ResizeObserver) {
+
+    const observer = new ResizeObserver(() => {
+      // We need to trigger a re-draw because there will be a canvas flicker when there is throttling on drawing.
+      // Probably because the observer is called in the same animation frame as the resize event.
+      // Note: the `Window.resize` event (see below) doesn't cause this flicker for some reason.
+      // See this thread for a description of this issue: https://github.com/pixijs/pixijs/issues/3395#issuecomment-328334633
+      callBack({redraw: true});
+    });
+
+    observer.observe(element);
+
+    return {
+      stop: () => { // TODO: test
+        observer.unobserve(element);
+        observer.disconnect();
+      },
+    };
+
+  }
+
+  // The browser does not support ResizeObserver.
+  // Fallback to using `Window.resize`.
+  // This method will not work in all scenarios, and you may still need to manually trigger a refresh.
+  // For example when the element is inside a dialog, or when setting css display style to `none`.
+  window.addEventListener('resize', callBack);
+
+  return {
+    stop: () => {
+      window.removeEventListener('resize', callBack);
+    },
+  };
+
+};

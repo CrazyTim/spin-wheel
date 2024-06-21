@@ -47,10 +47,24 @@ body {
   gap: 10px;
 }
 
+.gui-wrapper > div {
+  display: flex;
+  flex-direction:row;
+  gap: 10px;
+  align-items: center;
+}
+
 select {
   padding: 2px;
 }
 
 label {
   margin-right: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-right: 10px;
+  max-width: 100px;
 }

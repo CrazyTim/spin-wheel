@@ -70,26 +70,30 @@ window.onload = () => {
   window.wheel2 = new Wheel(container2, props2);
 
   const btnSpin = document.querySelector('button');
-
   let modifier = 0;
 
   window.addEventListener('click', (e) => {
 
     // Listen for click event on spin button:
     if (e.target === btnSpin) {
-      const duration = 2600;
-      const winningItemRotaion1 = getRandomInt(90, 360) + modifier;
-      const winningItemRotaion2 = getRandomInt(90, 360) + modifier;
-      wheel1.spinTo(winningItemRotaion1, duration);
-      wheel2.spinTo(winningItemRotaion1 + WHEEL_2_INITIAL_ROTATION, duration);
-      modifier += 270;
+      const {duration, winningItemRotaion} = calcSpinToValues();
+      wheel1.spinTo(winningItemRotaion, duration);
+      wheel2.spinTo(winningItemRotaion + WHEEL_2_INITIAL_ROTATION, duration);
     }
 
   });
+
+  function calcSpinToValues() {
+    const duration = 2600;
+    const winningItemRotaion = getRandomInt(360, 360 * 1.75) + modifier;
+    modifier += 360 * 1.75;
+    return {duration, winningItemRotaion};
+  }
 
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
   }
+
 };
