@@ -2,6 +2,10 @@
 
 # Spin Wheel
 
+[![GitHub tag](https://img.shields.io/github/tag/CrazyTim/spin-wheel)](https://img.shields.io/github/v/tag/CrazyTim/spin-wheel.svg?sort=semver "View latest release")
+![maturity stable badge](https://img.shields.io/badge/maturity-stable-blue)
+[![License](https://img.shields.io/badge/license-MIT-blue)](#license "View license")
+
 An easy to use, themeable component for randomising choices and prizes.
 
 ## Features
@@ -28,7 +32,7 @@ An easy to use, themeable component for randomising choices and prizes.
 - [Spin to a specific item](https://crazytim.github.io/spin-wheel/examples/spin-to-item)
 - [Multiple Wheels](https://crazytim.github.io/spin-wheel/examples/multiple)
 - [Themes](https://crazytim.github.io/spin-wheel/examples/themes)
-- [Developer playground (for testing and troubleshooting)](https://crazytim.github.io/spin-wheel/examples/playground)
+- [Playground (for testing and troubleshooting)](https://crazytim.github.io/spin-wheel/examples/playground)
 
 ## Installation
 
