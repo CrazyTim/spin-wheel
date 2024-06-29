@@ -9,46 +9,31 @@ for (const g of inputGroups) {
   g.prepend(header);
 
   if (g.dataset.type === 'textbox') {
-    const el = document.createElement('input');
-    el.type = 'input';
-    g.append(el);
-    initTextboxOrColor(g);
+    initTextboxOrColor(g, 'input');
   } else if (g.dataset.type === 'color') {
-    const el = document.createElement('input');
-    el.type = 'color';
-    g.append(el);
-    initTextboxOrColor(g);
+    initTextboxOrColor(g, 'color');
   } else if (g.dataset.type === 'textboxArray') {
-    const el = document.createElement('input');
-    el.type = 'input';
-    g.append(el);
     initTextboxArray(g);
   } else if (g.dataset.type === 'range') {
-    const el = document.createElement('input');
-    el.type = 'range';
-    el.min = g.dataset.min;
-    el.max = g.dataset.max;
-    g.append(el);
     initRange(g);
   } else if (g.dataset.type === 'checkbox') {
-    const el = document.createElement('input');
-    el.type = 'checkbox';
-    g.append(el);
     initCheckbox(g);
+  } else if (g.dataset.type === 'select') {
+    initSelect(g);
   } else if (g.dataset.type === 'image') {
-    g.insertAdjacentHTML('beforeend', `<input type="file" accept="image/*">
-    <div>
-      <label class="btn choose">Choose file...</label>
-      <label class="btn clear">x</label>
-    </div>`);
     initImage(g);
   }
 }
 
 document.querySelector('.btn.export').addEventListener('click', exportWheelAsJson);
 
-
 function initRange(g) {
+  const el = document.createElement('input');
+  el.type = 'range';
+  el.min = g.dataset.min;
+  el.max = g.dataset.max;
+  g.append(el);
+
   g.querySelector('input').addEventListener('input', () => {
     const val = parseFloat(g.querySelector('input').value) * (g.dataset.multiplier ?? 1);
     g.querySelector('.prop-value').textContent = roundUp(val);
@@ -61,6 +46,10 @@ function initRange(g) {
 }
 
 function initCheckbox(g) {
+  const el = document.createElement('input');
+  el.type = 'checkbox';
+  g.append(el);
+
   g.querySelector('input').addEventListener('input', () => {
     const val = g.querySelector('input').checked;
     g.querySelector('.prop-value').textContent = val;
@@ -73,6 +62,13 @@ function initCheckbox(g) {
 }
 
 function initImage(g) {
+  g.insertAdjacentHTML('beforeend',
+    `<input type="file" accept="image/*">
+    <div>
+      <label class="btn choose">Choose file...</label>
+      <label class="btn clear">x</label>
+    </div>`);
+
   const btnClear = g.querySelector('.btn.clear');
   const btnChoose = g.querySelector('.btn.choose');
   const input = g.querySelector('input');
@@ -125,7 +121,30 @@ function initImage(g) {
   setImage(localStorage.getItem(localStorageKey));
 }
 
-function initTextboxOrColor(g) {
+function initSelect(g, options) {
+  const el = document.createElement('select');
+  g.append(el);
+
+  const select = g.querySelector('select');
+  for (const option of g.dataset.options.split('|')) {
+    select.insertAdjacentHTML('beforeend',
+      `<option value=${option}>${option}</option>`);
+  }
+
+  g.querySelector('select').addEventListener('change', () => {
+    const val = select.value;
+    window.wheel[g.dataset.name] = val;
+    return true;
+  });
+  const initialVal = window.wheel[g.dataset.name];
+  g.querySelector('select').value = initialVal;
+}
+
+function initTextboxOrColor(g, type = 'input') {
+  const el = document.createElement('input');
+  el.type = type;
+  g.append(el);
+
   g.querySelector('input').addEventListener('input', () => {
     const val = g.querySelector('input').value;
     window.wheel[g.dataset.name] = val;
@@ -138,6 +157,10 @@ function initTextboxOrColor(g) {
 }
 
 function initTextboxArray(g) {
+  const el = document.createElement('input');
+  el.type = 'input';
+  g.append(el);
+
   g.querySelector('input').addEventListener('input', () => {
     const val = g.querySelector('input').value.split(',').map(i => i.trim());
     window.wheel[g.dataset.name] = val;
