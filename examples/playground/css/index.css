@@ -12,6 +12,9 @@ html, body {
 }
 
 body {
+  /* Hide UI during page load */
+  visibility: hidden;
+
   /* Prevent pull-down-to-refresh gesture */
   overscroll-behavior-y: contain;
 
