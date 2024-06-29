@@ -414,17 +414,29 @@ export class Wheel {
 
       ctx.rotate(util.degRad(this.itemLabelRotation));
 
-      if (this.debug) {
-        // Draw the outline of the label:
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(-this._labelMaxWidth, 0);
 
-        ctx.strokeStyle = Constants.Debugging.labelOutlineColor;
+      if (this.debug) {
+        ctx.save();
+
+        let alignAdjust = 0;
+        if (this.itemLabelAlign === 'left') {
+          alignAdjust = this._labelMaxWidth;
+        } else if (this.itemLabelAlign === 'center') {
+          alignAdjust = this._labelMaxWidth / 2;
+        }
+
+        // Draw label baseline
+        ctx.beginPath();
+        ctx.moveTo(alignAdjust, 0);
+        ctx.lineTo(-this._labelMaxWidth + alignAdjust, 0);
+        ctx.strokeStyle = Constants.Debugging.labelBoundingBoxColor;
         ctx.lineWidth = actualDebugLineWidth;
         ctx.stroke();
 
-        ctx.strokeRect(0, -this._itemLabelFontSize / 2, -this._labelMaxWidth, this._itemLabelFontSize);
+        // Draw label bounding box
+        ctx.strokeRect(alignAdjust, -this._itemLabelFontSize / 2, -this._labelMaxWidth, this._itemLabelFontSize);
+
+        ctx.restore();
       }
 
       if (this._itemLabelStrokeWidth > 0) {
