@@ -2,13 +2,14 @@
   margin: 0;
   padding: 0;
   font-family: 'Lucida Grande', sans-serif;
-  font-size: 15px;
+
   -webkit-tap-highlight-color: transparent;
   user-select: none; /* Prevent selecting ui text when dragging */
 }
 
 html, body {
   height: 100%;
+  font-size: 0.95em;
 }
 
 body {
@@ -56,6 +57,7 @@ button.btn, label.btn {
   padding: 4px 8px;
   margin: 0px;
   font-family: inherit;
+  font-size: inherit;
   display: inline-block;
   cursor: pointer;
   background-color: white;
@@ -73,6 +75,7 @@ button.btn, label.btn {
 }
 
 .input-group h2 {
+  font-size: 1.1em;
   display: block;
   font-family: monospace;
   /* background-color: #dfdfdb; */
@@ -131,4 +134,14 @@ label {
 
 .btn.clear {
   display: none;
+}
+
+/*************************************************/
+/*************************************************/
+@media only screen and (max-width: 450px) {
+
+  body {
+    font-size: .85em;
+  }
+
 }
