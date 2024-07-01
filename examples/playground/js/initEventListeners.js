@@ -147,12 +147,14 @@ function initTextboxOrColor(g, type = 'input') {
 
   g.querySelector('input').addEventListener('input', () => {
     const val = g.querySelector('input').value;
+    if (type === 'color') g.querySelector('.prop-value').textContent = val;
     window.wheel[g.dataset.name] = val;
     return true;
   });
   const initialVal = fixThreeCharHexColor( // Color input requires a 6 decimal hex
     window.wheel[g.dataset.name]
   );
+  if (type === 'color') g.querySelector('.prop-value').textContent = initialVal;
   g.querySelector('input').value = initialVal;
 }
 

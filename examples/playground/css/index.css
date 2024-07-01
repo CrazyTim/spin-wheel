@@ -87,11 +87,13 @@ button.btn, label.btn {
 .input-group h2 span:first-of-type {
   display: inline-block;
   font-family: inherit;
+  user-select: text;
 }
 .input-group h2 span:last-of-type {
   margin-left:7px;
   font-family: inherit;
   width: 40px; /* fixed width so the panel can be auto sized */
+  user-select: text;
 }
 
 .input-group input[type="range"] {
