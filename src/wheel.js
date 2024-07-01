@@ -449,6 +449,15 @@ export class Wheel {
       ctx.fillStyle = actualLabelColor;
       ctx.fillText(item.label, 0, actualItemLabelBaselineOffset);
 
+      if (this.debug) {
+        // Draw label anchor point
+        const circleDiameter = this.getScaledNumber(2);
+        ctx.beginPath();
+        ctx.arc(0, 0, circleDiameter, 0, 2 * Math.PI);
+        ctx.fillStyle = Constants.Debugging.labelRadiusColor;
+        ctx.fill();
+      }
+
       ctx.restore();
 
     }
