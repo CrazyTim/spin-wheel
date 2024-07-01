@@ -210,7 +210,7 @@ export class Wheel {
     this.drawImage(ctx, this._image, false);
     this.drawImage(ctx, this._overlayImage, true);
     this.drawDebugPointerLine(ctx);
-    this.drawDebugDragPoints(ctx);
+    //this.drawDebugDragPoints(ctx);
 
     this._isInitialising = false;
 
