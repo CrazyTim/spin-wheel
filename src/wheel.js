@@ -145,6 +145,11 @@ export class Wheel {
     // Adjust the font size of labels so they all fit inside the wheel's radius:
     this._itemLabelFontSize = this.itemLabelFontSizeMax * (this._size / Constants.baseCanvasSize);
     this._labelMaxWidth = this._actualRadius * (this.itemLabelRadius - this.itemLabelRadiusMax);
+
+    if (this.itemLabelAlign === 'center') {
+      this._labelMaxWidth *= 2;
+    }
+
     for (const item of this._items) {
       this._itemLabelFontSize = Math.min(this._itemLabelFontSize, util.getFontSizeToFit(item.label, this.itemLabelFont, this._labelMaxWidth, this._context));
     }
@@ -926,7 +931,7 @@ export class Wheel {
       defaultValue: Defaults.wheel.itemLabelAlign,
     });
 
-    this.refresh();
+    this.resize(); // Recalc the max width if the alignment is center
   }
 
   /**
