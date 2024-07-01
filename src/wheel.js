@@ -926,8 +926,8 @@ export class Wheel {
   set itemLabelAlign(val) {
     this._itemLabelAlign = util.setProp({
       val,
-      isValid: typeof val === 'string',
-      errorMessage: 'Wheel.itemLabelAlign must be a string',
+      isValid: typeof val === 'string' && (val === Constants.AlignText.left || val === Constants.AlignText.right || val === Constants.AlignText.center),
+      errorMessage: 'Wheel.itemLabelAlign must be one of Constants.AlignText',
       defaultValue: Defaults.wheel.itemLabelAlign,
     });
 
