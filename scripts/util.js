@@ -23,13 +23,33 @@ export async function loadFonts(fontNames = []) {
   // Fail silently if browser doesn't support font loading.
   if (!('fonts' in document)) return;
 
-  const fontLoading = [];
+  const promises = [];
 
   for (const i of fontNames) {
-    if (typeof i === 'string') fontLoading.push(document.fonts.load('1em ' + i));
+    if (typeof i === 'string') promises.push(document.fonts.load('1em ' + i));
   }
 
-  await Promise.all(fontLoading);
+  await Promise.all(promises);
+}
+
+/**
+ * Attempt to load all images (of type HTMLImageElement) in the given array.
+ * The browser will download the images and decode them so they are ready to be used.
+ * An error will be thrown if any image fails to load.
+ * See: https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/decode
+ */
+export async function loadImages(images = []) {
+  const promises = [];
+
+  for (const img of images) {
+    if (img instanceof HTMLImageElement) promises.push(img.decode());
+  }
+
+  try {
+    await Promise.all(promises);
+  } catch (error) {
+    throw new Error('An image could not be loaded');
+  }
 }
 
 /**
