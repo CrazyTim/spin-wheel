@@ -101,7 +101,9 @@ Your options for drawing the pointer are:
 - Overlay an image using `Wheel.overlayImage`
 - Overlay something using the DOM
 
-Feel free to use an image from one of the examples above.
+## Images and fonts
+
+Images are passed as instances of `HTMLImageElement` and should be pre-loaded, otherwise there will be an initial delay (or flicker) while the browser downloads them. Fonts should also be pre-loaded for the same reason. See the [code behind the themes example](https://github.com/CrazyTim/spin-wheel/blob/release/images/examples/themes/js/index.js) for an example of how to pre-load images and fonts.
 
 ## Configuration
 
@@ -137,37 +139,37 @@ Note: setting a property to `undefined` will reset it to the default value.
 
 Name                            | Default Value     | Description
 ------------------------------- | ------------------| ---------------------------
-`borderColor`                   | `'#000'`          | The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the line around the circumference of the wheel.
+`borderColor`                   | `'#000'`          | The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) for the line around the circumference of the wheel.
 `borderWidth`                   | `0`               | The width (in pixels) of the line around the circumference of the wheel.
-`debug`                         | `false`           | Show debugging info.</p><p>This is particularly helpful when fine-tuning labels.
-`image`                         | `''`              | The url of an image that will be drawn over the center of the wheel which will rotate with the wheel.</p><p>It will be automatically scaled to fit `radius`.
-`isInteractive`                 | `true`            | Allow the user to spin the wheel using click-drag/touch-flick. </p><p>User interaction will only be detected within the bounds of `Wheel.radius`.
+`debug`                         | `false`           | If debugging info will be shown.</p><p>This is helpful when positioning labels.
+`image`                         | `null`            | The image (HTMLImageElement) to draw on the wheel and rotate with the wheel.</p><p>It will be centered and scaled to fit `Wheel.radius`.
+`isInteractive`                 | `true`            | If the user will be allowed to spin the wheel using click-drag/touch-flick.</p><p>User interaction will only be detected within the bounds of `Wheel.radius`.
 `itemBackgroundColors`          | `['#fff']`        | The [CSS colors](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) to use as a repeating pattern for the background colors of all items.</p><p>Overridden by `Item.backgroundColor`.</p><p>Example: `['#fff','#000']`.
-`itemLabelAlign`                | `'right'`         | The alignment of all item labels.</p><p>Accepted values: `'left'`,`'center'`,`'right'`.
+`itemLabelAlign`                | `'right'`         | The alignment of all item labels.</p><p>Possible values: `'left'`,`'center'`,`'right'`.
 `itemLabelBaselineOffset`       | `0`               | The offset of the baseline (or line height) of all item labels (as a percent of the label's height).
 `itemLabelColors`               | `['#000']`        | The [CSS colors](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) to use as a repeating pattern for the colors of all item labels.</p><p>Overridden by `Item.labelColor`.</p><p>Example: `['#fff','#000']`.
-`itemLabelFont`                 | `'sans-serif'`    | The font family for all item labels.</p><p>Example: `'sans-serif'`.
+`itemLabelFont`                 | `'sans-serif'`    | The [font familiy](https://developer.mozilla.org/en-US/docs/Web/CSS/font-family) to use for all item labels.</p><p>Example: `'Helvetica, sans-serif'`.
 `itemLabelFontSizeMax`          | `100`             | The maximum font size (in pixels) for all item labels.
-`itemLabelRadius`               | `0.85`            | The point along the radius (as a percent, starting from the center of the wheel) to start drawing all item labels.
-`itemLabelRadiusMax`            | `0.2`             | The point along the radius (as a percent, starting from the center of the wheel) to calculate the maximum font size for all item labels.
+`itemLabelRadius`               | `0.85`            | The point along the wheel's radius (as a percent, starting from the center) to start drawing all item labels.
+`itemLabelRadiusMax`            | `0.2`             | The point along the wheel's radius (as a percent, starting from the center) to limit the maximum width of all item labels.
 `itemLabelRotation`             | `0`               | The rotation of all item labels.<p></p>Use this in combination with `itemLabelAlign` to flip the labels `180°`.
 `itemLabelStrokeColor`          | `'#fff'`          | The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the stroke applied to the outside of the label text.
 `itemLabelStrokeWidth`          | `0`               | The width of the stroke applied to the outside of the label text.
-`items`                         | `[]`              | The items (or slices, wedges, segments) shown on the wheel.</p><p>Setting this property will re-create all of the items on the wheel based on the objects provided.</p><p>Accessing this property lets you change individual items. For example you could insert a new `Item`, or change the background color of an item.
+`items`                         | `[]`              | The items (or slices, wedges, segments) shown on the wheel.</p><p>Setting this property will re-create all of the items on the wheel based on the objects provided.</p><p>Accessing this property lets you change individual items. For example you could change the background color of an item.
 `lineColor`                     | `'#000'`          | The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the lines between the items.
 `lineWidth`                     | `1`               | The width (in pixels) of the lines between the items.
-`pixelRatio`                    | `0`               | The pixel ratio used to draw the wheel.</p><p>Values above 0 will produce a sharper image at the cost of performance.</p><p>A value of `0` will cause the pixel ratio to be automatically determined using `window.devicePixelRatio`.
-`radius`                        | `0.95`            | The radius of the wheel (as a percent of the container's smallest dimension).
-`rotation`                      | `0`               | The rotation (angle in degrees) of the wheel.</p><p>The first item will be drawn clockwise from this point.
-`rotationResistance`            | `-35`             | The amount that `rotationSpeed` will be reduced by every second. Only in effect when `rotationSpeed !== 0`.</p><p>Set to `0` to spin the wheel infinitely.
-`rotationSpeed`                 | `0`               | (Readonly) How far (angle in degrees) the wheel will spin every 1 second.</p><p>A positive number means the wheel is spinning clockwise, a negative number means anti-clockwise, and `0` means the wheel is not spinning.
-`rotationSpeedMax`              | `250`             | The maximum value for `rotationSpeed` (ignoring the wheel's spin direction).</p><p>The wheel will not spin faster than this value in any direction.
-`offset`                        | `{x: 0, y: 0}`    | The offset of the wheel relative to it's center (as a percent of the wheel's diameter).
+`offset`                        | `{x: 0, y: 0}`    | The offset of the wheel from the center of it's container (as a percent of the wheel's diameter).
 `onCurrentIndexChange`          | `null`            | The callback for the `onCurrentIndexChange` event.
 `onRest`                        | `null`            | The callback for the `onRest` event.
 `onSpin`                        | `null`            | The callback for the `onSpin` event.
-`overlayImage`                  | `''`              | The url of an image that will be drawn over the center of the wheel which will not rotate with the wheel.</p><p>It will be automatically scaled to fit the container's smallest dimension.</p><p>Use this to draw decorations around the wheel, such as a stand or pointer.
-`pointerAngle`                  | `0`               | The angle of the Pointer which is used to determine the `currentIndex` (or the "winning" item).
+`overlayImage`                  | `null`            | The image (HTMLImageElement) to draw over the top of the wheel.</p><p>It will be centered and scaled to fit the container's smallest dimension.</p><p>Use this to draw decorations around the wheel, such as a stand or pointer.
+`pixelRatio`                    | `0`               | The pixel ratio (as a percent) used to draw the wheel.</p><p>Higher values will produce a sharper image at the cost of performance, but the sharpness depends on the current display device.</p><p>A value of `0` will use the pixel ratio of the current display device (see [devicePixelRatio](https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio)).
+`pointerAngle`                  | `0`               | The angle of the Pointer which will be used to determine the `currentIndex` (or the "winning" item).
+`radius`                        | `0.95`            | The radius of the wheel (as a percent of the container's smallest dimension).
+`rotation`                      | `0`               | The rotation (angle in degrees) of the wheel.</p><p>The first item will be drawn clockwise from this point.
+`rotationResistance`            | `-35`             | The amount that `rotationSpeed` will be reduced by every second until the wheel stops spinning.</p><p>Set to `0` to spin the wheel infinitely.
+`rotationSpeed`                 | `0`               | [Readonly] How fast (angle in degrees) the wheel is spinning every 1 second.</p><p>A positive number means the wheel is spinning clockwise, a negative number means anti-clockwise, and `0` means the wheel is not spinning.
+`rotationSpeedMax`              | `250`             | The maximum absolute value for `rotationSpeed`.</p><p>The wheel will not spin faster than this value in either direction.
 
 ## Events for `Wheel`
 
@@ -197,12 +199,12 @@ Raised when the wheel has been spun.
 Key                         | Value
 --------------------------- | ---------------------------
 `type`                      | `'spin'`
-`duration`                  | the duration of the spin animation. Only set when `method = spinto` or `method = spintoitem`.
+`duration`                  | The duration of the spin animation. Only provided when `method = spinto` or `method = spintoitem`.
 `method`                    | The method that was used to spin the wheel (`interact`, `spin`, `spinto`, `spintoitem`).
-`rotationResistance`        | The value of `Wheel.rotationResistance` at the time the event was raised.</p><p>Only set when `method = interact` or `method = spin`.
-`rotationSpeed`             | The value of `Wheel.rotationSpeed` at the time the event was raised.</p><p>Only set when `method = interact` or `method = spin`.
-`targetItemIndex`           | The item that the Pointer will be pointing at once the spin animation has finished.</p><p>Only set when `method = spintoitem`.
-`targetRotation`            | The value that `Wheel.rotation` will have once the spin animation has finished.</p><p>Only set when `method = spinto` or `method = spintoitem`.
+`rotationResistance`        | The value of `Wheel.rotationResistance` at the time the event was raised.</p><p>Only provided when `method = interact` or `method = spin`.
+`rotationSpeed`             | The value of `Wheel.rotationSpeed` at the time the event was raised.</p><p>Only provided when `method = interact` or `method = spin`.
+`targetItemIndex`           | The item that the Pointer will be pointing at once the spin animation has finished.</p><p>Only provided when `method = spintoitem`.
+`targetRotation`            | The value that `Wheel.rotation` will have once the spin animation has finished.</p><p>Only provided when `method = spinto` or `method = spintoitem`.
 
 ## Methods for `Item`
 
@@ -222,11 +224,11 @@ Note: setting a property to `undefined` will reset it to the default value.
 Name                            | Default Value     | Description
 ------------------------------- | ----------------- | ---------------------------
 `backgroundColor`               | `null`            | The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the item's background.</p><p>When `null`, the color will fall back to `Wheel.itemBackgroundColors`.</p><p>Example: `'#fff'`.
-`image`                         | `null`            | The url of an image that will be drawn on the item. Any part of the image that extends outside the item will be clipped. The image will be drawn over the top of `Item.backgroundColor`.
-`imageOpacity`                  | `1`               | The opacity (as a percent) of `Item.image`. Useful if you want to fade the image to make the item's label stand out.
-`imageRadius`                   | `0.5`             | The point along the radius (as a percent, starting from the center of the wheel) to draw the center of `Item.image`.
+`image`                         | `null`            | The image (HTMLImageElement) to draw on the item.</p><p>Any part of the image that extends outside the item will be clipped. The image will be drawn over the top of `Item.backgroundColor`.
+`imageOpacity`                  | `1`               | The opacity (as a percent) of `Item.image`.</p><p>Useful if you want to fade the image to make the item's label stand out.
+`imageRadius`                   | `0.5`             | The point along the wheel's radius (as a percent, starting from the center) to draw the center of `Item.image`.
 `imageRotation`                 | `0`               | The rotation (angle in degrees) of `Item.image`.
-`imageScale`                    | `1`               | The scale (as a percent) to resize `Item.image`.
+`imageScale`                    | `1`               | The scale (size as a percent) of `Item.image`.
 `label`                         | `''`              | The text that will be drawn on the item.
 `labelColor`                    | `null`            | The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the item's label.</p><p>When `null`, the color will fall back to `Wheel.itemLabelColors`.</p><p>Example: `'#000'`.
 `value`                         | `null`            | Some value that has meaning to your application. For example, a reference to the object representing the item on the wheel, or a database id.

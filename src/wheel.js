@@ -207,8 +207,8 @@ export class Wheel {
     this.drawItemLines(ctx, angles);
     this.drawItemLabels(ctx, angles);
     this.drawBorder(ctx);
-    this.drawImage(ctx, this._imageObj, false);
-    this.drawImage(ctx, this._overlayImageObj, true);
+    this.drawImage(ctx, this._image, false);
+    this.drawImage(ctx, this._overlayImage, true);
     this.drawDebugPointerLine(ctx);
     //this.drawDebugDragPoints(ctx);
 
@@ -239,8 +239,7 @@ export class Wheel {
 
       const item = this._items[i];
 
-      if (item.imageObj == null) continue;
-      if (!util.isImageLoaded(item.imageObj)) continue;
+      if (item.image === null) continue;
 
       ctx.save();
 
@@ -257,13 +256,13 @@ export class Wheel {
 
       ctx.globalAlpha = item.imageOpacity;
 
-      const width = (this._size / 500) * item.imageObj.width * item.imageScale;
-      const height = (this._size / 500) * item.imageObj.height * item.imageScale;
+      const width = (this._size / 500) * item.image.width * item.imageScale;
+      const height = (this._size / 500) * item.image.height * item.imageScale;
       const widthHalf = -width / 2;
       const heightHalf = -height / 2;
 
       ctx.drawImage(
-        item.imageObj,
+        item.image,
         widthHalf,
         heightHalf,
         width,
@@ -279,7 +278,6 @@ export class Wheel {
   drawImage(ctx, image, isOverlay = false) {
 
     if (image === null) return;
-    if (!util.isImageLoaded(image)) return;
 
     ctx.translate(
       this._center.x,
@@ -805,7 +803,7 @@ export class Wheel {
   }
 
   /**
-   * The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the line around the circumference of the wheel.
+   * The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) for the line around the circumference of the wheel.
    */
   get borderColor() {
     return this._borderColor;
@@ -839,8 +837,8 @@ export class Wheel {
   }
 
   /**
-   * Show debugging info.
-   * This is particularly helpful when fine-tuning labels.
+   * If debugging info will be shown.
+   * This is helpful when positioning labels.
    */
   get debug() {
     return this._debug;
@@ -857,8 +855,8 @@ export class Wheel {
   }
 
   /**
-   * The url of an image that will be drawn over the center of the wheel which will rotate with the wheel.
-   * It will be automatically scaled to fit `radius`.
+   * The image (HTMLImageElement) to draw on the wheel and rotate with the wheel.
+   * It will be centered and scaled to fit `Wheel.radius`.
    */
   get image() {
     return this._image;
@@ -866,28 +864,16 @@ export class Wheel {
   set image(val) {
     this._image = util.setProp({
       val,
-      isValid: typeof val === 'string' || val === null,
-      errorMessage: 'Wheel.image must be a url (string) or null',
+      isValid: val instanceof HTMLImageElement || val === null,
+      errorMessage: 'Wheel.image must be a HTMLImageElement or null',
       defaultValue: Defaults.wheel.image,
-      action: () => {
-        if (val === null) {
-          this._imageObj = null;
-          return null;
-        }
-        this._imageObj = util.loadImage(val, e => this.refresh());
-        return val;
-      },
     });
 
     this.refresh();
   }
 
-  get imageObj() {
-    return this._imageObj;
-  }
-
   /**
-   * Allow the user to spin the wheel using click-drag/touch-flick.
+   * If the user will be allowed to spin the wheel using click-drag/touch-flick.
    * User interaction will only be detected within the bounds of `Wheel.radius`.
    */
   get isInteractive() {
@@ -925,7 +911,7 @@ export class Wheel {
 
   /**
    * The alignment of all item labels.
-   * Accepted values: `'left'`,`'center'`,`'right'`.
+   * Possible values: `'left'`,`'center'`,`'right'`.
    */
   get itemLabelAlign() {
     return this._itemLabelAlign;
@@ -978,9 +964,8 @@ export class Wheel {
   }
 
   /**
-   * The font family for all item labels.
-   * Overridden by `Item.labelFont`.
-   * Example: `'sans-serif'`.
+   * The [font familiy](https://developer.mozilla.org/en-US/docs/Web/CSS/font-family) to use for all item labels.
+   * Example: `'Helvetica, sans-serif'`.
    */
   get itemLabelFont() {
     return this._itemLabelFont;
@@ -1014,7 +999,7 @@ export class Wheel {
   }
 
   /**
-   * The point along the radius (as a percent, starting from the center of the wheel)
+   * The point along the wheel's radius (as a percent, starting from the center)
    * to start drawing all item labels.
    */
   get itemLabelRadius() {
@@ -1032,8 +1017,8 @@ export class Wheel {
   }
 
   /**
-   * The point along the radius (as a percent, starting from the center of the wheel)
-   * to calculate the maximum font size for all item labels.
+   * The point along the wheel's radius (as a percent, starting from the center)
+   * to limit the maximum width of all item labels.
    */
   get itemLabelRadiusMax() {
     return this._itemLabelRadiusMax;
@@ -1104,7 +1089,7 @@ export class Wheel {
   /**
    * The items (or slices, wedges, segments) shown on the wheel.
    * Setting this property will re-create all of the items on the wheel based on the objects provided.
-   * Accessing this property lets you change individual items. For example you could insert a new `Item`, or change the background color of an item.
+   * Accessing this property lets you change individual items. For example you could change the background color of an item.
    */
   get items() {
     return this._items;
@@ -1174,7 +1159,7 @@ export class Wheel {
   }
 
   /**
-   * The offset of the wheel relative to it's center (as a percent of the wheel's diameter).
+   * The offset of the wheel from the center of it's container (as a percent of the wheel's diameter).
    */
   get offset() {
     return this._offset;
@@ -1236,8 +1221,8 @@ export class Wheel {
   }
 
   /**
-   * The url of an image that will be drawn over the center of the wheel which will not rotate with the wheel.
-   * It will be automatically scaled to fit the container's smallest dimension.
+   * The image (HTMLImageElement) to draw over the top of the wheel.
+   * It will be centered and scaled to fit the container's smallest dimension.
    * Use this to draw decorations around the wheel, such as a stand or pointer.
    */
   get overlayImage() {
@@ -1246,30 +1231,18 @@ export class Wheel {
   set overlayImage(val) {
     this._overlayImage = util.setProp({
       val,
-      isValid: typeof val === 'string' || val === null,
-      errorMessage: 'Wheel.overlayImage must be a url (string) or null',
+      isValid: val instanceof HTMLImageElement || val === null,
+      errorMessage: 'Wheel.overlayImage must be a HTMLImageElement or null',
       defaultValue: Defaults.wheel.overlayImage,
-      action: () => {
-        if (val === null) {
-          this._overlayImageObj = null;
-          return null;
-        }
-        this._overlayImageObj = util.loadImage(val, e => this.refresh());
-        return val;
-      },
     });
 
     this.refresh();
   }
 
-  get overlayImageObj() {
-    return this._overlayImageObj;
-  }
-
   /**
-   * The pixel ratio used to draw the wheel.
-   * Values above 0 will produce a sharper image at the cost of performance.
-   * A value of `0` will cause the pixel ratio to be automatically determined using `window.devicePixelRatio`.
+   * The pixel ratio (as a percent) used to draw the wheel.
+   * Higher values will produce a sharper image at the cost of performance, but the sharpness depends on the current display device.
+   * A value of `0` will use the pixel ratio of the current display device (see [devicePixelRatio](https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio)).
    */
   get pixelRatio() {
     return this._pixelRatio;
@@ -1286,7 +1259,7 @@ export class Wheel {
   }
 
   /**
-   * The angle of the Pointer which is used to determine the `currentIndex` (or the "winning" item).
+   * The angle of the Pointer which will be used to determine the `currentIndex` (or the "winning" item).
    */
   get pointerAngle() {
     return this._pointerAngle;
@@ -1341,8 +1314,7 @@ export class Wheel {
   }
 
   /**
-   * The amount that `rotationSpeed` will be reduced by every second.
-   * Only in effect when `rotationSpeed !== 0`.
+   * The amount that `rotationSpeed` will be reduced by every second until the wheel stops spinning.
    * Set to `0` to spin the wheel infinitely.
    */
   get rotationResistance() {
@@ -1358,7 +1330,7 @@ export class Wheel {
   }
 
   /**
-   * (Readonly) How far (angle in degrees) the wheel will spin every 1 second.
+   * [Readonly] How fast (angle in degrees) the wheel is spinning every 1 second.
    * A positive number means the wheel is spinning clockwise, a negative number means anti-clockwise, and `0` means the wheel is not spinning.
    */
   get rotationSpeed() {
@@ -1366,8 +1338,8 @@ export class Wheel {
   }
 
   /**
-   * The maximum value for `rotationSpeed` (ignoring the wheel's spin direction).
-   * The wheel will not spin faster than this value in any direction.
+   * The maximum absolute value for `rotationSpeed`.
+   * The wheel will not spin faster than this value in either direction.
    */
   get rotationSpeedMax() {
     return this._rotationSpeedMax;

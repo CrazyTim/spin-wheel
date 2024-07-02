@@ -104,9 +104,12 @@ function initImage(g) {
       return;
     };
 
+    const val = new Image();
+    val.src = img;
+
     btnClear.style.display = 'inline';
     g.querySelector('.prop-value').textContent = 'file';
-    window.wheel[g.dataset.name] = img;
+    window.wheel[g.dataset.name] = val;
     localStorage.setItem(localStorageKey, img);
   }
 

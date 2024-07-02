@@ -59,7 +59,7 @@ export class Item {
   }
 
   /**
-   * The url of an image that will be drawn on the item.
+   * The image (HTMLImageElement) to draw on the item.
    * Any part of the image that extends outside the item will be clipped.
    * The image will be drawn over the top of `Item.backgroundColor`.
    */
@@ -67,18 +67,12 @@ export class Item {
     return this._image;
   }
   set image(val) {
-    if (typeof val === 'string') {
+    if (val instanceof HTMLImageElement) {
       this._image = val;
-      this._imageObj = util.loadImage(val, e => this._wheel.refresh());
     } else {
       this._image = Defaults.item.image;
-      this._imageObj = null;
     }
     this._wheel.refresh();
-  }
-
-  get imageObj() {
-    return this._imageObj;
   }
 
   /**
@@ -98,7 +92,7 @@ export class Item {
   }
 
   /**
-   * The point along the radius (as a percent, starting from the center of the wheel) to draw the center of `Item.image`.
+   * The point along the wheel's radius (as a percent, starting from the center) to draw the center of `Item.image`.
    */
   get imageRadius() {
     return this._imageRadius;
@@ -128,7 +122,7 @@ export class Item {
   }
 
   /**
-   * The scale (as a percent) to resize `Item.image`.
+   * The scale (size as a percent) of `Item.image`.
    */
   get imageScale() {
     return this._imageScale;
