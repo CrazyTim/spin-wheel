@@ -1095,7 +1095,9 @@ export class Wheel {
   }
 
   /**
-   * The items to show on the wheel.
+   * The items (or slices, wedges, segments) shown on the wheel.
+   * Setting this property will re-create all of the items on the wheel based on the objects provided.
+   * Accessing this property lets you change individual items. For example you could insert a new `Item`, or change the background color of an item.
    */
   get items() {
     return this._items;
