@@ -153,7 +153,7 @@ Name                            | Default Value     | Description
 `itemLabelRotation`             | `0`               | The rotation of all item labels.<p></p>Use this in combination with `itemLabelAlign` to flip the labels `180°`.
 `itemLabelStrokeColor`          | `'#fff'`          | The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the stroke applied to the outside of the label text.
 `itemLabelStrokeWidth`          | `0`               | The width of the stroke applied to the outside of the label text.
-`items`                         | `[]`              | The items to show on the wheel.
+`items`                         | `[]`              | The items (or slices, wedges, segments) shown on the wheel.</p><p>Setting this property will re-create all of the items on the wheel based on the objects provided.</p><p>Accessing this property lets you change individual items. For example you could insert a new `Item`, or change the background color of an item.
 `lineColor`                     | `'#000'`          | The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the lines between the items.
 `lineWidth`                     | `1`               | The width (in pixels) of the lines between the items.
 `pixelRatio`                    | `0`               | The pixel ratio used to draw the wheel.</p><p>Values above 0 will produce a sharper image at the cost of performance.</p><p>A value of `0` will cause the pixel ratio to be automatically determined using `window.devicePixelRatio`.

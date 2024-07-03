@@ -189,7 +189,7 @@ export function easeSinOut(n) {
   return Math.sin((n * Math.PI) / 2);
 }
 
-export const getResizeObserver = (element = {}, callBack = {}) => {
+export function getResizeObserver(element = {}, callBack = {}) {
 
   if (window.ResizeObserver) {
 
@@ -224,4 +224,4 @@ export const getResizeObserver = (element = {}, callBack = {}) => {
     },
   };
 
-};
+}
