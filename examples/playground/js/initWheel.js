@@ -14,6 +14,8 @@ const props = {
   ],
   itemBackgroundColors: ['#fff', '#eee', '#ddd'],
   itemLabelFontSizeMax: 40,
+  rotationResistance: -100,
+  rotationSpeedMax: 1000,
 };
 
 const container = document.querySelector('.wheel-wrapper');

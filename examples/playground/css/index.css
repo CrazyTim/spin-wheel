@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   font-family: 'Lucida Grande', sans-serif;
-  font-size: 15px;
+
   -webkit-tap-highlight-color: transparent;
   user-select: none; /* Prevent selecting ui text when dragging */
 }
@@ -22,10 +22,13 @@ body {
   /* Prevent browser from handling touch events */
   touch-action: none;
 
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr min-content;
   justify-items: stretch;
   align-items: stretch;
+
+  font-size: 0.95em;
+  --padding: 12px;
 }
 
 .frame-center {
@@ -36,6 +39,9 @@ body {
 }
 
 .wheel-wrapper {
+  /* Hide UI during page load */
+  visibility: hidden;
+
   overflow: hidden;
   height: 100%;
   width: 100%;
@@ -45,9 +51,8 @@ body {
   background-color: #f0f0ee;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--padding);
   overflow-y: scroll;
-  width: 460px;
   border-left: solid 1px #5c5c5c;
   padding-bottom: 15px;
 }
@@ -56,6 +61,7 @@ button.btn, label.btn {
   padding: 4px 8px;
   margin: 0px;
   font-family: inherit;
+  font-size: inherit;
   display: inline-block;
   cursor: pointer;
   background-color: white;
@@ -67,26 +73,30 @@ button.btn, label.btn {
 .input-group {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 0 10px;
+  gap: calc(var(--padding) * 0.7);
+  padding: 0 var(--padding);
   border-top: solid 1px #5c5c5c;
 }
 
 .input-group h2 {
-  display: block;
+  font-size: 1.1em;
+  display: flex;
   font-family: monospace;
   /* background-color: #dfdfdb; */
-  padding: 10px 0px 0px;
+  padding: var(--padding) 0px 0px;
   font-weight: normal;
   white-space: nowrap;
 }
 .input-group h2 span:first-of-type {
   display: inline-block;
   font-family: inherit;
+  user-select: text;
 }
 .input-group h2 span:last-of-type {
   margin-left:7px;
   font-family: inherit;
+  width: 40px; /* fixed width so the panel can be auto sized */
+  user-select: text;
 }
 
 .input-group input[type="range"] {
@@ -112,7 +122,7 @@ button.btn, label.btn {
 }
 
 .input-group button {
-  margin-top: 10px;
+  margin-top: var(--padding);
 }
 
 select {
@@ -125,10 +135,24 @@ label {
 
 .toolbar {
   position: absolute;
-  top: 10px;
-  right: 15px;
+  top: 0;
+  right: 0;
+  left: 0;
+  padding: var(--padding);
+  text-align: right;
 }
 
 .btn.clear {
   display: none;
+}
+
+/*************************************************/
+/*************************************************/
+@media only screen and (max-width: 450px) {
+
+  body {
+    font-size: .85em;
+    --padding: 10px;
+  }
+
 }

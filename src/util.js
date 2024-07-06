@@ -170,14 +170,6 @@ export function setProp({val, isValid, errorMessage, defaultValue, action = null
   throw new Error(errorMessage);
 }
 
-/**
- * Return true if image has loaded.
- */
-export function isImageLoaded(image) {
-  // We can detect a broken image (didn't load) by checking the natural width/height.
-  return image && image.complete && image.naturalWidth !== 0 && image.naturalHeight !== 0;
-}
-
 export function fixFloat(f = 0) {
   return Number(f.toFixed(9));
 }
@@ -189,7 +181,7 @@ export function easeSinOut(n) {
   return Math.sin((n * Math.PI) / 2);
 }
 
-export const getResizeObserver = (element = {}, callBack = {}) => {
+export function getResizeObserver(element = {}, callBack = {}) {
 
   if (window.ResizeObserver) {
 
@@ -224,4 +216,4 @@ export const getResizeObserver = (element = {}, callBack = {}) => {
     },
   };
 
-};
+}
