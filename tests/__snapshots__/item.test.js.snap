@@ -21,7 +21,7 @@ Item {
         aria-label="An image of a spinning prize wheel."
         height="500"
         role="img"
-        style="width: 500px; height: 500px;"
+        style="display: block; width: 500px; height: 500px;"
         width="500"
       />
     </div>,
@@ -34,7 +34,7 @@ Item {
         aria-label="An image of a spinning prize wheel."
         height="500"
         role="img"
-        style="width: 500px; height: 500px;"
+        style="display: block; width: 500px; height: 500px;"
         width="500"
       />,
       "_clipIndex": 1,
@@ -260,7 +260,7 @@ Item {
       aria-label="An image of a spinning prize wheel."
       height="500"
       role="img"
-      style="width: 500px; height: 500px;"
+      style="display: block; width: 500px; height: 500px;"
       width="500"
     />,
   },

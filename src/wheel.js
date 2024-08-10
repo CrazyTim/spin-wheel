@@ -85,6 +85,13 @@ export class Wheel {
   add(container) {
     this._canvasContainer = container;
     this.canvas = document.createElement('canvas');
+
+    // Prevent infinte resize loop.
+    // The canvas element has a default display of 'inline'.
+    // This forms whitespace inside the container, making it slightly larger than it should be,
+    // which creates a positive feedback loop when the wheel trys to resize itself.
+    this.canvas.style.display = 'block';
+
     this._context = this.canvas.getContext('2d');
     this._canvasContainer.append(this.canvas);
     events.register(this);
