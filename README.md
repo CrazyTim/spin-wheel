@@ -175,7 +175,7 @@ Name                            | Default Value     | Description
 
 ### `onCurrentIndexChange(event = {})`
 
-Raised when a new item is pointed at. This can be used to change the color of the current item, or play a 'ticking' sound.
+Raised when the Pointer points at a different item. This can be used to change the background color of the current item, or play a 'ticking' sound.
 
 Key                         | Value
 --------------------------- | ---------------------------
@@ -184,7 +184,7 @@ Key                         | Value
 
 ### `onRest(event = {})`
 
-Raised when the wheel comes to a rest after spinning.
+Raised when the wheel stops spinning on its own (without being interupted).
 
 Key                         | Value
 --------------------------- | ---------------------------
@@ -194,7 +194,7 @@ Key                         | Value
 
 ### `onSpin(event = {})`
 
-Raised when the wheel has been spun.
+Raised when the wheel starts to spin.
 
 Key                         | Value
 --------------------------- | ---------------------------
@@ -205,6 +205,17 @@ Key                         | Value
 `rotationSpeed`             | The value of `Wheel.rotationSpeed` at the time the event was raised.</p><p>Only provided when `method = interact` or `method = spin`.
 `targetItemIndex`           | The item that the Pointer will be pointing at once the spin animation has finished.</p><p>Only provided when `method = spintoitem`.
 `targetRotation`            | The value that `Wheel.rotation` will have once the spin animation has finished.</p><p>Only provided when `method = spinto` or `method = spintoitem`.
+
+### `onStop(event = {})`
+
+Raised when the wheel stops spinning because it was interupted. For example, by calling `Wheel.stop()`.
+
+Key                         | Value
+--------------------------- | ---------------------------
+`type`                      | `'rest'`
+`currentIndex`              | The index of the item that the Pointer was pointing at.</p><p>See `Wheel.pointerAngle`.
+`rotation`                  | The rotation of the wheel.</p><p>See `Wheel.rotation`.
+
 
 ## Methods for `Item`
 

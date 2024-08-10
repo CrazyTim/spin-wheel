@@ -27,3 +27,4 @@ window.wheel = new Wheel(container, props);
 wheel.onCurrentIndexChange = e => console.log(e);
 wheel.onRest = e => console.log(e);
 wheel.onSpin = e => console.log(e);
+wheel.onStop = e => console.log(e);

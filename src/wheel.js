@@ -582,7 +582,7 @@ export class Wheel {
     if (!util.isNumber(rotation)) throw new Error('Error: rotation must be a number');
     if (!util.isNumber(duration)) throw new Error('Error: duration must be a number');
 
-    this.stop();
+    this.stop('spinto', true);
 
     this._dragEvents = [];
 
@@ -604,7 +604,7 @@ export class Wheel {
    */
   spinToItem(itemIndex = 0, duration = 0, spinToCenter = true, numberOfRevolutions = 1, direction = 1, easingFunction = null) {
 
-    this.stop();
+    this.stop('spintoitem', true);
 
     this._dragEvents = [];
 
@@ -629,9 +629,11 @@ export class Wheel {
   }
 
   /**
-   * Immediately stop the wheel from spinning, regardless of which method was used to spin it.
+   * Immediately stop the wheel from spinning.
    */
-  stop() {
+  stop(method = 'manual', spinningAgain = false) {
+
+    if (!spinningAgain && (this._spinToTimeEnd !== null || this._rotationSpeed !== 0)) console.log({type: 'stop', method}) //this.raiseEvent_onStop({method});
 
     // Stop the wheel if it was spun via `spinTo()`.
     this._spinToTimeEnd = null;
@@ -776,7 +778,7 @@ export class Wheel {
   }
 
   beginSpin(speed = 0, spinMethod = '') {
-    this.stop();
+    this.stop(spinMethod, true);
 
     this._rotationSpeed = this.limitSpeed(speed, this._rotationSpeedMax);
     this._lastSpinFrameTime = performance.now();
@@ -1364,7 +1366,7 @@ export class Wheel {
 
     this.isDragging = true;
 
-    this.stop(); // Interrupt `spinTo()`
+    this.stop('interact'); // Interrupt `spinTo()`
 
     this._dragEvents = [{
       distance: 0,
@@ -1461,6 +1463,12 @@ export class Wheel {
   raiseEvent_onSpin(data = {}) {
     this.onSpin?.({
       type: 'spin',
+      ...data,
+    });
+  }
+  raiseEvent_onStop(data = {}) {
+    this.onStop?.({
+      type: 'stop',
       ...data,
     });
   }
