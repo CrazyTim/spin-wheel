@@ -1113,6 +1113,7 @@ export class Wheel {
           v.push(new Item(this, {
             backgroundColor: item.backgroundColor,
             image: item.image,
+            imageOpacity: item.imageOpacity,
             imageRadius: item.imageRadius,
             imageRotation: item.imageRotation,
             imageScale: item.imageScale,
