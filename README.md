@@ -142,7 +142,7 @@ Name                            | Default Value     | Description
 `borderColor`                   | `'#000'`          | The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) for the line around the circumference of the wheel.
 `borderWidth`                   | `0`               | The width (in pixels) of the line around the circumference of the wheel.
 `debug`                         | `false`           | If debugging info will be shown.</p><p>This is helpful when positioning labels.
-`image`                         | `null`            | The image (HTMLImageElement) to draw on the wheel and rotate with the wheel.</p><p>It will be centered and scaled to fit `Wheel.radius`.
+`image`                         | `null`            | The [HTMLImageElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement) to draw on the wheel and rotate with the wheel.</p><p>It will be centered and scaled to fit `Wheel.radius`.
 `isInteractive`                 | `true`            | If the user will be allowed to spin the wheel using click-drag/touch-flick.</p><p>User interaction will only be detected within the bounds of `Wheel.radius`.
 `itemBackgroundColors`          | `['#fff']`        | The [CSS colors](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) to use as a repeating pattern for the background colors of all items.</p><p>Overridden by `Item.backgroundColor`.</p><p>Example: `['#fff','#000']`.
 `itemLabelAlign`                | `'right'`         | The alignment of all item labels.</p><p>Possible values: `'left'`,`'center'`,`'right'`.
@@ -162,7 +162,7 @@ Name                            | Default Value     | Description
 `onCurrentIndexChange`          | `null`            | The callback for the `onCurrentIndexChange` event.
 `onRest`                        | `null`            | The callback for the `onRest` event.
 `onSpin`                        | `null`            | The callback for the `onSpin` event.
-`overlayImage`                  | `null`            | The image (HTMLImageElement) to draw over the top of the wheel.</p><p>It will be centered and scaled to fit the container's smallest dimension.</p><p>Use this to draw decorations around the wheel, such as a stand or pointer.
+`overlayImage`                  | `null`            | The [HTMLImageElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement) to draw over the top of the wheel.</p><p>It will be centered and scaled to fit the container's smallest dimension.</p><p>Use this to draw decorations around the wheel, such as a stand or pointer.
 `pixelRatio`                    | `0`               | The pixel ratio (as a percent) used to draw the wheel.</p><p>Higher values will produce a sharper image at the cost of performance, but the sharpness depends on the current display device.</p><p>A value of `0` will use the pixel ratio of the current display device (see [devicePixelRatio](https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio)).
 `pointerAngle`                  | `0`               | The angle of the Pointer which will be used to determine the `currentIndex` (or the "winning" item).
 `radius`                        | `0.95`            | The radius of the wheel (as a percent of the container's smallest dimension).
@@ -224,7 +224,7 @@ Note: setting a property to `undefined` will reset it to the default value.
 Name                            | Default Value     | Description
 ------------------------------- | ----------------- | ---------------------------
 `backgroundColor`               | `null`            | The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) of the item's background.</p><p>When `null`, the color will fall back to `Wheel.itemBackgroundColors`.</p><p>Example: `'#fff'`.
-`image`                         | `null`            | The image (HTMLImageElement) to draw on the item.</p><p>Any part of the image that extends outside the item will be clipped. The image will be drawn over the top of `Item.backgroundColor`.
+`image`                         | `null`            | The [HTMLImageElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement) to draw on the item.</p><p>Any part of the image that extends outside the item will be clipped. The image will be drawn over the top of `Item.backgroundColor`.
 `imageOpacity`                  | `1`               | The opacity (as a percent) of `Item.image`.</p><p>Useful if you want to fade the image to make the item's label stand out.
 `imageRadius`                   | `0.5`             | The point along the wheel's radius (as a percent, starting from the center) to draw the center of `Item.image`.
 `imageRotation`                 | `0`               | The rotation (angle in degrees) of `Item.image`.
