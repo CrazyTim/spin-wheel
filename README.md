@@ -39,13 +39,13 @@ An easy to use, themeable component for randomising choices and prizes.
 ### ESM
 
 ```javascript
-import {Wheel} from 'https://cdn.jsdelivr.net/npm/spin-wheel@5.0.1/dist/spin-wheel-esm.js';
+import {Wheel} from 'https://cdn.jsdelivr.net/npm/spin-wheel@5.0.2/dist/spin-wheel-esm.js';
 ```
 
 ### IIFE
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/spin-wheel@5.0.1/dist/spin-wheel-iife.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/spin-wheel@5.0.2/dist/spin-wheel-iife.js"></script>
 ```
 
 ### Local
