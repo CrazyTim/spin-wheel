@@ -190,8 +190,6 @@ export class Wheel {
     ctx.textAlign = this.itemLabelAlign;
     ctx.font = this._itemLabelFontSize + 'px ' + this.itemLabelFont;
 
-    ctx.save();
-
     // Build paths for each item:
     for (const [i, a] of angles.entries()) {
       const item = this._items[i];
