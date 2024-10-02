@@ -190,8 +190,6 @@ export class Wheel {
     ctx.textAlign = this.itemLabelAlign;
     ctx.font = this._itemLabelFontSize + 'px ' + this.itemLabelFont;
 
-    ctx.save();
-
     // Build paths for each item:
     for (const [i, a] of angles.entries()) {
       const item = this._items[i];
@@ -1110,17 +1108,7 @@ export class Wheel {
       action: () => {
         const v = [];
         for (const item of val) {
-          v.push(new Item(this, {
-            backgroundColor: item.backgroundColor,
-            image: item.image,
-            imageRadius: item.imageRadius,
-            imageRotation: item.imageRotation,
-            imageScale: item.imageScale,
-            label: item.label,
-            labelColor: item.labelColor,
-            value: item.value,
-            weight: item.weight,
-          }));
+          v.push(new Item(this, item));
         }
         return v;
       },
