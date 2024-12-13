@@ -57,6 +57,7 @@ export class Wheel {
     this.itemLabelBaselineOffset = props.itemLabelBaselineOffset;
     this.itemLabelColors = props.itemLabelColors;
     this.itemLabelFont = props.itemLabelFont;
+    this.itemLabelFontWeight = props.itemLabelFontWeight;
     this.itemLabelFontSizeMax = props.itemLabelFontSizeMax;
     this.itemLabelRadius = props.itemLabelRadius;
     this.itemLabelRadiusMax = props.itemLabelRadiusMax;
@@ -188,7 +189,7 @@ export class Wheel {
     // Set font:
     ctx.textBaseline = 'middle';
     ctx.textAlign = this.itemLabelAlign;
-    ctx.font = this._itemLabelFontSize + 'px ' + this.itemLabelFont;
+    ctx.font = this.itemLabelFontWeight.concat(' ', this._itemLabelFontSize + 'px ' + this.itemLabelFont).trim();
 
     // Build paths for each item:
     for (const [i, a] of angles.entries()) {
@@ -985,6 +986,25 @@ export class Wheel {
 
     this.resize();
   }
+
+  /**
+   * The [font weight](https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight) to use for all item labels.
+   * Example: `'bold'`.
+   */
+  get itemLabelFontWeight() {
+    return this._itemLabelFontWeight;
+  }
+  set itemLabelFontWeight(val) {
+    this._itemLabelFontWeight = util.setProp({
+      val,
+      isValid: typeof val === 'string',
+      errorMessage: 'Wheel.itemLabelFontWeight must be a string',
+      defaultValue: Defaults.wheel.itemLabelFontWeight,
+    });
+
+    this.resize();
+  }
+
 
   /**
    * The maximum font size (in pixels) for all item labels.

@@ -37,6 +37,7 @@ export const Defaults = Object.freeze({
     itemLabelBaselineOffset: 0,
     itemLabelColors: ['#000'],
     itemLabelFont: 'sans-serif',
+    itemLabelFontWeight: '',
     itemLabelFontSizeMax: baseCanvasSize,
     itemLabelRadius: 0.85,
     itemLabelRadiusMax: 0.2,

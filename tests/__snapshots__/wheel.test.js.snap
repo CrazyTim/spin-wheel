@@ -193,6 +193,7 @@ Wheel {
   "_itemLabelFont": "sans-serif",
   "_itemLabelFontSize": 500,
   "_itemLabelFontSizeMax": 500,
+  "_itemLabelFontWeight": "",
   "_itemLabelRadius": 0.85,
   "_itemLabelRadiusMax": 0.2,
   "_itemLabelRotation": 0,
