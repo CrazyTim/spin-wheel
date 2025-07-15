@@ -14,6 +14,15 @@ export const baseCanvasSize = 500; // 500 seemed to be a good value for this.
 export const dragCapturePeriod = 250;
 
 /**
+ * Wheel vertical alignment enum.
+ */
+export const AlignWheel = Object.freeze({
+  top: 'top',
+  center: 'center',
+  bottom: 'bottom',
+});
+
+/**
  * Text alignment enum.
  */
 export const AlignText = Object.freeze({
@@ -27,6 +36,7 @@ export const AlignText = Object.freeze({
  */
 export const Defaults = Object.freeze({
   wheel: {
+    align: AlignWheel.center,
     borderColor: '#000',
     borderWidth: 1,
     debug: false,

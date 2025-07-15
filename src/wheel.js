@@ -47,6 +47,7 @@ export class Wheel {
   init(props = {}) {
     this._isInitialising = true;
 
+    this.align = props.align;
     this.borderColor = props.borderColor;
     this.borderWidth = props.borderWidth;
     this.debug = props.debug;
@@ -145,6 +146,12 @@ export class Wheel {
       x: w / 2 + (w * this._offset.x),
       y: h / 2 + (h * this._offset.y),
     };
+
+    if (this.align === 'top') {
+      this._center.y = this._size / 2;
+    } else if (this.align === 'bottom') {
+      this._center.y += this._size / 2;
+    }
 
     // Calculate the wheel radius:
     this._actualRadius = (this._size / 2) * this.radius;
