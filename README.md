@@ -139,6 +139,7 @@ Note: setting a property to `undefined` will reset it to the default value.
 
 Name                            | Default Value     | Description
 ------------------------------- | ------------------| ---------------------------
+`align`                         | `center`          | The vertical alignment of the wheel within its container.</p><p>Possible values: `'top'`,`'center'`,`'bottom'`.
 `borderColor`                   | `'#000'`          | The [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) for the line around the circumference of the wheel.
 `borderWidth`                   | `0`               | The width (in pixels) of the line around the circumference of the wheel.
 `debug`                         | `false`           | If debugging info will be shown.</p><p>This is helpful when positioning labels.
